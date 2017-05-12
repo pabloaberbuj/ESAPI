@@ -1,0 +1,9 @@
+c:\users\pablo\documents\visual studio 2015\Projects\ConsoleApplication3\ConsoleApplication3\bin\Debug\ConsoleApplication3.exe.config
+c:\users\pablo\documents\visual studio 2015\Projects\ConsoleApplication3\ConsoleApplication3\obj\Debug\ConsoleApplication3.csprojResolveAssemblyReference.cache
+c:\users\pablo\documents\visual studio 2015\Projects\ConsoleApplication3\ConsoleApplication3\bin\Debug\ConsoleApplication3.exe
+c:\users\pablo\documents\visual studio 2015\Projects\ConsoleApplication3\ConsoleApplication3\bin\Debug\ConsoleApplication3.pdb
+c:\users\pablo\documents\visual studio 2015\Projects\ConsoleApplication3\ConsoleApplication3\bin\Debug\VMS.TPS.Common.Model.API.dll
+c:\users\pablo\documents\visual studio 2015\Projects\ConsoleApplication3\ConsoleApplication3\bin\Debug\VMS.TPS.Common.Model.Types.dll
+c:\users\pablo\documents\visual studio 2015\Projects\ConsoleApplication3\ConsoleApplication3\bin\Debug\VMS.TPS.Common.Model.Interface.dll
+c:\users\pablo\documents\visual studio 2015\Projects\ConsoleApplication3\ConsoleApplication3\obj\Debug\ConsoleApplication3.exe
+c:\users\pablo\documents\visual studio 2015\Projects\ConsoleApplication3\ConsoleApplication3\obj\Debug\ConsoleApplication3.pdb
