@@ -7,3 +7,10 @@ c:\users\pablo\documents\visual studio 2015\Projects\ConsoleApplication3\Console
 c:\users\pablo\documents\visual studio 2015\Projects\ConsoleApplication3\ConsoleApplication3\bin\Debug\VMS.TPS.Common.Model.Interface.dll
 c:\users\pablo\documents\visual studio 2015\Projects\ConsoleApplication3\ConsoleApplication3\obj\Debug\ConsoleApplication3.exe
 c:\users\pablo\documents\visual studio 2015\Projects\ConsoleApplication3\ConsoleApplication3\obj\Debug\ConsoleApplication3.pdb
+C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\bin\Debug\ConsoleApplication3.exe.config
+C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\obj\Debug\ConsoleApplication3.exe
+C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\obj\Debug\ConsoleApplication3.pdb
+C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\bin\Debug\ConsoleApplication3.exe
+C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\bin\Debug\ConsoleApplication3.pdb
+C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\bin\Debug\VMS.TPS.Common.Model.Interface.dll
+C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\obj\Debug\ConsoleApplication3.csprojResolveAssemblyReference.cache

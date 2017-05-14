@@ -30,24 +30,39 @@ namespace Standalone
         {
             Console.WriteLine("Ingresar HC: ");
             string HC = Console.ReadLine();
-            Patient paciente = app.OpenPatientById(HC);
-            Console.WriteLine("Nombre del paciente: " + paciente.LastName + ", " + paciente.FirstName);
-            Course curso = (from Course c in paciente.Courses where c.Id == "C1" select c).FirstOrDefault();
-            Console.WriteLine("Se abrió el curso" + curso.Id);
-            PlanSetup plan = (from PlanSetup p in curso.PlanSetups where p.ApprovalStatus == PlanSetupApprovalStatus.TreatmentApproved select p).FirstOrDefault();
-            Console.WriteLine("Se abrió el plan" + plan.Id);
-            double MUtotales = 0;
-            foreach(Beam campo in plan.Beams)
+
+            try
             {
-                MUtotales += campo.Meterset.Value;
+                Patient paciente = app.OpenPatientById(HC);
+                Console.WriteLine("Nombre del paciente: " + paciente.LastName + ", " + paciente.FirstName);
+                Course curso = (from Course c in paciente.Courses where c.Id == "C1" select c).FirstOrDefault();
+                Console.WriteLine("Se abrió el curso" + curso.Id);
+                PlanSetup plan = (from PlanSetup p in curso.PlanSetups where p.ApprovalStatus == PlanSetupApprovalStatus.TreatmentApproved select p).FirstOrDefault();
+                Console.WriteLine("Se abrió el plan" + plan.Id);
+                double MUtotales = 0;
+                foreach (Beam campo in plan.Beams)
+                {
+                    MUtotales += campo.Meterset.Value;
+                }
+                Console.WriteLine("UM totales" + MUtotales.ToString());
+                StructureSet ss = plan.StructureSet;
+                Structure ptv = (from Structure s in ss.Structures where s.Id.Contains("PTV") select s).FirstOrDefault();
+                Console.WriteLine("El volumen del PTV es " + ptv.Volume.ToString());
+                DVHData dvh = plan.GetDVHCumulativeData(ptv, DoseValuePresentation.Absolute, VolumePresentation.AbsoluteCm3, 0.1);
+                Console.WriteLine("La dosis máxima en el PTV es" + dvh.MaxDose);
+                app.ClosePatient();
+                Console.ReadLine();
+
             }
-            Console.WriteLine("UM totales" + MUtotales.ToString());
-            StructureSet ss = plan.StructureSet;
-            Structure ptv = (from Structure s in ss.Structures where s.Id.Contains("PTV") select s).FirstOrDefault();
-            Console.WriteLine("El volumen del PTV es " + ptv.Volume.ToString());
-            DVHData dvh = plan.GetDVHCumulativeData(ptv, DoseValuePresentation.Absolute, VolumePresentation.AbsoluteCm3, 0.1);
-            Console.WriteLine("La dosis máxima en el PTV es" + dvh.MaxDose);
-            Console.ReadLine();
+
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("Hubo un problema con la carga del paciente" + e.ToString());
+                Console.WriteLine("Presione enter para salir");
+                Console.ReadLine();
+            }
+
+
         }
     }
 }
