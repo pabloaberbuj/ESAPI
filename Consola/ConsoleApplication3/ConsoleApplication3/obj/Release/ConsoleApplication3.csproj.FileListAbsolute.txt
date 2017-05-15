@@ -5,3 +5,12 @@ c:\users\pablo\documents\visual studio 2015\Projects\ConsoleApplication3\Console
 c:\users\pablo\documents\visual studio 2015\Projects\ConsoleApplication3\ConsoleApplication3\obj\Release\ConsoleApplication3.exe
 c:\users\pablo\documents\visual studio 2015\Projects\ConsoleApplication3\ConsoleApplication3\obj\Release\ConsoleApplication3.pdb
 C:\Users\Pablo\Documents\Visual Studio 2015\Projects\ConsoleApplication3\ConsoleApplication3\obj\Release\ConsoleApplication3.csprojResolveAssemblyReference.cache
+C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\bin\Release\ConsoleApplication3.exe.config
+C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\obj\Release\ConsoleApplication3.exe
+C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\obj\Release\ConsoleApplication3.pdb
+C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\bin\Release\ConsoleApplication3.exe
+C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\bin\Release\ConsoleApplication3.pdb
+C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\bin\Release\VMS.TPS.Common.Model.Interface.dll
+C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\obj\Release\ConsoleApplication3.csprojResolveAssemblyReference.cache
+C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\bin\Release\VMS.TPS.Common.Model.API.dll
+C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\bin\Release\VMS.TPS.Common.Model.Types.dll

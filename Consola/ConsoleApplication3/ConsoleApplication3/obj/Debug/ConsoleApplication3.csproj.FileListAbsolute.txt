@@ -14,3 +14,5 @@ C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication
 C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\bin\Debug\ConsoleApplication3.pdb
 C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\bin\Debug\VMS.TPS.Common.Model.Interface.dll
 C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\obj\Debug\ConsoleApplication3.csprojResolveAssemblyReference.cache
+C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\bin\Debug\VMS.TPS.Common.Model.API.dll
+C:\Users\Pablo\Source\Repos\ESAPI\Consola\ConsoleApplication3\ConsoleApplication3\bin\Debug\VMS.TPS.Common.Model.Types.dll
