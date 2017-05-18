@@ -17,7 +17,7 @@ namespace PatientSummary
         {
             try
             {
-                using (Application app = Application.CreateApplication(null, null))
+                using (Application app = Application.CreateApplication("pa", "123qwe"))
                 {
                     Execute(app);
                 }
@@ -36,8 +36,10 @@ namespace PatientSummary
                 Console.WriteLine("el numero total de pacientes es: " + cantidad.ToString());
                 Console.ReadLine();
 
-                foreach (var p in app.PatientSummaries)
+                //foreach (var p in app.PatientSummaries)
+                for (int i=100;i<300;i++)
                 {
+                    var p = app.PatientSummaries.ElementAt(i);
                     string aux = p.Id + " " + p.LastName + " " + p.FirstName + Environment.NewLine;
                     lista.Add(aux);
                 }

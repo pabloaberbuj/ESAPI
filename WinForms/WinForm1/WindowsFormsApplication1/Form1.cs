@@ -17,8 +17,19 @@ namespace WindowsFormsApplication1
         public Form1()
         {
             InitializeComponent();
-            TB
-            
+        }
+        public string traerHC()
+        {
+            return TB_HC.Text;
+        }
+        public void agregarALista(string texto)
+        {
+            LB_Planes.Items.Add(texto);
+        }
+        public void escribirNombreCurso(string nombreCurso)
+        {
+            LB_Curso.Text = nombreCurso;
         }
     }
+    
 }

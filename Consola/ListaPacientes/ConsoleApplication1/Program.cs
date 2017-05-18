@@ -17,7 +17,7 @@ namespace ListaPacientes
         {
             try
             {
-                using (Application app = Application.CreateApplication(null, null))
+                using (Application app = Application.CreateApplication("pa", "123qwe"))
                 {
                     Execute(app);
                 }
@@ -47,7 +47,7 @@ namespace ListaPacientes
                 Console.WriteLine("Lista creada, presione Enter para clasificación de planes");
                 Console.ReadLine();
                 //foreach (string ID in IDs)
-                for(int i=0; i<50; i++)
+                for(int i=100; i<200; i++)
                 {
                     //Patient paciente = app.OpenPatientById(ID);
                     Patient paciente = app.OpenPatientById(IDs[i]);
@@ -58,17 +58,17 @@ namespace ListaPacientes
                         {
                             if (p.ApprovalStatus == PlanSetupApprovalStatus.TreatmentApproved)
                             {
-                                if (p.Beams.ElementAt(0).MLCPlanType == MLCPlanType.Static && plan3D==false)
+                                if (p.Beams.ElementAt(0).MLCPlanType == MLCPlanType.Static && plan3D==false && p.UniqueFractionation.NumberOfFractions > 2)
                                 {
                                     Tec3D.WriteLine(paciente.Id + "\t" + c.Id + "\t" + p.Id); plan3D = true;
                                     Console.WriteLine("El paciente " + paciente.Id + "tiene un plan 3D");
                                 }
-                                else if (p.Beams.ElementAt(0).MLCPlanType == MLCPlanType.DoseDynamic && planIMRT ==false)
+                                else if (p.Beams.ElementAt(0).MLCPlanType == MLCPlanType.DoseDynamic && planIMRT ==false && p.UniqueFractionation.NumberOfFractions > 2)
                                 {
                                     Tec3D.WriteLine(paciente.Id + "\t" + c.Id + "\t" + p.Id); planIMRT = true;
                                     Console.WriteLine("El paciente " + paciente.Id + "tiene un plan IMRT");
                                 }
-                                else if (p.Beams.ElementAt(0).MLCPlanType == MLCPlanType.VMAT && planVMAT==false)
+                                else if (p.Beams.ElementAt(0).MLCPlanType == MLCPlanType.VMAT && planVMAT==false && p.UniqueFractionation.NumberOfFractions > 2)
                                 {
                                     TecVMAT.WriteLine(paciente.Id + "\t" + c.Id + "\t" + p.Id); planVMAT = true;
                                     Console.WriteLine("El paciente " + paciente.Id + "tiene un plan VMAT");

@@ -16,7 +16,7 @@ namespace ListaPacientes
         {
             try
             {
-                using (Application app = Application.CreateApplication(null, null))
+                using (Application app = Application.CreateApplication("pa", "123qwe"))
                 {
                     Execute(app);
                 }
@@ -36,7 +36,7 @@ namespace ListaPacientes
                 Patient paciente = app.OpenPatientById(HC);
                 Course curso = (from Course c in paciente.Courses where c.Id == "C1" select c).FirstOrDefault();
                 Console.WriteLine("Se abrió el curso" + curso.Id);
-                PlanSetup plan = (from PlanSetup p in curso.PlanSetups where p.ApprovalStatus == PlanSetupApprovalStatus.TreatmentApproved select p).FirstOrDefault();
+                PlanSetup plan = (from PlanSetup p in curso.PlanSetups where p.ApprovalStatus == PlanSetupApprovalStatus.TreatmentApproved && p.UniqueFractionation.NumberOfFractions > 2 select p).FirstOrDefault();
                 Console.WriteLine("Se abrió el plan" + plan.Id);
                 Beam campo1 = plan.Beams.ElementAt(0);
                 if (campo1.MLCPlanType == MLCPlanType.Static)
