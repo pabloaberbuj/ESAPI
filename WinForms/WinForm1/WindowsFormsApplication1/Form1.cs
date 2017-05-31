@@ -30,6 +30,11 @@ namespace WindowsFormsApplication1
         {
             LB_Curso.Text = nombreCurso;
         }
+
+        public void BT_boton_Click(object sender, EventArgs e)
+        {
+            Program.Execute(app)
+        }
     }
     
 }

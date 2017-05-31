@@ -36,6 +36,7 @@ namespace WindowsFormsApplication1
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
             System.Windows.Forms.Application.Run(ventana);
             string HC = ventana.traerHC();
+            
             Patient paciente = app.OpenPatientById(HC);
             Course curso = paciente.Courses.Where(c => c.Id == "C1").FirstOrDefault();
             ventana.escribirNombreCurso(curso.Id);
@@ -43,10 +44,7 @@ namespace WindowsFormsApplication1
             {
                 ventana.agregarALista(p.Id);
             }
-
-
-
-
+            app.ClosePatient();
         }
     }
 }

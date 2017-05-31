@@ -50,6 +50,7 @@
             this.BT_boton.TabIndex = 1;
             this.BT_boton.Text = "Buscar Paciente";
             this.BT_boton.UseVisualStyleBackColor = true;
+            this.BT_boton.Click += new System.EventHandler(this.BT_boton_Click);
             // 
             // label1
             // 
