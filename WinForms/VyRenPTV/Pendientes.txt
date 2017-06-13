@@ -1,0 +1,5 @@
+Programa VyRenPTV
+- Las HC desde un txt
+- Que busque HC con o sin guión
+- Agregar dosis prescripta
+- Buscar más HCs

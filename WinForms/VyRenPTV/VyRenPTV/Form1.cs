@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,7 +11,7 @@ using System.Windows.Forms;
 using VMS.TPS.Common.Model.API;
 using VMS.TPS.Common.Model.Types;
 
-namespace Winform3
+namespace VyRenPTV
 {
     public partial class Form1 : Form
     {
@@ -23,12 +24,14 @@ namespace Winform3
         string dosisDeVolumen;
         string volumenEstructura;
         string dosisMaxima;
+        string[] datosAExportar=new string[100];
+        string[] HCaux = { "1537558", "15-37821", "1537894", "1538049", "1538509", "1538467", "1537941", "1537407", "1538926", "1538615", "1538677", "1538599", "1538541" };
+        
 
         public Form1()
         {
             InitializeComponent();
         }
-
 
         public Patient abrirPaciente(string ID)
         {
@@ -40,17 +43,10 @@ namespace Winform3
             app.ClosePatient();
         }
 
-        private void BT_AgregarHCALista_Click(object sender, EventArgs e)
-        {
-            LB_ListaHC.Items.Add(TB_AgregarHCALista.Text);
-            TB_AgregarHCALista.Clear();
-        }
-
         public Course abrirCurso(Patient paciente, string nombreCurso)
         {
             return paciente.Courses.Where(c => c.Id == nombreCurso).FirstOrDefault();
         }
-
         public PlanSetup abrirPlanAprobado(Course curso) //plan con tratamiento aprobado y más de 3 fracciones (para evitar planes de QA y verificaciones)
         {
             return curso.PlanSetups.Where(p => p.ApprovalStatus == PlanSetupApprovalStatus.TreatmentApproved && p.UniqueFractionation.NumberOfFractions > 3).FirstOrDefault();
@@ -63,61 +59,72 @@ namespace Winform3
 
         public string obtenerVolumenEstructura(Structure estructura)
         {
-            return Math.Round(estructura.Volume,1).ToString();
+            return Math.Round(estructura.Volume, 1).ToString();
         }
-        public string obtenerVolumenDeDosis(PlanSetup plan, Structure estructura, double dosis, int unidades)
-        {
-            DoseValue Dosis;
-            if (unidades == 0)
-            {
-                Dosis = new DoseValue(dosis, DoseValue.DoseUnit.cGy);
-            }
-            else
-            {
-                Dosis = new DoseValue(dosis, DoseValue.DoseUnit.Percent);
-            }
-            
 
-            return Convert.ToString(Math.Round(plan.GetVolumeAtDose(estructura, Dosis, VolumePresentation.Relative),1)) + "%";
+        public string obtenerVolumenDeDosis(PlanSetup plan, Structure estructura, double dosis)
+        {
+            DoseValue Dosis = new DoseValue(dosis, DoseValue.DoseUnit.cGy);
+
+            return Convert.ToString(Math.Round(plan.GetVolumeAtDose(estructura, Dosis, VolumePresentation.Relative), 1)) + "%";
         }
 
         public string obtenerDosisMaxima(PlanSetup plan, Structure estructura)
         {
             return obtenerDosisDeVolumen(plan, estructura, 0.000001);
         }
+
         public string obtenerDosisDeVolumen(PlanSetup plan, Structure estructura, double volumen)
         {
             DoseValue Dosis;
             Dosis = plan.GetDoseAtVolume(estructura, volumen, VolumePresentation.Relative, DoseValuePresentation.Absolute);
-            return Math.Round(Dosis.Dose,1).ToString() + Dosis.UnitAsString;
+            return Math.Round(Dosis.Dose, 1).ToString() + Dosis.UnitAsString;
         }
 
-        
+        private void BT_AgregarALista_Click(object sender, EventArgs e)
+        {
+            LB_HCs.Items.Add(TB_Agregar.Text);
+            TB_Agregar.Clear();
+            TB_Agregar.Focus();
+        }
 
         private void BT_Analizar_Click(object sender, EventArgs e)
         {
-            foreach (string hc in LB_ListaHC.Items)
+            datosAExportar[0] = "HC \t Recto Vol \t Recto V_40 \t RenPTV Vol \t Vejiga Vol \t Vejiga V_45 \t VenPTV Vol";
+            int i = 1;
+            //foreach (string hc in LB_HCs.Items)
+            foreach (string hc in HCaux)
             {
                 try
                 {
                     paciente = abrirPaciente(hc);
                     curso = abrirCurso(paciente, "C1");
                     plan = abrirPlanAprobado(curso);
-                    estructura = elegirEstructura(plan, TB_Estructura.Text);
+                    estructura = elegirEstructura(plan, "Recto");
                     volumenEstructura = obtenerVolumenEstructura(estructura);
-                    dosisMaxima = obtenerDosisMaxima(plan, estructura);
-                    volumenDeDosis = obtenerVolumenDeDosis(plan, estructura, Convert.ToDouble(TB_Dosis.Text), CB_DosisUnidades.SelectedIndex);
-                    dosisDeVolumen = obtenerDosisDeVolumen(plan, estructura, Convert.ToDouble(TB_Volumen.Text));
-                    string aux = "\n" + paciente.Id + "\t \t" + estructura.Id + "\t \t Volumen: " + volumenEstructura + "\t \t Dosis Máx: " + dosisMaxima + "\t \t V_"+TB_Dosis.Text+ ": " + volumenDeDosis + "\t \t D_" + TB_Volumen.Text + ": " + dosisDeVolumen;
-                    Label_Resultados.Text += aux;
-                    Label_Resultados.Update();
+                    volumenDeDosis = obtenerVolumenDeDosis(plan, estructura, 4000);
+                    datosAExportar[i] += hc + "\t" + volumenEstructura + "\t" + volumenDeDosis + "\t";
+                    estructura = elegirEstructura(plan, "RenPTV");
+                    volumenEstructura = obtenerVolumenEstructura(estructura);
+                    datosAExportar[i] += volumenEstructura + "\t";
+                    estructura = elegirEstructura(plan, "Vejiga");
+                    volumenEstructura = obtenerVolumenEstructura(estructura);
+                    volumenDeDosis = obtenerVolumenDeDosis(plan, estructura, 4500);
+                    datosAExportar[i] += volumenEstructura + "\t" + volumenDeDosis + "\t";
+                    estructura = elegirEstructura(plan, "VenPTV");
+                    volumenEstructura = obtenerVolumenEstructura(estructura);
+                    datosAExportar[i] += volumenEstructura;
+                    L_Reporte.Text += hc + " OK \n";
                     cerrarPaciente();
+                    i++;
+                    L_Reporte.Update();
                 }
                 catch (Exception ef)
                 {
-                    MessageBox.Show(ef.ToString());
+                    L_Reporte.Text += hc + " Error \n";
                 }
             }
+            File.WriteAllLines("reporte.txt", datosAExportar);
         }
     }
 }
