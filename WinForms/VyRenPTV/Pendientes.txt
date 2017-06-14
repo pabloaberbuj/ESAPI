@@ -1,5 +1,4 @@
 Programa VyRenPTV
-- Las HC desde un txt
+- VER SI TODOS HICIERON VMAT!!!!!!!!!!!!
 - Que busque HC con o sin guión
-- Agregar dosis prescripta
 - Buscar más HCs

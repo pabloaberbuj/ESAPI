@@ -21,12 +21,11 @@ namespace VyRenPTV
         PlanSetup plan;
         Structure estructura;
         string volumenDeDosis;
-        string dosisDeVolumen;
         string volumenEstructura;
-        string dosisMaxima;
-        string[] datosAExportar=new string[100];
-        string[] HCaux = { "1537558", "15-37821", "1537894", "1538049", "1538509", "1538467", "1537941", "1537407", "1538926", "1538615", "1538677", "1538599", "1538541" };
-        
+        string dosisPrescripta;
+        static string[] HCaux = File.ReadAllLines("lista.txt");
+        string[] datosAExportar = new string[HCaux.Count()];
+
 
         public Form1()
         {
@@ -55,6 +54,11 @@ namespace VyRenPTV
         public Structure elegirEstructura(PlanSetup plan, string nombreEstructura)
         {
             return plan.StructureSet.Structures.Where(s => s.Id.Contains(nombreEstructura)).FirstOrDefault();
+        }
+
+        public string obtenerDosisPrescripta(PlanSetup plan)
+        {
+            return plan.TotalPrescribedDose.Dose.ToString();
         }
 
         public string obtenerVolumenEstructura(Structure estructura)
@@ -90,7 +94,7 @@ namespace VyRenPTV
 
         private void BT_Analizar_Click(object sender, EventArgs e)
         {
-            datosAExportar[0] = "HC \t Recto Vol \t Recto V_40 \t RenPTV Vol \t Vejiga Vol \t Vejiga V_45 \t VenPTV Vol";
+            datosAExportar[0] = "HC \t Prescripción \t Recto Vol \t Recto V_40 \t RenPTV Vol \t Vejiga Vol \t Vejiga V_45 \t VenPTV Vol";
             int i = 1;
             //foreach (string hc in LB_HCs.Items)
             foreach (string hc in HCaux)
@@ -100,10 +104,11 @@ namespace VyRenPTV
                     paciente = abrirPaciente(hc);
                     curso = abrirCurso(paciente, "C1");
                     plan = abrirPlanAprobado(curso);
+                    dosisPrescripta = obtenerDosisPrescripta(plan);
                     estructura = elegirEstructura(plan, "Recto");
                     volumenEstructura = obtenerVolumenEstructura(estructura);
                     volumenDeDosis = obtenerVolumenDeDosis(plan, estructura, 4000);
-                    datosAExportar[i] += hc + "\t" + volumenEstructura + "\t" + volumenDeDosis + "\t";
+                    datosAExportar[i] += hc + "\t" + dosisPrescripta + "\t" + volumenEstructura + "\t" + volumenDeDosis + "\t";
                     estructura = elegirEstructura(plan, "RenPTV");
                     volumenEstructura = obtenerVolumenEstructura(estructura);
                     datosAExportar[i] += volumenEstructura + "\t";
@@ -122,6 +127,7 @@ namespace VyRenPTV
                 catch (Exception ef)
                 {
                     L_Reporte.Text += hc + " Error \n";
+                    L_Reporte.Update();
                 }
             }
             File.WriteAllLines("reporte.txt", datosAExportar);
