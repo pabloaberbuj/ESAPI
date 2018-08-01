@@ -119,7 +119,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(376, 375);
+            this.ClientSize = new System.Drawing.Size(366, 354);
             this.Controls.Add(this.TB_Curso);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.BT_Optimizar);

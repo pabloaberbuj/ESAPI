@@ -15,11 +15,15 @@ namespace AutomatedPlanning
 {
     public partial class Form1 : Form
     {
+        VMS.TPS.Common.Model.API.Application app;
         Patient paciente;
         Course curso;
         ExternalPlanSetup plan;
+        //PlanSetup plan;
 
-        VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication("paberbuj", "123qwe");
+        //VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication("paberbuj", "123qwe");
+        //VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
+        
 
         public Form1()
         {
@@ -28,7 +32,10 @@ namespace AutomatedPlanning
 
         public Patient abrirPaciente(string ID)
         {
-            return app.OpenPatientById(ID);
+            VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
+            Patient paciente = app.OpenPatientById(ID);
+            //paciente.BeginModifications();
+            return paciente;
         }
 
         public string cerrarPaciente()
@@ -47,6 +54,11 @@ namespace AutomatedPlanning
             return curso.ExternalPlanSetups.Where(p => p.Id == nombrePlan).FirstOrDefault();
         }
 
+        /*public PlanSetup abrirPlan(Course curso, string nombrePlan)
+        {
+            return curso.PlanSetups.Where(p => p.Id == nombrePlan).FirstOrDefault();
+        }*/
+
         public string salvarPaciente()
         {
             app.SaveModifications();
@@ -64,9 +76,10 @@ namespace AutomatedPlanning
                 plan = abrirPlan(curso, TB_Plan.Text);
                 TB_Output.Text += "Se abrió el plan: " + plan.Name + "\n";
             }
-            catch (Exception)
+            catch (Exception f)
             {
-                TB_Output.Text += "No se pudo abrir";
+                MessageBox.Show(f.ToString());
+                TB_Output.Text += "No se pudo abrir \n";
             }
             
         }
