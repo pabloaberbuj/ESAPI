@@ -28,13 +28,14 @@ namespace AutomatedPlanning
         public Form1()
         {
             InitializeComponent();
+            Configuracion.cargarConfiguracion();
         }
 
         public Patient abrirPaciente(string ID)
         {
             VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
             Patient paciente = app.OpenPatientById(ID);
-            //paciente.BeginModifications();
+            paciente.BeginModifications();
             return paciente;
         }
 
