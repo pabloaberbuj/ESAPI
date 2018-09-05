@@ -48,6 +48,7 @@ namespace AutomatedPlanning
         public Course abrirCurso(Patient paciente, string nombreCurso)
         {
             return paciente.Courses.Where(c => c.Id == nombreCurso).FirstOrDefault();
+            
         }
 
         public ExternalPlanSetup abrirPlan(Course curso, string nombrePlan)
