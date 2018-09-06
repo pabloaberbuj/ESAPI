@@ -2,23 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 using VMS.TPS.Common.Model.API;
 using VMS.TPS.Common.Model.Types;
+
 
 namespace ExploracionPlanes
 {
     public class RestriccionDosis: IRestriccion
     {
-        string estructura { get; set; }
-        DoseValuePresentation doseValuePresentation { get; set; }
-        VolumePresentation volumePresentation { get; set; }
-        bool esDosisMaxima { get; set; }
-        bool esDosisMedia { get; set; }
-        bool esMenorQue { get; set; }
-        double Volumen { get; set; }
-        double DosisMedida { get; set; }
-        double DosisEsperada { get; set; }
-        string etiqueta { get; set; }
+        public string estructura { get; set; }
+        public DoseValuePresentation doseValuePresentation { get; set; }
+        public VolumePresentation volumePresentation { get; set; }
+        public bool esDosisMaxima { get; set; }
+        public bool esDosisMedia { get; set; }
+        public bool esMenorQue { get; set; }
+        public double Volumen { get; set; }
+        public double DosisMedida { get; set; }
+        public double DosisEsperada { get; set; }
+        public string etiqueta { get; set; }
         
         public static bool cumple(RestriccionDosis restriccionDosis)
         {
@@ -107,7 +109,7 @@ namespace ExploracionPlanes
             return cumple(restriccion);
         }
 
-        public void agregarALista(List<IRestriccion> lista)
+        public void agregarALista(BindingList<IRestriccion> lista)
         {
             lista.Add(this);
         }

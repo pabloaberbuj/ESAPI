@@ -14,8 +14,8 @@ namespace ExploracionPlanes
     public partial class Form1 : Form
     {
         
-        List<IRestriccion> listaRestricciones = new List<IRestriccion>();
-        
+        BindingList<IRestriccion> listaRestricciones = new BindingList<IRestriccion>();
+       
 
 
         public Form1()
@@ -23,6 +23,8 @@ namespace ExploracionPlanes
             InitializeComponent();
             CB_MenorOMayor.SelectedIndex = 0;
             CB_TipoRestriccion.SelectedIndex = 0;
+            LB_listaRestricciones.DataSource = listaRestricciones;
+            LB_listaRestricciones.DisplayMember = "etiqueta";
 
 
         }
@@ -44,6 +46,16 @@ namespace ExploracionPlanes
 
         
             
+        }
+
+        private string nombrePlantilla()
+        {
+            return TB_NombrePlantilla.Text;
+        }
+
+        private Plantilla plantillaActual()
+        {
+            return Plantilla.crear(nombrePlantilla(),listaRestricciones);
         }
 
         private double dosisEsperada()
@@ -83,7 +95,7 @@ namespace ExploracionPlanes
 
         private bool esMenorQue()
         {
-            return CB_MenorOMayor.SelectedIndex == 1;
+            return CB_MenorOMayor.SelectedIndex == 0;
         }
 
         private void cargarUnidadesDosis(ComboBox cb)
@@ -102,12 +114,7 @@ namespace ExploracionPlanes
             if (!esRestriccionVolumen())
             {
                 restriccionActual().agregarALista(listaRestricciones);
-                LB_listaRestricciones.DataSource = listaRestricciones;
-                LB_listaRestricciones.DisplayMember = "etiqueta";
-
-
-
-
+                limpiar();
             }
             else
             {
@@ -164,6 +171,22 @@ namespace ExploracionPlanes
         private void CB_TipoRestriccion_SelectedIndexChanged(object sender, EventArgs e)
         {
             actualizarPorRestriccion();
+        }
+
+        private void limpiar()
+        {
+            TB_Estructura.Clear();
+            TB_CorrespA.Clear();
+            TB_ValorEsperado.Clear();
+            CB_MenorOMayor.SelectedIndex = 0;
+            CB_TipoRestriccion.SelectedIndex = 0;
+            CB_CorrespAUnidades.SelectedIndex = -1;
+            CB_ValorEsperadoUnidades.SelectedIndex = 0;
+        }
+
+        private void BT_GuardarPlantilla_Click(object sender, EventArgs e)
+        {
+            Plantilla.guardar(plantillaActual());
         }
     }
 }
