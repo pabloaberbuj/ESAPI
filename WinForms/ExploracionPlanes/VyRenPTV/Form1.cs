@@ -188,5 +188,10 @@ namespace ExploracionPlanes
         {
             Plantilla.guardar(plantillaActual());
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Plantilla.leerPlantillas();
+        }
     }
 }

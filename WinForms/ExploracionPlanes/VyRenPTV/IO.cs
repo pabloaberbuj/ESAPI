@@ -54,6 +54,19 @@ namespace ExploracionPlanes
                 return lista;
             }
         }
+
+        public static T readJson<T>(string file)
+        {
+            try
+            {
+                T t = JsonConvert.DeserializeObject<T>(File.ReadAllText(file));
+                return t;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         /// <summary>
         /// Devuelve un string con un nombre único para un archivo
         /// </summary>
@@ -61,6 +74,7 @@ namespace ExploracionPlanes
         /// <param name="baseName">El nombre deseado</param>
         /// <param name="maxAttempts">el número máximo que se le concatenará al baseName</param>
         /// <returns></returns>
+        /// 
         public static string GetUniqueFilename(string path, string baseName, string extention = "txt", int maxAttempts = 128)
         {
             if (!File.Exists(string.Format("{0}{1}.{2}", path, baseName, extention)))

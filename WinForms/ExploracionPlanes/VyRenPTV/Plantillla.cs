@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,6 +27,19 @@ namespace ExploracionPlanes
         {
             string fileName = IO.GetUniqueFilename(pathDestino, plantilla.nombre);
             IO.writeObjectAsJson(fileName, plantilla);
+        }
+
+        public static List<Plantilla> leerPlantillas()
+        {
+            List<Plantilla> lista = new List<Plantilla>();
+            string[] plantillas = Directory.GetFiles(pathDestino);
+            foreach(string plantilla in plantillas)
+            {
+                //Plantilla p = IO.readJson<Plantilla>(plantilla);
+                Plantilla p = JsonConvert.DeserializeObject<Plantilla>(plantilla);
+                lista.Add(p);
+            }
+            return lista;
         }
     }
 }
