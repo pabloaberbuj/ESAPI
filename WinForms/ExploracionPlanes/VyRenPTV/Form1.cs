@@ -13,9 +13,9 @@ namespace ExploracionPlanes
 {
     public partial class Form1 : Form
     {
-        
+
         BindingList<IRestriccion> listaRestricciones = new BindingList<IRestriccion>();
-       
+
 
 
         public Form1()
@@ -35,7 +35,19 @@ namespace ExploracionPlanes
         }
         private double volumenCorrespondiente()
         {
-            if (!string.IsNullOrEmpty(TB_CorrespA.Text))
+            if (!esRestriccionVolumen() && !string.IsNullOrEmpty(TB_CorrespA.Text))
+            {
+                return Convert.ToDouble(TB_CorrespA.Text);
+            }
+            else
+            {
+                return Double.NaN;
+            }
+        }
+
+        private double dosisCorrespondiente()
+        {
+            if (esRestriccionVolumen() && !string.IsNullOrEmpty(TB_CorrespA.Text))
             {
                 return Convert.ToDouble(TB_CorrespA.Text);
             }
@@ -52,27 +64,61 @@ namespace ExploracionPlanes
 
         private Plantilla plantillaActual()
         {
-            return Plantilla.crear(nombrePlantilla(),listaRestricciones);
+            return Plantilla.crear(nombrePlantilla(), listaRestricciones);
         }
 
         private double dosisEsperada()
         {
-            return Convert.ToDouble(TB_ValorEsperado.Text);
+            if (!esRestriccionVolumen())
+            {
+                return Convert.ToDouble(TB_ValorEsperado.Text);
+            }
+            else
+            {
+                return Double.NaN;
+            }
+
+        }
+
+        private double volumenEsperado()
+        {
+            if (esRestriccionVolumen())
+            {
+                return Convert.ToDouble(TB_ValorEsperado.Text);
+            }
+            else
+            {
+                return Double.NaN;
+            }
         }
 
         private string unidadDosis()
         {
-            return CB_ValorEsperadoUnidades.Text;
+            if (esRestriccionVolumen())
+            {
+                return CB_CorrespAUnidades.Text;
+            }
+            else
+            {
+                return CB_ValorEsperadoUnidades.Text;
+            }
         }
 
         private string unidadVolumen()
         {
-            return CB_CorrespAUnidades.Text;
+            if (esRestriccionVolumen())
+            {
+                return CB_ValorEsperadoUnidades.Text;
+            }
+            else
+            {
+                return CB_CorrespAUnidades.Text;
+            }
         }
 
         private double PrescripcionEstructura()
         {
-            if (unidadDosis()== "%")
+            if (unidadDosis() == "%")
             {
                 return Convert.ToDouble(CB_PrescripcionEstructura.Text);
             }
@@ -96,7 +142,7 @@ namespace ExploracionPlanes
         {
             return CB_TipoRestriccion.SelectedIndex == 2;
         }
-        
+
         private bool esRestriccionVolumen()
         {
             return CB_TipoRestriccion.SelectedIndex == 3;
@@ -122,22 +168,15 @@ namespace ExploracionPlanes
         }
         private void BT_AgregarALista_Click(object sender, EventArgs e)
         {
-            if (!esRestriccionVolumen())
-            {
-                restriccionActual().agregarALista(listaRestricciones);
-                limpiarPrescripcion();
-            }
-            else
-            {
-
-            }
+            restriccionActual().agregarALista(listaRestricciones);
+            limpiarPrescripcion();
             CB_Estructura.Items.Add(estructura());
             CB_PrescripcionEstructura.Items.Add(PrescripcionEstructura());
         }
 
         private void actualizarPorRestriccion()
         {
-            if(esRestriccionDosis())
+            if (esRestriccionDosis())
             {
                 L_CorrespA.Text = "correspondiente a \nun volumen de: ";
                 L_CorrespA.Visible = true;
@@ -172,13 +211,13 @@ namespace ExploracionPlanes
         {
             if (!esRestriccionVolumen())
             {
-                return RestriccionDosis.crear(estructura(), unidadDosis(), unidadVolumen(), esRestriccionDmax(), esRestriccionDmedia(), esMenorQue(), dosisEsperada(), volumenCorrespondiente(),PrescripcionEstructura());
+                return RestriccionDosis.crear(estructura(), unidadDosis(), unidadVolumen(), esRestriccionDmax(), esRestriccionDmedia(), esMenorQue(), dosisEsperada(), volumenCorrespondiente(), PrescripcionEstructura());
             }
             else
             {
-                return new RestriccionDosis(); //Acá iría restriccionVolumen
+                return RestriccionVolumen.crear(estructura(), unidadDosis(), unidadVolumen(), esMenorQue(), volumenEsperado(), dosisCorrespondiente());
             }
-                
+
         }
 
         private void CB_TipoRestriccion_SelectedIndexChanged(object sender, EventArgs e)
