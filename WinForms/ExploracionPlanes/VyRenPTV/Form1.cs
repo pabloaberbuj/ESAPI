@@ -266,5 +266,14 @@ namespace ExploracionPlanes
                 GB_PrescripcionEstructura.Visible = false;
             }
         }
+
+        private void BT_EliminarRestriccion_Click(object sender, EventArgs e)
+        {
+            List<IRestriccion> listaAEliminar = LB_listaRestricciones.SelectedItems.OfType<IRestriccion>().ToList();
+            foreach (IRestriccion item in listaAEliminar)
+            {
+                listaRestricciones.Remove(item);
+            }
+        }
     }
 }

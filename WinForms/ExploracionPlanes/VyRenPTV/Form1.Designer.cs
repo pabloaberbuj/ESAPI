@@ -42,25 +42,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.TB_NombrePlantilla = new System.Windows.Forms.TextBox();
             this.BT_GuardarPlantilla = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.CB_Estructura = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.textBox9 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox8 = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.CB_PrescripcionEstructura = new System.Windows.Forms.ComboBox();
             this.GB_PrescripcionEstructura = new System.Windows.Forms.GroupBox();
+            this.BT_EliminarRestriccion = new System.Windows.Forms.Button();
             this.GB_NuevaRestriccion.SuspendLayout();
             this.GB_PrescripcionEstructura.SuspendLayout();
             this.SuspendLayout();
@@ -157,8 +144,9 @@
             // LB_listaRestricciones
             // 
             this.LB_listaRestricciones.FormattingEnabled = true;
-            this.LB_listaRestricciones.Location = new System.Drawing.Point(21, 302);
+            this.LB_listaRestricciones.Location = new System.Drawing.Point(30, 246);
             this.LB_listaRestricciones.Name = "LB_listaRestricciones";
+            this.LB_listaRestricciones.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             this.LB_listaRestricciones.Size = new System.Drawing.Size(230, 108);
             this.LB_listaRestricciones.TabIndex = 12;
             // 
@@ -175,7 +163,7 @@
             this.GB_NuevaRestriccion.Controls.Add(this.TB_CorrespA);
             this.GB_NuevaRestriccion.Controls.Add(this.CB_MenorOMayor);
             this.GB_NuevaRestriccion.Controls.Add(this.CB_CorrespAUnidades);
-            this.GB_NuevaRestriccion.Location = new System.Drawing.Point(21, 128);
+            this.GB_NuevaRestriccion.Location = new System.Drawing.Point(30, 53);
             this.GB_NuevaRestriccion.Name = "GB_NuevaRestriccion";
             this.GB_NuevaRestriccion.Size = new System.Drawing.Size(619, 168);
             this.GB_NuevaRestriccion.TabIndex = 13;
@@ -200,23 +188,13 @@
             // 
             // BT_GuardarPlantilla
             // 
-            this.BT_GuardarPlantilla.Location = new System.Drawing.Point(283, 387);
+            this.BT_GuardarPlantilla.Location = new System.Drawing.Point(283, 318);
             this.BT_GuardarPlantilla.Name = "BT_GuardarPlantilla";
-            this.BT_GuardarPlantilla.Size = new System.Drawing.Size(116, 23);
+            this.BT_GuardarPlantilla.Size = new System.Drawing.Size(128, 36);
             this.BT_GuardarPlantilla.TabIndex = 12;
             this.BT_GuardarPlantilla.Text = "Guardar plantilla";
             this.BT_GuardarPlantilla.UseVisualStyleBackColor = true;
             this.BT_GuardarPlantilla.Click += new System.EventHandler(this.BT_GuardarPlantilla_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(480, 335);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(116, 23);
-            this.button1.TabIndex = 25;
-            this.button1.Text = "Leer plantillas";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // CB_Estructura
             // 
@@ -225,107 +203,6 @@
             this.CB_Estructura.Name = "CB_Estructura";
             this.CB_Estructura.Size = new System.Drawing.Size(100, 21);
             this.CB_Estructura.TabIndex = 12;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(419, 16);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(65, 13);
-            this.label3.TabIndex = 15;
-            this.label3.Text = "Prescripción";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(489, 13);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(55, 20);
-            this.textBox2.TabIndex = 14;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(559, 13);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(55, 20);
-            this.textBox3.TabIndex = 16;
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(489, 39);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(55, 20);
-            this.textBox5.TabIndex = 17;
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(559, 39);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(55, 20);
-            this.textBox4.TabIndex = 18;
-            // 
-            // textBox7
-            // 
-            this.textBox7.Location = new System.Drawing.Point(489, 65);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(55, 20);
-            this.textBox7.TabIndex = 19;
-            // 
-            // textBox9
-            // 
-            this.textBox9.Location = new System.Drawing.Point(489, 91);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(55, 20);
-            this.textBox9.TabIndex = 17;
-            // 
-            // textBox6
-            // 
-            this.textBox6.Location = new System.Drawing.Point(559, 65);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(55, 20);
-            this.textBox6.TabIndex = 20;
-            // 
-            // textBox8
-            // 
-            this.textBox8.Location = new System.Drawing.Point(559, 91);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(55, 20);
-            this.textBox8.TabIndex = 18;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(620, 16);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(20, 13);
-            this.label4.TabIndex = 21;
-            this.label4.Text = "Gy";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(620, 46);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(20, 13);
-            this.label5.TabIndex = 22;
-            this.label5.Text = "Gy";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(620, 72);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(20, 13);
-            this.label6.TabIndex = 23;
-            this.label6.Text = "Gy";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(620, 98);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(20, 13);
-            this.label7.TabIndex = 24;
-            this.label7.Text = "Gy";
             // 
             // label8
             // 
@@ -365,26 +242,23 @@
             this.GB_PrescripcionEstructura.TabStop = false;
             this.GB_PrescripcionEstructura.Visible = false;
             // 
+            // BT_EliminarRestriccion
+            // 
+            this.BT_EliminarRestriccion.Location = new System.Drawing.Point(283, 246);
+            this.BT_EliminarRestriccion.Name = "BT_EliminarRestriccion";
+            this.BT_EliminarRestriccion.Size = new System.Drawing.Size(128, 23);
+            this.BT_EliminarRestriccion.TabIndex = 14;
+            this.BT_EliminarRestriccion.Text = "Eliminar Restricciones";
+            this.BT_EliminarRestriccion.UseVisualStyleBackColor = true;
+            this.BT_EliminarRestriccion.Click += new System.EventHandler(this.BT_EliminarRestriccion_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(652, 438);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(652, 372);
+            this.Controls.Add(this.BT_EliminarRestriccion);
             this.Controls.Add(this.BT_GuardarPlantilla);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.textBox8);
-            this.Controls.Add(this.textBox6);
-            this.Controls.Add(this.textBox9);
-            this.Controls.Add(this.textBox7);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.TB_NombrePlantilla);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.GB_NuevaRestriccion);
@@ -416,25 +290,12 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox TB_NombrePlantilla;
         private System.Windows.Forms.Button BT_GuardarPlantilla;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ComboBox CB_Estructura;
         private System.Windows.Forms.GroupBox GB_PrescripcionEstructura;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox CB_PrescripcionEstructura;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.TextBox textBox9;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox8;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button BT_EliminarRestriccion;
     }
 }
 
