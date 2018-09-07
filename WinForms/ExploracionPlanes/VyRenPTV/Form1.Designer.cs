@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.CB_TipoRestriccion = new System.Windows.Forms.ComboBox();
-            this.TB_Estructura = new System.Windows.Forms.TextBox();
             this.L_CorrespA = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.CB_CorrespAUnidades = new System.Windows.Forms.ComboBox();
@@ -57,6 +56,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.BT_GuardarPlantilla = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.CB_Estructura = new System.Windows.Forms.ComboBox();
             this.GB_NuevaRestriccion.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -74,13 +74,6 @@
             this.CB_TipoRestriccion.Size = new System.Drawing.Size(86, 21);
             this.CB_TipoRestriccion.TabIndex = 0;
             this.CB_TipoRestriccion.SelectedIndexChanged += new System.EventHandler(this.CB_TipoRestriccion_SelectedIndexChanged);
-            // 
-            // TB_Estructura
-            // 
-            this.TB_Estructura.Location = new System.Drawing.Point(6, 42);
-            this.TB_Estructura.Name = "TB_Estructura";
-            this.TB_Estructura.Size = new System.Drawing.Size(100, 20);
-            this.TB_Estructura.TabIndex = 1;
             // 
             // L_CorrespA
             // 
@@ -165,10 +158,10 @@
             // 
             // GB_NuevaRestriccion
             // 
+            this.GB_NuevaRestriccion.Controls.Add(this.CB_Estructura);
             this.GB_NuevaRestriccion.Controls.Add(this.label2);
             this.GB_NuevaRestriccion.Controls.Add(this.CB_TipoRestriccion);
             this.GB_NuevaRestriccion.Controls.Add(this.BT_AgregarALista);
-            this.GB_NuevaRestriccion.Controls.Add(this.TB_Estructura);
             this.GB_NuevaRestriccion.Controls.Add(this.CB_ValorEsperadoUnidades);
             this.GB_NuevaRestriccion.Controls.Add(this.L_CorrespA);
             this.GB_NuevaRestriccion.Controls.Add(this.TB_ValorEsperado);
@@ -319,6 +312,14 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // CB_Estructura
+            // 
+            this.CB_Estructura.FormattingEnabled = true;
+            this.CB_Estructura.Location = new System.Drawing.Point(6, 42);
+            this.CB_Estructura.Name = "CB_Estructura";
+            this.CB_Estructura.Size = new System.Drawing.Size(100, 21);
+            this.CB_Estructura.TabIndex = 12;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -355,7 +356,6 @@
         #endregion
 
         private System.Windows.Forms.ComboBox CB_TipoRestriccion;
-        private System.Windows.Forms.TextBox TB_Estructura;
         private System.Windows.Forms.Label L_CorrespA;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox CB_CorrespAUnidades;
@@ -383,6 +383,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button BT_GuardarPlantilla;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox CB_Estructura;
     }
 }
 

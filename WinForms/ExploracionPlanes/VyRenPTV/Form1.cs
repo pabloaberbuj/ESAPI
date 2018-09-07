@@ -31,7 +31,7 @@ namespace ExploracionPlanes
 
         private string estructura()
         {
-            return TB_Estructura.Text;
+            return CB_Estructura.Text;
         }
         private double volumenCorrespondiente()
         {
@@ -120,6 +120,7 @@ namespace ExploracionPlanes
             {
 
             }
+            CB_Estructura.Items.Add(estructura());
         }
 
         private void actualizarPorRestriccion()
@@ -175,7 +176,6 @@ namespace ExploracionPlanes
 
         private void limpiar()
         {
-            TB_Estructura.Clear();
             TB_CorrespA.Clear();
             TB_ValorEsperado.Clear();
             CB_MenorOMayor.SelectedIndex = 0;
