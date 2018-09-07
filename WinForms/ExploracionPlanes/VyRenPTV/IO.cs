@@ -19,7 +19,9 @@ namespace ExploracionPlanes
         /// <param name="theObj">el objeto para escribir</param>
         public static void writeObjectAsJson(string file, object theObj)
         {
-            File.WriteAllText(file, JsonConvert.SerializeObject(theObj));
+            var settings = new JsonSerializerSettings();
+            settings.TypeNameHandling = TypeNameHandling.Auto;
+            File.WriteAllText(file, JsonConvert.SerializeObject(theObj,settings));
         }
         /// <summary>
         /// Agrega un objeto en la última posición de una lista en Json
@@ -59,7 +61,9 @@ namespace ExploracionPlanes
         {
             try
             {
-                T t = JsonConvert.DeserializeObject<T>(File.ReadAllText(file));
+                var settings = new JsonSerializerSettings();
+                settings.TypeNameHandling = TypeNameHandling.Auto;
+                T t = JsonConvert.DeserializeObject<T>(File.ReadAllText(file),settings);
                 return t;
             }
             catch (Exception)

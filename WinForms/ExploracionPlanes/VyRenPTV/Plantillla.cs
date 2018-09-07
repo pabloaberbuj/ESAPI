@@ -26,7 +26,10 @@ namespace ExploracionPlanes
         public static void guardar(Plantilla plantilla)
         {
             string fileName = IO.GetUniqueFilename(pathDestino, plantilla.nombre);
+            //var settings = new JsonSerializerSettings();
+            //settings.TypeNameHandling = TypeNameHandling.Auto;
             IO.writeObjectAsJson(fileName, plantilla);
+            //File.WriteAllText(fileName, JsonConvert.SerializeObject(plantilla,settings));
         }
 
         public static List<Plantilla> leerPlantillas()
@@ -35,11 +38,15 @@ namespace ExploracionPlanes
             string[] plantillas = Directory.GetFiles(pathDestino);
             foreach(string plantilla in plantillas)
             {
-                //Plantilla p = IO.readJson<Plantilla>(plantilla);
-                Plantilla p = JsonConvert.DeserializeObject<Plantilla>(plantilla);
+                Plantilla p = IO.readJson<Plantilla>(plantilla);
+                //var settings = new JsonSerializerSettings();
+                //settings.TypeNameHandling = TypeNameHandling.Auto;
+                //Plantilla p = JsonConvert.DeserializeObject<Plantilla>(File.ReadAllText(plantilla), settings);
                 lista.Add(p);
             }
             return lista;
         }
+
+
     }
 }
