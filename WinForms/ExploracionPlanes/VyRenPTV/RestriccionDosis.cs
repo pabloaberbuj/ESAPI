@@ -20,6 +20,7 @@ namespace ExploracionPlanes
         public double Volumen { get; set; }
         public double DosisMedida { get; set; }
         public double DosisEsperada { get; set; }
+        public double PrescripcionEstructura { get; set; }
         public string etiqueta { get; set; }
         
         public static bool cumple(RestriccionDosis restriccionDosis)
@@ -35,7 +36,7 @@ namespace ExploracionPlanes
         }
 
         public static RestriccionDosis crear(string _estructura, string _unidadDosis, string _unidadVolumen, bool _esDosisMaxima, bool _esDosisMedia, bool _esMenorQue,
-            double _dosisEsperada, double _volumen = Double.NaN)
+            double _dosisEsperada, double _volumen = Double.NaN, double _prescripcionEstructura= Double.NaN)
         {
             RestriccionDosis restriccion = new RestriccionDosis()
             {
@@ -47,6 +48,7 @@ namespace ExploracionPlanes
                 esMenorQue = _esMenorQue,
                 Volumen = _volumen,
                 DosisEsperada = _dosisEsperada,
+                PrescripcionEstructura = _prescripcionEstructura,
             };
             crearEtiqueta(restriccion);
             return restriccion;
@@ -77,6 +79,14 @@ namespace ExploracionPlanes
                 restriccion.etiqueta += " > ";
             }
             restriccion.etiqueta += restriccion.DosisEsperada.ToString();
+            if (restriccion.doseValuePresentation== DoseValuePresentation.Absolute)
+            {
+                restriccion.etiqueta += "Gy";
+            }
+            else
+            {
+                restriccion.etiqueta += "% (donde 100% =" + restriccion.PrescripcionEstructura.ToString() + "Gy)";
+            }
         }
 
         public static DoseValuePresentation unidadesDosis(string unidad)

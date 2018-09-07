@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace ExploracionPlanes
 {
@@ -26,10 +27,8 @@ namespace ExploracionPlanes
         public static void guardar(Plantilla plantilla)
         {
             string fileName = IO.GetUniqueFilename(pathDestino, plantilla.nombre);
-            //var settings = new JsonSerializerSettings();
-            //settings.TypeNameHandling = TypeNameHandling.Auto;
             IO.writeObjectAsJson(fileName, plantilla);
-            //File.WriteAllText(fileName, JsonConvert.SerializeObject(plantilla,settings));
+            MessageBox.Show("Se ha guardado la plantilla con el nombre: " + Path.GetFileName(fileName));
         }
 
         public static List<Plantilla> leerPlantillas()
@@ -39,9 +38,6 @@ namespace ExploracionPlanes
             foreach(string plantilla in plantillas)
             {
                 Plantilla p = IO.readJson<Plantilla>(plantilla);
-                //var settings = new JsonSerializerSettings();
-                //settings.TypeNameHandling = TypeNameHandling.Auto;
-                //Plantilla p = JsonConvert.DeserializeObject<Plantilla>(File.ReadAllText(plantilla), settings);
                 lista.Add(p);
             }
             return lista;

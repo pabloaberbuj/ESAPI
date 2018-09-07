@@ -43,9 +43,6 @@ namespace ExploracionPlanes
             {
                 return Double.NaN;
             }
-
-        
-            
         }
 
         private string nombrePlantilla()
@@ -65,12 +62,24 @@ namespace ExploracionPlanes
 
         private string unidadDosis()
         {
-            return CB_ValorEsperadoUnidades.SelectedText;
+            return CB_ValorEsperadoUnidades.Text;
         }
 
         private string unidadVolumen()
         {
-            return CB_CorrespAUnidades.SelectedText;
+            return CB_CorrespAUnidades.Text;
+        }
+
+        private double PrescripcionEstructura()
+        {
+            if (unidadDosis()== "%")
+            {
+                return Convert.ToDouble(CB_PrescripcionEstructura.Text);
+            }
+            else
+            {
+                return Double.NaN;
+            }
         }
 
         private bool esRestriccionDosis()
@@ -100,12 +109,14 @@ namespace ExploracionPlanes
 
         private void cargarUnidadesDosis(ComboBox cb)
         {
+            cb.Items.Clear();
             cb.Items.Add("Gy");
             cb.Items.Add("%");
         }
 
         private void cargarUnidadesVolumen(ComboBox cb)
         {
+            cb.Items.Clear();
             cb.Items.Add("%");
             cb.Items.Add("cm3");
         }
@@ -114,13 +125,14 @@ namespace ExploracionPlanes
             if (!esRestriccionVolumen())
             {
                 restriccionActual().agregarALista(listaRestricciones);
-                limpiar();
+                limpiarPrescripcion();
             }
             else
             {
 
             }
             CB_Estructura.Items.Add(estructura());
+            CB_PrescripcionEstructura.Items.Add(PrescripcionEstructura());
         }
 
         private void actualizarPorRestriccion()
@@ -160,7 +172,7 @@ namespace ExploracionPlanes
         {
             if (!esRestriccionVolumen())
             {
-                return RestriccionDosis.crear(estructura(), unidadDosis(), unidadVolumen(), esRestriccionDmax(), esRestriccionDmedia(), esMenorQue(), dosisEsperada(), volumenCorrespondiente());
+                return RestriccionDosis.crear(estructura(), unidadDosis(), unidadVolumen(), esRestriccionDmax(), esRestriccionDmedia(), esMenorQue(), dosisEsperada(), volumenCorrespondiente(),PrescripcionEstructura());
             }
             else
             {
@@ -172,26 +184,48 @@ namespace ExploracionPlanes
         private void CB_TipoRestriccion_SelectedIndexChanged(object sender, EventArgs e)
         {
             actualizarPorRestriccion();
+            CB_ValorEsperadoUnidades_SelectedIndexChanged(sender, e);
         }
 
-        private void limpiar()
+        private void limpiarPrescripcion()
         {
             TB_CorrespA.Clear();
             TB_ValorEsperado.Clear();
             CB_MenorOMayor.SelectedIndex = 0;
             CB_TipoRestriccion.SelectedIndex = 0;
-            CB_CorrespAUnidades.SelectedIndex = -1;
+            CB_CorrespAUnidades.SelectedIndex = 0;
             CB_ValorEsperadoUnidades.SelectedIndex = 0;
         }
 
+        private void limpiarPlantilla()
+        {
+            limpiarPrescripcion();
+            CB_Estructura.Items.Clear();
+            CB_PrescripcionEstructura.Items.Clear();
+            listaRestricciones.Clear();
+            TB_NombrePlantilla.Clear();
+        }
         private void BT_GuardarPlantilla_Click(object sender, EventArgs e)
         {
             Plantilla.guardar(plantillaActual());
+            limpiarPlantilla();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             Plantilla.leerPlantillas();
+        }
+
+        private void CB_ValorEsperadoUnidades_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (CB_ValorEsperadoUnidades.Text == "%" && !esRestriccionVolumen())
+            {
+                GB_PrescripcionEstructura.Visible = true;
+            }
+            else
+            {
+                GB_PrescripcionEstructura.Visible = false;
+            }
         }
     }
 }
