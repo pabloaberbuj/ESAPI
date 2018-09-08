@@ -152,7 +152,7 @@
             this.DGV_Estructuras.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.DGV_Estructuras.Location = new System.Drawing.Point(159, 190);
             this.DGV_Estructuras.Name = "DGV_Estructuras";
-            this.DGV_Estructuras.Size = new System.Drawing.Size(302, 191);
+            this.DGV_Estructuras.Size = new System.Drawing.Size(240, 191);
             this.DGV_Estructuras.TabIndex = 12;
             // 
             // L_ID
@@ -221,7 +221,6 @@
             this.delPlan.HeaderText = "Plan";
             this.delPlan.Name = "delPlan";
             this.delPlan.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.delPlan.Width = 34;
             // 
             // Form2
             // 

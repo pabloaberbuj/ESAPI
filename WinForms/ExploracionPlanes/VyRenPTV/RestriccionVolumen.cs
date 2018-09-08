@@ -11,6 +11,7 @@ namespace ExploracionPlanes
     public class RestriccionVolumen : IRestriccion
     {
         public string estructura { get; set; }
+        public List<string> estructuraNombresPosibles { get; set; }
         public DoseValuePresentation doseValuePresentation { get; set; }
         public VolumePresentation volumePresentation { get; set; }
         public bool esMenorQue { get; set; }
@@ -31,12 +32,15 @@ namespace ExploracionPlanes
             }
         }
 
-        public static RestriccionVolumen crear(string _estructura, string _unidadDosis, string _unidadVolumen, bool _esMenorQue,
+        public static RestriccionVolumen crear(string _estructura, List<string> _estructuraNombresAlternativos, string _unidadDosis, string _unidadVolumen, bool _esMenorQue,
             double _volumenEsperado, double _dosis)
         {
+            List<string> nombresPosibles = _estructuraNombresAlternativos;
+            nombresPosibles.Insert(0, _estructura);
             RestriccionVolumen restriccion = new RestriccionVolumen()
             {
                 estructura = _estructura,
+                estructuraNombresPosibles = nombresPosibles,
                 doseValuePresentation = unidadesDosis(_unidadDosis),
                 volumePresentation = unidadesVolumen(_unidadVolumen),
                 esMenorQue = _esMenorQue,

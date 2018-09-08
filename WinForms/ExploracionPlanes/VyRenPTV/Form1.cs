@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace ExploracionPlanes
 {
@@ -32,6 +33,18 @@ namespace ExploracionPlanes
         private string estructura()
         {
             return CB_Estructura.Text;
+        }
+
+        private List<string> estructuraNombresAlt()
+        {
+            if (!string.IsNullOrEmpty(TB_EstructuraNombresAlt.Text))
+            {
+                return Regex.Split(TB_EstructuraNombresAlt.Text, "\r\n").ToList<string>();
+            }
+            else
+            {
+                return new List<string>();
+            }
         }
         private double volumenCorrespondiente()
         {
@@ -211,11 +224,11 @@ namespace ExploracionPlanes
         {
             if (!esRestriccionVolumen())
             {
-                return RestriccionDosis.crear(estructura(), unidadDosis(), unidadVolumen(), esRestriccionDmax(), esRestriccionDmedia(), esMenorQue(), dosisEsperada(), volumenCorrespondiente(), PrescripcionEstructura());
+                return RestriccionDosis.crear(estructura(), estructuraNombresAlt(), unidadDosis(), unidadVolumen(), esRestriccionDmax(), esRestriccionDmedia(), esMenorQue(), dosisEsperada(), volumenCorrespondiente(), PrescripcionEstructura());
             }
             else
             {
-                return RestriccionVolumen.crear(estructura(), unidadDosis(), unidadVolumen(), esMenorQue(), volumenEsperado(), dosisCorrespondiente());
+                return RestriccionVolumen.crear(estructura(), estructuraNombresAlt(), unidadDosis(), unidadVolumen(), esMenorQue(), volumenEsperado(), dosisCorrespondiente());
             }
 
         }
@@ -274,6 +287,16 @@ namespace ExploracionPlanes
             {
                 listaRestricciones.Remove(item);
             }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            estructuraNombresAlt();
+        }
+
+        private void CB_Estructura_TextChanged(object sender, EventArgs e)
+        {
+            TB_EstructuraNombresAlt.Clear();
         }
     }
 }
