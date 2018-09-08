@@ -45,6 +45,8 @@
             this.DGV_Análisis = new System.Windows.Forms.DataGridView();
             this.label6 = new System.Windows.Forms.Label();
             this.BT_Analizar = new System.Windows.Forms.Button();
+            this.dePlantilla = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.delPlan = new System.Windows.Forms.DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).BeginInit();
             this.SuspendLayout();
@@ -139,10 +141,18 @@
             // 
             // DGV_Estructuras
             // 
+            this.DGV_Estructuras.AllowUserToAddRows = false;
+            this.DGV_Estructuras.AllowUserToDeleteRows = false;
+            this.DGV_Estructuras.AllowUserToResizeColumns = false;
+            this.DGV_Estructuras.AllowUserToResizeRows = false;
             this.DGV_Estructuras.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DGV_Estructuras.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dePlantilla,
+            this.delPlan});
+            this.DGV_Estructuras.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.DGV_Estructuras.Location = new System.Drawing.Point(159, 190);
             this.DGV_Estructuras.Name = "DGV_Estructuras";
-            this.DGV_Estructuras.Size = new System.Drawing.Size(240, 191);
+            this.DGV_Estructuras.Size = new System.Drawing.Size(302, 191);
             this.DGV_Estructuras.TabIndex = 12;
             // 
             // L_ID
@@ -200,6 +210,19 @@
             this.BT_Analizar.Text = "Analizar";
             this.BT_Analizar.UseVisualStyleBackColor = true;
             // 
+            // dePlantilla
+            // 
+            this.dePlantilla.HeaderText = "Plantilla";
+            this.dePlantilla.Name = "dePlantilla";
+            // 
+            // delPlan
+            // 
+            this.delPlan.AutoComplete = false;
+            this.delPlan.HeaderText = "Plan";
+            this.delPlan.Name = "delPlan";
+            this.delPlan.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.delPlan.Width = 34;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -250,5 +273,7 @@
         private System.Windows.Forms.DataGridView DGV_Análisis;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button BT_Analizar;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dePlantilla;
+        private System.Windows.Forms.DataGridViewComboBoxColumn delPlan;
     }
 }

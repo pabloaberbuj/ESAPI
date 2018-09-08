@@ -13,7 +13,7 @@ namespace ExploracionPlanes
 {
     public partial class Form2 : Form
     {
-        VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication("pa", "123qwe");
+        //VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication("pa", "123qwe");
         Patient paciente;
         Course curso;
         PlanSetup plan;
@@ -23,8 +23,14 @@ namespace ExploracionPlanes
         {
             InitializeComponent();
             LB_Plantillas.DataSource = Plantilla.leerPlantillas();
+            LB_Plantillas.DisplayMember = "nombre";
         }
-        public Patient abrirPaciente(string ID)
+
+        private Plantilla plantillaSeleccionada()
+        {
+            return (Plantilla)LB_Plantillas.SelectedItems[0];
+        }
+ /*       public Patient abrirPaciente(string ID)
         {
             Patient paciente = app.OpenPatientById(ID);
             return paciente;
@@ -82,11 +88,11 @@ namespace ExploracionPlanes
         public List<Structure> listaEstructuras(PlanSetup plan)
         {
             return plan.StructureSet.Structures.ToList();
-        }
+        }*/
 
         private void BT_AbrirPaciente_Click(object sender, EventArgs e)
         {
-            try
+          /*  try
             {
                 paciente = abrirPaciente(TB_ID.Text);
                 LB_Cursos.DataSource = listaCursos(paciente);
@@ -95,25 +101,35 @@ namespace ExploracionPlanes
             {
                 MessageBox.Show("El paciente no existe");
                 throw;
-            }
+            }*/
         }
 
         private void LB_Cursos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LB_Planes.DataSource = null;
-            LB_Planes.DataSource = listaPlanes(cursoSeleccionado());
+           /* LB_Planes.DataSource = null;
+            LB_Planes.DataSource = listaPlanes(cursoSeleccionado());*/
         }
 
         private void BT_SeleccionarPlantillas_Click(object sender, EventArgs e)
         {
-            DataGridViewComboBoxCell dgvCBCell = new DataGridViewComboBoxCell();
-            dgvCBCell.DataSource = listaEstructuras(planSeleccionado());
+            //DataGridViewComboBoxCell dgvCBCell = new DataGridViewComboBoxCell();
+            //dgvCBCell.DataSource = listaEstructuras(planSeleccionado());
+            //dgvCBCell.DisplayMember = "Name";
             DGV_Estructuras.ColumnCount = 2;
-            for (int i=0;i<3;i++)
+            DGV_Estructuras.Rows.Add(4);
+            DataGridViewComboBoxColumn dgvCBCol = (DataGridViewComboBoxColumn)DGV_Estructuras.Columns[1];
+            dgvCBCol.DataSource = plantillaSeleccionada().listaRestricciones;
+            dgvCBCol.DisplayMember = "etiqueta";
+            
+            /*for (int i=0;i<3;i++)
             {
                 DGV_Estructuras.Rows.Add();
-                DGV_Estructuras.Rows[i].Cells[1] = dgvCBCell;
-            }
+                DGV_Estructuras.Rows[i].Cells[1] = new DataGridViewComboBoxCell()
+                {
+                    DataSource = plantillaSeleccionada().listaRestricciones,
+                    DisplayMember = "etiqueta",
+                };
+            }*/
         }
     }
 }
