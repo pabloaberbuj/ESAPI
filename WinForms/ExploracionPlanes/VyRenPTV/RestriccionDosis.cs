@@ -21,6 +21,7 @@ namespace ExploracionPlanes
         public double Volumen { get; set; }
         public double DosisMedida { get; set; }
         public double DosisEsperada { get; set; }
+        public double DosisTolerable { get; set; }
         public double PrescripcionEstructura { get; set; }
         public string etiqueta { get; set; }
         
@@ -37,7 +38,7 @@ namespace ExploracionPlanes
         }
 
         public static RestriccionDosis crear(string _estructura, List<string> _estructuraNombresAlternativos, string _unidadDosis, string _unidadVolumen, bool _esDosisMaxima, bool _esDosisMedia, bool _esMenorQue,
-            double _dosisEsperada, double _volumen = Double.NaN, double _prescripcionEstructura= Double.NaN)
+            double _dosisEsperada, double _dosisTolerable, double _volumen = Double.NaN, double _prescripcionEstructura= Double.NaN)
         {
             List<string> nombresPosibles = _estructuraNombresAlternativos;
             nombresPosibles.Insert(0, _estructura);
@@ -52,6 +53,7 @@ namespace ExploracionPlanes
                 esMenorQue = _esMenorQue,
                 Volumen = _volumen,
                 DosisEsperada = _dosisEsperada,
+                DosisTolerable = _dosisTolerable,
                 PrescripcionEstructura = _prescripcionEstructura,
             };
             crearEtiqueta(restriccion);

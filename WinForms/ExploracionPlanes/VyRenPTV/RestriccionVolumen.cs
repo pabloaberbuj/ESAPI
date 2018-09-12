@@ -18,6 +18,7 @@ namespace ExploracionPlanes
         public double Dosis { get; set; }
         public double VolumenMedido { get; set; }
         public double VolumenEsperado { get; set; }
+        public double VolumenTolerable { get; set; }
         public string etiqueta { get; set; }
 
         public static bool cumple(RestriccionVolumen restriccionVolumen)
@@ -33,7 +34,7 @@ namespace ExploracionPlanes
         }
 
         public static RestriccionVolumen crear(string _estructura, List<string> _estructuraNombresAlternativos, string _unidadDosis, string _unidadVolumen, bool _esMenorQue,
-            double _volumenEsperado, double _dosis)
+            double _volumenEsperado, double _volumenTolerable, double _dosis)
         {
             List<string> nombresPosibles = _estructuraNombresAlternativos;
             nombresPosibles.Insert(0, _estructura);
@@ -46,6 +47,7 @@ namespace ExploracionPlanes
                 esMenorQue = _esMenorQue,
                 Dosis = _dosis,
                 VolumenEsperado = _volumenEsperado,
+                VolumenTolerable = _volumenTolerable,
             };
             crearEtiqueta(restriccion);
             return restriccion;

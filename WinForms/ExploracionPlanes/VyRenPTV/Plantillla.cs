@@ -13,19 +13,25 @@ namespace ExploracionPlanes
     {
         public static string pathDestino = Directory.GetCurrentDirectory() + @"\Plantillas\";
         public string nombre { get; set; }
+        public bool esParaExtraccion { get; set; }
         public BindingList<IRestriccion> listaRestricciones { get; set; }
 
-        public static Plantilla crear(string _nombre, BindingList<IRestriccion> _listaRestricciones)
+        public static Plantilla crear(string _nombre, bool _esParaExtraccion, BindingList<IRestriccion> _listaRestricciones)
         {
             return new Plantilla()
             {
                 nombre = _nombre,
+                esParaExtraccion = _esParaExtraccion,
                 listaRestricciones = _listaRestricciones,
             };
         }
 
         public static void guardar(Plantilla plantilla)
         {
+            if (!Directory.Exists(pathDestino))
+            {
+                Directory.CreateDirectory(pathDestino);
+            }
             string fileName = IO.GetUniqueFilename(pathDestino, plantilla.nombre);
             IO.writeObjectAsJson(fileName, plantilla);
             MessageBox.Show("Se ha guardado la plantilla con el nombre: " + Path.GetFileName(fileName));

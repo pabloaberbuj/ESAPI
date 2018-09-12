@@ -75,9 +75,14 @@ namespace ExploracionPlanes
             return TB_NombrePlantilla.Text;
         }
 
+        private bool esParaExtraccion()
+        {
+            return CHB_esParaExtraccion.Checked;
+        }
+
         private Plantilla plantillaActual()
         {
-            return Plantilla.crear(nombrePlantilla(), listaRestricciones);
+            return Plantilla.crear(nombrePlantilla(), esParaExtraccion(), listaRestricciones);
         }
 
         private double dosisEsperada()
@@ -90,14 +95,37 @@ namespace ExploracionPlanes
             {
                 return Double.NaN;
             }
+        }
 
+        private double dosisTolerada()
+        {
+            if (!esRestriccionVolumen() && !String.IsNullOrEmpty(TB_ValorTolerado.Text))
+            {
+                return Convert.ToDouble(TB_ValorTolerado.Text);
+            }
+            else
+            {
+                return Double.NaN;
+            }
         }
 
         private double volumenEsperado()
         {
-            if (esRestriccionVolumen())
+            if (esRestriccionVolumen() && !String.IsNullOrEmpty(TB_ValorTolerado.Text))
             {
                 return Convert.ToDouble(TB_ValorEsperado.Text);
+            }
+            else
+            {
+                return Double.NaN;
+            }
+        }
+
+        private double volumenTolerado()
+        {
+            if (esRestriccionVolumen())
+            {
+                return Convert.ToDouble(TB_ValorTolerado.Text);
             }
             else
             {
@@ -196,6 +224,7 @@ namespace ExploracionPlanes
                 TB_CorrespA.Visible = true;
                 CB_CorrespAUnidades.Visible = true;
                 cargarUnidadesDosis(CB_ValorEsperadoUnidades);
+                cargarUnidadesDosis(CB_ValorToleradoUnidades);
                 cargarUnidadesVolumen(CB_CorrespAUnidades);
                 CB_ValorEsperadoUnidades.SelectedIndex = 0;
                 CB_CorrespAUnidades.SelectedIndex = 0;
@@ -216,6 +245,7 @@ namespace ExploracionPlanes
                 CB_CorrespAUnidades.Visible = true;
                 cargarUnidadesDosis(CB_CorrespAUnidades);
                 cargarUnidadesVolumen(CB_ValorEsperadoUnidades);
+                cargarUnidadesVolumen(CB_ValorToleradoUnidades);
                 CB_ValorEsperadoUnidades.SelectedIndex = 0;
                 CB_CorrespAUnidades.SelectedIndex = 0;
             }
@@ -224,11 +254,11 @@ namespace ExploracionPlanes
         {
             if (!esRestriccionVolumen())
             {
-                return RestriccionDosis.crear(estructura(), estructuraNombresAlt(), unidadDosis(), unidadVolumen(), esRestriccionDmax(), esRestriccionDmedia(), esMenorQue(), dosisEsperada(), volumenCorrespondiente(), PrescripcionEstructura());
+                return RestriccionDosis.crear(estructura(), estructuraNombresAlt(), unidadDosis(), unidadVolumen(), esRestriccionDmax(), esRestriccionDmedia(), esMenorQue(), dosisEsperada(), dosisTolerada(), volumenCorrespondiente(), PrescripcionEstructura());
             }
             else
             {
-                return RestriccionVolumen.crear(estructura(), estructuraNombresAlt(), unidadDosis(), unidadVolumen(), esMenorQue(), volumenEsperado(), dosisCorrespondiente());
+                return RestriccionVolumen.crear(estructura(), estructuraNombresAlt(), unidadDosis(), unidadVolumen(), esMenorQue(), volumenEsperado(), volumenTolerado(), dosisCorrespondiente());
             }
 
         }
@@ -243,6 +273,7 @@ namespace ExploracionPlanes
         {
             TB_CorrespA.Clear();
             TB_ValorEsperado.Clear();
+            TB_ValorTolerado.Clear();
             CB_MenorOMayor.SelectedIndex = 0;
             CB_TipoRestriccion.SelectedIndex = 0;
             CB_CorrespAUnidades.SelectedIndex = 0;
@@ -263,13 +294,9 @@ namespace ExploracionPlanes
             limpiarPlantilla();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Plantilla.leerPlantillas();
-        }
-
         private void CB_ValorEsperadoUnidades_SelectedIndexChanged(object sender, EventArgs e)
         {
+            CB_ValorToleradoUnidades.SelectedIndex = CB_ValorEsperadoUnidades.SelectedIndex;
             if (CB_ValorEsperadoUnidades.Text == "%" && !esRestriccionVolumen())
             {
                 GB_PrescripcionEstructura.Visible = true;
@@ -289,14 +316,21 @@ namespace ExploracionPlanes
             }
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            estructuraNombresAlt();
-        }
-
         private void CB_Estructura_TextChanged(object sender, EventArgs e)
         {
             TB_EstructuraNombresAlt.Clear();
+        }
+
+        private void CHB_esParaExtraccion_CheckedChanged(object sender, EventArgs e)
+        {
+            if (esParaExtraccion())
+            {
+                Panel_esMenorque.Visible = false;
+            }
+            else
+            {
+                Panel_esMenorque.Visible = true;
+            }
         }
     }
 }
