@@ -89,7 +89,7 @@ namespace ExploracionPlanes
                 restriccion.etiqueta += restriccion.DosisEsperada.ToString();
                 if (!Double.IsNaN(restriccion.DosisTolerable))
                 {
-                    restriccion.etiqueta += " (" + restriccion.DosisTolerable.ToString() + ") ";
+                    restriccion.etiqueta += " (" + restriccion.DosisTolerable.ToString() + ")";
                 }
                 if (restriccion.doseValuePresentation == DoseValuePresentation.Absolute)
                 {

@@ -57,23 +57,31 @@ namespace ExploracionPlanes
         {
             restriccion.etiqueta = restriccion.estructura + ": ";
             restriccion.etiqueta += "V" + restriccion.Dosis.ToString();
-            if (restriccion.esMenorQue)
+            if (!Double.IsNaN(restriccion.VolumenEsperado))
             {
-                restriccion.etiqueta += " < ";
+                if (restriccion.esMenorQue)
+                {
+                    restriccion.etiqueta += " < ";
+                }
+                else
+                {
+                    restriccion.etiqueta += " > ";
+                }
+                restriccion.etiqueta += restriccion.VolumenEsperado.ToString();
+                if (!Double.IsNaN(restriccion.VolumenTolerable))
+                {
+                    restriccion.etiqueta += " (" + restriccion.VolumenTolerable.ToString() + ")";
+                }
+                if (restriccion.volumePresentation == VolumePresentation.Relative)
+                {
+                    restriccion.etiqueta += "%";
+                }
+                else
+                {
+                    restriccion.etiqueta += "cm3";
+                }
             }
-            else
-            {
-                restriccion.etiqueta += " > ";
-            }
-            restriccion.etiqueta += restriccion.VolumenEsperado.ToString();
-            if (restriccion.volumePresentation == VolumePresentation.Relative)
-            {
-                restriccion.etiqueta += "%";
-            }
-            else
-            {
-                restriccion.etiqueta += "cm3";
-            }
+            
         }
 
         public static DoseValuePresentation unidadesDosis(string unidad)
