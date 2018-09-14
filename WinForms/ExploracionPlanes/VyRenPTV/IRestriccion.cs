@@ -8,6 +8,7 @@ namespace ExploracionPlanes
 {
     public interface IRestriccion
     {
+        string estructura { get; set; }
         string etiqueta { get; set; }
         void agregarALista(BindingList<IRestriccion> lista);
     }

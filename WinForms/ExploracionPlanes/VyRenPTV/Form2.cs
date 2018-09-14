@@ -13,7 +13,7 @@ namespace ExploracionPlanes
 {
     public partial class Form2 : Form
     {
-        //VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication("pa", "123qwe");
+        VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication("pa", "123qwe");
         Patient paciente;
         Course curso;
         PlanSetup plan;
@@ -30,7 +30,7 @@ namespace ExploracionPlanes
         {
             return (Plantilla)LB_Plantillas.SelectedItems[0];
         }
- /*       public Patient abrirPaciente(string ID)
+        public Patient abrirPaciente(string ID)
         {
             Patient paciente = app.OpenPatientById(ID);
             return paciente;
@@ -87,12 +87,18 @@ namespace ExploracionPlanes
 
         public List<Structure> listaEstructuras(PlanSetup plan)
         {
+         /*   List<Structure> sinFiltrar = plan.StructureSet.Structures.ToList();
+            List<Structure> filtradas = new List<Structure>();
+            foreach (Structure estructura in sinFiltrar)
+            {
+                if (estructura.)
+            }*/
             return plan.StructureSet.Structures.ToList();
-        }*/
+        }
 
         private void BT_AbrirPaciente_Click(object sender, EventArgs e)
         {
-          /*  try
+            try
             {
                 paciente = abrirPaciente(TB_ID.Text);
                 LB_Cursos.DataSource = listaCursos(paciente);
@@ -101,13 +107,13 @@ namespace ExploracionPlanes
             {
                 MessageBox.Show("El paciente no existe");
                 throw;
-            }*/
+            }
         }
 
         private void LB_Cursos_SelectedIndexChanged(object sender, EventArgs e)
         {
-           /* LB_Planes.DataSource = null;
-            LB_Planes.DataSource = listaPlanes(cursoSeleccionado());*/
+            LB_Planes.DataSource = null;
+            LB_Planes.DataSource = listaPlanes(cursoSeleccionado());
         }
 
         private void BT_SeleccionarPlantillas_Click(object sender, EventArgs e)
@@ -116,10 +122,16 @@ namespace ExploracionPlanes
             //dgvCBCell.DataSource = listaEstructuras(planSeleccionado());
             //dgvCBCell.DisplayMember = "Name";
             DGV_Estructuras.ColumnCount = 2;
-            DGV_Estructuras.Rows.Add(4);
+            foreach (string region in plantillaSeleccionada().regiones())
+            {
+                DGV_Estructuras.Rows.Add();
+                DGV_Estructuras.Rows[DGV_Estructuras.Rows.Count - 1].Cells[0].Value = region;
+            }
+            
             DataGridViewComboBoxColumn dgvCBCol = (DataGridViewComboBoxColumn)DGV_Estructuras.Columns[1];
-            dgvCBCol.DataSource = plantillaSeleccionada().listaRestricciones;
-            dgvCBCol.DisplayMember = "etiqueta";
+            dgvCBCol.DataSource = listaEstructuras(planSeleccionado());
+            dgvCBCol.DisplayMember = "Id";
+            
             
             /*for (int i=0;i<3;i++)
             {

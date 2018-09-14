@@ -49,6 +49,19 @@ namespace ExploracionPlanes
             return lista;
         }
 
+        public List<string> regiones()
+        {
+            List<string> regiones = new List<string>();
+            foreach (IRestriccion restriccion in this.listaRestricciones)
+            {
+                if (!regiones.Contains(restriccion.estructura))
+                {
+                    regiones.Add(restriccion.estructura);
+                }
+            }
+            return regiones;
+        }
+
 
     }
 }
