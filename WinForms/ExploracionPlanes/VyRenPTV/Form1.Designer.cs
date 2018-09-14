@@ -39,6 +39,10 @@
             this.BT_AgregarALista = new System.Windows.Forms.Button();
             this.LB_listaRestricciones = new System.Windows.Forms.ListBox();
             this.GB_NuevaRestriccion = new System.Windows.Forms.GroupBox();
+            this.Panel_esMenorque = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.CB_ValorToleradoUnidades = new System.Windows.Forms.ComboBox();
+            this.TB_ValorTolerado = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.TB_EstructuraNombresAlt = new System.Windows.Forms.TextBox();
             this.GB_PrescripcionEstructura = new System.Windows.Forms.GroupBox();
@@ -50,14 +54,10 @@
             this.TB_NombrePlantilla = new System.Windows.Forms.TextBox();
             this.BT_GuardarPlantilla = new System.Windows.Forms.Button();
             this.BT_EliminarRestriccion = new System.Windows.Forms.Button();
-            this.TB_ValorTolerado = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.CB_ValorToleradoUnidades = new System.Windows.Forms.ComboBox();
             this.CHB_esParaExtraccion = new System.Windows.Forms.CheckBox();
-            this.Panel_esMenorque = new System.Windows.Forms.Panel();
             this.GB_NuevaRestriccion.SuspendLayout();
-            this.GB_PrescripcionEstructura.SuspendLayout();
             this.Panel_esMenorque.SuspendLayout();
+            this.GB_PrescripcionEstructura.SuspendLayout();
             this.SuspendLayout();
             // 
             // CB_TipoRestriccion
@@ -178,6 +178,44 @@
             this.GB_NuevaRestriccion.TabStop = false;
             this.GB_NuevaRestriccion.Text = "Nueva Restricción";
             // 
+            // Panel_esMenorque
+            // 
+            this.Panel_esMenorque.Controls.Add(this.label4);
+            this.Panel_esMenorque.Controls.Add(this.CB_ValorToleradoUnidades);
+            this.Panel_esMenorque.Controls.Add(this.CB_MenorOMayor);
+            this.Panel_esMenorque.Controls.Add(this.TB_ValorEsperado);
+            this.Panel_esMenorque.Controls.Add(this.TB_ValorTolerado);
+            this.Panel_esMenorque.Controls.Add(this.CB_ValorEsperadoUnidades);
+            this.Panel_esMenorque.Location = new System.Drawing.Point(420, 31);
+            this.Panel_esMenorque.Name = "Panel_esMenorque";
+            this.Panel_esMenorque.Size = new System.Drawing.Size(190, 68);
+            this.Panel_esMenorque.TabIndex = 23;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(1, 44);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(60, 13);
+            this.label4.TabIndex = 21;
+            this.label4.Text = "Tolerancia:";
+            // 
+            // CB_ValorToleradoUnidades
+            // 
+            this.CB_ValorToleradoUnidades.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_ValorToleradoUnidades.FormattingEnabled = true;
+            this.CB_ValorToleradoUnidades.Location = new System.Drawing.Point(139, 41);
+            this.CB_ValorToleradoUnidades.Name = "CB_ValorToleradoUnidades";
+            this.CB_ValorToleradoUnidades.Size = new System.Drawing.Size(41, 21);
+            this.CB_ValorToleradoUnidades.TabIndex = 22;
+            // 
+            // TB_ValorTolerado
+            // 
+            this.TB_ValorTolerado.Location = new System.Drawing.Point(64, 41);
+            this.TB_ValorTolerado.Name = "TB_ValorTolerado";
+            this.TB_ValorTolerado.Size = new System.Drawing.Size(69, 20);
+            this.TB_ValorTolerado.TabIndex = 20;
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -278,32 +316,6 @@
             this.BT_EliminarRestriccion.UseVisualStyleBackColor = true;
             this.BT_EliminarRestriccion.Click += new System.EventHandler(this.BT_EliminarRestriccion_Click);
             // 
-            // TB_ValorTolerado
-            // 
-            this.TB_ValorTolerado.Location = new System.Drawing.Point(64, 41);
-            this.TB_ValorTolerado.Name = "TB_ValorTolerado";
-            this.TB_ValorTolerado.Size = new System.Drawing.Size(69, 20);
-            this.TB_ValorTolerado.TabIndex = 20;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(1, 44);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(60, 13);
-            this.label4.TabIndex = 21;
-            this.label4.Text = "Tolerancia:";
-            this.label4.Visible = false;
-            // 
-            // CB_ValorToleradoUnidades
-            // 
-            this.CB_ValorToleradoUnidades.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_ValorToleradoUnidades.FormattingEnabled = true;
-            this.CB_ValorToleradoUnidades.Location = new System.Drawing.Point(139, 41);
-            this.CB_ValorToleradoUnidades.Name = "CB_ValorToleradoUnidades";
-            this.CB_ValorToleradoUnidades.Size = new System.Drawing.Size(41, 21);
-            this.CB_ValorToleradoUnidades.TabIndex = 22;
-            // 
             // CHB_esParaExtraccion
             // 
             this.CHB_esParaExtraccion.AutoSize = true;
@@ -314,19 +326,6 @@
             this.CHB_esParaExtraccion.Text = "Es sólo para extraer información";
             this.CHB_esParaExtraccion.UseVisualStyleBackColor = true;
             this.CHB_esParaExtraccion.CheckedChanged += new System.EventHandler(this.CHB_esParaExtraccion_CheckedChanged);
-            // 
-            // Panel_esMenorque
-            // 
-            this.Panel_esMenorque.Controls.Add(this.label4);
-            this.Panel_esMenorque.Controls.Add(this.CB_ValorToleradoUnidades);
-            this.Panel_esMenorque.Controls.Add(this.CB_MenorOMayor);
-            this.Panel_esMenorque.Controls.Add(this.TB_ValorEsperado);
-            this.Panel_esMenorque.Controls.Add(this.TB_ValorTolerado);
-            this.Panel_esMenorque.Controls.Add(this.CB_ValorEsperadoUnidades);
-            this.Panel_esMenorque.Location = new System.Drawing.Point(420, 31);
-            this.Panel_esMenorque.Name = "Panel_esMenorque";
-            this.Panel_esMenorque.Size = new System.Drawing.Size(190, 68);
-            this.Panel_esMenorque.TabIndex = 23;
             // 
             // Form1
             // 
@@ -344,10 +343,10 @@
             this.Text = "Form1";
             this.GB_NuevaRestriccion.ResumeLayout(false);
             this.GB_NuevaRestriccion.PerformLayout();
-            this.GB_PrescripcionEstructura.ResumeLayout(false);
-            this.GB_PrescripcionEstructura.PerformLayout();
             this.Panel_esMenorque.ResumeLayout(false);
             this.Panel_esMenorque.PerformLayout();
+            this.GB_PrescripcionEstructura.ResumeLayout(false);
+            this.GB_PrescripcionEstructura.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

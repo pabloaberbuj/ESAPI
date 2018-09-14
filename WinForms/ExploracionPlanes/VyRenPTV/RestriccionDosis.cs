@@ -76,23 +76,31 @@ namespace ExploracionPlanes
             {
                 restriccion.etiqueta += "D" + restriccion.Volumen.ToString();
             }
-            if (restriccion.esMenorQue)
+            if (!Double.IsNaN(restriccion.DosisEsperada))
             {
-                restriccion.etiqueta += " < ";
+                if (restriccion.esMenorQue)
+                {
+                    restriccion.etiqueta += " < ";
+                }
+                else
+                {
+                    restriccion.etiqueta += " > ";
+                }
+                restriccion.etiqueta += restriccion.DosisEsperada.ToString();
+                if (!Double.IsNaN(restriccion.DosisTolerable))
+                {
+                    restriccion.etiqueta += " (" + restriccion.DosisTolerable.ToString() + ") ";
+                }
+                if (restriccion.doseValuePresentation == DoseValuePresentation.Absolute)
+                {
+                    restriccion.etiqueta += "Gy";
+                }
+                else
+                {
+                    restriccion.etiqueta += "% (donde 100% =" + restriccion.PrescripcionEstructura.ToString() + "Gy)";
+                }
             }
-            else
-            {
-                restriccion.etiqueta += " > ";
-            }
-            restriccion.etiqueta += restriccion.DosisEsperada.ToString();
-            if (restriccion.doseValuePresentation== DoseValuePresentation.Absolute)
-            {
-                restriccion.etiqueta += "Gy";
-            }
-            else
-            {
-                restriccion.etiqueta += "% (donde 100% =" + restriccion.PrescripcionEstructura.ToString() + "Gy)";
-            }
+            
         }
 
         public static DoseValuePresentation unidadesDosis(string unidad)

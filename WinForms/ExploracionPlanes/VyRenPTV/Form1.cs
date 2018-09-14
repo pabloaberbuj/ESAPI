@@ -87,7 +87,7 @@ namespace ExploracionPlanes
 
         private double dosisEsperada()
         {
-            if (!esRestriccionVolumen())
+            if (!esRestriccionVolumen() && !String.IsNullOrEmpty(TB_ValorEsperado.Text))
             {
                 return Convert.ToDouble(TB_ValorEsperado.Text);
             }
@@ -111,7 +111,7 @@ namespace ExploracionPlanes
 
         private double volumenEsperado()
         {
-            if (esRestriccionVolumen() && !String.IsNullOrEmpty(TB_ValorTolerado.Text))
+            if (esRestriccionVolumen() && !String.IsNullOrEmpty(TB_ValorEsperado.Text))
             {
                 return Convert.ToDouble(TB_ValorEsperado.Text);
             }
@@ -123,7 +123,7 @@ namespace ExploracionPlanes
 
         private double volumenTolerado()
         {
-            if (esRestriccionVolumen())
+            if (esRestriccionVolumen() && !String.IsNullOrEmpty(TB_ValorTolerado.Text))
             {
                 return Convert.ToDouble(TB_ValorTolerado.Text);
             }
@@ -213,6 +213,8 @@ namespace ExploracionPlanes
             limpiarPrescripcion();
             CB_Estructura.Items.Add(estructura());
             CB_PrescripcionEstructura.Items.Add(PrescripcionEstructura());
+            fijarEsParaExtraccion();
+
         }
 
         private void actualizarPorRestriccion()
@@ -287,6 +289,7 @@ namespace ExploracionPlanes
             CB_PrescripcionEstructura.Items.Clear();
             listaRestricciones.Clear();
             TB_NombrePlantilla.Clear();
+            fijarEsParaExtraccion();
         }
         private void BT_GuardarPlantilla_Click(object sender, EventArgs e)
         {
@@ -314,6 +317,7 @@ namespace ExploracionPlanes
             {
                 listaRestricciones.Remove(item);
             }
+            fijarEsParaExtraccion();
         }
 
         private void CB_Estructura_TextChanged(object sender, EventArgs e)
@@ -332,5 +336,18 @@ namespace ExploracionPlanes
                 Panel_esMenorque.Visible = true;
             }
         }
+
+        private void fijarEsParaExtraccion()
+        {
+            if (LB_listaRestricciones.Items.Count > 0)
+            {
+                CHB_esParaExtraccion.Enabled = false;
+            }
+            else
+            {
+                CHB_esParaExtraccion.Enabled = true;
+            }
+        }
+        
     }
 }
