@@ -55,6 +55,7 @@
             this.BT_GuardarPlantilla = new System.Windows.Forms.Button();
             this.BT_EliminarRestriccion = new System.Windows.Forms.Button();
             this.CHB_esParaExtraccion = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.GB_NuevaRestriccion.SuspendLayout();
             this.Panel_esMenorque.SuspendLayout();
             this.GB_PrescripcionEstructura.SuspendLayout();
@@ -327,11 +328,21 @@
             this.CHB_esParaExtraccion.UseVisualStyleBackColor = true;
             this.CHB_esParaExtraccion.CheckedChanged += new System.EventHandler(this.CHB_esParaExtraccion_CheckedChanged);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(283, 275);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(128, 23);
+            this.button1.TabIndex = 16;
+            this.button1.Text = "Editar Restricciones";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(652, 372);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.CHB_esParaExtraccion);
             this.Controls.Add(this.BT_EliminarRestriccion);
             this.Controls.Add(this.BT_GuardarPlantilla);
@@ -381,6 +392,7 @@
         private System.Windows.Forms.TextBox TB_ValorTolerado;
         private System.Windows.Forms.CheckBox CHB_esParaExtraccion;
         private System.Windows.Forms.Panel Panel_esMenorque;
+        private System.Windows.Forms.Button button1;
     }
 }
 

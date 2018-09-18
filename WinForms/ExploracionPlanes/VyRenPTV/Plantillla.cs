@@ -15,6 +15,7 @@ namespace ExploracionPlanes
         public string nombre { get; set; }
         public bool esParaExtraccion { get; set; }
         public BindingList<IRestriccion> listaRestricciones { get; set; }
+        public string path { get; set; }
 
         public static Plantilla crear(string _nombre, bool _esParaExtraccion, BindingList<IRestriccion> _listaRestricciones)
         {
@@ -33,8 +34,17 @@ namespace ExploracionPlanes
                 Directory.CreateDirectory(pathDestino);
             }
             string fileName = IO.GetUniqueFilename(pathDestino, plantilla.nombre);
+            plantilla.path = fileName;
             IO.writeObjectAsJson(fileName, plantilla);
             MessageBox.Show("Se ha guardado la plantilla con el nombre: " + Path.GetFileName(fileName));
+        }
+
+        public static void eliminar(Plantilla plantilla)
+        {
+            if(MessageBox.Show("¿Desea eliminar la plantilla?", "Eliminar plantilla", MessageBoxButtons.YesNo)  ==DialogResult.Yes)
+            {
+                File.Delete(plantilla.path);
+            }
         }
 
         public static List<Plantilla> leerPlantillas()

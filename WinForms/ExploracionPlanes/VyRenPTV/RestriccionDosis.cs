@@ -103,6 +103,8 @@ namespace ExploracionPlanes
             
         }
 
+        
+
         public static DoseValuePresentation unidadesDosis(string unidad)
         {
             if (unidad=="Gy")
@@ -137,5 +139,31 @@ namespace ExploracionPlanes
         {
             lista.Add(this);
         }
+
+     /*   public void editar(IRestriccion restriccion, string Estructura, List<string> nombresAlt, int tipoRest, double valorCorresp, bool esMenor, double valorEsperado, double valorTolerado, string unidadCorresp, string unidadEsperado)
+        {
+            Estructura = ((RestriccionDosis)restriccion).estructura;
+            nombresAlt = ((RestriccionDosis)restriccion).estructuraNombresPosibles;
+            nombresAlt.Remove(((RestriccionDosis)restriccion).estructura);
+            if (esDosisMedia)
+            {
+                tipoRest = 1;
+            }
+            else if (esDosisMaxima)
+            {
+                tipoRest = 2;
+            }
+            else
+            {
+                tipoRest = 0;
+            }
+            esMenor = ((RestriccionDosis)restriccion).esMenorQue;
+            valorCorresp = ((RestriccionDosis)restriccion).Volumen;
+            DosisEsperada = ((RestriccionDosis)restriccion).DosisEsperada;
+            DosisMedida = ((RestriccionDosis)restriccion).DosisMedida;
+
+
+
+        }*/
     }
 }

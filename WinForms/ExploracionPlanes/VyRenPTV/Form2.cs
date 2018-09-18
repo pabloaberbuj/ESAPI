@@ -85,7 +85,7 @@ namespace ExploracionPlanes
             return curso.PlanSetups.ToList<PlanSetup>();
         }
 
-        public List<Structure> listaEstructuras(PlanSetup plan)
+        public List<Structure> listaEstructuras(PlanSetup plan) //FALTA FILTRAR POR TIPO
         {
          /*   List<Structure> sinFiltrar = plan.StructureSet.Structures.ToList();
             List<Structure> filtradas = new List<Structure>();
