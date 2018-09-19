@@ -85,20 +85,7 @@ namespace ExploracionPlanes
             return curso.PlanSetups.ToList<PlanSetup>();
         }
 
-        public List<Structure> listaEstructuras(PlanSetup plan) //CHEQUEAR FILTRAR POR TIPO
-        {
-            List<Structure> sinFiltrar = plan.StructureSet.Structures.ToList();
-            List<Structure> filtradas = new List<Structure>();
-            foreach (Structure estructura in sinFiltrar)
-            {
-                if (estructura.DicomType != "BODY" && estructura.DicomType != "Support")
-                {
-                    filtradas.Add(estructura);
-                }
-            }
-            return filtradas;
-            //return plan.StructureSet.Structures.ToList();
-        }
+       
 
         private void BT_AbrirPaciente_Click(object sender, EventArgs e)
         {
@@ -130,16 +117,23 @@ namespace ExploracionPlanes
             }
             
             DataGridViewComboBoxColumn dgvCBCol = (DataGridViewComboBoxColumn)DGV_Estructuras.Columns[1];
-            dgvCBCol.DataSource = listaEstructuras(planSeleccionado());
+            dgvCBCol.DataSource = Estructura.listaEstructuras(planSeleccionado());
             dgvCBCol.DisplayMember = "Id";
+            dgvCBCol.ValueMember = "Id";
         }
 
-        private void asociarEstructuras()
+        private void asociarEstructuras() //CHEQUEAR SI FUNCIONA!!!!!
         {
-            foreach (DataGridViewRow fila in DGV_Estructuras.Rows)
+            for (int i=0; i<DGV_Estructuras.Rows.Count;i++)
             {
-                //(string)fila.Cells[0].Value;
+                Structure estructura = Estructura.asociarConLista(plantillaSeleccionada().estructuras()[i].nombresPosibles, Estructura.listaEstructuras(planSeleccionado()));
+                (DGV_Estructuras.Rows[i].Cells[1]).Value = estructura.Id;
             }
+        }
+
+        private void BT_GuardarPaciente_Click(object sender, EventArgs e)
+        {
+            IO.writeObjectAsJson("paciente " + paciente.Id, paciente);
         }
     }
 }

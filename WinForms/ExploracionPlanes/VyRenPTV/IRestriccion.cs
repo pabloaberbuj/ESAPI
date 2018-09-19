@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using VMS.TPS.Common.Model.API;
+using VMS.TPS.Common.Model.Types;
 
 namespace ExploracionPlanes
 {
@@ -14,6 +16,9 @@ namespace ExploracionPlanes
         void agregarALista(BindingList<IRestriccion> lista);
         void crearEtiqueta();
         int cumple();
+        int analizarPlanEstructura(PlanSetup plan, Structure estructura);
+        int analizarPlan(PlanSetup plan);
+        
         //IRestriccion crear();
         /*/void editar(IRestriccion restriccion, string Estructura, List<string> nombresAlt, int tipoRest,
             double valorCorresp, bool esMenor, double valorEsperado, double valorTolerado,

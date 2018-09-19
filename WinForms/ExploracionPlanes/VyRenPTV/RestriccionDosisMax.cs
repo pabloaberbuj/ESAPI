@@ -120,6 +120,11 @@ namespace ExploracionPlanes
             return cumple();
         }
 
+        public int analizarPlan(PlanSetup plan)
+        {
+            return analizarPlanEstructura(plan, Estructura.asociarConLista(this.estructura.nombresPosibles, Estructura.listaEstructuras(plan)));
+        }
+
         public void agregarALista(BindingList<IRestriccion> lista)
         {
             lista.Add(this);

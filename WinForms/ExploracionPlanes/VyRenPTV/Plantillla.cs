@@ -6,6 +6,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using VMS.TPS.Common.Model.API;
+using VMS.TPS.Common.Model.Types;
 
 namespace ExploracionPlanes
 {
@@ -72,6 +74,12 @@ namespace ExploracionPlanes
             return estructuras;
         }
 
-
+        public void analizar(PlanSetup plan)
+        {
+            foreach(IRestriccion restriccion in this.listaRestricciones)
+            {
+                restriccion.analizarPlan(plan);
+            }
+        }
     }
 }

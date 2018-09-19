@@ -26,9 +26,9 @@ namespace ExploracionPlanes
             return set.Where(c => c.Name.Equals(nombreEstructura)).FirstOrDefault();
         }
 
-        public static Structure asociarConLista(List<string> listaNombresAlt, List<Structure> set)
+        public static Structure asociarConLista(List<string> listaNombres, List<Structure> set)
         {
-            foreach (string nombre in listaNombresAlt)
+            foreach (string nombre in listaNombres)
             {
                 Structure estructura = asociarExacto(nombre, set);
                 if (estructura!=null)
@@ -37,6 +37,20 @@ namespace ExploracionPlanes
                 }
             }
             return null;
+        }
+
+        public static List<Structure> listaEstructuras(PlanSetup plan) //CHEQUEAR FILTRAR POR TIPO
+        {
+            List<Structure> sinFiltrar = plan.StructureSet.Structures.ToList();
+            List<Structure> filtradas = new List<Structure>();
+            foreach (Structure estructura in sinFiltrar)
+            {
+                if (estructura.DicomType != "BODY" && estructura.DicomType != "Support")
+                {
+                    filtradas.Add(estructura);
+                }
+            }
+            return filtradas;
         }
     }
 }

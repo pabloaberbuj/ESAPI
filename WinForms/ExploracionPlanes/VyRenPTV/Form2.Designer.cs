@@ -39,14 +39,15 @@
             this.LB_Plantillas = new System.Windows.Forms.ListBox();
             this.BT_SeleccionarPlantillas = new System.Windows.Forms.Button();
             this.DGV_Estructuras = new System.Windows.Forms.DataGridView();
+            this.dePlantilla = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.delPlan = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.L_ID = new System.Windows.Forms.Label();
             this.L_Nombre = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.DGV_Análisis = new System.Windows.Forms.DataGridView();
             this.label6 = new System.Windows.Forms.Label();
             this.BT_Analizar = new System.Windows.Forms.Button();
-            this.dePlantilla = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.delPlan = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.BT_GuardarPaciente = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).BeginInit();
             this.SuspendLayout();
@@ -155,6 +156,18 @@
             this.DGV_Estructuras.Size = new System.Drawing.Size(240, 191);
             this.DGV_Estructuras.TabIndex = 12;
             // 
+            // dePlantilla
+            // 
+            this.dePlantilla.HeaderText = "Plantilla";
+            this.dePlantilla.Name = "dePlantilla";
+            // 
+            // delPlan
+            // 
+            this.delPlan.AutoComplete = false;
+            this.delPlan.HeaderText = "Plan";
+            this.delPlan.Name = "delPlan";
+            this.delPlan.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
             // L_ID
             // 
             this.L_ID.AutoSize = true;
@@ -210,23 +223,22 @@
             this.BT_Analizar.Text = "Analizar";
             this.BT_Analizar.UseVisualStyleBackColor = true;
             // 
-            // dePlantilla
+            // BT_GuardarPaciente
             // 
-            this.dePlantilla.HeaderText = "Plantilla";
-            this.dePlantilla.Name = "dePlantilla";
-            // 
-            // delPlan
-            // 
-            this.delPlan.AutoComplete = false;
-            this.delPlan.HeaderText = "Plan";
-            this.delPlan.Name = "delPlan";
-            this.delPlan.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.BT_GuardarPaciente.Location = new System.Drawing.Point(65, 134);
+            this.BT_GuardarPaciente.Name = "BT_GuardarPaciente";
+            this.BT_GuardarPaciente.Size = new System.Drawing.Size(100, 23);
+            this.BT_GuardarPaciente.TabIndex = 19;
+            this.BT_GuardarPaciente.Text = "Guardar Paciente";
+            this.BT_GuardarPaciente.UseVisualStyleBackColor = true;
+            this.BT_GuardarPaciente.Click += new System.EventHandler(this.BT_GuardarPaciente_Click);
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(726, 410);
+            this.Controls.Add(this.BT_GuardarPaciente);
             this.Controls.Add(this.BT_Analizar);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.DGV_Análisis);
@@ -274,5 +286,6 @@
         private System.Windows.Forms.Button BT_Analizar;
         private System.Windows.Forms.DataGridViewTextBoxColumn dePlantilla;
         private System.Windows.Forms.DataGridViewComboBoxColumn delPlan;
+        private System.Windows.Forms.Button BT_GuardarPaciente;
     }
 }
