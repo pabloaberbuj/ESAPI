@@ -113,9 +113,9 @@ namespace ExploracionPlanes
             }
         }
 
-        public  int analizarPlanEstructura(PlanSetup plan, Structure estructura)
+        public  int analizarPlanEstructura(PlanSetup plan, Structure estructura) //Ver cuál sirve
         {
-            
+            //DosisMedida = plan.GetDVHCumulativeData(estructura, doseValuePresentation, VolumePresentation.Relative, 0.1).MaxDose.Dose;
             DosisMedida = plan.GetDoseAtVolume(estructura, 0.000001, VolumePresentation.AbsoluteCm3, doseValuePresentation).Dose; 
             return cumple();
         }

@@ -127,8 +127,7 @@ namespace ExploracionPlanes
 
         public int analizarPlanEstructura(PlanSetup plan, Structure estructura)
         {
-            //Modificar método!!!!!!!!!!!!!!
-            //DosisMedida = plan.GetDoseAtVolume(estructura, Volumen, volumePresentation, doseValuePresentation).Dose;
+            DosisMedida = plan.GetDVHCumulativeData(estructura, doseValuePresentation, VolumePresentation.Relative, 0.1).MeanDose.Dose;
             return cumple();
         }
 

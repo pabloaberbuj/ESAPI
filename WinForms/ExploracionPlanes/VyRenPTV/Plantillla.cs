@@ -59,12 +59,12 @@ namespace ExploracionPlanes
             return lista;
         }
 
-        public List<Estructura> estructuras() //HACER QUE REVISE SOLO EL NOMBRE DE LA ESTRUCTURA
+        public List<Estructura> estructuras()
         {
             List<Estructura> estructuras = new List<Estructura>();
             foreach (IRestriccion restriccion in this.listaRestricciones)
             {
-                if (!estructuras.Contains(restriccion.estructura))
+                if (!estructuras.Any(e=>e.nombre==restriccion.estructura.nombre))
                 {
                     estructuras.Add(restriccion.estructura);
                 }
