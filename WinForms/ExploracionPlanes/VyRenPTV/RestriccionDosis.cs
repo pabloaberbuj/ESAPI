@@ -25,15 +25,37 @@ namespace ExploracionPlanes
         public double PrescripcionEstructura { get; set; }
         public string etiqueta { get; set; }
         
-        public static bool cumple(RestriccionDosis restriccionDosis)
+        public static int cumple(RestriccionDosis restriccionDosis)
         {
             if (restriccionDosis.esMenorQue)
             {
-                return restriccionDosis.DosisMedida <= restriccionDosis.DosisEsperada;
+                if (restriccionDosis.DosisMedida <= restriccionDosis.DosisEsperada)
+                {
+                    return 0;
+                }
+                else if (!Double.IsNaN(restriccionDosis.DosisTolerable) && restriccionDosis.DosisMedida <= restriccionDosis.DosisTolerable)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 2;
+                }
             }
             else
             {
-                return restriccionDosis.DosisMedida >= restriccionDosis.DosisEsperada; 
+                if (restriccionDosis.DosisMedida >= restriccionDosis.DosisEsperada)
+                {
+                    return 0;
+                }
+                else if (!Double.IsNaN(restriccionDosis.DosisTolerable) && restriccionDosis.DosisMedida >= restriccionDosis.DosisTolerable)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 2;
+                }
             }
         }
 
@@ -129,7 +151,7 @@ namespace ExploracionPlanes
             }
         }
 
-        public static bool analizarPlanEstructura (RestriccionDosis restriccion, PlanSetup plan, Structure estructura)
+        public static int analizarPlanEstructura (RestriccionDosis restriccion, PlanSetup plan, Structure estructura)
         {
             restriccion.DosisMedida = plan.GetDoseAtVolume(estructura, restriccion.Volumen, restriccion.volumePresentation, restriccion.doseValuePresentation).Dose;
             return cumple(restriccion);

@@ -8,14 +8,24 @@ namespace ExploracionPlanes
 {
     public class Estructura
     {
-        public static Structure asociarExacto(string estructuraPlantilla, StructureSet set)
+        public string nombre { get; set; }
+        public List<string> nombresAlt { get; set; }
+        public static Structure asociarExacto(string nombreEstructura, List<Structure> set)
         {
-            return set.Structures.Where(c => c.Name.Equals(estructuraPlantilla)).FirstOrDefault();
+            return set.Where(c => c.Name.Equals(nombreEstructura)).FirstOrDefault();
         }
 
-        /*public static Structure asociarAprox(string estructuraPlantilla, StructureSet set)
+        public static Structure asociarConLista(List<string> listaNombresAlt, List<Structure> set)
         {
-            set.Structures.Where(c=>c.Name.
-        }*/
+            foreach (string nombre in listaNombresAlt)
+            {
+                Structure estructura = asociarExacto(nombre, set);
+                if (estructura!=null)
+                {
+                    return estructura;
+                }
+            }
+            return null;
+        }
     }
 }

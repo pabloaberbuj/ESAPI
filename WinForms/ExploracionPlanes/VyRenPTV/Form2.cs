@@ -85,15 +85,19 @@ namespace ExploracionPlanes
             return curso.PlanSetups.ToList<PlanSetup>();
         }
 
-        public List<Structure> listaEstructuras(PlanSetup plan) //FALTA FILTRAR POR TIPO
+        public List<Structure> listaEstructuras(PlanSetup plan) //CHEQUEAR FILTRAR POR TIPO
         {
-         /*   List<Structure> sinFiltrar = plan.StructureSet.Structures.ToList();
+            List<Structure> sinFiltrar = plan.StructureSet.Structures.ToList();
             List<Structure> filtradas = new List<Structure>();
             foreach (Structure estructura in sinFiltrar)
             {
-                if (estructura.)
-            }*/
-            return plan.StructureSet.Structures.ToList();
+                if (estructura.DicomType != "BODY" && estructura.DicomType != "Support")
+                {
+                    filtradas.Add(estructura);
+                }
+            }
+            return filtradas;
+            //return plan.StructureSet.Structures.ToList();
         }
 
         private void BT_AbrirPaciente_Click(object sender, EventArgs e)
@@ -118,11 +122,8 @@ namespace ExploracionPlanes
 
         private void BT_SeleccionarPlantillas_Click(object sender, EventArgs e)
         {
-            //DataGridViewComboBoxCell dgvCBCell = new DataGridViewComboBoxCell();
-            //dgvCBCell.DataSource = listaEstructuras(planSeleccionado());
-            //dgvCBCell.DisplayMember = "Name";
             DGV_Estructuras.ColumnCount = 2;
-            foreach (string region in plantillaSeleccionada().regiones())
+            foreach (string region in plantillaSeleccionada().estructuras())
             {
                 DGV_Estructuras.Rows.Add();
                 DGV_Estructuras.Rows[DGV_Estructuras.Rows.Count - 1].Cells[0].Value = region;
@@ -131,17 +132,14 @@ namespace ExploracionPlanes
             DataGridViewComboBoxColumn dgvCBCol = (DataGridViewComboBoxColumn)DGV_Estructuras.Columns[1];
             dgvCBCol.DataSource = listaEstructuras(planSeleccionado());
             dgvCBCol.DisplayMember = "Id";
-            
-            
-            /*for (int i=0;i<3;i++)
+        }
+
+        private void asociarEstructuras()
+        {
+            foreach (DataGridViewRow fila in DGV_Estructuras.Rows)
             {
-                DGV_Estructuras.Rows.Add();
-                DGV_Estructuras.Rows[i].Cells[1] = new DataGridViewComboBoxCell()
-                {
-                    DataSource = plantillaSeleccionada().listaRestricciones,
-                    DisplayMember = "etiqueta",
-                };
-            }*/
+                (string)fila.Cells[0].Value
+            }
         }
     }
 }
