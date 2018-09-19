@@ -19,7 +19,7 @@ namespace ExploracionPlanes
         PlanSetup plan;
         
 
-        public Form2()
+        public Form2(Main main)
         {
             InitializeComponent();
             LB_Plantillas.DataSource = Plantilla.leerPlantillas();

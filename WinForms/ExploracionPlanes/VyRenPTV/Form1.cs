@@ -19,7 +19,7 @@ namespace ExploracionPlanes
 
 
 
-        public Form1()
+        public Form1(Main main, bool edita)
         {
             InitializeComponent();
             CB_MenorOMayor.SelectedIndex = 0;
