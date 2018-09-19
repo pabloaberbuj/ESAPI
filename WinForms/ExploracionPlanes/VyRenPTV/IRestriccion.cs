@@ -9,9 +9,12 @@ namespace ExploracionPlanes
 {
     public interface IRestriccion
     {
-        string estructura { get; set; }
+        Estructura estructura { get; set; }
         string etiqueta { get; set; }
         void agregarALista(BindingList<IRestriccion> lista);
+        void crearEtiqueta();
+        int cumple();
+        //IRestriccion crear();
         /*/void editar(IRestriccion restriccion, string Estructura, List<string> nombresAlt, int tipoRest,
             double valorCorresp, bool esMenor, double valorEsperado, double valorTolerado,
             string unidadCorresp, string unidadEsperado);*/

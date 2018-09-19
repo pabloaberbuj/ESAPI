@@ -59,9 +59,9 @@ namespace ExploracionPlanes
             return lista;
         }
 
-        public List<string> estructuras()
+        public List<Estructura> estructuras() //HACER QUE REVISE SOLO EL NOMBRE DE LA ESTRUCTURA
         {
-            List<string> estructuras = new List<string>();
+            List<Estructura> estructuras = new List<Estructura>();
             foreach (IRestriccion restriccion in this.listaRestricciones)
             {
                 if (!estructuras.Contains(restriccion.estructura))

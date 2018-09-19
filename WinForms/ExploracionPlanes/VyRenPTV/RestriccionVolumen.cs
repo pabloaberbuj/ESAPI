@@ -10,7 +10,7 @@ namespace ExploracionPlanes
 {
     public class RestriccionVolumen : IRestriccion
     {
-        public string estructura { get; set; }
+        public Estructura estructura { get; set; }
         public List<string> estructuraNombresPosibles { get; set; }
         public DoseValuePresentation doseValuePresentation { get; set; }
         public VolumePresentation volumePresentation { get; set; }
@@ -21,27 +21,45 @@ namespace ExploracionPlanes
         public double VolumenTolerable { get; set; }
         public string etiqueta { get; set; }
 
-        public static bool cumple(RestriccionVolumen restriccionVolumen)
+        public int cumple()
         {
-            if (restriccionVolumen.esMenorQue)
+            if (esMenorQue)
             {
-                return restriccionVolumen.VolumenMedido <= restriccionVolumen.VolumenEsperado;
+                if (VolumenMedido <= VolumenEsperado)
+                {
+                    return 0;
+                }
+                else if (!Double.IsNaN(VolumenTolerable) && VolumenMedido <= VolumenTolerable)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 2;
+                }
             }
             else
             {
-                return restriccionVolumen.VolumenMedido >= restriccionVolumen.VolumenEsperado;
+                if (VolumenMedido >= VolumenEsperado)
+                {
+                    return 0;
+                }
+                else if (!Double.IsNaN(VolumenTolerable) && VolumenMedido >= VolumenTolerable)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 2;
+                }
             }
         }
-
-        public static RestriccionVolumen crear(string _estructura, List<string> _estructuraNombresAlternativos, string _unidadDosis, string _unidadVolumen, bool _esMenorQue,
+        public static IRestriccion crear(Estructura _estructura, string _unidadDosis, string _unidadVolumen, bool _esMenorQue,
             double _volumenEsperado, double _volumenTolerable, double _dosis)
         {
-            List<string> nombresPosibles = _estructuraNombresAlternativos;
-            nombresPosibles.Insert(0, _estructura);
             RestriccionVolumen restriccion = new RestriccionVolumen()
             {
                 estructura = _estructura,
-                estructuraNombresPosibles = nombresPosibles,
                 doseValuePresentation = unidadesDosis(_unidadDosis),
                 volumePresentation = unidadesVolumen(_unidadVolumen),
                 esMenorQue = _esMenorQue,
@@ -49,39 +67,38 @@ namespace ExploracionPlanes
                 VolumenEsperado = _volumenEsperado,
                 VolumenTolerable = _volumenTolerable,
             };
-            crearEtiqueta(restriccion);
+            restriccion.crearEtiqueta();
             return restriccion;
         }
 
-        public static void crearEtiqueta(RestriccionVolumen restriccion)
+        public void crearEtiqueta()
         {
-            restriccion.etiqueta = restriccion.estructura + ": ";
-            restriccion.etiqueta += "V" + restriccion.Dosis.ToString();
-            if (!Double.IsNaN(restriccion.VolumenEsperado))
+            etiqueta = estructura.nombre + ": ";
+            etiqueta += "V" + Dosis.ToString();
+            if (!Double.IsNaN(VolumenEsperado))
             {
-                if (restriccion.esMenorQue)
+                if (esMenorQue)
                 {
-                    restriccion.etiqueta += " < ";
+                    etiqueta += " < ";
                 }
                 else
                 {
-                    restriccion.etiqueta += " > ";
+                    etiqueta += " > ";
                 }
-                restriccion.etiqueta += restriccion.VolumenEsperado.ToString();
-                if (!Double.IsNaN(restriccion.VolumenTolerable))
+                etiqueta += VolumenEsperado.ToString();
+                if (!Double.IsNaN(VolumenTolerable))
                 {
-                    restriccion.etiqueta += " (" + restriccion.VolumenTolerable.ToString() + ")";
+                    etiqueta += " (" + VolumenTolerable.ToString() + ")";
                 }
-                if (restriccion.volumePresentation == VolumePresentation.Relative)
+                if (volumePresentation == VolumePresentation.Relative)
                 {
-                    restriccion.etiqueta += "%";
+                    etiqueta += "%";
                 }
                 else
                 {
-                    restriccion.etiqueta += "cm3";
+                    etiqueta += "cm3";
                 }
             }
-            
         }
 
         public static DoseValuePresentation unidadesDosis(string unidad)
@@ -108,11 +125,11 @@ namespace ExploracionPlanes
             }
         }
 
-        public static bool analizarPlanEstructura(RestriccionVolumen restriccion, PlanSetup plan, Structure estructura)
+        public int analizarPlanEstructura(PlanSetup plan, Structure estructura)
         {
-            DoseValue dosis = new DoseValue(restriccion.Dosis, DoseValue.DoseUnit.Gy);
-            restriccion.VolumenMedido = plan.GetVolumeAtDose(estructura, dosis, restriccion.volumePresentation);
-            return cumple(restriccion);
+            DoseValue dosis = new DoseValue(Dosis, DoseValue.DoseUnit.Gy);
+            VolumenMedido = plan.GetVolumeAtDose(estructura, dosis, volumePresentation);
+            return cumple();
         }
 
         public void agregarALista(BindingList<IRestriccion> lista)

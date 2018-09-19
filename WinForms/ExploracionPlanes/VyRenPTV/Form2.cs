@@ -123,10 +123,10 @@ namespace ExploracionPlanes
         private void BT_SeleccionarPlantillas_Click(object sender, EventArgs e)
         {
             DGV_Estructuras.ColumnCount = 2;
-            foreach (string region in plantillaSeleccionada().estructuras())
+            foreach (Estructura estructura in plantillaSeleccionada().estructuras())
             {
                 DGV_Estructuras.Rows.Add();
-                DGV_Estructuras.Rows[DGV_Estructuras.Rows.Count - 1].Cells[0].Value = region;
+                DGV_Estructuras.Rows[DGV_Estructuras.Rows.Count - 1].Cells[0].Value = estructura.nombre;
             }
             
             DataGridViewComboBoxColumn dgvCBCol = (DataGridViewComboBoxColumn)DGV_Estructuras.Columns[1];
@@ -138,7 +138,7 @@ namespace ExploracionPlanes
         {
             foreach (DataGridViewRow fila in DGV_Estructuras.Rows)
             {
-                (string)fila.Cells[0].Value
+                //(string)fila.Cells[0].Value;
             }
         }
     }

@@ -9,7 +9,18 @@ namespace ExploracionPlanes
     public class Estructura
     {
         public string nombre { get; set; }
-        public List<string> nombresAlt { get; set; }
+        public List<string> nombresPosibles { get; set; }
+
+        public static Estructura crear(string _nombre, List<string> _nombresAlt)
+        {
+            List<string> _nombresPosibles = _nombresAlt;
+            _nombresPosibles.Insert(0, _nombre);
+            return new Estructura()
+            {
+                nombre = _nombre,
+                nombresPosibles = _nombresPosibles,
+            };
+        }
         public static Structure asociarExacto(string nombreEstructura, List<Structure> set)
         {
             return set.Where(c => c.Name.Equals(nombreEstructura)).FirstOrDefault();

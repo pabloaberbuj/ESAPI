@@ -6,22 +6,19 @@ using System.ComponentModel;
 using VMS.TPS.Common.Model.API;
 using VMS.TPS.Common.Model.Types;
 
-
 namespace ExploracionPlanes
 {
-    public class RestriccionDosis: IRestriccion
+    public class RestriccionDosisMax : IRestriccion
     {
         public Estructura estructura { get; set; }
         public DoseValuePresentation doseValuePresentation { get; set; }
-        public VolumePresentation volumePresentation { get; set; }
         public bool esMenorQue { get; set; }
-        public double Volumen { get; set; }
         public double DosisMedida { get; set; }
         public double DosisEsperada { get; set; }
         public double DosisTolerable { get; set; }
         public double PrescripcionEstructura { get; set; }
         public string etiqueta { get; set; }
-        
+
         public int cumple()
         {
             if (esMenorQue)
@@ -56,16 +53,14 @@ namespace ExploracionPlanes
             }
         }
 
-        public static IRestriccion crear(Estructura _estructura, string _unidadDosis, string _unidadVolumen, bool _esMenorQue,
-            double _dosisEsperada, double _dosisTolerable, double _volumen = Double.NaN, double _prescripcionEstructura= Double.NaN)
+        public static IRestriccion crear(Estructura _estructura, string _unidadDosis, bool _esMenorQue,
+    double _dosisEsperada, double _dosisTolerable, double _prescripcionEstructura = Double.NaN)
         {
-            RestriccionDosis restriccion = new RestriccionDosis()
+            RestriccionDosisMax restriccion = new RestriccionDosisMax()
             {
                 estructura = _estructura,
                 doseValuePresentation = unidadesDosis(_unidadDosis),
-                volumePresentation = unidadesVolumen(_unidadVolumen),
                 esMenorQue = _esMenorQue,
-                Volumen = _volumen,
                 DosisEsperada = _dosisEsperada,
                 DosisTolerable = _dosisTolerable,
                 PrescripcionEstructura = _prescripcionEstructura,
@@ -76,8 +71,7 @@ namespace ExploracionPlanes
 
         public void crearEtiqueta()
         {
-            etiqueta = estructura.nombre + ": D" + Volumen.ToString();
-            
+            etiqueta = estructura.nombre + ": Dmax";
             if (!Double.IsNaN(DosisEsperada))
             {
                 if (esMenorQue)
@@ -102,14 +96,14 @@ namespace ExploracionPlanes
                     etiqueta += "% (donde 100% =" + PrescripcionEstructura.ToString() + "Gy)";
                 }
             }
-            
+
         }
 
-        
+
 
         public static DoseValuePresentation unidadesDosis(string unidad)
         {
-            if (unidad=="Gy")
+            if (unidad == "Gy")
             {
                 return DoseValuePresentation.Absolute;
             }
@@ -119,21 +113,10 @@ namespace ExploracionPlanes
             }
         }
 
-        public static VolumePresentation unidadesVolumen(string unidad)
+        public  int analizarPlanEstructura(PlanSetup plan, Structure estructura)
         {
-            if (unidad=="%")
-            {
-                return VolumePresentation.Relative;
-            }
-            else
-            {
-                return VolumePresentation.AbsoluteCm3;
-            }
-        }
-
-        public int analizarPlanEstructura (PlanSetup plan, Structure estructura)
-        {
-            DosisMedida = plan.GetDoseAtVolume(estructura, Volumen, volumePresentation, doseValuePresentation).Dose;
+            
+            DosisMedida = plan.GetDoseAtVolume(estructura, 0.000001, VolumePresentation.AbsoluteCm3, doseValuePresentation).Dose; 
             return cumple();
         }
 
@@ -142,30 +125,32 @@ namespace ExploracionPlanes
             lista.Add(this);
         }
 
-     /*   public void editar(IRestriccion restriccion, string Estructura, List<string> nombresAlt, int tipoRest, double valorCorresp, bool esMenor, double valorEsperado, double valorTolerado, string unidadCorresp, string unidadEsperado)
-        {
-            Estructura = ((RestriccionDosis)restriccion).estructura;
-            nombresAlt = ((RestriccionDosis)restriccion).estructuraNombresPosibles;
-            nombresAlt.Remove(((RestriccionDosis)restriccion).estructura);
-            if (esDosisMedia)
-            {
-                tipoRest = 1;
-            }
-            else if (esDosisMaxima)
-            {
-                tipoRest = 2;
-            }
-            else
-            {
-                tipoRest = 0;
-            }
-            esMenor = ((RestriccionDosis)restriccion).esMenorQue;
-            valorCorresp = ((RestriccionDosis)restriccion).Volumen;
-            DosisEsperada = ((RestriccionDosis)restriccion).DosisEsperada;
-            DosisMedida = ((RestriccionDosis)restriccion).DosisMedida;
+        /*   public void editar(IRestriccion restriccion, string Estructura, List<string> nombresAlt, int tipoRest, double valorCorresp, bool esMenor, double valorEsperado, double valorTolerado, string unidadCorresp, string unidadEsperado)
+           {
+               Estructura = ((RestriccionDosis)restriccion).estructura;
+               nombresAlt = ((RestriccionDosis)restriccion).estructuraNombresPosibles;
+               nombresAlt.Remove(((RestriccionDosis)restriccion).estructura);
+               if (esDosisMedia)
+               {
+                   tipoRest = 1;
+               }
+               else if (esDosisMaxima)
+               {
+                   tipoRest = 2;
+               }
+               else
+               {
+                   tipoRest = 0;
+               }
+               esMenor = ((RestriccionDosis)restriccion).esMenorQue;
+               valorCorresp = ((RestriccionDosis)restriccion).Volumen;
+               DosisEsperada = ((RestriccionDosis)restriccion).DosisEsperada;
+               DosisMedida = ((RestriccionDosis)restriccion).DosisMedida;
 
 
 
-        }*/
+           }*/
     }
 }
+
+

@@ -30,9 +30,9 @@ namespace ExploracionPlanes
 
         }
 
-        private string estructura()
+        private Estructura estructura()
         {
-            return CB_Estructura.Text;
+            return Estructura.crear(CB_Estructura.Text, estructuraNombresAlt());
         }
 
         private List<string> estructuraNombresAlt()
@@ -254,13 +254,21 @@ namespace ExploracionPlanes
         }
         private IRestriccion restriccionActual()
         {
-            if (!esRestriccionVolumen())
+            if (esRestriccionDosis())
             {
-                return RestriccionDosis.crear(estructura(), estructuraNombresAlt(), unidadDosis(), unidadVolumen(), esRestriccionDmax(), esRestriccionDmedia(), esMenorQue(), dosisEsperada(), dosisTolerada(), volumenCorrespondiente(), PrescripcionEstructura());
+                return RestriccionDosis.crear(estructura(), unidadDosis(), unidadVolumen(), esMenorQue(), dosisEsperada(), dosisTolerada(), volumenCorrespondiente(), PrescripcionEstructura());
             }
-            else
+            else if (esRestriccionDmedia())
             {
-                return RestriccionVolumen.crear(estructura(), estructuraNombresAlt(), unidadDosis(), unidadVolumen(), esMenorQue(), volumenEsperado(), volumenTolerado(), dosisCorrespondiente());
+                return RestriccionDosisMedia.crear(estructura(), unidadDosis(), esMenorQue(), dosisEsperada(), dosisTolerada(), PrescripcionEstructura());
+            }
+            else if (esRestriccionDmax())
+            {
+                return RestriccionDosisMax.crear(estructura(), unidadDosis(), esMenorQue(), dosisEsperada(), dosisTolerada(), PrescripcionEstructura());
+            }
+            else //esRestriccionVolumen
+            {
+                return RestriccionVolumen.crear(estructura(), unidadDosis(), unidadVolumen(), esMenorQue(), volumenEsperado(), volumenTolerado(), dosisCorrespondiente());
             }
 
         }
