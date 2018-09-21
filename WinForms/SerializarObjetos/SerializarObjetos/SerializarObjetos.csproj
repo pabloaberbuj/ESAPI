@@ -66,6 +66,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clase1.cs" />
+    <Compile Include="Clase2.cs" />
     <Compile Include="Serializador.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
