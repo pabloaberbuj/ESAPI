@@ -47,7 +47,6 @@
             this.DGV_Análisis = new System.Windows.Forms.DataGridView();
             this.label6 = new System.Windows.Forms.Label();
             this.BT_Analizar = new System.Windows.Forms.Button();
-            this.BT_GuardarPaciente = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).BeginInit();
             this.SuspendLayout();
@@ -202,7 +201,7 @@
             this.DGV_Análisis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_Análisis.Location = new System.Drawing.Point(475, 33);
             this.DGV_Análisis.Name = "DGV_Análisis";
-            this.DGV_Análisis.Size = new System.Drawing.Size(239, 348);
+            this.DGV_Análisis.Size = new System.Drawing.Size(427, 348);
             this.DGV_Análisis.TabIndex = 16;
             // 
             // label6
@@ -210,9 +209,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(472, 9);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(126, 13);
+            this.label6.Size = new System.Drawing.Size(44, 13);
             this.label6.TabIndex = 17;
-            this.label6.Text = "Compatibilizar estructuras";
+            this.label6.Text = "Analizar";
             // 
             // BT_Analizar
             // 
@@ -222,23 +221,13 @@
             this.BT_Analizar.TabIndex = 18;
             this.BT_Analizar.Text = "Analizar";
             this.BT_Analizar.UseVisualStyleBackColor = true;
-            // 
-            // BT_GuardarPaciente
-            // 
-            this.BT_GuardarPaciente.Location = new System.Drawing.Point(65, 134);
-            this.BT_GuardarPaciente.Name = "BT_GuardarPaciente";
-            this.BT_GuardarPaciente.Size = new System.Drawing.Size(100, 23);
-            this.BT_GuardarPaciente.TabIndex = 19;
-            this.BT_GuardarPaciente.Text = "Guardar Paciente";
-            this.BT_GuardarPaciente.UseVisualStyleBackColor = true;
-            this.BT_GuardarPaciente.Click += new System.EventHandler(this.BT_GuardarPaciente_Click);
+            this.BT_Analizar.Click += new System.EventHandler(this.BT_Analizar_Click);
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(726, 410);
-            this.Controls.Add(this.BT_GuardarPaciente);
+            this.ClientSize = new System.Drawing.Size(914, 410);
             this.Controls.Add(this.BT_Analizar);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.DGV_Análisis);
@@ -286,6 +275,5 @@
         private System.Windows.Forms.Button BT_Analizar;
         private System.Windows.Forms.DataGridViewTextBoxColumn dePlantilla;
         private System.Windows.Forms.DataGridViewComboBoxColumn delPlan;
-        private System.Windows.Forms.Button BT_GuardarPaciente;
     }
 }

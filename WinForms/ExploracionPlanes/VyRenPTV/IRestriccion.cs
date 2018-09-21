@@ -16,9 +16,11 @@ namespace ExploracionPlanes
         void agregarALista(BindingList<IRestriccion> lista);
         void crearEtiqueta();
         int cumple();
-        int analizarPlanEstructura(PlanSetup plan, Structure estructura);
-        int analizarPlan(PlanSetup plan);
-        
+        void analizarPlanEstructura(PlanSetup plan, Structure estructura);
+        //int analizarPlan(PlanSetup plan);
+
+        double valorMedido();
+        double valorEsperado();
         //IRestriccion crear();
         /*/void editar(IRestriccion restriccion, string Estructura, List<string> nombresAlt, int tipoRest,
             double valorCorresp, bool esMenor, double valorEsperado, double valorTolerado,

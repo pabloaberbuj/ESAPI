@@ -113,16 +113,18 @@ namespace ExploracionPlanes
             }
         }
 
-        public  int analizarPlanEstructura(PlanSetup plan, Structure estructura) //Ver cuál sirve
+        public  void analizarPlanEstructura(PlanSetup plan, Structure estructura) //Ver cuál sirve
         {
             //DosisMedida = plan.GetDVHCumulativeData(estructura, doseValuePresentation, VolumePresentation.Relative, 0.1).MaxDose.Dose;
-            DosisMedida = plan.GetDoseAtVolume(estructura, 0.000001, VolumePresentation.AbsoluteCm3, doseValuePresentation).Dose; 
-            return cumple();
-        }
-
-        public int analizarPlan(PlanSetup plan)
-        {
-            return analizarPlanEstructura(plan, Estructura.asociarConLista(this.estructura.nombresPosibles, Estructura.listaEstructuras(plan)));
+            if (doseValuePresentation == DoseValuePresentation.Absolute)
+            {
+                DosisMedida = Math.Round(plan.GetDoseAtVolume(estructura, 0.000001, VolumePresentation.AbsoluteCm3, doseValuePresentation).Dose / 100, 2);
+            }
+            else
+            {
+                DosisMedida = Math.Round(plan.GetDoseAtVolume(estructura, 0.000001, VolumePresentation.AbsoluteCm3, doseValuePresentation).Dose, 2);
+            }
+                
         }
 
         public void agregarALista(BindingList<IRestriccion> lista)
@@ -155,6 +157,16 @@ namespace ExploracionPlanes
 
 
            }*/
+
+        public double valorMedido()
+        {
+            return DosisMedida;
+        }
+
+        public double valorEsperado()
+        {
+            return DosisEsperada;
+        }
     }
 }
 

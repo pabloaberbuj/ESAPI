@@ -131,46 +131,59 @@ namespace ExploracionPlanes
             }
         }
 
-        public int analizarPlanEstructura (PlanSetup plan, Structure estructura)
+        public void analizarPlanEstructura (PlanSetup plan, Structure estructura)
         {
-            DosisMedida = plan.GetDoseAtVolume(estructura, Volumen, volumePresentation, doseValuePresentation).Dose;
-            return cumple();
+            if (doseValuePresentation == DoseValuePresentation.Absolute)
+            {
+                DosisMedida = Math.Round(plan.GetDoseAtVolume(estructura, Volumen, volumePresentation, doseValuePresentation).Dose / 100, 2);
+            }
+            else
+            {
+                DosisMedida = Math.Round(plan.GetDoseAtVolume(estructura, Volumen, volumePresentation, doseValuePresentation).Dose, 2);
+            }
+                
         }
 
-        public int analizarPlan(PlanSetup plan)
-        {
-            return analizarPlanEstructura(plan, Estructura.asociarConLista(this.estructura.nombresPosibles, Estructura.listaEstructuras(plan)));
-        }
-
+        
         public void agregarALista(BindingList<IRestriccion> lista)
         {
             lista.Add(this);
         }
 
-     /*   public void editar(IRestriccion restriccion, string Estructura, List<string> nombresAlt, int tipoRest, double valorCorresp, bool esMenor, double valorEsperado, double valorTolerado, string unidadCorresp, string unidadEsperado)
+        /*   public void editar(IRestriccion restriccion, string Estructura, List<string> nombresAlt, int tipoRest, double valorCorresp, bool esMenor, double valorEsperado, double valorTolerado, string unidadCorresp, string unidadEsperado)
+           {
+               Estructura = ((RestriccionDosis)restriccion).estructura;
+               nombresAlt = ((RestriccionDosis)restriccion).estructuraNombresPosibles;
+               nombresAlt.Remove(((RestriccionDosis)restriccion).estructura);
+               if (esDosisMedia)
+               {
+                   tipoRest = 1;
+               }
+               else if (esDosisMaxima)
+               {
+                   tipoRest = 2;
+               }
+               else
+               {
+                   tipoRest = 0;
+               }
+               esMenor = ((RestriccionDosis)restriccion).esMenorQue;
+               valorCorresp = ((RestriccionDosis)restriccion).Volumen;
+               DosisEsperada = ((RestriccionDosis)restriccion).DosisEsperada;
+               DosisMedida = ((RestriccionDosis)restriccion).DosisMedida;
+
+
+
+           }*/
+
+        public double valorMedido()
         {
-            Estructura = ((RestriccionDosis)restriccion).estructura;
-            nombresAlt = ((RestriccionDosis)restriccion).estructuraNombresPosibles;
-            nombresAlt.Remove(((RestriccionDosis)restriccion).estructura);
-            if (esDosisMedia)
-            {
-                tipoRest = 1;
-            }
-            else if (esDosisMaxima)
-            {
-                tipoRest = 2;
-            }
-            else
-            {
-                tipoRest = 0;
-            }
-            esMenor = ((RestriccionDosis)restriccion).esMenorQue;
-            valorCorresp = ((RestriccionDosis)restriccion).Volumen;
-            DosisEsperada = ((RestriccionDosis)restriccion).DosisEsperada;
-            DosisMedida = ((RestriccionDosis)restriccion).DosisMedida;
+            return DosisMedida;
+        }
 
-
-
-        }*/
+        public double valorEsperado()
+        {
+            return DosisEsperada;
+        }
     }
 }

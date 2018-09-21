@@ -74,12 +74,13 @@ namespace ExploracionPlanes
             return estructuras;
         }
 
-        public void analizar(PlanSetup plan)
+/*        public void analizar(PlanSetup plan)
         {
             foreach(IRestriccion restriccion in this.listaRestricciones)
             {
-                restriccion.analizarPlan(plan);
+                restriccion.estructura.nombre
+                //restriccion.analizarPlan(plan);
             }
-        }
+        }*/
     }
 }

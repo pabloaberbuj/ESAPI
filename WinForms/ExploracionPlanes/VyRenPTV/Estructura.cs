@@ -21,19 +21,19 @@ namespace ExploracionPlanes
                 nombresPosibles = _nombresPosibles,
             };
         }
-        public static Structure asociarExacto(string nombreEstructura, List<Structure> set)
+        public static string asociarExactoID(string nombreEstructura, List<string> listaEstructurasID)
         {
-            return set.Where(c => c.Name.Equals(nombreEstructura)).FirstOrDefault();
+            return listaEstructurasID.Where(c => c.Equals(nombreEstructura)).FirstOrDefault();
         }
 
-        public static Structure asociarConLista(List<string> listaNombres, List<Structure> set)
+        public static Structure asociarConLista(List<string> listaNombres, List<Structure> listaEstructura)
         {
             foreach (string nombre in listaNombres)
             {
-                Structure estructura = asociarExacto(nombre, set);
-                if (estructura!=null)
+                string estructuraID = asociarExactoID(nombre, listaEstructurasID(listaEstructura));
+                if (!string.IsNullOrEmpty(estructuraID))
                 {
-                    return estructura;
+                    return listaEstructura.Where(c => c.Id.Equals(estructuraID)).FirstOrDefault();
                 }
             }
             return null;
@@ -45,12 +45,19 @@ namespace ExploracionPlanes
             List<Structure> filtradas = new List<Structure>();
             foreach (Structure estructura in sinFiltrar)
             {
-                if (estructura.DicomType != "BODY" && estructura.DicomType != "Support")
+                if (estructura.DicomType != "EXTERNAL" && estructura.DicomType != "SUPPORT")
                 {
                     filtradas.Add(estructura);
                 }
             }
             return filtradas;
         }
+
+        public static List<string> listaEstructurasID(List<Structure> lista)
+        {
+            return lista.Select(e => e.Id).ToList<string>();
+        }
+
+
     }
 }

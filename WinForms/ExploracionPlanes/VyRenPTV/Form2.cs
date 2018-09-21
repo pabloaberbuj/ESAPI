@@ -17,7 +17,7 @@ namespace ExploracionPlanes
         Patient paciente;
         Course curso;
         PlanSetup plan;
-        
+
 
         public Form2(Main main)
         {
@@ -85,7 +85,7 @@ namespace ExploracionPlanes
             return curso.PlanSetups.ToList<PlanSetup>();
         }
 
-       
+
 
         private void BT_AbrirPaciente_Click(object sender, EventArgs e)
         {
@@ -109,31 +109,85 @@ namespace ExploracionPlanes
 
         private void BT_SeleccionarPlantillas_Click(object sender, EventArgs e)
         {
+            DGV_Estructuras.Rows.Clear();
             DGV_Estructuras.ColumnCount = 2;
             foreach (Estructura estructura in plantillaSeleccionada().estructuras())
             {
                 DGV_Estructuras.Rows.Add();
                 DGV_Estructuras.Rows[DGV_Estructuras.Rows.Count - 1].Cells[0].Value = estructura.nombre;
             }
-            
+
             DataGridViewComboBoxColumn dgvCBCol = (DataGridViewComboBoxColumn)DGV_Estructuras.Columns[1];
-            dgvCBCol.DataSource = Estructura.listaEstructuras(planSeleccionado());
-            dgvCBCol.DisplayMember = "Id";
-            dgvCBCol.ValueMember = "Id";
+            dgvCBCol.DataSource = Estructura.listaEstructurasID(Estructura.listaEstructuras(planSeleccionado()));
+            asociarEstructuras();
+
         }
 
-        private void asociarEstructuras() //CHEQUEAR SI FUNCIONA!!!!!
+        private void asociarEstructuras()
         {
-            for (int i=0; i<DGV_Estructuras.Rows.Count;i++)
+            for (int i = 0; i < DGV_Estructuras.Rows.Count; i++)
             {
                 Structure estructura = Estructura.asociarConLista(plantillaSeleccionada().estructuras()[i].nombresPosibles, Estructura.listaEstructuras(planSeleccionado()));
-                (DGV_Estructuras.Rows[i].Cells[1]).Value = estructura.Id;
+                if (estructura!=null)
+                {
+                    (DGV_Estructuras.Rows[i].Cells[1]).Value = estructura.Id;
+                }
+                else
+                {
+                    (DGV_Estructuras.Rows[i].Cells[1]).Value = "";
+                }
+                
             }
         }
 
-        private void BT_GuardarPaciente_Click(object sender, EventArgs e)
+        private void llenarDGVAnalisis()
         {
-            IO.writeObjectAsJson("paciente " + paciente.Id, paciente);
+            DGV_Análisis.Rows.Clear();
+            DGV_Análisis.ColumnCount = 3;
+            for (int i=0; i<plantillaSeleccionada().listaRestricciones.Count;i++)
+            {
+                IRestriccion restriccion = plantillaSeleccionada().listaRestricciones[i];
+                restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
+                DGV_Análisis.Rows.Add();
+                DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiqueta;
+                DGV_Análisis.Rows[i].Cells[1].Value = restriccion.valorMedido();
+                colorCelda(DGV_Análisis.Rows[i].Cells[1], restriccion.cumple());
+                DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorEsperado();
+            }
+        }
+
+        private Structure estructuraCorrespondiente(string nombreEstructura)
+        {
+            foreach (DataGridViewRow fila in DGV_Estructuras.Rows)
+            {
+                if (fila.Cells[0].Value.Equals(nombreEstructura))
+                {
+                    string estructuraID = (string)(fila.Cells[1].Value);
+                    return Estructura.listaEstructuras(planSeleccionado()).Where(s => s.Id.Equals(estructuraID)).FirstOrDefault();
+                }
+            }
+            return null;
+        }
+
+        private void BT_Analizar_Click(object sender, EventArgs e)
+        {
+            llenarDGVAnalisis();
+        }
+
+        private void colorCelda(DataGridViewCell celda, int comparacion)
+        {
+            if (comparacion==0)
+            {
+                celda.Style.BackColor = Color.LightGreen;
+            }
+            else if (comparacion==1)
+            {
+                celda.Style.BackColor = Color.LightYellow;
+            }
+            else
+            {
+                celda.Style.BackColor = Color.Red;
+            }
         }
     }
 }

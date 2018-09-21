@@ -125,21 +125,35 @@ namespace ExploracionPlanes
             }
         }
 
-        public int analizarPlanEstructura(PlanSetup plan, Structure estructura)
+        public void analizarPlanEstructura(PlanSetup plan, Structure estructura)
         {
-            DoseValue dosis = new DoseValue(Dosis, DoseValue.DoseUnit.Gy);
-            VolumenMedido = plan.GetVolumeAtDose(estructura, dosis, volumePresentation);
-            return cumple();
+            DoseValue dosis = new DoseValue();
+            if (doseValuePresentation == DoseValuePresentation.Absolute)
+            {
+                dosis = new DoseValue(Dosis*100, DoseValue.DoseUnit.cGy);
+            }
+            else
+            {
+                dosis = new DoseValue(Dosis, DoseValue.DoseUnit.Percent);
+            }
+            VolumenMedido = Math.Round(plan.GetVolumeAtDose(estructura, dosis, volumePresentation),2);
+
         }
 
-        public int analizarPlan(PlanSetup plan)
-        {
-            return analizarPlanEstructura(plan, Estructura.asociarConLista(this.estructura.nombresPosibles, Estructura.listaEstructuras(plan)));
-        }
 
         public void agregarALista(BindingList<IRestriccion> lista)
         {
             lista.Add(this);
+        }
+
+        public double valorMedido()
+        {
+            return VolumenMedido;
+        }
+
+        public double valorEsperado()
+        {
+            return VolumenEsperado;
         }
     }
 }

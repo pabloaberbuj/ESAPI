@@ -16,6 +16,8 @@ namespace ExploracionPlanes
         public Main()
         {
             InitializeComponent();
+            LB_Plantillas.DataSource = Plantilla.leerPlantillas();
+            LB_Plantillas.DisplayMember = "nombre";
         }
 
         private void BT_Nueva_Click(object sender, EventArgs e)
@@ -32,7 +34,9 @@ namespace ExploracionPlanes
 
         private void BT_AplicarAUnPlan_Click(object sender, EventArgs e)
         {
-            //aplicarPlantilla = new d
+            aplicarPlantilla = new Form2(this);
+            aplicarPlantilla.Show();
+
         }
     }
 }

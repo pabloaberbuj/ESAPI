@@ -211,7 +211,10 @@ namespace ExploracionPlanes
         {
             restriccionActual().agregarALista(listaRestricciones);
             limpiarPrescripcion();
-            CB_Estructura.Items.Add(estructura());
+            if (!CB_Estructura.Items.Contains(estructura().nombre))
+            {
+                CB_Estructura.Items.Add(estructura().nombre);
+            }
             CB_PrescripcionEstructura.Items.Add(PrescripcionEstructura());
             fijarEsParaExtraccion();
 
