@@ -15,21 +15,21 @@ namespace ExploracionPlanes
         public DoseValuePresentation doseValuePresentation { get; set; }
         public VolumePresentation volumePresentation { get; set; }
         public bool esMenorQue { get; set; }
-        public double Dosis { get; set; }
-        public double VolumenMedido { get; set; }
-        public double VolumenEsperado { get; set; }
-        public double VolumenTolerable { get; set; }
+        public double valorCorrespondiente { get; set; }
+        public double valorMedido { get; set; }
+        public double valorEsperado { get; set; }
+        public double valorTolerado { get; set; }
         public string etiqueta { get; set; }
 
         public int cumple()
         {
             if (esMenorQue)
             {
-                if (VolumenMedido <= VolumenEsperado)
+                if (valorMedido <= valorEsperado)
                 {
                     return 0;
                 }
-                else if (!Double.IsNaN(VolumenTolerable) && VolumenMedido <= VolumenTolerable)
+                else if (!Double.IsNaN(valorTolerado) && valorMedido <= valorTolerado)
                 {
                     return 1;
                 }
@@ -40,11 +40,11 @@ namespace ExploracionPlanes
             }
             else
             {
-                if (VolumenMedido >= VolumenEsperado)
+                if (valorMedido >= valorEsperado)
                 {
                     return 0;
                 }
-                else if (!Double.IsNaN(VolumenTolerable) && VolumenMedido >= VolumenTolerable)
+                else if (!Double.IsNaN(valorTolerado) && valorMedido >= valorTolerado)
                 {
                     return 1;
                 }
@@ -63,9 +63,9 @@ namespace ExploracionPlanes
                 doseValuePresentation = unidadesDosis(_unidadDosis),
                 volumePresentation = unidadesVolumen(_unidadVolumen),
                 esMenorQue = _esMenorQue,
-                Dosis = _dosis,
-                VolumenEsperado = _volumenEsperado,
-                VolumenTolerable = _volumenTolerable,
+                valorCorrespondiente = _dosis,
+                valorEsperado = _volumenEsperado,
+                valorTolerado = _volumenTolerable,
             };
             restriccion.crearEtiqueta();
             return restriccion;
@@ -74,8 +74,8 @@ namespace ExploracionPlanes
         public void crearEtiqueta()
         {
             etiqueta = estructura.nombre + ": ";
-            etiqueta += "V" + Dosis.ToString();
-            if (!Double.IsNaN(VolumenEsperado))
+            etiqueta += "V" + valorCorrespondiente.ToString();
+            if (!Double.IsNaN(valorEsperado))
             {
                 if (esMenorQue)
                 {
@@ -85,10 +85,10 @@ namespace ExploracionPlanes
                 {
                     etiqueta += " > ";
                 }
-                etiqueta += VolumenEsperado.ToString();
-                if (!Double.IsNaN(VolumenTolerable))
+                etiqueta += valorEsperado.ToString();
+                if (!Double.IsNaN(valorTolerado))
                 {
-                    etiqueta += " (" + VolumenTolerable.ToString() + ")";
+                    etiqueta += " (" + valorTolerado.ToString() + ")";
                 }
                 if (volumePresentation == VolumePresentation.Relative)
                 {
@@ -130,13 +130,13 @@ namespace ExploracionPlanes
             DoseValue dosis = new DoseValue();
             if (doseValuePresentation == DoseValuePresentation.Absolute)
             {
-                dosis = new DoseValue(Dosis*100, DoseValue.DoseUnit.cGy);
+                dosis = new DoseValue(valorCorrespondiente*100, DoseValue.DoseUnit.cGy);
             }
             else
             {
-                dosis = new DoseValue(Dosis, DoseValue.DoseUnit.Percent);
+                dosis = new DoseValue(valorCorrespondiente, DoseValue.DoseUnit.Percent);
             }
-            VolumenMedido = Math.Round(plan.GetVolumeAtDose(estructura, dosis, volumePresentation),2);
+            valorMedido = Math.Round(plan.GetVolumeAtDose(estructura, dosis, volumePresentation),2);
 
         }
 
@@ -145,16 +145,6 @@ namespace ExploracionPlanes
         {
             lista.Add(this);
         }
-
-        public double valorMedido()
-        {
-            return VolumenMedido;
-        }
-
-        public double valorEsperado()
-        {
-            return VolumenEsperado;
-        }
-    }
+     }
 }
 

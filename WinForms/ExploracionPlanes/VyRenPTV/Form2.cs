@@ -150,9 +150,9 @@ namespace ExploracionPlanes
                 restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
                 DGV_Análisis.Rows.Add();
                 DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiqueta;
-                DGV_Análisis.Rows[i].Cells[1].Value = restriccion.valorMedido();
+                DGV_Análisis.Rows[i].Cells[1].Value = restriccion.valorMedido;
                 colorCelda(DGV_Análisis.Rows[i].Cells[1], restriccion.cumple());
-                DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorEsperado();
+                DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorEsperado;
             }
         }
 
