@@ -120,7 +120,6 @@ namespace ExploracionPlanes
             DataGridViewComboBoxColumn dgvCBCol = (DataGridViewComboBoxColumn)DGV_Estructuras.Columns[1];
             dgvCBCol.DataSource = Estructura.listaEstructurasID(Estructura.listaEstructuras(planSeleccionado()));
             asociarEstructuras();
-
         }
 
         private void asociarEstructuras()
@@ -136,7 +135,6 @@ namespace ExploracionPlanes
                 {
                     (DGV_Estructuras.Rows[i].Cells[1]).Value = "";
                 }
-                
             }
         }
 
@@ -149,10 +147,10 @@ namespace ExploracionPlanes
                 IRestriccion restriccion = plantillaSeleccionada().listaRestricciones[i];
                 restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
                 DGV_Análisis.Rows.Add();
-                DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiqueta;
-                DGV_Análisis.Rows[i].Cells[1].Value = restriccion.valorMedido;
+                DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiquetaInicio;
+                DGV_Análisis.Rows[i].Cells[1].Value = restriccion.valorMedido + " " + restriccion.unidadValor;
                 colorCelda(DGV_Análisis.Rows[i].Cells[1], restriccion.cumple());
-                DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorEsperado;
+                DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorEsperado + " " + restriccion.unidadValor; 
             }
         }
 

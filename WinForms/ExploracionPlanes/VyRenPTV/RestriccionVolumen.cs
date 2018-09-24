@@ -12,14 +12,17 @@ namespace ExploracionPlanes
     {
         public Estructura estructura { get; set; }
         public List<string> estructuraNombresPosibles { get; set; }
-        public DoseValuePresentation doseValuePresentation { get; set; }
-        public VolumePresentation volumePresentation { get; set; }
+        public string unidadValor { get; set; }
+        public string unidadCorrespondiente { get; set; }
         public bool esMenorQue { get; set; }
         public double valorCorrespondiente { get; set; }
         public double valorMedido { get; set; }
         public double valorEsperado { get; set; }
         public double valorTolerado { get; set; }
+        public double prescripcionEstructura { get; set; }
+        public string etiquetaInicio { get; set; }
         public string etiqueta { get; set; }
+        
 
         public int cumple()
         {
@@ -54,27 +57,31 @@ namespace ExploracionPlanes
                 }
             }
         }
-        public static IRestriccion crear(Estructura _estructura, string _unidadDosis, string _unidadVolumen, bool _esMenorQue,
-            double _volumenEsperado, double _volumenTolerable, double _dosis)
+        public IRestriccion crear(Estructura _estructura, string _unidadValor, string _unidadCorrespondiente, bool _esMenorQue,
+            double _valorEsperado, double _valorTolerado, double _valorCorrespondiente)
         {
             RestriccionVolumen restriccion = new RestriccionVolumen()
             {
                 estructura = _estructura,
-                doseValuePresentation = unidadesDosis(_unidadDosis),
-                volumePresentation = unidadesVolumen(_unidadVolumen),
+                unidadValor = _unidadValor,
+                unidadCorrespondiente = _unidadCorrespondiente,
                 esMenorQue = _esMenorQue,
-                valorCorrespondiente = _dosis,
-                valorEsperado = _volumenEsperado,
-                valorTolerado = _volumenTolerable,
+                valorCorrespondiente = _valorCorrespondiente,
+                valorEsperado = _valorEsperado,
+                valorTolerado = _valorTolerado,
             };
+            restriccion.crearEtiquetaInicio();
             restriccion.crearEtiqueta();
             return restriccion;
         }
 
+        public void crearEtiquetaInicio()
+        {
+            etiquetaInicio = estructura.nombre + ": " + "V" + valorCorrespondiente.ToString() + unidadCorrespondiente;
+        }
         public void crearEtiqueta()
         {
-            etiqueta = estructura.nombre + ": ";
-            etiqueta += "V" + valorCorrespondiente.ToString();
+            etiqueta = etiquetaInicio;
             if (!Double.IsNaN(valorEsperado))
             {
                 if (esMenorQue)
@@ -88,56 +95,30 @@ namespace ExploracionPlanes
                 etiqueta += valorEsperado.ToString();
                 if (!Double.IsNaN(valorTolerado))
                 {
-                    etiqueta += " (" + valorTolerado.ToString() + ")";
+                    etiqueta += " (" + valorTolerado.ToString() + ") ";
                 }
-                if (volumePresentation == VolumePresentation.Relative)
-                {
-                    etiqueta += "%";
-                }
-                else
-                {
-                    etiqueta += "cm3";
-                }
-            }
-        }
-
-        public static DoseValuePresentation unidadesDosis(string unidad)
-        {
-            if (unidad == "Gy")
-            {
-                return DoseValuePresentation.Absolute;
-            }
-            else
-            {
-                return DoseValuePresentation.Relative;
-            }
-        }
-
-        public static VolumePresentation unidadesVolumen(string unidad)
-        {
-            if (unidad == "%")
-            {
-                return VolumePresentation.Relative;
-            }
-            else
-            {
-                return VolumePresentation.AbsoluteCm3;
+                etiqueta += unidadValor;
             }
         }
 
         public void analizarPlanEstructura(PlanSetup plan, Structure estructura)
         {
-            DoseValue dosis = new DoseValue();
-            if (doseValuePresentation == DoseValuePresentation.Absolute)
+            VolumePresentation volumePresentation;
+            if (unidadCorrespondiente == "%")
             {
-                dosis = new DoseValue(valorCorrespondiente*100, DoseValue.DoseUnit.cGy);
+                valorCorrespondiente = valorCorrespondiente * prescripcionEstructura / 100; //Convierto el % a Gy para extraer
+            }
+            DoseValue dosis = new DoseValue(valorCorrespondiente * 100, DoseValue.DoseUnit.cGy);
+            
+            if (unidadValor == "%")
+            {
+                volumePresentation = VolumePresentation.Relative;
             }
             else
             {
-                dosis = new DoseValue(valorCorrespondiente, DoseValue.DoseUnit.Percent);
+                volumePresentation = VolumePresentation.AbsoluteCm3;
             }
-            valorMedido = Math.Round(plan.GetVolumeAtDose(estructura, dosis, volumePresentation),2);
-
+            valorMedido = Math.Round(plan.GetVolumeAtDose(estructura, dosis, volumePresentation), 2);
         }
 
 

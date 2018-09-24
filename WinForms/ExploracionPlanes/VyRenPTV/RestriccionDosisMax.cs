@@ -11,13 +11,15 @@ namespace ExploracionPlanes
     public class RestriccionDosisMax : IRestriccion
     {
         public Estructura estructura { get; set; }
-        public DoseValuePresentation doseValuePresentation { get; set; }
+        public string unidadValor { get; set; }
+        public string unidadCorrespondiente { get; set; }
         public bool esMenorQue { get; set; }
         public double valorMedido { get; set; }
         public double valorEsperado { get; set; }
         public double valorTolerado { get; set; }
         public double valorCorrespondiente { get; set; }
-        public double PrescripcionEstructura { get; set; }
+        public double prescripcionEstructura { get; set; }
+        public string etiquetaInicio { get; set; }
         public string etiqueta { get; set; }
 
         public int cumple()
@@ -54,25 +56,31 @@ namespace ExploracionPlanes
             }
         }
 
-        public static IRestriccion crear(Estructura _estructura, string _unidadDosis, bool _esMenorQue,
-    double _dosisEsperada, double _dosisTolerable, double _prescripcionEstructura = Double.NaN)
+        
+
+        public IRestriccion crear(Estructura _estructura, string _unidadValor, string _unidadCorrespondiente, bool _esMenorQue,
+    double _valorEsperado, double _valorTolerable, double _valorCorrespondiente)
         {
             RestriccionDosisMax restriccion = new RestriccionDosisMax()
             {
                 estructura = _estructura,
-                doseValuePresentation = unidadesDosis(_unidadDosis),
+                unidadValor = _unidadValor,
                 esMenorQue = _esMenorQue,
-                valorEsperado = _dosisEsperada,
-                valorTolerado = _dosisTolerable,
-                PrescripcionEstructura = _prescripcionEstructura,
+                valorEsperado = _valorEsperado,
+                valorTolerado = _valorTolerable,
             };
+            restriccion.crearEtiquetaInicio();
             restriccion.crearEtiqueta();
             return restriccion;
         }
 
+        public void crearEtiquetaInicio()
+        {
+            etiquetaInicio = estructura.nombre + ": Dmax";
+        }
         public void crearEtiqueta()
         {
-            etiqueta = estructura.nombre + ": Dmax";
+            etiqueta = etiquetaInicio;
             if (!Double.IsNaN(valorEsperado))
             {
                 if (esMenorQue)
@@ -86,46 +94,26 @@ namespace ExploracionPlanes
                 etiqueta += valorEsperado.ToString();
                 if (!Double.IsNaN(valorTolerado))
                 {
-                    etiqueta += " (" + valorTolerado.ToString() + ")";
+                    etiqueta += " (" + valorTolerado.ToString() + ") ";
                 }
-                if (doseValuePresentation == DoseValuePresentation.Absolute)
-                {
-                    etiqueta += "Gy";
-                }
-                else
-                {
-                    etiqueta += "% (donde 100% =" + PrescripcionEstructura.ToString() + "Gy)";
-                }
+                etiqueta += unidadValor;
             }
 
         }
 
 
 
-        public static DoseValuePresentation unidadesDosis(string unidad)
-        {
-            if (unidad == "Gy")
-            {
-                return DoseValuePresentation.Absolute;
-            }
-            else
-            {
-                return DoseValuePresentation.Relative;
-            }
-        }
+        
 
         public void analizarPlanEstructura(PlanSetup plan, Structure estructura) //Ver cuál sirve
         {
-            //DosisMedida = plan.GetDVHCumulativeData(estructura, doseValuePresentation, VolumePresentation.Relative, 0.1).MaxDose.Dose;
-            if (doseValuePresentation == DoseValuePresentation.Absolute)
+            
+            DoseValuePresentation doseValuePresentation = DoseValuePresentation.Absolute;
+            valorMedido = Math.Round(plan.GetDoseAtVolume(estructura, 0.000001, VolumePresentation.AbsoluteCm3, doseValuePresentation).Dose / 100, 2);
+            if (unidadValor == "%")
             {
-                valorMedido = Math.Round(plan.GetDoseAtVolume(estructura, 0.000001, VolumePresentation.AbsoluteCm3, doseValuePresentation).Dose / 100, 2);
+                valorMedido = valorMedido / prescripcionEstructura * 100; //extraigo en Gy y paso a porcentaje
             }
-            else
-            {
-                valorMedido = Math.Round(plan.GetDoseAtVolume(estructura, 0.000001, VolumePresentation.AbsoluteCm3, doseValuePresentation).Dose, 2);
-            }
-
         }
 
         public void agregarALista(BindingList<IRestriccion> lista)

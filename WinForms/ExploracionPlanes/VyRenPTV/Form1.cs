@@ -46,21 +46,9 @@ namespace ExploracionPlanes
                 return new List<string>();
             }
         }
-        private double volumenCorrespondiente()
+        private double valorCorrespondiente()
         {
-            if (!esRestriccionVolumen() && !string.IsNullOrEmpty(TB_CorrespA.Text))
-            {
-                return Convert.ToDouble(TB_CorrespA.Text);
-            }
-            else
-            {
-                return Double.NaN;
-            }
-        }
-
-        private double dosisCorrespondiente()
-        {
-            if (esRestriccionVolumen() && !string.IsNullOrEmpty(TB_CorrespA.Text))
+            if (!string.IsNullOrEmpty(TB_CorrespA.Text))
             {
                 return Convert.ToDouble(TB_CorrespA.Text);
             }
@@ -85,9 +73,9 @@ namespace ExploracionPlanes
             return Plantilla.crear(nombrePlantilla(), esParaExtraccion(), listaRestricciones);
         }
 
-        private double dosisEsperada()
+        private double valorEsperado()
         {
-            if (!esRestriccionVolumen() && !String.IsNullOrEmpty(TB_ValorEsperado.Text))
+            if (!String.IsNullOrEmpty(TB_ValorEsperado.Text))
             {
                 return Convert.ToDouble(TB_ValorEsperado.Text);
             }
@@ -97,9 +85,9 @@ namespace ExploracionPlanes
             }
         }
 
-        private double dosisTolerada()
+        private double valorTolerado()
         {
-            if (!esRestriccionVolumen() && !String.IsNullOrEmpty(TB_ValorTolerado.Text))
+            if (!String.IsNullOrEmpty(TB_ValorTolerado.Text))
             {
                 return Convert.ToDouble(TB_ValorTolerado.Text);
             }
@@ -108,65 +96,14 @@ namespace ExploracionPlanes
                 return Double.NaN;
             }
         }
-
-        private double volumenEsperado()
+        private string unidadValor()
         {
-            if (esRestriccionVolumen() && !String.IsNullOrEmpty(TB_ValorEsperado.Text))
-            {
-                return Convert.ToDouble(TB_ValorEsperado.Text);
-            }
-            else
-            {
-                return Double.NaN;
-            }
+            return CB_ValorEsperadoUnidades.Text;
         }
 
-        private double volumenTolerado()
+        private string unidadCorrespondiente()
         {
-            if (esRestriccionVolumen() && !String.IsNullOrEmpty(TB_ValorTolerado.Text))
-            {
-                return Convert.ToDouble(TB_ValorTolerado.Text);
-            }
-            else
-            {
-                return Double.NaN;
-            }
-        }
-
-        private string unidadDosis()
-        {
-            if (esRestriccionVolumen())
-            {
-                return CB_CorrespAUnidades.Text;
-            }
-            else
-            {
-                return CB_ValorEsperadoUnidades.Text;
-            }
-        }
-
-        private string unidadVolumen()
-        {
-            if (esRestriccionVolumen())
-            {
-                return CB_ValorEsperadoUnidades.Text;
-            }
-            else
-            {
-                return CB_CorrespAUnidades.Text;
-            }
-        }
-
-        private double PrescripcionEstructura()
-        {
-            if (unidadDosis() == "%")
-            {
-                return Convert.ToDouble(CB_PrescripcionEstructura.Text);
-            }
-            else
-            {
-                return Double.NaN;
-            }
+            return CB_CorrespAUnidades.Text;
         }
 
         private bool esRestriccionDosis()
@@ -215,7 +152,6 @@ namespace ExploracionPlanes
             {
                 CB_Estructura.Items.Add(estructura().nombre);
             }
-            CB_PrescripcionEstructura.Items.Add(PrescripcionEstructura());
             fijarEsParaExtraccion();
 
         }
@@ -259,19 +195,19 @@ namespace ExploracionPlanes
         {
             if (esRestriccionDosis())
             {
-                return RestriccionDosis.crear(estructura(), unidadDosis(), unidadVolumen(), esMenorQue(), dosisEsperada(), dosisTolerada(), volumenCorrespondiente(), PrescripcionEstructura());
+                return new RestriccionDosis().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente());
             }
             else if (esRestriccionDmedia())
             {
-                return RestriccionDosisMedia.crear(estructura(), unidadDosis(), esMenorQue(), dosisEsperada(), dosisTolerada(), PrescripcionEstructura());
+                return new RestriccionDosisMedia().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente());
             }
             else if (esRestriccionDmax())
             {
-                return RestriccionDosisMax.crear(estructura(), unidadDosis(), esMenorQue(), dosisEsperada(), dosisTolerada(), PrescripcionEstructura());
+                return new RestriccionDosisMax().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente());
             }
             else //esRestriccionVolumen
             {
-                return RestriccionVolumen.crear(estructura(), unidadDosis(), unidadVolumen(), esMenorQue(), volumenEsperado(), volumenTolerado(), dosisCorrespondiente());
+                return new RestriccionVolumen().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente());
             }
 
         }
@@ -297,7 +233,6 @@ namespace ExploracionPlanes
         {
             limpiarPrescripcion();
             CB_Estructura.Items.Clear();
-            CB_PrescripcionEstructura.Items.Clear();
             listaRestricciones.Clear();
             TB_NombrePlantilla.Clear();
             fijarEsParaExtraccion();
@@ -311,14 +246,6 @@ namespace ExploracionPlanes
         private void CB_ValorEsperadoUnidades_SelectedIndexChanged(object sender, EventArgs e)
         {
             CB_ValorToleradoUnidades.SelectedIndex = CB_ValorEsperadoUnidades.SelectedIndex;
-            if (CB_ValorEsperadoUnidades.Text == "%" && !esRestriccionVolumen())
-            {
-                GB_PrescripcionEstructura.Visible = true;
-            }
-            else
-            {
-                GB_PrescripcionEstructura.Visible = false;
-            }
         }
 
         private void BT_EliminarRestriccion_Click(object sender, EventArgs e)
@@ -359,6 +286,6 @@ namespace ExploracionPlanes
                 CHB_esParaExtraccion.Enabled = true;
             }
         }
-        
+
     }
 }

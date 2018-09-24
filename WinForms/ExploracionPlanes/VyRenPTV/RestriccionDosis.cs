@@ -9,19 +9,20 @@ using VMS.TPS.Common.Model.Types;
 
 namespace ExploracionPlanes
 {
-    public class RestriccionDosis: IRestriccion
+    public class RestriccionDosis : IRestriccion
     {
         public Estructura estructura { get; set; }
-        public DoseValuePresentation doseValuePresentation { get; set; }
-        public VolumePresentation volumePresentation { get; set; }
+        public string unidadValor { get; set; }
+        public string unidadCorrespondiente { get; set; }
         public bool esMenorQue { get; set; }
         public double valorCorrespondiente { get; set; }
         public double valorMedido { get; set; }
         public double valorEsperado { get; set; }
         public double valorTolerado { get; set; }
-        public double PrescripcionEstructura { get; set; }
+        public double prescripcionEstructura { get; set; }
+        public string etiquetaInicio { get; set; }
         public string etiqueta { get; set; }
-        
+
         public int cumple()
         {
             if (esMenorQue)
@@ -56,28 +57,32 @@ namespace ExploracionPlanes
             }
         }
 
-        IRestriccion crear(Estructura _estructura, string _unidadValor, string _unidadCorrespondiente, bool _esMenorQue,
-            double _valorEsperado, double _valorTolerado, double _valorCorrespondiente, double _prescripcionEstructura)
+        public IRestriccion crear(Estructura _estructura, string _unidadValor, string _unidadCorrespondiente, bool _esMenorQue,
+   double _valorEsperado, double _valorTolerado, double _valorCorrespondiente)
+
         {
             RestriccionDosis restriccion = new RestriccionDosis()
             {
                 estructura = _estructura,
-                doseValuePresentation = unidadesDosis(_unidadValor),
-                volumePresentation = unidadesVolumen(_unidadCorrespondiente),
+                unidadValor = _unidadValor,
+                unidadCorrespondiente = _unidadCorrespondiente,
                 esMenorQue = _esMenorQue,
                 valorCorrespondiente = _valorCorrespondiente,
                 valorEsperado = _valorEsperado,
                 valorTolerado = _valorTolerado,
-                PrescripcionEstructura = _prescripcionEstructura,
             };
+            restriccion.crearEtiquetaInicio();
             restriccion.crearEtiqueta();
             return restriccion;
         }
 
+        public void crearEtiquetaInicio()
+        {
+            etiquetaInicio = estructura.nombre + ": D" + valorCorrespondiente.ToString() + unidadCorrespondiente;
+        }
         public void crearEtiqueta()
         {
-            etiqueta = estructura.nombre + ": D" + valorCorrespondiente.ToString();
-            
+            etiqueta = etiquetaInicio;
             if (!Double.IsNaN(valorEsperado))
             {
                 if (esMenorQue)
@@ -91,60 +96,38 @@ namespace ExploracionPlanes
                 etiqueta += valorEsperado.ToString();
                 if (!Double.IsNaN(valorTolerado))
                 {
-                    etiqueta += " (" + valorTolerado.ToString() + ")";
+                    etiqueta += " (" + valorTolerado.ToString() + ") ";
                 }
-                if (doseValuePresentation == DoseValuePresentation.Absolute)
-                {
-                    etiqueta += "Gy";
-                }
-                else
-                {
-                    etiqueta += "% (donde 100% =" + PrescripcionEstructura.ToString() + "Gy)";
-                }
+                etiqueta += unidadValor;
+            }
+
+        }
+
+
+
+        
+
+        public void analizarPlanEstructura(PlanSetup plan, Structure estructura)
+        {
+            VolumePresentation volumePresentation;
+            DoseValuePresentation doseValuePresentation = DoseValuePresentation.Absolute;
+            if (unidadCorrespondiente == "%")
+            {
+                volumePresentation = VolumePresentation.Relative;
+            }
+            else
+            {
+                volumePresentation = VolumePresentation.AbsoluteCm3;
+            }
+            valorMedido = Math.Round(plan.GetDoseAtVolume(estructura, valorCorrespondiente, volumePresentation, doseValuePresentation).Dose / 100, 2);
+            if (unidadValor == "%")
+            {
+                valorMedido = valorMedido / prescripcionEstructura * 100; //extraigo en Gy y paso a porcentaje
             }
             
         }
 
-        
 
-        public static DoseValuePresentation unidadesDosis(string unidad)
-        {
-            if (unidad=="Gy")
-            {
-                return DoseValuePresentation.Absolute;
-            }
-            else
-            {
-                return DoseValuePresentation.Relative;
-            }
-        }
-
-        public static VolumePresentation unidadesVolumen(string unidad)
-        {
-            if (unidad=="%")
-            {
-                return VolumePresentation.Relative;
-            }
-            else
-            {
-                return VolumePresentation.AbsoluteCm3;
-            }
-        }
-
-        public void analizarPlanEstructura (PlanSetup plan, Structure estructura)
-        {
-            if (doseValuePresentation == DoseValuePresentation.Absolute)
-            {
-                valorMedido = Math.Round(plan.GetDoseAtVolume(estructura, valorCorrespondiente, volumePresentation, doseValuePresentation).Dose / 100, 2);
-            }
-            else
-            {
-                valorMedido = Math.Round(plan.GetDoseAtVolume(estructura, valorCorrespondiente, volumePresentation, doseValuePresentation).Dose, 2);
-            }
-                
-        }
-
-        
         public void agregarALista(BindingList<IRestriccion> lista)
         {
             lista.Add(this);

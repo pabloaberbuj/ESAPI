@@ -45,10 +45,6 @@
             this.TB_ValorTolerado = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.TB_EstructuraNombresAlt = new System.Windows.Forms.TextBox();
-            this.GB_PrescripcionEstructura = new System.Windows.Forms.GroupBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.CB_PrescripcionEstructura = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.CB_Estructura = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.TB_NombrePlantilla = new System.Windows.Forms.TextBox();
@@ -58,7 +54,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.GB_NuevaRestriccion.SuspendLayout();
             this.Panel_esMenorque.SuspendLayout();
-            this.GB_PrescripcionEstructura.SuspendLayout();
             this.SuspendLayout();
             // 
             // CB_TipoRestriccion
@@ -142,7 +137,7 @@
             // 
             // BT_AgregarALista
             // 
-            this.BT_AgregarALista.Location = new System.Drawing.Point(469, 158);
+            this.BT_AgregarALista.Location = new System.Drawing.Point(494, 136);
             this.BT_AgregarALista.Name = "BT_AgregarALista";
             this.BT_AgregarALista.Size = new System.Drawing.Size(116, 23);
             this.BT_AgregarALista.TabIndex = 11;
@@ -164,7 +159,6 @@
             this.GB_NuevaRestriccion.Controls.Add(this.Panel_esMenorque);
             this.GB_NuevaRestriccion.Controls.Add(this.label3);
             this.GB_NuevaRestriccion.Controls.Add(this.TB_EstructuraNombresAlt);
-            this.GB_NuevaRestriccion.Controls.Add(this.GB_PrescripcionEstructura);
             this.GB_NuevaRestriccion.Controls.Add(this.CB_Estructura);
             this.GB_NuevaRestriccion.Controls.Add(this.label2);
             this.GB_NuevaRestriccion.Controls.Add(this.CB_TipoRestriccion);
@@ -174,7 +168,7 @@
             this.GB_NuevaRestriccion.Controls.Add(this.CB_CorrespAUnidades);
             this.GB_NuevaRestriccion.Location = new System.Drawing.Point(30, 53);
             this.GB_NuevaRestriccion.Name = "GB_NuevaRestriccion";
-            this.GB_NuevaRestriccion.Size = new System.Drawing.Size(619, 187);
+            this.GB_NuevaRestriccion.Size = new System.Drawing.Size(619, 168);
             this.GB_NuevaRestriccion.TabIndex = 13;
             this.GB_NuevaRestriccion.TabStop = false;
             this.GB_NuevaRestriccion.Text = "Nueva Restricción";
@@ -233,44 +227,6 @@
             this.TB_EstructuraNombresAlt.Name = "TB_EstructuraNombresAlt";
             this.TB_EstructuraNombresAlt.Size = new System.Drawing.Size(100, 72);
             this.TB_EstructuraNombresAlt.TabIndex = 18;
-            // 
-            // GB_PrescripcionEstructura
-            // 
-            this.GB_PrescripcionEstructura.Controls.Add(this.label8);
-            this.GB_PrescripcionEstructura.Controls.Add(this.CB_PrescripcionEstructura);
-            this.GB_PrescripcionEstructura.Controls.Add(this.label9);
-            this.GB_PrescripcionEstructura.Location = new System.Drawing.Point(420, 115);
-            this.GB_PrescripcionEstructura.Name = "GB_PrescripcionEstructura";
-            this.GB_PrescripcionEstructura.Size = new System.Drawing.Size(183, 37);
-            this.GB_PrescripcionEstructura.TabIndex = 17;
-            this.GB_PrescripcionEstructura.TabStop = false;
-            this.GB_PrescripcionEstructura.Visible = false;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 13);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(78, 13);
-            this.label8.TabIndex = 14;
-            this.label8.Text = "(donde 100% =";
-            // 
-            // CB_PrescripcionEstructura
-            // 
-            this.CB_PrescripcionEstructura.FormattingEnabled = true;
-            this.CB_PrescripcionEstructura.Location = new System.Drawing.Point(90, 10);
-            this.CB_PrescripcionEstructura.Name = "CB_PrescripcionEstructura";
-            this.CB_PrescripcionEstructura.Size = new System.Drawing.Size(62, 21);
-            this.CB_PrescripcionEstructura.TabIndex = 16;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(158, 13);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(23, 13);
-            this.label9.TabIndex = 15;
-            this.label9.Text = "Gy)";
             // 
             // CB_Estructura
             // 
@@ -356,8 +312,6 @@
             this.GB_NuevaRestriccion.PerformLayout();
             this.Panel_esMenorque.ResumeLayout(false);
             this.Panel_esMenorque.PerformLayout();
-            this.GB_PrescripcionEstructura.ResumeLayout(false);
-            this.GB_PrescripcionEstructura.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -380,10 +334,6 @@
         private System.Windows.Forms.TextBox TB_NombrePlantilla;
         private System.Windows.Forms.Button BT_GuardarPlantilla;
         private System.Windows.Forms.ComboBox CB_Estructura;
-        private System.Windows.Forms.GroupBox GB_PrescripcionEstructura;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox CB_PrescripcionEstructura;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button BT_EliminarRestriccion;
         private System.Windows.Forms.TextBox TB_EstructuraNombresAlt;
         private System.Windows.Forms.Label label3;
