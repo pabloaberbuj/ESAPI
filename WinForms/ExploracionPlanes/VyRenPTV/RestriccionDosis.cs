@@ -56,18 +56,18 @@ namespace ExploracionPlanes
             }
         }
 
-        public static IRestriccion crear(Estructura _estructura, string _unidadDosis, string _unidadVolumen, bool _esMenorQue,
-            double _dosisEsperada, double _dosisTolerable, double _volumen = Double.NaN, double _prescripcionEstructura= Double.NaN)
+        IRestriccion crear(Estructura _estructura, string _unidadValor, string _unidadCorrespondiente, bool _esMenorQue,
+            double _valorEsperado, double _valorTolerado, double _valorCorrespondiente, double _prescripcionEstructura)
         {
             RestriccionDosis restriccion = new RestriccionDosis()
             {
                 estructura = _estructura,
-                doseValuePresentation = unidadesDosis(_unidadDosis),
-                volumePresentation = unidadesVolumen(_unidadVolumen),
+                doseValuePresentation = unidadesDosis(_unidadValor),
+                volumePresentation = unidadesVolumen(_unidadCorrespondiente),
                 esMenorQue = _esMenorQue,
-                valorCorrespondiente = _volumen,
-                valorEsperado = _dosisEsperada,
-                valorTolerado = _dosisTolerable,
+                valorCorrespondiente = _valorCorrespondiente,
+                valorEsperado = _valorEsperado,
+                valorTolerado = _valorTolerado,
                 PrescripcionEstructura = _prescripcionEstructura,
             };
             restriccion.crearEtiqueta();

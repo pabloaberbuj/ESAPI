@@ -22,7 +22,9 @@ namespace ExploracionPlanes
         int cumple();
         void analizarPlanEstructura(PlanSetup plan, Structure estructura);
         //int analizarPlan(PlanSetup plan);
-        //IRestriccion crear();
+        IRestriccion crear(Estructura _estructura, string _unidadValor, string _unidadCorrespondiente, bool _esMenorQue,
+            double _valorEsperado, double _valorTolerado, double _valorCorrespondiente, double _prescripcionEstructura);
+
         /*/void editar(IRestriccion restriccion, string Estructura, List<string> nombresAlt, int tipoRest,
             double valorCorresp, bool esMenor, double valorEsperado, double valorTolerado,
             string unidadCorresp, string unidadEsperado);*/
