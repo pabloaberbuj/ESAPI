@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Newtonsoft.Json;
 using VMS.TPS.Common.Model.API;
 using VMS.TPS.Common.Model.Types;
+using System.Xml;
 
 
 namespace SerializarObjetos
@@ -31,8 +32,11 @@ namespace SerializarObjetos
             {
                 VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication("pa", "123qwe");
                 Patient paciente = app.OpenPatientById(ID);
-                Serializador ser = new Serializador();
-                ser.SerializeObject<Patient>(paciente, paciente.Id + ".txt");
+                XmlWriter writer = XmlWriter.Create(paciente.Id + ".xml");
+                writer.WriteStartDocument();
+                
+                paciente.WriteXml(writer);
+                writer.WriteEndDocument();
                 MessageBox.Show("terminó");
                 app.ClosePatient();
             }
@@ -50,8 +54,8 @@ namespace SerializarObjetos
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Serializador ser = new Serializador();
-            Patient paciente = ser.DeSerializeObject<Patient>("1744538.txt");
+            XmlReader xmlReader = XmlReader.Create("1744538.xml");
+            paciente.ReadXml(xmlReader);
             MessageBox.Show("terminó");
         }
     }

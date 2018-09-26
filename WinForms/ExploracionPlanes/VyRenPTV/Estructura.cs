@@ -23,7 +23,7 @@ namespace ExploracionPlanes
         }
         public static string asociarExactoID(string nombreEstructura, List<string> listaEstructurasID)
         {
-            return listaEstructurasID.Where(c => c.Equals(nombreEstructura)).FirstOrDefault();
+            return listaEstructurasID.Where(c => c.ToLower().Equals(nombreEstructura.ToLower())).FirstOrDefault();
         }
 
         public static Structure asociarConLista(List<string> listaNombres, List<Structure> listaEstructura)
