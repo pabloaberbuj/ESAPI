@@ -21,6 +21,7 @@ namespace ExploracionPlanes
         double prescripcionEstructura { get; set; }
         string unidadValor { get; set; }
         string unidadCorrespondiente { get; set; }
+        bool dosisEstaEnPorcentaje();
         void agregarALista(BindingList<IRestriccion> lista);
         void crearEtiquetaInicio();
         void crearEtiqueta();

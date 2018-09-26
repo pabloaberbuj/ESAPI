@@ -74,13 +74,17 @@ namespace ExploracionPlanes
             return estructuras;
         }
 
-/*        public void analizar(PlanSetup plan)
+        public List<Estructura> estructurasParaPrescribir()
         {
-            foreach(IRestriccion restriccion in this.listaRestricciones)
+            List<Estructura> estructuras = new List<Estructura>();
+            foreach (IRestriccion restriccion in this.listaRestricciones)
             {
-                restriccion.estructura.nombre
-                //restriccion.analizarPlan(plan);
+                if (!estructuras.Any(e => e.nombre == restriccion.estructura.nombre) && restriccion.dosisEstaEnPorcentaje())
+                {
+                    estructuras.Add(restriccion.estructura);
+                }
             }
-        }*/
+            return estructuras;
+        }
     }
 }

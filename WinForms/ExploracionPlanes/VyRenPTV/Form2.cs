@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,19 +18,21 @@ namespace ExploracionPlanes
         Patient paciente;
         Course curso;
         PlanSetup plan;
+        Plantilla plantilla;
 
 
-        public Form2(Main main)
+        public Form2(Plantilla _plantilla)
         {
             InitializeComponent();
             LB_Plantillas.DataSource = Plantilla.leerPlantillas();
             LB_Plantillas.DisplayMember = "nombre";
+            plantilla = _plantilla;
         }
 
-        private Plantilla plantillaSeleccionada()
+        /*private Plantilla plantillaSeleccionada()
         {
             return (Plantilla)LB_Plantillas.SelectedItems[0];
-        }
+        }*/
         public Patient abrirPaciente(string ID)
         {
             Patient paciente = app.OpenPatientById(ID);
@@ -107,11 +110,16 @@ namespace ExploracionPlanes
             LB_Planes.DataSource = listaPlanes(cursoSeleccionado());
         }
 
-        private void BT_SeleccionarPlantillas_Click(object sender, EventArgs e)
+     /*   private void BT_SeleccionarPlantillas_Click(object sender, EventArgs e)
+        {
+            llenarDGVEstructuras();
+        }*/
+
+        private void llenarDGVEstructuras()
         {
             DGV_Estructuras.Rows.Clear();
-            DGV_Estructuras.ColumnCount = 2;
-            foreach (Estructura estructura in plantillaSeleccionada().estructuras())
+            DGV_Estructuras.ColumnCount = 3;
+            foreach (Estructura estructura in plantilla.estructuras())
             {
                 DGV_Estructuras.Rows.Add();
                 DGV_Estructuras.Rows[DGV_Estructuras.Rows.Count - 1].Cells[0].Value = estructura.nombre;
@@ -122,12 +130,44 @@ namespace ExploracionPlanes
             asociarEstructuras();
         }
 
+        private void llenarDGVPrescripciones()
+        {
+            DGV_Prescripciones.Rows.Clear();
+            DGV_Prescripciones.ColumnCount = 2;
+            double prescripcion = planSeleccionado().TotalPrescribedDose.Dose;
+            foreach (Estructura estructura in plantilla.estructurasParaPrescribir())
+            {
+                DGV_Prescripciones.Rows.Add();
+                DGV_Estructuras.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[0].Value = estructura.nombre;
+                DGV_Estructuras.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[1].Value = prescripcion;
+            }
+        }
+
+        private void aplicarPrescripciones()
+        {
+            foreach (IRestriccion restriccion in plantilla.listaRestricciones)
+            {
+                if (restriccion.dosisEstaEnPorcentaje())
+                {
+                    foreach (DataGridViewRow fila in DGV_Prescripciones.Rows)
+                    {
+                        if (restriccion.estructura.nombre.Equals(fila.Cells[0].Value))
+                        {
+                            restriccion.prescripcionEstructura = Convert.ToDouble(fila.Cells[1].Value);
+                            break;
+                        }
+                    }
+                }
+            }
+
+        }
+
         private void asociarEstructuras()
         {
             for (int i = 0; i < DGV_Estructuras.Rows.Count; i++)
             {
-                Structure estructura = Estructura.asociarConLista(plantillaSeleccionada().estructuras()[i].nombresPosibles, Estructura.listaEstructuras(planSeleccionado()));
-                if (estructura!=null)
+                Structure estructura = Estructura.asociarConLista(plantilla.estructuras()[i].nombresPosibles, Estructura.listaEstructuras(planSeleccionado()));
+                if (estructura != null)
                 {
                     (DGV_Estructuras.Rows[i].Cells[1]).Value = estructura.Id;
                 }
@@ -142,15 +182,15 @@ namespace ExploracionPlanes
         {
             DGV_Análisis.Rows.Clear();
             DGV_Análisis.ColumnCount = 3;
-            for (int i=0; i<plantillaSeleccionada().listaRestricciones.Count;i++)
+            for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
             {
-                IRestriccion restriccion = plantillaSeleccionada().listaRestricciones[i];
+                IRestriccion restriccion = plantilla.listaRestricciones[i];
                 restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
                 DGV_Análisis.Rows.Add();
                 DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiquetaInicio;
                 DGV_Análisis.Rows[i].Cells[1].Value = restriccion.valorMedido + " " + restriccion.unidadValor;
                 colorCelda(DGV_Análisis.Rows[i].Cells[1], restriccion.cumple());
-                DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorEsperado + " " + restriccion.unidadValor; 
+                DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorEsperado + " " + restriccion.unidadValor;
             }
         }
 
@@ -169,16 +209,17 @@ namespace ExploracionPlanes
 
         private void BT_Analizar_Click(object sender, EventArgs e)
         {
+            //aplicarPrescripciones();
             llenarDGVAnalisis();
         }
 
         private void colorCelda(DataGridViewCell celda, int comparacion)
         {
-            if (comparacion==0)
+            if (comparacion == 0)
             {
                 celda.Style.BackColor = Color.LightGreen;
             }
-            else if (comparacion==1)
+            else if (comparacion == 1)
             {
                 celda.Style.BackColor = Color.LightYellow;
             }
@@ -186,6 +227,21 @@ namespace ExploracionPlanes
             {
                 celda.Style.BackColor = Color.Red;
             }
+        }
+
+        private void BT_SeleccionarPlan_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                llenarDGVEstructuras();
+                llenarDGVPrescripciones();
+            }
+            catch (Exception exp)
+            {
+                File.WriteAllText("log.txt", exp.ToString());
+
+            }
+
         }
     }
 }

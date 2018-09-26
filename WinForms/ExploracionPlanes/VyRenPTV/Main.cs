@@ -34,9 +34,13 @@ namespace ExploracionPlanes
 
         private void BT_AplicarAUnPlan_Click(object sender, EventArgs e)
         {
-            aplicarPlantilla = new Form2(this);
+            aplicarPlantilla = new Form2(plantillaSeleccionada());
             aplicarPlantilla.Show();
+        }
 
+        private Plantilla plantillaSeleccionada()
+        {
+            return (Plantilla)LB_Plantillas.SelectedItem;
         }
     }
 }

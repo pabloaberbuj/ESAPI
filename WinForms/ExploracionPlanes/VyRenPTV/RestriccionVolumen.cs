@@ -126,6 +126,18 @@ namespace ExploracionPlanes
         {
             lista.Add(this);
         }
-     }
+
+        public bool dosisEstaEnPorcentaje()
+        {
+            if (unidadCorrespondiente == "%")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 }
 

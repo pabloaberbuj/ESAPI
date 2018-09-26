@@ -121,6 +121,18 @@ namespace ExploracionPlanes
             lista.Add(this);
         }
 
+        public bool dosisEstaEnPorcentaje()
+        {
+            if (unidadValor == "%")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         /*   public void editar(IRestriccion restriccion, string Estructura, List<string> nombresAlt, int tipoRest, double valorCorresp, bool esMenor, double valorEsperado, double valorTolerado, string unidadCorresp, string unidadEsperado)
            {
                Estructura = ((RestriccionDosis)restriccion).estructura;

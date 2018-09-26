@@ -47,14 +47,20 @@
             this.DGV_Análisis = new System.Windows.Forms.DataGridView();
             this.label6 = new System.Windows.Forms.Label();
             this.BT_Analizar = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.DGV_Prescripciones = new System.Windows.Forms.DataGridView();
+            this.BT_SeleccionarPlan = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DGV_Prescripciones)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 18);
+            this.label1.Location = new System.Drawing.Point(3, 18);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(18, 13);
             this.label1.TabIndex = 0;
@@ -63,22 +69,22 @@
             // LB_Cursos
             // 
             this.LB_Cursos.FormattingEnabled = true;
-            this.LB_Cursos.Location = new System.Drawing.Point(159, 33);
+            this.LB_Cursos.Location = new System.Drawing.Point(47, 125);
             this.LB_Cursos.Name = "LB_Cursos";
-            this.LB_Cursos.Size = new System.Drawing.Size(94, 95);
+            this.LB_Cursos.Size = new System.Drawing.Size(104, 69);
             this.LB_Cursos.TabIndex = 1;
             this.LB_Cursos.SelectedIndexChanged += new System.EventHandler(this.LB_Cursos_SelectedIndexChanged);
             // 
             // TB_ID
             // 
-            this.TB_ID.Location = new System.Drawing.Point(15, 33);
+            this.TB_ID.Location = new System.Drawing.Point(27, 15);
             this.TB_ID.Name = "TB_ID";
-            this.TB_ID.Size = new System.Drawing.Size(100, 20);
+            this.TB_ID.Size = new System.Drawing.Size(119, 20);
             this.TB_ID.TabIndex = 2;
             // 
             // BT_AbrirPaciente
             // 
-            this.BT_AbrirPaciente.Location = new System.Drawing.Point(15, 76);
+            this.BT_AbrirPaciente.Location = new System.Drawing.Point(46, 50);
             this.BT_AbrirPaciente.Name = "BT_AbrirPaciente";
             this.BT_AbrirPaciente.Size = new System.Drawing.Size(100, 23);
             this.BT_AbrirPaciente.TabIndex = 3;
@@ -89,7 +95,7 @@
             // LB_Planes
             // 
             this.LB_Planes.FormattingEnabled = true;
-            this.LB_Planes.Location = new System.Drawing.Point(295, 33);
+            this.LB_Planes.Location = new System.Drawing.Point(47, 203);
             this.LB_Planes.Name = "LB_Planes";
             this.LB_Planes.Size = new System.Drawing.Size(104, 95);
             this.LB_Planes.TabIndex = 5;
@@ -97,7 +103,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(156, 17);
+            this.label2.Location = new System.Drawing.Point(3, 125);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(39, 13);
             this.label2.TabIndex = 7;
@@ -106,7 +112,7 @@
             // Label3
             // 
             this.Label3.AutoSize = true;
-            this.Label3.Location = new System.Drawing.Point(292, 17);
+            this.Label3.Location = new System.Drawing.Point(3, 203);
             this.Label3.Name = "Label3";
             this.Label3.Size = new System.Drawing.Size(39, 13);
             this.Label3.TabIndex = 8;
@@ -115,7 +121,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 170);
+            this.label4.Location = new System.Drawing.Point(7, 9);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(48, 13);
             this.label4.TabIndex = 9;
@@ -124,20 +130,19 @@
             // LB_Plantillas
             // 
             this.LB_Plantillas.FormattingEnabled = true;
-            this.LB_Plantillas.Location = new System.Drawing.Point(12, 190);
+            this.LB_Plantillas.Location = new System.Drawing.Point(19, 25);
             this.LB_Plantillas.Name = "LB_Plantillas";
             this.LB_Plantillas.Size = new System.Drawing.Size(120, 147);
             this.LB_Plantillas.TabIndex = 10;
             // 
             // BT_SeleccionarPlantillas
             // 
-            this.BT_SeleccionarPlantillas.Location = new System.Drawing.Point(12, 358);
+            this.BT_SeleccionarPlantillas.Location = new System.Drawing.Point(19, 178);
             this.BT_SeleccionarPlantillas.Name = "BT_SeleccionarPlantillas";
             this.BT_SeleccionarPlantillas.Size = new System.Drawing.Size(120, 23);
             this.BT_SeleccionarPlantillas.TabIndex = 11;
             this.BT_SeleccionarPlantillas.Text = "Seleccionar";
             this.BT_SeleccionarPlantillas.UseVisualStyleBackColor = true;
-            this.BT_SeleccionarPlantillas.Click += new System.EventHandler(this.BT_SeleccionarPlantillas_Click);
             // 
             // DGV_Estructuras
             // 
@@ -150,9 +155,9 @@
             this.dePlantilla,
             this.delPlan});
             this.DGV_Estructuras.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.DGV_Estructuras.Location = new System.Drawing.Point(159, 190);
+            this.DGV_Estructuras.Location = new System.Drawing.Point(179, 33);
             this.DGV_Estructuras.Name = "DGV_Estructuras";
-            this.DGV_Estructuras.Size = new System.Drawing.Size(240, 191);
+            this.DGV_Estructuras.Size = new System.Drawing.Size(223, 191);
             this.DGV_Estructuras.TabIndex = 12;
             // 
             // dePlantilla
@@ -170,7 +175,7 @@
             // L_ID
             // 
             this.L_ID.AutoSize = true;
-            this.L_ID.Location = new System.Drawing.Point(12, 102);
+            this.L_ID.Location = new System.Drawing.Point(3, 86);
             this.L_ID.Name = "L_ID";
             this.L_ID.Size = new System.Drawing.Size(35, 13);
             this.L_ID.TabIndex = 13;
@@ -180,7 +185,7 @@
             // L_Nombre
             // 
             this.L_Nombre.AutoSize = true;
-            this.L_Nombre.Location = new System.Drawing.Point(12, 124);
+            this.L_Nombre.Location = new System.Drawing.Point(44, 86);
             this.L_Nombre.Name = "L_Nombre";
             this.L_Nombre.Size = new System.Drawing.Size(35, 13);
             this.L_Nombre.TabIndex = 14;
@@ -190,7 +195,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(156, 170);
+            this.label5.Location = new System.Drawing.Point(176, 9);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(126, 13);
             this.label5.TabIndex = 15;
@@ -199,9 +204,11 @@
             // DGV_Análisis
             // 
             this.DGV_Análisis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DGV_Análisis.ColumnHeadersVisible = false;
             this.DGV_Análisis.Location = new System.Drawing.Point(475, 33);
             this.DGV_Análisis.Name = "DGV_Análisis";
-            this.DGV_Análisis.Size = new System.Drawing.Size(427, 348);
+            this.DGV_Análisis.RowHeadersVisible = false;
+            this.DGV_Análisis.Size = new System.Drawing.Size(289, 348);
             this.DGV_Análisis.TabIndex = 16;
             // 
             // label6
@@ -215,7 +222,7 @@
             // 
             // BT_Analizar
             // 
-            this.BT_Analizar.Location = new System.Drawing.Point(360, 148);
+            this.BT_Analizar.Location = new System.Drawing.Point(310, 246);
             this.BT_Analizar.Name = "BT_Analizar";
             this.BT_Analizar.Size = new System.Drawing.Size(109, 23);
             this.BT_Analizar.TabIndex = 18;
@@ -223,11 +230,55 @@
             this.BT_Analizar.UseVisualStyleBackColor = true;
             this.BT_Analizar.Click += new System.EventHandler(this.BT_Analizar_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.LB_Plantillas);
+            this.panel1.Controls.Add(this.BT_SeleccionarPlantillas);
+            this.panel1.Location = new System.Drawing.Point(6, 372);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(149, 214);
+            this.panel1.TabIndex = 19;
+            this.panel1.Visible = false;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(176, 281);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(110, 13);
+            this.label7.TabIndex = 20;
+            this.label7.Text = "Ajustar prescripciones";
+            // 
+            // DGV_Prescripciones
+            // 
+            this.DGV_Prescripciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DGV_Prescripciones.ColumnHeadersVisible = false;
+            this.DGV_Prescripciones.Location = new System.Drawing.Point(179, 307);
+            this.DGV_Prescripciones.Name = "DGV_Prescripciones";
+            this.DGV_Prescripciones.RowHeadersVisible = false;
+            this.DGV_Prescripciones.Size = new System.Drawing.Size(205, 164);
+            this.DGV_Prescripciones.TabIndex = 21;
+            // 
+            // BT_SeleccionarPlan
+            // 
+            this.BT_SeleccionarPlan.Location = new System.Drawing.Point(42, 307);
+            this.BT_SeleccionarPlan.Name = "BT_SeleccionarPlan";
+            this.BT_SeleccionarPlan.Size = new System.Drawing.Size(109, 23);
+            this.BT_SeleccionarPlan.TabIndex = 22;
+            this.BT_SeleccionarPlan.Text = "Seleccionar plan";
+            this.BT_SeleccionarPlan.UseVisualStyleBackColor = true;
+            this.BT_SeleccionarPlan.Click += new System.EventHandler(this.BT_SeleccionarPlan_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(914, 410);
+            this.ClientSize = new System.Drawing.Size(785, 499);
+            this.Controls.Add(this.BT_SeleccionarPlan);
+            this.Controls.Add(this.DGV_Prescripciones);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.BT_Analizar);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.DGV_Análisis);
@@ -235,9 +286,6 @@
             this.Controls.Add(this.L_Nombre);
             this.Controls.Add(this.L_ID);
             this.Controls.Add(this.DGV_Estructuras);
-            this.Controls.Add(this.BT_SeleccionarPlantillas);
-            this.Controls.Add(this.LB_Plantillas);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.Label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.LB_Planes);
@@ -249,6 +297,9 @@
             this.Text = "Form2";
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DGV_Prescripciones)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -275,5 +326,9 @@
         private System.Windows.Forms.Button BT_Analizar;
         private System.Windows.Forms.DataGridViewTextBoxColumn dePlantilla;
         private System.Windows.Forms.DataGridViewComboBoxColumn delPlan;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.DataGridView DGV_Prescripciones;
+        private System.Windows.Forms.Button BT_SeleccionarPlan;
     }
 }
