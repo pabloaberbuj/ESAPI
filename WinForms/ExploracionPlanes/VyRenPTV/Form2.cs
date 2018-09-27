@@ -209,7 +209,7 @@ namespace ExploracionPlanes
 
         private void BT_Analizar_Click(object sender, EventArgs e)
         {
-            //aplicarPrescripciones();
+            aplicarPrescripciones();
             llenarDGVAnalisis();
         }
 

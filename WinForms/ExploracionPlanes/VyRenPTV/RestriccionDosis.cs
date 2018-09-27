@@ -122,7 +122,7 @@ namespace ExploracionPlanes
             valorMedido = Math.Round(plan.GetDoseAtVolume(estructura, valorCorrespondiente, volumePresentation, doseValuePresentation).Dose / 100, 2);
             if (unidadValor == "%")
             {
-                valorMedido = valorMedido / prescripcionEstructura * 100; //extraigo en Gy y paso a porcentaje
+                valorMedido = Math.Round(valorMedido / prescripcionEstructura * 100,2); //extraigo en Gy y paso a porcentaje
             }
             
         }
