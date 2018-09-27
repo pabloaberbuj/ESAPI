@@ -39,8 +39,6 @@
             this.LB_Plantillas = new System.Windows.Forms.ListBox();
             this.BT_SeleccionarPlantillas = new System.Windows.Forms.Button();
             this.DGV_Estructuras = new System.Windows.Forms.DataGridView();
-            this.dePlantilla = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.delPlan = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.L_ID = new System.Windows.Forms.Label();
             this.L_Nombre = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -51,6 +49,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.DGV_Prescripciones = new System.Windows.Forms.DataGridView();
             this.BT_SeleccionarPlan = new System.Windows.Forms.Button();
+            this.dePlantilla = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.delPlan = new System.Windows.Forms.DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).BeginInit();
             this.panel1.SuspendLayout();
@@ -160,18 +160,6 @@
             this.DGV_Estructuras.Size = new System.Drawing.Size(223, 191);
             this.DGV_Estructuras.TabIndex = 12;
             // 
-            // dePlantilla
-            // 
-            this.dePlantilla.HeaderText = "Plantilla";
-            this.dePlantilla.Name = "dePlantilla";
-            // 
-            // delPlan
-            // 
-            this.delPlan.AutoComplete = false;
-            this.delPlan.HeaderText = "Plan";
-            this.delPlan.Name = "delPlan";
-            this.delPlan.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
             // L_ID
             // 
             this.L_ID.AutoSize = true;
@@ -270,6 +258,17 @@
             this.BT_SeleccionarPlan.UseVisualStyleBackColor = true;
             this.BT_SeleccionarPlan.Click += new System.EventHandler(this.BT_SeleccionarPlan_Click);
             // 
+            // dePlantilla
+            // 
+            this.dePlantilla.HeaderText = "Plantilla";
+            this.dePlantilla.Name = "dePlantilla";
+            // 
+            // delPlan
+            // 
+            this.delPlan.AutoComplete = false;
+            this.delPlan.HeaderText = "Plan";
+            this.delPlan.Name = "delPlan";
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -324,11 +323,11 @@
         private System.Windows.Forms.DataGridView DGV_Análisis;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button BT_Analizar;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dePlantilla;
-        private System.Windows.Forms.DataGridViewComboBoxColumn delPlan;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DataGridView DGV_Prescripciones;
         private System.Windows.Forms.Button BT_SeleccionarPlan;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dePlantilla;
+        private System.Windows.Forms.DataGridViewComboBoxColumn delPlan;
     }
 }

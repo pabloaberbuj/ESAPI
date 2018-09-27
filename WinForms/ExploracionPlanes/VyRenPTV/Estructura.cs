@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,7 +46,7 @@ namespace ExploracionPlanes
             List<Structure> filtradas = new List<Structure>();
             foreach (Structure estructura in sinFiltrar)
             {
-                if (estructura.DicomType != "EXTERNAL" && estructura.DicomType != "SUPPORT")
+                if (estructura.DicomType != "SUPPORT")
                 {
                     filtradas.Add(estructura);
                 }

@@ -59,20 +59,27 @@ namespace SerializarObjetos
                 xmlDocument.Load(fileName);
                 string xmlString = xmlDocument.OuterXml;
 
-                using (StringReader read = new StringReader(xmlString))
-                {
-                    Type outType = typeof(T);
+                System.Xml.Serialization.XmlSerializer ser = new System.Xml.Serialization.XmlSerializer(typeof(T));
 
-                    XmlSerializer serializer = new XmlSerializer(outType);
-                    using (XmlReader reader = new XmlTextReader(read))
-                    {
-                        objectOut = (T)serializer.Deserialize(reader);
-                    }
+                using (StringReader sr = new StringReader(xmlString))
+                {
+                    return (T)ser.Deserialize(sr);
                 }
+                /*   using (StringReader read = new StringReader(xmlString))
+                   {
+                       Type outType = typeof(T);
+
+                       XmlSerializer serializer = new XmlSerializer(outType);
+                       using (XmlReader reader = new XmlTextReader(read))
+                       {
+                           objectOut = (T)serializer.Deserialize(reader);
+                       }
+                   }*/
+
             }
             catch (Exception ex)
             {
-                //Log exception here
+                MessageBox.Show(ex.ToString());
             }
 
             return objectOut;

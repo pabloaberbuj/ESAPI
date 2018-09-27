@@ -32,10 +32,14 @@ namespace SerializarObjetos
             {
                 VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication("pa", "123qwe");
                 Patient paciente = app.OpenPatientById(ID);
-                XmlWriter writer = XmlWriter.Create(paciente.Id + ".xml");
+                XmlWriterSettings settings = new XmlWriterSettings();
+                settings.Indent = true;
+                settings.IndentChars = ("\t");
+                XmlWriter writer = XmlWriter.Create(paciente.Id + ".xml",settings);
                 writer.WriteStartDocument();
-                
+                writer.WriteStartElement("Patient");
                 paciente.WriteXml(writer);
+                writer.WriteEndElement();
                 writer.WriteEndDocument();
                 MessageBox.Show("terminó");
                 app.ClosePatient();
@@ -54,9 +58,21 @@ namespace SerializarObjetos
 
         private void button2_Click(object sender, EventArgs e)
         {
-            XmlReader xmlReader = XmlReader.Create("1744538.xml");
-            paciente.ReadXml(xmlReader);
-            MessageBox.Show("terminó");
+            //XmlTextReader xmlReader = new XmlTextReader("15-36292.xml");
+            //XmlReader xmlReader = XmlReader.Create("15-36292.xml");
+            PacientePablo paciente = new PacientePablo();
+            /paciente.ReadXml(XmlReader.Create("15-36292.xml"));
+            /*while (xmlReader.Read())
+            {
+                
+            }*/
+            //XmlReaderSettings settings = new XmlReaderSettings();
+            //xmlReader.ReadContentAs(typeof(Patient), null);
+            //paciente.ReadXml(xmlReader);
+            
+            //Serializador ser = new Serializador();
+            //paciente = ser.DeSerializeObject<PacientePablo>("15-36292.xml");
+            //MessageBox.Show(paciente.Id + paciente.Name + paciente.Courses.First().PlanSetups.First().Name);
         }
     }
 }

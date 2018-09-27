@@ -29,10 +29,10 @@ namespace ExploracionPlanes
             plantilla = _plantilla;
         }
 
-        /*private Plantilla plantillaSeleccionada()
+        private Plantilla plantillaSeleccionada()
         {
             return (Plantilla)LB_Plantillas.SelectedItems[0];
-        }*/
+        }
         public Patient abrirPaciente(string ID)
         {
             Patient paciente = app.OpenPatientById(ID);
@@ -134,12 +134,12 @@ namespace ExploracionPlanes
         {
             DGV_Prescripciones.Rows.Clear();
             DGV_Prescripciones.ColumnCount = 2;
-            double prescripcion = planSeleccionado().TotalPrescribedDose.Dose;
+            double prescripcion = planSeleccionado().TotalPrescribedDose.Dose/100;
             foreach (Estructura estructura in plantilla.estructurasParaPrescribir())
             {
                 DGV_Prescripciones.Rows.Add();
-                DGV_Estructuras.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[0].Value = estructura.nombre;
-                DGV_Estructuras.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[1].Value = prescripcion;
+                DGV_Prescripciones.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[0].Value = estructura.nombre;
+                DGV_Prescripciones.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[1].Value = prescripcion;
             }
         }
 
