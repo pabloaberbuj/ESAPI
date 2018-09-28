@@ -79,7 +79,7 @@ namespace ExploracionPlanes
             List<Estructura> estructuras = new List<Estructura>();
             foreach (IRestriccion restriccion in this.listaRestricciones)
             {
-                if (!estructuras.Any(e => e.nombre == restriccion.estructura.nombre) && restriccion.dosisEstaEnPorcentaje())
+                if (restriccion.dosisEstaEnPorcentaje() && !estructuras.Any(e => e.nombre == restriccion.estructura.nombre))
                 {
                     estructuras.Add(restriccion.estructura);
                 }

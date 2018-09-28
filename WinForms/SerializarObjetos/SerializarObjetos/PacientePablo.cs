@@ -11,7 +11,7 @@ namespace SerializarObjetos
     {
         void PacientePablo()
         {
-            ;
+            base.EndSerialization
         }
         
 

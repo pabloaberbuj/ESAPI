@@ -13,6 +13,7 @@ namespace ExploracionPlanes
     {
         public Form1 crearPlantilla;
         public Form2 aplicarPlantilla;
+        public Form3 aplicarPorLote;
         public Main()
         {
             InitializeComponent();
@@ -41,6 +42,12 @@ namespace ExploracionPlanes
         private Plantilla plantillaSeleccionada()
         {
             return (Plantilla)LB_Plantillas.SelectedItem;
+        }
+
+        private void BT_AplicarPorLote_Click(object sender, EventArgs e)
+        {
+            aplicarPorLote = new Form3(plantillaSeleccionada());
+            aplicarPorLote.Show();
         }
     }
 }

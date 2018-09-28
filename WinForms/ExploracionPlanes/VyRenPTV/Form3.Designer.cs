@@ -1,6 +1,6 @@
 ﻿namespace ExploracionPlanes
 {
-    partial class Form2
+    partial class Form3
     {
         /// <summary>
         /// Required designer variable.
@@ -47,6 +47,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.DGV_Prescripciones = new System.Windows.Forms.DataGridView();
             this.BT_SeleccionarPlan = new System.Windows.Forms.Button();
+            this.BT_GuardarPaciente = new System.Windows.Forms.Button();
+            this.BT_Exportar = new System.Windows.Forms.Button();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
@@ -129,6 +131,7 @@
             this.DGV_Estructuras.Location = new System.Drawing.Point(179, 33);
             this.DGV_Estructuras.Name = "DGV_Estructuras";
             this.DGV_Estructuras.RowHeadersVisible = false;
+            this.DGV_Estructuras.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.DGV_Estructuras.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.DGV_Estructuras.Size = new System.Drawing.Size(205, 191);
             this.DGV_Estructuras.TabIndex = 12;
@@ -176,7 +179,6 @@
             // DGV_Análisis
             // 
             this.DGV_Análisis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DGV_Análisis.ColumnHeadersVisible = false;
             this.DGV_Análisis.Location = new System.Drawing.Point(475, 33);
             this.DGV_Análisis.Name = "DGV_Análisis";
             this.DGV_Análisis.RowHeadersVisible = false;
@@ -213,7 +215,6 @@
             // 
             // DGV_Prescripciones
             // 
-            this.DGV_Prescripciones.AllowUserToAddRows = false;
             this.DGV_Prescripciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_Prescripciones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
@@ -221,7 +222,6 @@
             this.DGV_Prescripciones.Location = new System.Drawing.Point(179, 307);
             this.DGV_Prescripciones.Name = "DGV_Prescripciones";
             this.DGV_Prescripciones.RowHeadersVisible = false;
-            this.DGV_Prescripciones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.DGV_Prescripciones.Size = new System.Drawing.Size(205, 164);
             this.DGV_Prescripciones.TabIndex = 21;
             // 
@@ -235,6 +235,26 @@
             this.BT_SeleccionarPlan.UseVisualStyleBackColor = true;
             this.BT_SeleccionarPlan.Click += new System.EventHandler(this.BT_SeleccionarPlan_Click);
             // 
+            // BT_GuardarPaciente
+            // 
+            this.BT_GuardarPaciente.Location = new System.Drawing.Point(475, 398);
+            this.BT_GuardarPaciente.Name = "BT_GuardarPaciente";
+            this.BT_GuardarPaciente.Size = new System.Drawing.Size(109, 37);
+            this.BT_GuardarPaciente.TabIndex = 23;
+            this.BT_GuardarPaciente.Text = "Guardar y cerrar paciente";
+            this.BT_GuardarPaciente.UseVisualStyleBackColor = true;
+            this.BT_GuardarPaciente.Click += new System.EventHandler(this.BT_GuardarPaciente_Click);
+            // 
+            // BT_Exportar
+            // 
+            this.BT_Exportar.Location = new System.Drawing.Point(655, 398);
+            this.BT_Exportar.Name = "BT_Exportar";
+            this.BT_Exportar.Size = new System.Drawing.Size(109, 37);
+            this.BT_Exportar.TabIndex = 24;
+            this.BT_Exportar.Text = "Exportar información";
+            this.BT_Exportar.UseVisualStyleBackColor = true;
+            this.BT_Exportar.Click += new System.EventHandler(this.BT_Exportar_Click);
+            // 
             // Column1
             // 
             this.Column1.HeaderText = "Estructura";
@@ -245,11 +265,13 @@
             this.Column2.HeaderText = "Prescripción";
             this.Column2.Name = "Column2";
             // 
-            // Form2
+            // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(785, 499);
+            this.Controls.Add(this.BT_Exportar);
+            this.Controls.Add(this.BT_GuardarPaciente);
             this.Controls.Add(this.BT_SeleccionarPlan);
             this.Controls.Add(this.DGV_Prescripciones);
             this.Controls.Add(this.label7);
@@ -267,9 +289,9 @@
             this.Controls.Add(this.TB_ID);
             this.Controls.Add(this.LB_Cursos);
             this.Controls.Add(this.label1);
-            this.Name = "Form2";
-            this.Text = "Form2";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
+            this.Name = "Form3";
+            this.Text = "Form3";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form3_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Prescripciones)).EndInit();
@@ -299,6 +321,8 @@
         private System.Windows.Forms.Button BT_SeleccionarPlan;
         private System.Windows.Forms.DataGridViewTextBoxColumn dePlantilla;
         private System.Windows.Forms.DataGridViewComboBoxColumn delPlan;
+        private System.Windows.Forms.Button BT_GuardarPaciente;
+        private System.Windows.Forms.Button BT_Exportar;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
     }

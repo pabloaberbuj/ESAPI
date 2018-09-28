@@ -12,16 +12,17 @@ using VMS.TPS.Common.Model.Types;
 
 namespace ExploracionPlanes
 {
-    public partial class Form2 : Form
+    public partial class Form3 : Form
     {
         VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication("pa", "123qwe");
         Patient paciente;
         Course curso;
         PlanSetup plan;
         Plantilla plantilla;
+        int pacienteNro = 0;
 
 
-        public Form2(Plantilla _plantilla)
+        public Form3(Plantilla _plantilla)
         {
             InitializeComponent();
             plantilla = _plantilla;
@@ -90,7 +91,6 @@ namespace ExploracionPlanes
 
         private void BT_AbrirPaciente_Click(object sender, EventArgs e)
         {
-
             try
             {
                 paciente = abrirPaciente(TB_ID.Text);
@@ -134,11 +134,9 @@ namespace ExploracionPlanes
             DGV_Prescripciones.Rows.Clear();
             DGV_Prescripciones.ColumnCount = 2;
             double prescripcion = planSeleccionado().TotalPrescribedDose.Dose/100;
-            MessageBox.Show("Hay " + plantilla.estructurasParaPrescribir().Count.ToString() + "estructuras para prescribir");
             foreach (Estructura estructura in plantilla.estructurasParaPrescribir())
             {
                 DGV_Prescripciones.Rows.Add();
-                MessageBox.Show(estructura.nombre);
                 DGV_Prescripciones.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[0].Value = estructura.nombre;
                 DGV_Prescripciones.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[1].Value = prescripcion;
             }
@@ -181,17 +179,27 @@ namespace ExploracionPlanes
 
         private void llenarDGVAnalisis()
         {
-            DGV_Análisis.Rows.Clear();
-            DGV_Análisis.ColumnCount = 3;
+            if (pacienteNro==0)
+            {
+                DGV_Análisis.Rows.Clear();
+                DGV_Análisis.ColumnCount = 2;
+                for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
+                {
+                    IRestriccion restriccion = plantilla.listaRestricciones[i];
+                    DGV_Análisis.Rows.Add();
+                    DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiquetaInicio;
+                }
+            }
+            else
+            {
+                DGV_Análisis.ColumnCount++;
+            }
             for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
             {
                 IRestriccion restriccion = plantilla.listaRestricciones[i];
                 restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
-                DGV_Análisis.Rows.Add();
-                DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiquetaInicio;
-                DGV_Análisis.Rows[i].Cells[1].Value = restriccion.valorMedido + " " + restriccion.unidadValor;
-                colorCelda(DGV_Análisis.Rows[i].Cells[1], restriccion.cumple());
-                DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorEsperado + " " + restriccion.unidadValor;
+                DGV_Análisis.Rows[i].Cells[pacienteNro+1].Value = restriccion.valorMedido + " " + restriccion.unidadValor;
+                DGV_Análisis.Columns[pacienteNro + 1].HeaderText = paciente.Id;
             }
         }
 
@@ -214,22 +222,6 @@ namespace ExploracionPlanes
             llenarDGVAnalisis();
         }
 
-        private void colorCelda(DataGridViewCell celda, int comparacion)
-        {
-            if (comparacion == 0)
-            {
-                celda.Style.BackColor = Color.LightGreen;
-            }
-            else if (comparacion == 1)
-            {
-                celda.Style.BackColor = Color.LightYellow;
-            }
-            else
-            {
-                celda.Style.BackColor = Color.Red;
-            }
-        }
-
         private void BT_SeleccionarPlan_Click(object sender, EventArgs e)
         {
             try
@@ -245,13 +237,39 @@ namespace ExploracionPlanes
 
         }
 
-        private void Form2_FormClosing(object sender, FormClosingEventArgs e)
+        private void Form3_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (paciente!=null)
             {
                 cerrarPaciente();
             }
             
+        }
+
+        private void BT_GuardarPaciente_Click(object sender, EventArgs e)
+        {
+            cerrarPaciente();
+            TB_ID.Clear();
+            LB_Cursos.DataSource = null;
+            //LB_Cursos.Items.Clear();
+            LB_Planes.DataSource = null;
+            //LB_Planes.Items.Clear();
+            DGV_Estructuras.DataSource = null;
+            DGV_Estructuras.Rows.Clear();
+            DGV_Prescripciones.Rows.Clear();
+            pacienteNro++;
+        }
+
+        private void BT_Exportar_Click(object sender, EventArgs e)
+        {
+            // Choose whether to write header. Use EnableWithoutHeaderText instead to omit header.
+            DGV_Análisis.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+            // Select all the cells
+            DGV_Análisis.SelectAll();
+            // Copy selected cells to DataObject
+            DataObject dataObject = DGV_Análisis.GetClipboardContent();
+            // Get the text of the DataObject, and serialize it to a file
+            File.WriteAllText(plantilla.nombre + "_" + DateTime.Today.ToShortDateString() + ".txt", dataObject.GetText(TextDataFormat.CommaSeparatedValue));
         }
     }
 }

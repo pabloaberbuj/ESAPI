@@ -101,6 +101,7 @@
             this.BT_AplicarPorLote.TabIndex = 17;
             this.BT_AplicarPorLote.Text = "Aplicar por lote";
             this.BT_AplicarPorLote.UseVisualStyleBackColor = true;
+            this.BT_AplicarPorLote.Click += new System.EventHandler(this.BT_AplicarPorLote_Click);
             // 
             // Main
             // 
