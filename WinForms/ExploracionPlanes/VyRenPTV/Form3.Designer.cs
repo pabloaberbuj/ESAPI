@@ -121,7 +121,6 @@
             // 
             this.DGV_Estructuras.AllowUserToAddRows = false;
             this.DGV_Estructuras.AllowUserToDeleteRows = false;
-            this.DGV_Estructuras.AllowUserToResizeColumns = false;
             this.DGV_Estructuras.AllowUserToResizeRows = false;
             this.DGV_Estructuras.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_Estructuras.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -178,6 +177,9 @@
             // 
             // DGV_Análisis
             // 
+            this.DGV_Análisis.AllowUserToAddRows = false;
+            this.DGV_Análisis.AllowUserToDeleteRows = false;
+            this.DGV_Análisis.AllowUserToResizeRows = false;
             this.DGV_Análisis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_Análisis.Location = new System.Drawing.Point(475, 33);
             this.DGV_Análisis.Name = "DGV_Análisis";
@@ -215,6 +217,9 @@
             // 
             // DGV_Prescripciones
             // 
+            this.DGV_Prescripciones.AllowUserToAddRows = false;
+            this.DGV_Prescripciones.AllowUserToDeleteRows = false;
+            this.DGV_Prescripciones.AllowUserToResizeRows = false;
             this.DGV_Prescripciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_Prescripciones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
@@ -222,6 +227,7 @@
             this.DGV_Prescripciones.Location = new System.Drawing.Point(179, 307);
             this.DGV_Prescripciones.Name = "DGV_Prescripciones";
             this.DGV_Prescripciones.RowHeadersVisible = false;
+            this.DGV_Prescripciones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.DGV_Prescripciones.Size = new System.Drawing.Size(205, 164);
             this.DGV_Prescripciones.TabIndex = 21;
             // 

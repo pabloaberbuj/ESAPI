@@ -134,11 +134,9 @@ namespace ExploracionPlanes
             DGV_Prescripciones.Rows.Clear();
             DGV_Prescripciones.ColumnCount = 2;
             double prescripcion = planSeleccionado().TotalPrescribedDose.Dose/100;
-            MessageBox.Show("Hay " + plantilla.estructurasParaPrescribir().Count.ToString() + "estructuras para prescribir");
             foreach (Estructura estructura in plantilla.estructurasParaPrescribir())
             {
                 DGV_Prescripciones.Rows.Add();
-                MessageBox.Show(estructura.nombre);
                 DGV_Prescripciones.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[0].Value = estructura.nombre;
                 DGV_Prescripciones.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[1].Value = prescripcion;
             }
