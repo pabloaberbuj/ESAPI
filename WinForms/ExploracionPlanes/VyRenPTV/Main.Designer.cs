@@ -42,8 +42,10 @@
             this.LB_Plantillas.FormattingEnabled = true;
             this.LB_Plantillas.Location = new System.Drawing.Point(12, 29);
             this.LB_Plantillas.Name = "LB_Plantillas";
+            this.LB_Plantillas.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.LB_Plantillas.Size = new System.Drawing.Size(120, 186);
             this.LB_Plantillas.TabIndex = 12;
+            this.LB_Plantillas.SelectedIndexChanged += new System.EventHandler(this.LB_Plantillas_SelectedIndexChanged);
             // 
             // label4
             // 

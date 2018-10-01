@@ -302,5 +302,23 @@ namespace ExploracionPlanes
             BT_AgregarALista.Text = "Guardar";
             editaRestriccion = true;
         }
+
+        private void habilitarBoton(bool test, Button bt)
+        {
+            if (test)
+            {
+                bt.Enabled = true;
+            }
+            else
+            {
+                bt.Enabled = false;
+            }
+        }
+
+        private void LB_listaRestricciones_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            habilitarBoton(LB_listaRestricciones.SelectedItems.Count > 0,BT_EliminarRestriccion);
+            habilitarBoton(LB_listaRestricciones.SelectedItems.Count == 1, BT_EditarRestriccion);
+        }
     }
 }

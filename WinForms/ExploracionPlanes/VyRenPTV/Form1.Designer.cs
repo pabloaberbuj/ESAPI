@@ -153,6 +153,7 @@
             this.LB_listaRestricciones.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.LB_listaRestricciones.Size = new System.Drawing.Size(230, 108);
             this.LB_listaRestricciones.TabIndex = 12;
+            this.LB_listaRestricciones.SelectedIndexChanged += new System.EventHandler(this.LB_listaRestricciones_SelectedIndexChanged);
             // 
             // GB_NuevaRestriccion
             // 
@@ -265,6 +266,7 @@
             // 
             // BT_EliminarRestriccion
             // 
+            this.BT_EliminarRestriccion.Enabled = false;
             this.BT_EliminarRestriccion.Location = new System.Drawing.Point(283, 246);
             this.BT_EliminarRestriccion.Name = "BT_EliminarRestriccion";
             this.BT_EliminarRestriccion.Size = new System.Drawing.Size(128, 23);
@@ -286,6 +288,7 @@
             // 
             // BT_EditarRestriccion
             // 
+            this.BT_EditarRestriccion.Enabled = false;
             this.BT_EditarRestriccion.Location = new System.Drawing.Point(283, 275);
             this.BT_EditarRestriccion.Name = "BT_EditarRestriccion";
             this.BT_EditarRestriccion.Size = new System.Drawing.Size(128, 23);

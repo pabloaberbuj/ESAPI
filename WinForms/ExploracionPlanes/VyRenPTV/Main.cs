@@ -56,6 +56,27 @@ namespace ExploracionPlanes
             LB_Plantillas.DataSource = Plantilla.leerPlantillas();
             LB_Plantillas.DisplayMember = "nombre";
         }
+
+        private void habilitarBoton(bool test, Button bt)
+        {
+            if (test)
+            {
+                bt.Enabled = true;
+            }
+            else
+            {
+                bt.Enabled = false;
+            }
+        }
+
+        private void LB_Plantillas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_Editar);
+            habilitarBoton(LB_Plantillas.SelectedItems.Count>0, BT_Eliminar);
+            habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_AplicarAUnPlan);
+            habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_AplicarPorLote);
+
+        }
     }
 }
 
