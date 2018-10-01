@@ -24,19 +24,19 @@ namespace ExploracionPlanes
         private void BT_Nueva_Click(object sender, EventArgs e)
         {
             crearPlantilla = new Form1(this, false);
-            crearPlantilla.Show();
+            crearPlantilla.ShowDialog();
         }
 
         private void BT_Editar_Click(object sender, EventArgs e)
         {
             crearPlantilla = new Form1(this, true);
-            crearPlantilla.Show();
+            crearPlantilla.ShowDialog();
         }
 
         private void BT_AplicarAUnPlan_Click(object sender, EventArgs e)
         {
             aplicarPlantilla = new Form2(plantillaSeleccionada());
-            aplicarPlantilla.Show();
+            aplicarPlantilla.ShowDialog();
         }
 
         private Plantilla plantillaSeleccionada()
@@ -47,7 +47,7 @@ namespace ExploracionPlanes
         private void BT_AplicarPorLote_Click(object sender, EventArgs e)
         {
             aplicarPorLote = new Form3(plantillaSeleccionada());
-            aplicarPorLote.Show();
+            aplicarPorLote.ShowDialog();
         }
 
         public void leerPlantillas()
