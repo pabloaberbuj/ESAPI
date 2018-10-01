@@ -243,6 +243,7 @@ namespace ExploracionPlanes
         {
             Plantilla.guardar(plantillaActual());
             limpiarPlantilla();
+            main.leerPlantillas();
         }
 
         private void CB_ValorEsperadoUnidades_SelectedIndexChanged(object sender, EventArgs e)
@@ -287,11 +288,6 @@ namespace ExploracionPlanes
             {
                 CHB_esParaExtraccion.Enabled = true;
             }
-        }
-
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            main.leerPlantillas();
         }
     }
 }

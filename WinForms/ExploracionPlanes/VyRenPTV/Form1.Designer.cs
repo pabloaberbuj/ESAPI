@@ -308,7 +308,6 @@
             this.Controls.Add(this.LB_listaRestricciones);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.GB_NuevaRestriccion.ResumeLayout(false);
             this.GB_NuevaRestriccion.PerformLayout();
             this.Panel_esMenorque.ResumeLayout(false);
