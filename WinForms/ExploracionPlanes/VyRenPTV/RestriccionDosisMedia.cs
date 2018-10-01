@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -129,30 +130,26 @@ namespace ExploracionPlanes
             }
         }
 
-        /*   public void editar(IRestriccion restriccion, string Estructura, List<string> nombresAlt, int tipoRest, double valorCorresp, bool esMenor, double valorEsperado, double valorTolerado, string unidadCorresp, string unidadEsperado)
-           {
-               Estructura = ((RestriccionDosis)restriccion).estructura;
-               nombresAlt = ((RestriccionDosis)restriccion).estructuraNombresPosibles;
-               nombresAlt.Remove(((RestriccionDosis)restriccion).estructura);
-               if (esDosisMedia)
-               {
-                   tipoRest = 1;
-               }
-               else if (esDosisMaxima)
-               {
-                   tipoRest = 2;
-               }
-               else
-               {
-                   tipoRest = 0;
-               }
-               esMenor = ((RestriccionDosis)restriccion).esMenorQue;
-               valorCorresp = ((RestriccionDosis)restriccion).Volumen;
-               DosisEsperada = ((RestriccionDosis)restriccion).DosisEsperada;
-               DosisMedida = ((RestriccionDosis)restriccion).DosisMedida;
-
-
-
-           }*/
+        public void editar(ComboBox CB_Estructura, TextBox TB_nombresAlt, ComboBox CB_TipoRestr, TextBox TB_valorCorrespondiente,
+        ComboBox CB_UnidadesCorresp, ComboBox CB_EsMenorQue, TextBox TB_ValorEsperado, TextBox TB_ValorTolerado, ComboBox CB_UnidadesValor)
+        {
+            CB_Estructura.Text = estructura.nombre;
+            for (int i = 1; i < estructura.nombresPosibles.Count; i++)
+            {
+                TB_nombresAlt.Text += "\r\n" + estructura.nombresPosibles[i];
+            }
+            CB_TipoRestr.SelectedIndex = 2; //cambiar en cada restriccion
+            //TB_valorCorrespondiente.Text = valorCorrespondiente.ToString();
+            if (esMenorQue)
+            {
+                CB_EsMenorQue.SelectedIndex = 0;
+            }
+            else
+            {
+                CB_EsMenorQue.SelectedIndex = 1;
+            }
+            TB_ValorEsperado.Text = valorEsperado.ToString();
+            TB_ValorTolerado.Text = valorTolerado.ToString();
+        }
     }
 }

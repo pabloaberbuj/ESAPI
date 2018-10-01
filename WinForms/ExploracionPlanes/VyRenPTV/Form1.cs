@@ -17,6 +17,7 @@ namespace ExploracionPlanes
 
         BindingList<IRestriccion> listaRestricciones = new BindingList<IRestriccion>();
         Main main = new Main();
+        bool editaRestriccion = false;
 
 
 
@@ -148,6 +149,11 @@ namespace ExploracionPlanes
         }
         private void BT_AgregarALista_Click(object sender, EventArgs e)
         {
+            if (editaRestriccion)
+            {
+                listaRestricciones.Remove((IRestriccion)LB_listaRestricciones.SelectedItem);
+                editaRestriccion = false;
+            }
             restriccionActual().agregarALista(listaRestricciones);
             limpiarPrescripcion();
             if (!CB_Estructura.Items.Contains(estructura().nombre))
@@ -155,7 +161,6 @@ namespace ExploracionPlanes
                 CB_Estructura.Items.Add(estructura().nombre);
             }
             fijarEsParaExtraccion();
-
         }
 
         private void actualizarPorRestriccion()
@@ -288,6 +293,14 @@ namespace ExploracionPlanes
             {
                 CHB_esParaExtraccion.Enabled = true;
             }
+        }
+
+        private void BT_EditarRestriccion_Click(object sender, EventArgs e)
+        {
+            ((IRestriccion)(LB_listaRestricciones.SelectedItem)).editar(CB_Estructura, TB_EstructuraNombresAlt, CB_TipoRestriccion, TB_CorrespA,
+                CB_CorrespAUnidades, CB_MenorOMayor, TB_ValorEsperado, TB_ValorTolerado, CB_ValorEsperadoUnidades);
+            BT_AgregarALista.Text = "Guardar";
+            editaRestriccion = true;
         }
     }
 }

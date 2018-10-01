@@ -27,12 +27,11 @@ namespace ExploracionPlanes
         void crearEtiqueta();
         int cumple();
         void analizarPlanEstructura(PlanSetup plan, Structure estructura);
-        //int analizarPlan(PlanSetup plan);
         IRestriccion crear(Estructura _estructura, string _unidadValor, string _unidadCorrespondiente, bool _esMenorQue,
             double _valorEsperado, double _valorTolerado, double _valorCorrespondiente);
 
-        /*/void editar(IRestriccion restriccion, string Estructura, List<string> nombresAlt, int tipoRest,
-            double valorCorresp, bool esMenor, double valorEsperado, double valorTolerado,
-            string unidadCorresp, string unidadEsperado);*/
+        void editar(ComboBox CB_Estructura, TextBox TB_nombresAlt, ComboBox CB_TipoRestr, TextBox TB_valorCorrespondiente,
+            ComboBox CB_UnidadesCorresp, ComboBox CB_EsMenorQue, TextBox TB_ValorEsperado, TextBox TB_ValorTolerado, ComboBox CB_UnidadesValor);
+
     }
 }
