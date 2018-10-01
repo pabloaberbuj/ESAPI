@@ -14,7 +14,7 @@ namespace ExploracionPlanes
 {
     public partial class Form2 : Form
     {
-        VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication("pa", "123qwe");
+        VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
         Patient paciente;
         Course curso;
         PlanSetup plan;
@@ -33,8 +33,15 @@ namespace ExploracionPlanes
             {
                 cerrarPaciente();
             }
-            Patient _paciente = app.OpenPatientById(ID);
-            return _paciente;
+            try
+            {
+                return app.OpenPatientById(ID);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("El paciente no existe");
+                throw;
+            }
         }
 
         public void cerrarPaciente()
@@ -90,17 +97,8 @@ namespace ExploracionPlanes
 
         private void BT_AbrirPaciente_Click(object sender, EventArgs e)
         {
-
-            try
-            {
-                paciente = abrirPaciente(TB_ID.Text);
-                LB_Cursos.DataSource = listaCursos(paciente);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("El paciente no existe");
-                throw;
-            }
+            paciente = abrirPaciente(TB_ID.Text);
+            LB_Cursos.DataSource = listaCursos(paciente);
         }
 
         private void LB_Cursos_SelectedIndexChanged(object sender, EventArgs e)
@@ -109,10 +107,10 @@ namespace ExploracionPlanes
             LB_Planes.DataSource = listaPlanes(cursoSeleccionado());
         }
 
-     /*   private void BT_SeleccionarPlantillas_Click(object sender, EventArgs e)
-        {
-            llenarDGVEstructuras();
-        }*/
+        /*   private void BT_SeleccionarPlantillas_Click(object sender, EventArgs e)
+           {
+               llenarDGVEstructuras();
+           }*/
 
         private void llenarDGVEstructuras()
         {
@@ -133,7 +131,7 @@ namespace ExploracionPlanes
         {
             DGV_Prescripciones.Rows.Clear();
             DGV_Prescripciones.ColumnCount = 2;
-            double prescripcion = planSeleccionado().TotalPrescribedDose.Dose/100;
+            double prescripcion = planSeleccionado().TotalPrescribedDose.Dose / 100;
             foreach (Estructura estructura in plantilla.estructurasParaPrescribir())
             {
                 DGV_Prescripciones.Rows.Add();
@@ -245,11 +243,13 @@ namespace ExploracionPlanes
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (paciente!=null)
+            if (paciente != null)
             {
                 cerrarPaciente();
+                app.Dispose();
+
             }
-            
+
         }
     }
 }

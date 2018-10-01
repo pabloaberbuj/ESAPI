@@ -17,8 +17,8 @@ namespace ExploracionPlanes
         public Main()
         {
             InitializeComponent();
-            LB_Plantillas.DataSource = Plantilla.leerPlantillas();
-            LB_Plantillas.DisplayMember = "nombre";
+            leerPlantillas();
+            
         }
 
         private void BT_Nueva_Click(object sender, EventArgs e)
@@ -49,5 +49,13 @@ namespace ExploracionPlanes
             aplicarPorLote = new Form3(plantillaSeleccionada());
             aplicarPorLote.Show();
         }
+
+        public void leerPlantillas()
+        {
+            LB_Plantillas.DataSource = null;
+            LB_Plantillas.DataSource = Plantilla.leerPlantillas();
+            LB_Plantillas.DisplayMember = "nombre";
+        }
     }
 }
+

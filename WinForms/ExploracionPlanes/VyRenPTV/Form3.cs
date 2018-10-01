@@ -34,8 +34,15 @@ namespace ExploracionPlanes
             {
                 cerrarPaciente();
             }
-            Patient _paciente = app.OpenPatientById(ID);
-            return _paciente;
+            try
+            {
+                return app.OpenPatientById(ID);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("El paciente no existe");
+                throw;
+            }
         }
 
         public void cerrarPaciente()
@@ -91,16 +98,8 @@ namespace ExploracionPlanes
 
         private void BT_AbrirPaciente_Click(object sender, EventArgs e)
         {
-            try
-            {
-                paciente = abrirPaciente(TB_ID.Text);
-                LB_Cursos.DataSource = listaCursos(paciente);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("El paciente no existe");
-                throw;
-            }
+            paciente = abrirPaciente(TB_ID.Text);
+            LB_Cursos.DataSource = listaCursos(paciente);
         }
 
         private void LB_Cursos_SelectedIndexChanged(object sender, EventArgs e)
@@ -242,6 +241,7 @@ namespace ExploracionPlanes
             if (paciente!=null)
             {
                 cerrarPaciente();
+                app.Dispose();
             }
             
         }

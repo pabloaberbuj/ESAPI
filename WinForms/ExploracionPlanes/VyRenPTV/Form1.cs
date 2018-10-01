@@ -16,16 +16,18 @@ namespace ExploracionPlanes
     {
 
         BindingList<IRestriccion> listaRestricciones = new BindingList<IRestriccion>();
+        Main main = new Main();
 
 
 
-        public Form1(Main main, bool edita)
+        public Form1(Main _main, bool edita)
         {
             InitializeComponent();
             CB_MenorOMayor.SelectedIndex = 0;
             CB_TipoRestriccion.SelectedIndex = 0;
             LB_listaRestricciones.DataSource = listaRestricciones;
             LB_listaRestricciones.DisplayMember = "etiqueta";
+            main = _main;
 
 
         }
@@ -287,5 +289,9 @@ namespace ExploracionPlanes
             }
         }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            main.leerPlantillas();
+        }
     }
 }

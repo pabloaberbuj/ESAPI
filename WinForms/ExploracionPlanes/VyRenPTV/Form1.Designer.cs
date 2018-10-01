@@ -150,7 +150,7 @@
             this.LB_listaRestricciones.FormattingEnabled = true;
             this.LB_listaRestricciones.Location = new System.Drawing.Point(30, 246);
             this.LB_listaRestricciones.Name = "LB_listaRestricciones";
-            this.LB_listaRestricciones.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.LB_listaRestricciones.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.LB_listaRestricciones.Size = new System.Drawing.Size(230, 108);
             this.LB_listaRestricciones.TabIndex = 12;
             // 
@@ -308,6 +308,7 @@
             this.Controls.Add(this.LB_listaRestricciones);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.GB_NuevaRestriccion.ResumeLayout(false);
             this.GB_NuevaRestriccion.PerformLayout();
             this.Panel_esMenorque.ResumeLayout(false);
