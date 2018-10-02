@@ -152,7 +152,11 @@ namespace ExploracionPlanes
             CB_Estructura.Text = estructura.nombre;
             for (int i=1; i<estructura.nombresPosibles.Count;i++)
             {
-                TB_nombresAlt.Text += "\r\n" + estructura.nombresPosibles[i];
+                if (i>1)
+                {
+                    TB_nombresAlt.Text += "\r\n";
+                }
+                TB_nombresAlt.Text += estructura.nombresPosibles[i];
             }
             CB_TipoRestr.SelectedIndex = 0; //cambiar en cada restriccion
             TB_valorCorrespondiente.Text = valorCorrespondiente.ToString();

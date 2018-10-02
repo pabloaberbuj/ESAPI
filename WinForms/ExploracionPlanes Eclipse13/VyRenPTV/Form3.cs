@@ -15,6 +15,7 @@ namespace ExploracionPlanes
     public partial class Form3 : Form
     {
         VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
+
         Patient paciente;
         Course curso;
         PlanSetup plan;
