@@ -25,6 +25,7 @@ namespace ExploracionPlanes
         {
             InitializeComponent();
             plantilla = _plantilla;
+            this.Text = plantilla.nombre;
         }
 
         public Patient abrirPaciente(string ID)
@@ -99,6 +100,9 @@ namespace ExploracionPlanes
         {
             paciente = abrirPaciente(TB_ID.Text);
             LB_Cursos.DataSource = listaCursos(paciente);
+            L_NombrePaciente.Text = paciente.Name;
+            L_NombrePaciente.Visible = true;
+            this.Text += " - " + paciente.Name;
         }
 
         private void LB_Cursos_SelectedIndexChanged(object sender, EventArgs e)
@@ -247,9 +251,31 @@ namespace ExploracionPlanes
             {
                 cerrarPaciente();
                 app.Dispose();
-
             }
+        }
 
+        private void habilitarBoton(bool test, Button bt)
+        {
+            if (test)
+            {
+                bt.Enabled = true;
+            }
+            else
+            {
+                bt.Enabled = false;
+            }
+        }
+
+        private void TB_ID_TextChanged(object sender, EventArgs e)
+        {
+            habilitarBoton(string.IsNullOrEmpty(TB_ID.Text), BT_AbrirPaciente);
+        }
+
+
+        private void LB_Planes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            habilitarBoton(LB_Planes.SelectedItems.Count == 1, BT_SeleccionarPlan);
+            habilitarBoton(LB_Planes.SelectedItems.Count == 1, BT_Analizar);
         }
     }
 }

@@ -271,5 +271,29 @@ namespace ExploracionPlanes
             // Get the text of the DataObject, and serialize it to a file
             File.WriteAllText(plantilla.nombre + "_" + DateTime.Today.ToShortDateString() + ".txt", dataObject.GetText(TextDataFormat.CommaSeparatedValue));
         }
+
+        private void habilitarBoton(bool test, Button bt)
+        {
+            if (test)
+            {
+                bt.Enabled = true;
+            }
+            else
+            {
+                bt.Enabled = false;
+            }
+        }
+
+        private void TB_ID_TextChanged(object sender, EventArgs e)
+        {
+            habilitarBoton(string.IsNullOrEmpty(TB_ID.Text), BT_AbrirPaciente);
+        }
+
+
+        private void LB_Planes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            habilitarBoton(LB_Planes.SelectedItems.Count == 1, BT_SeleccionarPlan);
+            habilitarBoton(LB_Planes.SelectedItems.Count == 1, BT_Analizar);
+        }
     }
 }

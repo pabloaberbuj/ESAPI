@@ -80,6 +80,7 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Imprimir.cs" />
     <Compile Include="IO.cs" />
     <Compile Include="IRestriccion.cs" />
     <Compile Include="Main.cs">
