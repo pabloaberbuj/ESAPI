@@ -33,7 +33,7 @@ namespace ExploracionPlanes
             main = _main;
             if (_editaPlantilla)
             {
-                main.plantillaSeleccionada().editar(TB_NombrePlantilla, CHB_esParaExtraccion, LB_listaRestricciones);
+                main.plantillaSeleccionada().editar(TB_NombrePlantilla, CHB_esParaExtraccion, listaRestricciones);
             }
 
 
@@ -247,6 +247,7 @@ namespace ExploracionPlanes
             limpiarPrescripcion();
             CB_Estructura.Items.Clear();
             listaRestricciones.Clear();
+            LB_listaRestricciones.DataSource = listaRestricciones;
             TB_NombrePlantilla.Clear();
             fijarEsParaExtraccion();
         }

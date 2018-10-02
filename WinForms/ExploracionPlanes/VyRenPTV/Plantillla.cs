@@ -93,14 +93,18 @@ namespace ExploracionPlanes
             }
         }
 
-        public void editar(TextBox TB_nombre, CheckBox CHB_esParaExtraer, ListBox LB_listaRestricciones)
+        public void editar(TextBox TB_nombre, CheckBox CHB_esParaExtraer, BindingList<IRestriccion> ListaRestricciones)
         {
             TB_nombre.Text = nombre;
             if (esParaExtraccion)
             {
                 CHB_esParaExtraer.Checked = true;
             }
-            LB_listaRestricciones.DataSource = listaRestricciones;
+            foreach(IRestriccion restriccion in listaRestricciones)
+            {
+                ListaRestricciones.Add(restriccion);
+            }
+            
         }
     }
 }
