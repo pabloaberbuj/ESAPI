@@ -84,6 +84,7 @@
             this.BT_Eliminar.TabIndex = 15;
             this.BT_Eliminar.Text = "Eliminar";
             this.BT_Eliminar.UseVisualStyleBackColor = true;
+            this.BT_Eliminar.Click += new System.EventHandler(this.BT_Eliminar_Click);
             // 
             // BT_AplicarAUnPlan
             // 

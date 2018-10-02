@@ -39,7 +39,7 @@ namespace ExploracionPlanes
             aplicarPlantilla.ShowDialog();
         }
 
-        private Plantilla plantillaSeleccionada()
+        public Plantilla plantillaSeleccionada()
         {
             return (Plantilla)LB_Plantillas.SelectedItem;
         }
@@ -76,6 +76,12 @@ namespace ExploracionPlanes
             habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_AplicarAUnPlan);
             habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_AplicarPorLote);
 
+        }
+
+        private void BT_Eliminar_Click(object sender, EventArgs e)
+        {
+            plantillaSeleccionada().eliminar();
+            leerPlantillas();
         }
     }
 }

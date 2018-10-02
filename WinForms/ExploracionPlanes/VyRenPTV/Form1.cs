@@ -16,19 +16,25 @@ namespace ExploracionPlanes
     {
 
         BindingList<IRestriccion> listaRestricciones = new BindingList<IRestriccion>();
-        Main main = new Main();
         bool editaRestriccion = false;
+        bool editaPlantilla = false;
+        Main main = new Main();
 
 
 
-        public Form1(Main _main, bool edita)
+        public Form1(Main _main, bool _editaPlantilla)
         {
             InitializeComponent();
             CB_MenorOMayor.SelectedIndex = 0;
             CB_TipoRestriccion.SelectedIndex = 0;
             LB_listaRestricciones.DataSource = listaRestricciones;
             LB_listaRestricciones.DisplayMember = "etiqueta";
+            editaPlantilla = _editaPlantilla;
             main = _main;
+            if (_editaPlantilla)
+            {
+                main.plantillaSeleccionada().editar(TB_NombrePlantilla, CHB_esParaExtraccion, LB_listaRestricciones);
+            }
 
 
         }
@@ -246,9 +252,10 @@ namespace ExploracionPlanes
         }
         private void BT_GuardarPlantilla_Click(object sender, EventArgs e)
         {
-            Plantilla.guardar(plantillaActual());
+            plantillaActual().guardar(editaPlantilla,main.plantillaSeleccionada());
             limpiarPlantilla();
             main.leerPlantillas();
+            editaPlantilla = false;
         }
 
         private void CB_ValorEsperadoUnidades_SelectedIndexChanged(object sender, EventArgs e)
