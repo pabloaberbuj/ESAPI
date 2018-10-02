@@ -253,7 +253,7 @@ namespace ExploracionPlanes
         }
         private void BT_GuardarPlantilla_Click(object sender, EventArgs e)
         {
-            plantillaActual().guardar(editaPlantilla,main.plantillaSeleccionada());
+            plantillaActual().guardar(editaPlantilla, main.plantillaSeleccionada());
             limpiarPlantilla();
             main.leerPlantillas();
             editaPlantilla = false;
@@ -277,6 +277,7 @@ namespace ExploracionPlanes
         private void CB_Estructura_TextChanged(object sender, EventArgs e)
         {
             TB_EstructuraNombresAlt.Clear();
+            actualizarBotones(sender, e);
         }
 
         private void CHB_esParaExtraccion_CheckedChanged(object sender, EventArgs e)
@@ -325,8 +326,22 @@ namespace ExploracionPlanes
 
         private void LB_listaRestricciones_SelectedIndexChanged(object sender, EventArgs e)
         {
-            habilitarBoton(LB_listaRestricciones.SelectedItems.Count > 0,BT_EliminarRestriccion);
-            habilitarBoton(LB_listaRestricciones.SelectedItems.Count == 1, BT_EditarRestriccion);
+
         }
+
+        private void actualizarBotones(object sender, EventArgs e)
+        {
+            habilitarBoton(LB_listaRestricciones.SelectedItems.Count > 0, BT_EliminarRestriccion);
+            habilitarBoton(LB_listaRestricciones.SelectedItems.Count == 1, BT_EditarRestriccion);
+            habilitarBoton(estaParaGrabarRestriccion(), BT_AgregarALista);
+            habilitarBoton(!string.IsNullOrEmpty(TB_NombrePlantilla.Text) && LB_listaRestricciones.Items.Count > 0, BT_GuardarPlantilla);
+        }
+
+        private bool estaParaGrabarRestriccion()
+        {
+            return !string.IsNullOrEmpty(CB_Estructura.Text) && CB_TipoRestriccion.SelectedIndex != -1 &&
+                  (esParaExtraccion() || (CB_MenorOMayor.SelectedIndex != -1 && !string.IsNullOrEmpty(TB_ValorEsperado.Text)));
+        }
+
     }
 }
