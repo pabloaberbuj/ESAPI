@@ -55,6 +55,11 @@
             this.BT_Imprimir = new System.Windows.Forms.Button();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
+            this.BT_VistaPrevia = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.L_EstatusAprobacion = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.L_UltimaModificacion = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Prescripciones)).BeginInit();
@@ -156,7 +161,7 @@
             // L_NombrePaciente
             // 
             this.L_NombrePaciente.AutoSize = true;
-            this.L_NombrePaciente.Location = new System.Drawing.Point(24, 86);
+            this.L_NombrePaciente.Location = new System.Drawing.Point(7, 89);
             this.L_NombrePaciente.Name = "L_NombrePaciente";
             this.L_NombrePaciente.Size = new System.Drawing.Size(35, 13);
             this.L_NombrePaciente.TabIndex = 14;
@@ -187,6 +192,7 @@
             this.DGV_Análisis.RowHeadersVisible = false;
             this.DGV_Análisis.Size = new System.Drawing.Size(306, 348);
             this.DGV_Análisis.TabIndex = 16;
+            this.DGV_Análisis.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.DGV_Análisis_RowsAdded);
             // 
             // Column3
             // 
@@ -276,6 +282,7 @@
             this.BT_Imprimir.TabIndex = 23;
             this.BT_Imprimir.Text = "Imprimir";
             this.BT_Imprimir.UseVisualStyleBackColor = true;
+            this.BT_Imprimir.Click += new System.EventHandler(this.BT_Imprimir_Click);
             // 
             // printDialog1
             // 
@@ -291,11 +298,65 @@
             this.printPreviewDialog1.Name = "printPreviewDialog1";
             this.printPreviewDialog1.Visible = false;
             // 
+            // BT_VistaPrevia
+            // 
+            this.BT_VistaPrevia.Enabled = false;
+            this.BT_VistaPrevia.Location = new System.Drawing.Point(537, 397);
+            this.BT_VistaPrevia.Name = "BT_VistaPrevia";
+            this.BT_VistaPrevia.Size = new System.Drawing.Size(109, 23);
+            this.BT_VistaPrevia.TabIndex = 24;
+            this.BT_VistaPrevia.Text = "VistaPrevia";
+            this.BT_VistaPrevia.UseVisualStyleBackColor = true;
+            this.BT_VistaPrevia.Click += new System.EventHandler(this.BT_VistaPrevia_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 368);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.TabIndex = 25;
+            this.label4.Text = "label6";
+            this.label4.Visible = false;
+            // 
+            // L_EstatusAprobacion
+            // 
+            this.L_EstatusAprobacion.AutoSize = true;
+            this.L_EstatusAprobacion.Location = new System.Drawing.Point(48, 368);
+            this.L_EstatusAprobacion.Name = "L_EstatusAprobacion";
+            this.L_EstatusAprobacion.Size = new System.Drawing.Size(35, 13);
+            this.L_EstatusAprobacion.TabIndex = 26;
+            this.L_EstatusAprobacion.Text = "label6";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(7, 397);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(35, 13);
+            this.label9.TabIndex = 27;
+            this.label9.Text = "label6";
+            this.label9.Visible = false;
+            // 
+            // L_UltimaModificacion
+            // 
+            this.L_UltimaModificacion.AutoSize = true;
+            this.L_UltimaModificacion.Location = new System.Drawing.Point(48, 397);
+            this.L_UltimaModificacion.Name = "L_UltimaModificacion";
+            this.L_UltimaModificacion.Size = new System.Drawing.Size(35, 13);
+            this.L_UltimaModificacion.TabIndex = 28;
+            this.L_UltimaModificacion.Text = "label6";
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(785, 499);
+            this.Controls.Add(this.L_UltimaModificacion);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.L_EstatusAprobacion);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.BT_VistaPrevia);
             this.Controls.Add(this.BT_Imprimir);
             this.Controls.Add(this.BT_SeleccionarPlan);
             this.Controls.Add(this.DGV_Prescripciones);
@@ -352,5 +413,10 @@
         private System.Windows.Forms.Button BT_Imprimir;
         private System.Windows.Forms.PrintDialog printDialog1;
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
+        private System.Windows.Forms.Button BT_VistaPrevia;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label L_EstatusAprobacion;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label L_UltimaModificacion;
     }
 }

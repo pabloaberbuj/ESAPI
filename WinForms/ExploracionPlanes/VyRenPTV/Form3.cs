@@ -274,19 +274,12 @@ namespace ExploracionPlanes
 
         private void habilitarBoton(bool test, Button bt)
         {
-            if (test)
-            {
-                bt.Enabled = true;
-            }
-            else
-            {
-                bt.Enabled = false;
-            }
+            bt.Enabled = test;
         }
 
         private void TB_ID_TextChanged(object sender, EventArgs e)
         {
-            habilitarBoton(string.IsNullOrEmpty(TB_ID.Text), BT_AbrirPaciente);
+            habilitarBoton(!string.IsNullOrEmpty(TB_ID.Text), BT_AbrirPaciente);
         }
 
 

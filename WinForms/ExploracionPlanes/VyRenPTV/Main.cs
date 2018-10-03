@@ -59,14 +59,7 @@ namespace ExploracionPlanes
 
         private void habilitarBoton(bool test, Button bt)
         {
-            if (test)
-            {
-                bt.Enabled = true;
-            }
-            else
-            {
-                bt.Enabled = false;
-            }
+            bt.Enabled = test;
         }
 
         private void LB_Plantillas_SelectedIndexChanged(object sender, EventArgs e)

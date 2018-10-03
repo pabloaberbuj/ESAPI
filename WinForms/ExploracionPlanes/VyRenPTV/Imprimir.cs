@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace ExploracionPlanes
 {
-    class Imprimir
+    public class Imprimir
     {
 
         public static Font fuenteTitulo = new Font("Arial", 14, FontStyle.Bold);
@@ -165,16 +165,11 @@ namespace ExploracionPlanes
         {
             int x_value = (anchohoja - tabla.Width) / 2;
             int y_value = posicionlinea;
-            Font Header = new Font("Arial", 13, FontStyle.Bold);
-            Font celda = new Font("Arial", 12, FontStyle.Regular);
-            StringFormat centro = new StringFormat(); centro.Alignment = StringAlignment.Center;
-            StringFormat izquierda = new StringFormat(); izquierda.Alignment = StringAlignment.Near;
-            SolidBrush color = new SolidBrush(Color.Black);
 
 
             foreach (DataGridViewColumn dc in tabla.Columns)
             {
-                e.Graphics.DrawString(dc.HeaderText, Header, color, x_value, y_value, centro);
+                e.Graphics.DrawString(dc.HeaderText, fuenteTablaHeader, negro, x_value, y_value, centro);
                 x_value += dc.Width + 5;
             }
             y_value += 40;
@@ -188,7 +183,11 @@ namespace ExploracionPlanes
                 foreach (DataGridViewColumn dc in tabla.Columns)
                 {
                     string text = tabla[j, i].Value.ToString();
-                    e.Graphics.DrawString(text, celda, color, x_value, y_value + 10f, centro);
+                    
+                    Rectangle rect = new Rectangle(x_value, y_value +10, Convert.ToInt32(fuenteTabla.SizeInPoints * text.Length), Convert.ToInt32(fuenteTabla.Height));
+                    Brush color = new SolidBrush(tabla[j, i].Style.BackColor);
+                    e.Graphics.FillRectangle(color, rect);
+                    e.Graphics.DrawString(text, fuenteTabla, negro, rect, centro);
                     x_value += dc.Width + 5;
                     j++;
                 }

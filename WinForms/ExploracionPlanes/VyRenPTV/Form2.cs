@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Printing;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -236,13 +237,13 @@ namespace ExploracionPlanes
             {
                 llenarDGVEstructuras();
                 llenarDGVPrescripciones();
+                L_EstatusAprobacion.Text = planSeleccionado().ApprovalStatus.ToString();
+                L_UltimaModificacion.Text = planSeleccionado().HistoryDateTime.ToShortDateString();
             }
             catch (Exception exp)
             {
                 File.WriteAllText("log.txt", exp.ToString());
-
             }
-
         }
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
@@ -256,19 +257,12 @@ namespace ExploracionPlanes
 
         private void habilitarBoton(bool test, Button bt)
         {
-            if (test)
-            {
-                bt.Enabled = true;
-            }
-            else
-            {
-                bt.Enabled = false;
-            }
+            bt.Enabled = test;
         }
 
         private void TB_ID_TextChanged(object sender, EventArgs e)
         {
-            habilitarBoton(string.IsNullOrEmpty(TB_ID.Text), BT_AbrirPaciente);
+            habilitarBoton(!string.IsNullOrEmpty(TB_ID.Text), BT_AbrirPaciente);
         }
 
 
@@ -277,5 +271,45 @@ namespace ExploracionPlanes
             habilitarBoton(LB_Planes.SelectedItems.Count == 1, BT_SeleccionarPlan);
             habilitarBoton(LB_Planes.SelectedItems.Count == 1, BT_Analizar);
         }
+
+        private void DGV_Análisis_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            habilitarBoton(DGV_Análisis.Rows.Count > 0, BT_VistaPrevia);
+            habilitarBoton(DGV_Análisis.Rows.Count > 0, BT_Imprimir);
+        }
+
+
+
+
+        #region Imprimir
+        private void BT_VistaPrevia_Click(object sender, EventArgs e)
+        {
+            PrintDocument pd = new PrintDocument();
+            pd = Imprimir.cargarConfiguracion();
+            printPreviewDialog1.Document = pd;
+            pd.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage_1);
+
+            printPreviewDialog1.ShowDialog();
+        }
+
+        private void BT_Imprimir_Click(object sender, EventArgs e)
+        {
+            PrintDocument pd = new PrintDocument();
+            pd = Imprimir.cargarConfiguracion();
+            printDialog1.Document = pd;
+            pd.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage_1);
+            pd.PrinterSettings = printDialog1.PrinterSettings;
+            if (printDialog1.ShowDialog() == DialogResult.OK)
+            {
+                pd.Print();
+            }
+        }
+        private void printDocument1_PrintPage_1(object sender, PrintPageEventArgs e)
+        {
+            Imprimir.imprimirtabla(e, DGV_Análisis, Imprimir.altoTotal, 10);
+        }
+
+
+        #endregion
     }
 }
