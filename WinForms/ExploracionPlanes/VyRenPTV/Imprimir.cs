@@ -117,7 +117,7 @@ namespace ExploracionPlanes
         {
             Rectangle rect = new Rectangle(0, posicionlinea, anchoTotal, altoSubtitulo);
             e.Graphics.DrawString(subtitulo, fuenteSubtitulo, negro, rect, izquierda);
-            return posicionlinea + altoSubtitulo + espacioTitulo;
+            return posicionlinea + altoSubtitulo;
         }
 
         public static int imprimirSubtitulo2(PrintPageEventArgs e, string subtitulo2, int posicionlinea, int x = 0)
@@ -153,6 +153,13 @@ namespace ExploracionPlanes
             return Convert.ToInt32(largoString.Width) + 1;
         }
 
+        public static int imprimirEtiquetaYValor(PrintPageEventArgs e, int posicionlinea, string etiqueta, string valor, int x)
+        {
+            x += imprimirTextoNegrita(e, etiqueta, posicionlinea, 1, x);
+            x += imprimirTexto(e, valor, posicionlinea, 1, x);
+            return x;
+        }
+
         public static int imprimirTextoDerecha(PrintPageEventArgs e, string texto, int posicionlinea, int numlineas, int x)
         {
             Rectangle rect = new Rectangle(x, posicionlinea, anchoTotal, altoTexto * numlineas);
@@ -172,27 +179,51 @@ namespace ExploracionPlanes
                 e.Graphics.DrawString(dc.HeaderText, fuenteTablaHeader, negro, x_value, y_value, centro);
                 x_value += dc.Width + 5;
             }
-            y_value += 40;
+            y_value += 20;
             for (int i = 0; i < tabla.RowCount; i++)
             {
 
                 DataGridViewRow dr = tabla.Rows[i];
                 x_value = (anchohoja - tabla.Width) / 2;
                 int j = 0;
-                e.Graphics.DrawLine(Pens.Black, new Point(x_value - 40, y_value), new Point(x_value + tabla.Width - 70, y_value));
+                e.Graphics.DrawLine(Pens.Black, new Point(x_value - 40, y_value), new Point(x_value + tabla.Width - 50, y_value));
                 foreach (DataGridViewColumn dc in tabla.Columns)
                 {
                     string text = tabla[j, i].Value.ToString();
-                    
-                    Rectangle rect = new Rectangle(x_value, y_value +10, Convert.ToInt32(fuenteTabla.SizeInPoints * text.Length), Convert.ToInt32(fuenteTabla.Height));
+
+                    Rectangle rect = new Rectangle(x_value-2, y_value + 8, Convert.ToInt32(fuenteTabla.SizeInPoints * text.Length)+2, Convert.ToInt32(fuenteTabla.Height)+2);
                     Brush color = new SolidBrush(tabla[j, i].Style.BackColor);
                     e.Graphics.FillRectangle(color, rect);
-                    e.Graphics.DrawString(text, fuenteTabla, negro, rect, centro);
-                    x_value += dc.Width + 5;
+                    if (dc.Index==0)
+                    {
+                        e.Graphics.DrawString(text, fuenteTabla, negro, rect, izquierda);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawString(text, fuenteTabla, negro, rect, centro);
+                    }
+                    x_value += dc.Width + 8;
                     j++;
                 }
-                y_value += 40;
+                y_value += 25;
             }
+        }
+        public static int imprimirCabeceraInforme(PrintPageEventArgs e, int anchohoja, int posicionlinea, string nombrePaciente, string nombrePlantilla, string realizadoPor)
+        {
+            posicionlinea += imprimirTitulo(e, "Título", posicionlinea, 1);
+            posicionlinea += imprimirSubtitulo(e, "Paciente: " + nombrePaciente, posicionlinea);
+            posicionlinea += imprimirSubtitulo(e, "Plantilla: " + nombrePlantilla, posicionlinea);
+            int x_value = 10;
+            imprimirEtiquetaYValor(e, posicionlinea, "Realizado por: ", realizadoPor, x_value);
+            posicionlinea += altoTexto;
+            imprimirEtiquetaYValor(e, posicionlinea, "Fecha: ", DateTime.Today.ToShortDateString(), x_value);
+            return posicionlinea += altoTexto;
+        }
+
+        public static void imprimirInforme(PrintPageEventArgs e, int anchohoja, int posicionlinea, string nombrePaciente, string nombrePlantilla, string realizadoPor, DataGridView tabla)
+        {
+            posicionlinea += imprimirCabeceraInforme(e, anchohoja, posicionlinea, nombrePaciente, nombrePlantilla, realizadoPor);
+            imprimirtabla(e, tabla, anchohoja, posicionlinea);
         }
 
     }

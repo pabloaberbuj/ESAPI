@@ -58,8 +58,6 @@
             this.BT_VistaPrevia = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.L_EstatusAprobacion = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.L_UltimaModificacion = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Prescripciones)).BeginInit();
@@ -314,9 +312,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(7, 368);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.Size = new System.Drawing.Size(45, 13);
             this.label4.TabIndex = 25;
-            this.label4.Text = "label6";
+            this.label4.Text = "Estatus:";
             this.label4.Visible = false;
             // 
             // L_EstatusAprobacion
@@ -328,32 +326,11 @@
             this.L_EstatusAprobacion.TabIndex = 26;
             this.L_EstatusAprobacion.Text = "label6";
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(7, 397);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(35, 13);
-            this.label9.TabIndex = 27;
-            this.label9.Text = "label6";
-            this.label9.Visible = false;
-            // 
-            // L_UltimaModificacion
-            // 
-            this.L_UltimaModificacion.AutoSize = true;
-            this.L_UltimaModificacion.Location = new System.Drawing.Point(48, 397);
-            this.L_UltimaModificacion.Name = "L_UltimaModificacion";
-            this.L_UltimaModificacion.Size = new System.Drawing.Size(35, 13);
-            this.L_UltimaModificacion.TabIndex = 28;
-            this.L_UltimaModificacion.Text = "label6";
-            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(785, 499);
-            this.Controls.Add(this.L_UltimaModificacion);
-            this.Controls.Add(this.label9);
             this.Controls.Add(this.L_EstatusAprobacion);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.BT_VistaPrevia);
@@ -416,7 +393,5 @@
         private System.Windows.Forms.Button BT_VistaPrevia;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label L_EstatusAprobacion;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label L_UltimaModificacion;
     }
 }

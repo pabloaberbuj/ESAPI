@@ -15,11 +15,12 @@ namespace ExploracionPlanes
 {
     public partial class Form2 : Form
     {
-        VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
+        
         Patient paciente;
         Course curso;
         PlanSetup plan;
         Plantilla plantilla;
+        VMS.TPS.Common.Model.API.Application app;
 
 
         public Form2(Plantilla _plantilla)
@@ -27,6 +28,7 @@ namespace ExploracionPlanes
             InitializeComponent();
             plantilla = _plantilla;
             this.Text = plantilla.nombre;
+            app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
         }
 
         public Patient abrirPaciente(string ID)
@@ -238,7 +240,6 @@ namespace ExploracionPlanes
                 llenarDGVEstructuras();
                 llenarDGVPrescripciones();
                 L_EstatusAprobacion.Text = planSeleccionado().ApprovalStatus.ToString();
-                L_UltimaModificacion.Text = planSeleccionado().HistoryDateTime.ToShortDateString();
             }
             catch (Exception exp)
             {
@@ -251,7 +252,7 @@ namespace ExploracionPlanes
             if (paciente != null)
             {
                 cerrarPaciente();
-                app.Dispose();
+                //app.Dispose();
             }
         }
 
@@ -306,7 +307,7 @@ namespace ExploracionPlanes
         }
         private void printDocument1_PrintPage_1(object sender, PrintPageEventArgs e)
         {
-            Imprimir.imprimirtabla(e, DGV_Análisis, Imprimir.altoTotal, 10);
+            Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, paciente.LastName + ", " + paciente.FirstName, plantilla.nombre, app.CurrentUser.Id, DGV_Análisis);
         }
 
 
