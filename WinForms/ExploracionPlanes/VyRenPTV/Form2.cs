@@ -15,7 +15,7 @@ namespace ExploracionPlanes
 {
     public partial class Form2 : Form
     {
-        
+
         Patient paciente;
         Course curso;
         PlanSetup plan;
@@ -31,21 +31,21 @@ namespace ExploracionPlanes
             app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
         }
 
-        public Patient abrirPaciente(string ID)
+        public void abrirPaciente(string ID)
         {
             if (paciente != null)
             {
                 cerrarPaciente();
             }
-            try
+            if (app.PatientSummaries.Any(p => p.Id == ID))
             {
-                return app.OpenPatientById(ID);
+                paciente = app.OpenPatientById(ID);
             }
-            catch (Exception)
+            else
             {
                 MessageBox.Show("El paciente no existe");
-                throw;
             }
+
         }
 
         public void cerrarPaciente()
@@ -101,7 +101,7 @@ namespace ExploracionPlanes
 
         private void BT_AbrirPaciente_Click(object sender, EventArgs e)
         {
-            paciente = abrirPaciente(TB_ID.Text);
+            abrirPaciente(TB_ID.Text);
             LB_Cursos.DataSource = listaCursos(paciente);
             L_NombrePaciente.Text = paciente.Name;
             L_NombrePaciente.Visible = true;
@@ -132,6 +132,7 @@ namespace ExploracionPlanes
             DataGridViewComboBoxColumn dgvCBCol = (DataGridViewComboBoxColumn)DGV_Estructuras.Columns[1];
             dgvCBCol.DataSource = Estructura.listaEstructurasID(Estructura.listaEstructuras(planSeleccionado()));
             asociarEstructuras();
+            DGV_Estructuras.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         private void llenarDGVPrescripciones()
@@ -145,6 +146,7 @@ namespace ExploracionPlanes
                 DGV_Prescripciones.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[0].Value = estructura.nombre;
                 DGV_Prescripciones.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[1].Value = prescripcion;
             }
+            DGV_Prescripciones.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         private void aplicarPrescripciones()
@@ -186,16 +188,22 @@ namespace ExploracionPlanes
         {
             DGV_Análisis.Rows.Clear();
             DGV_Análisis.ColumnCount = 3;
+            int j = 0;
             for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
             {
                 IRestriccion restriccion = plantilla.listaRestricciones[i];
-                restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
-                DGV_Análisis.Rows.Add();
-                DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiquetaInicio;
-                DGV_Análisis.Rows[i].Cells[1].Value = restriccion.valorMedido + " " + restriccion.unidadValor;
-                colorCelda(DGV_Análisis.Rows[i].Cells[1], restriccion.cumple());
-                DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorEsperado + " " + restriccion.unidadValor;
+                if (estructuraCorrespondiente(restriccion.estructura.nombre) != null)
+                {
+                    restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
+                    DGV_Análisis.Rows.Add();
+                    DGV_Análisis.Rows[j].Cells[0].Value = restriccion.etiquetaInicio;
+                    DGV_Análisis.Rows[j].Cells[1].Value = restriccion.valorMedido + " " + restriccion.unidadValor;
+                    colorCelda(DGV_Análisis.Rows[j].Cells[1], restriccion.cumple());
+                    DGV_Análisis.Rows[j].Cells[2].Value = restriccion.valorEsperado + " " + restriccion.unidadValor;
+                    j++;
+                }
             }
+            DGV_Análisis.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         private Structure estructuraCorrespondiente(string nombreEstructura)
@@ -251,8 +259,10 @@ namespace ExploracionPlanes
         {
             if (paciente != null)
             {
+                LB_Cursos.DataSource = null;
+                LB_Planes.DataSource = null;
                 cerrarPaciente();
-                //app.Dispose();
+                app.Dispose();
             }
         }
 

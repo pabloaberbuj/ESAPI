@@ -126,6 +126,7 @@ namespace ExploracionPlanes
             DataGridViewComboBoxColumn dgvCBCol = (DataGridViewComboBoxColumn)DGV_Estructuras.Columns[1];
             dgvCBCol.DataSource = Estructura.listaEstructurasID(Estructura.listaEstructuras(planSeleccionado()));
             asociarEstructuras();
+            DGV_Estructuras.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         private void llenarDGVPrescripciones()
@@ -139,6 +140,7 @@ namespace ExploracionPlanes
                 DGV_Prescripciones.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[0].Value = estructura.nombre;
                 DGV_Prescripciones.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[1].Value = prescripcion;
             }
+            DGV_Prescripciones.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         private void aplicarPrescripciones()
@@ -193,13 +195,17 @@ namespace ExploracionPlanes
             {
                 DGV_Análisis.ColumnCount++;
             }
+            DGV_Análisis.Columns[pacienteNro + 1].HeaderText = paciente.Id;
             for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
             {
                 IRestriccion restriccion = plantilla.listaRestricciones[i];
-                restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
-                DGV_Análisis.Rows[i].Cells[pacienteNro+1].Value = restriccion.valorMedido + " " + restriccion.unidadValor;
-                DGV_Análisis.Columns[pacienteNro + 1].HeaderText = paciente.Id;
+                if (estructuraCorrespondiente(restriccion.estructura.nombre) != null)
+                {
+                    restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
+                    DGV_Análisis.Rows[i].Cells[pacienteNro + 1].Value = restriccion.valorMedido + " " + restriccion.unidadValor;
+                }
             }
+            DGV_Análisis.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         private Structure estructuraCorrespondiente(string nombreEstructura)
@@ -240,6 +246,8 @@ namespace ExploracionPlanes
         {
             if (paciente!=null)
             {
+                LB_Cursos.DataSource = null;
+                LB_Planes.DataSource = null;
                 cerrarPaciente();
                 app.Dispose();
             }

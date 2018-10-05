@@ -110,7 +110,7 @@ namespace ExploracionPlanes
         {
             
             DoseValuePresentation doseValuePresentation = DoseValuePresentation.Absolute;
-            valorMedido = Math.Round(plan.GetDoseAtVolume(estructura, 0.000001, VolumePresentation.AbsoluteCm3, doseValuePresentation).Dose / 100, 2);
+            valorMedido = Math.Round(plan.GetDVHCumulativeData(estructura, doseValuePresentation, VolumePresentation.Relative, 0.1).MaxDose.Dose / 100, 2);
             if (unidadValor == "%")
             {
                 valorMedido = Math.Round(valorMedido / prescripcionEstructura * 100,2); //extraigo en Gy y paso a porcentaje
