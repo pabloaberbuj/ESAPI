@@ -31,7 +31,7 @@ namespace ExploracionPlanes
             app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
         }
 
-        public void abrirPaciente(string ID)
+        public bool abrirPaciente(string ID)
         {
             if (paciente != null)
             {
@@ -40,12 +40,13 @@ namespace ExploracionPlanes
             if (app.PatientSummaries.Any(p => p.Id == ID))
             {
                 paciente = app.OpenPatientById(ID);
+                return true;
             }
             else
             {
                 MessageBox.Show("El paciente no existe");
+                return false;
             }
-
         }
 
         public void cerrarPaciente()
@@ -101,11 +102,14 @@ namespace ExploracionPlanes
 
         private void BT_AbrirPaciente_Click(object sender, EventArgs e)
         {
-            abrirPaciente(TB_ID.Text);
-            LB_Cursos.DataSource = listaCursos(paciente);
-            L_NombrePaciente.Text = paciente.Name;
-            L_NombrePaciente.Visible = true;
-            this.Text += " - " + paciente.Name;
+            if (abrirPaciente(TB_ID.Text))
+            {
+                LB_Cursos.DataSource = listaCursos(paciente);
+                L_NombrePaciente.Text = paciente.Name;
+                L_NombrePaciente.Visible = true;
+                this.Text += " - " + paciente.Name;
+            }
+            
         }
 
         private void LB_Cursos_SelectedIndexChanged(object sender, EventArgs e)

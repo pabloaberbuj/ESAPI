@@ -14,7 +14,7 @@ namespace ExploracionPlanes
 {
     public partial class Form3 : Form
     {
-        VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
+        VMS.TPS.Common.Model.API.Application app;
         Patient paciente;
         Course curso;
         PlanSetup plan;
@@ -26,22 +26,24 @@ namespace ExploracionPlanes
         {
             InitializeComponent();
             plantilla = _plantilla;
+            app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
         }
 
-        public Patient abrirPaciente(string ID)
+        public bool abrirPaciente(string ID)
         {
             if (paciente != null)
             {
                 cerrarPaciente();
             }
-            try
+            if (app.PatientSummaries.Any(p => p.Id == ID))
             {
-                return app.OpenPatientById(ID);
+                paciente = app.OpenPatientById(ID);
+                return true;
             }
-            catch (Exception)
+            else
             {
                 MessageBox.Show("El paciente no existe");
-                throw;
+                return false;
             }
         }
 
@@ -98,8 +100,12 @@ namespace ExploracionPlanes
 
         private void BT_AbrirPaciente_Click(object sender, EventArgs e)
         {
-            paciente = abrirPaciente(TB_ID.Text);
-            LB_Cursos.DataSource = listaCursos(paciente);
+            if (abrirPaciente(TB_ID.Text))
+            {
+                LB_Cursos.DataSource = listaCursos(paciente);
+            }
+                
+            
         }
 
         private void LB_Cursos_SelectedIndexChanged(object sender, EventArgs e)
