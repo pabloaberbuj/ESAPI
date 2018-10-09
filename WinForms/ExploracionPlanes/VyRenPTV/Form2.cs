@@ -28,7 +28,14 @@ namespace ExploracionPlanes
             InitializeComponent();
             plantilla = _plantilla;
             this.Text = plantilla.nombre;
-            app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
+            try
+            {
+                app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("No se puede acceder a Eclipse.\n Compruebe que está en una PC con acceso al TPS");
+            }
         }
 
         public bool abrirPaciente(string ID)
@@ -109,7 +116,7 @@ namespace ExploracionPlanes
                 L_NombrePaciente.Visible = true;
                 this.Text += " - " + paciente.Name;
             }
-            
+
         }
 
         private void LB_Cursos_SelectedIndexChanged(object sender, EventArgs e)
@@ -117,11 +124,6 @@ namespace ExploracionPlanes
             LB_Planes.DataSource = null;
             LB_Planes.DataSource = listaPlanes(cursoSeleccionado());
         }
-
-        /*   private void BT_SeleccionarPlantillas_Click(object sender, EventArgs e)
-           {
-               llenarDGVEstructuras();
-           }*/
 
         private void llenarDGVEstructuras()
         {
@@ -188,23 +190,36 @@ namespace ExploracionPlanes
             }
         }
 
+        private bool estructurasSinAsociar()
+        {
+            bool aux = false;
+            foreach (DataGridViewRow fila in DGV_Estructuras.Rows)
+            {
+                if (string.IsNullOrEmpty((string)fila.Cells[2].Value))
+                {
+                    aux = true;
+                }
+            }
+            return aux;
+        }
+
         private void llenarDGVAnalisis()
         {
             DGV_Análisis.Rows.Clear();
             DGV_Análisis.ColumnCount = 3;
-            int j = 0;
+            //int j = 0;
             for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
             {
                 IRestriccion restriccion = plantilla.listaRestricciones[i];
+
+                restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
+                DGV_Análisis.Rows.Add();
+                DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiquetaInicio;
+                DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorEsperado + " " + restriccion.unidadValor;
                 if (estructuraCorrespondiente(restriccion.estructura.nombre) != null)
                 {
-                    restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
-                    DGV_Análisis.Rows.Add();
-                    DGV_Análisis.Rows[j].Cells[0].Value = restriccion.etiquetaInicio;
-                    DGV_Análisis.Rows[j].Cells[1].Value = restriccion.valorMedido + " " + restriccion.unidadValor;
-                    colorCelda(DGV_Análisis.Rows[j].Cells[1], restriccion.cumple());
-                    DGV_Análisis.Rows[j].Cells[2].Value = restriccion.valorEsperado + " " + restriccion.unidadValor;
-                    j++;
+                    DGV_Análisis.Rows[i].Cells[1].Value = restriccion.valorMedido + " " + restriccion.unidadValor;
+                    colorCelda(DGV_Análisis.Rows[i].Cells[1], restriccion.cumple());
                 }
             }
             DGV_Análisis.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
@@ -225,8 +240,15 @@ namespace ExploracionPlanes
 
         private void BT_Analizar_Click(object sender, EventArgs e)
         {
-            aplicarPrescripciones();
-            llenarDGVAnalisis();
+            if (estructurasSinAsociar() || MessageBox.Show("¿Hay estructuras sin asociar, desea continuar?", "Estructuras sin asociar", MessageBoxButtons.YesNo) == DialogResult.No)
+            {
+
+            }
+            else
+            {
+                aplicarPrescripciones();
+                llenarDGVAnalisis();
+            }
         }
 
         private void colorCelda(DataGridViewCell celda, int comparacion)
@@ -292,6 +314,8 @@ namespace ExploracionPlanes
             habilitarBoton(DGV_Análisis.Rows.Count > 0, BT_VistaPrevia);
             habilitarBoton(DGV_Análisis.Rows.Count > 0, BT_Imprimir);
         }
+
+
 
 
 
