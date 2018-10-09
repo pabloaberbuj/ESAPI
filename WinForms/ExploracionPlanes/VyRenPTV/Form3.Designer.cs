@@ -46,11 +46,11 @@
             this.BT_Analizar = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.DGV_Prescripciones = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BT_SeleccionarPlan = new System.Windows.Forms.Button();
             this.BT_GuardarPaciente = new System.Windows.Forms.Button();
             this.BT_Exportar = new System.Windows.Forms.Button();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Prescripciones)).BeginInit();
@@ -80,6 +80,7 @@
             this.TB_ID.Name = "TB_ID";
             this.TB_ID.Size = new System.Drawing.Size(119, 20);
             this.TB_ID.TabIndex = 2;
+            this.TB_ID.TextChanged += new System.EventHandler(this.TB_ID_TextChanged);
             // 
             // BT_AbrirPaciente
             // 
@@ -98,6 +99,7 @@
             this.LB_Planes.Name = "LB_Planes";
             this.LB_Planes.Size = new System.Drawing.Size(104, 95);
             this.LB_Planes.TabIndex = 5;
+            this.LB_Planes.SelectedIndexChanged += new System.EventHandler(this.LB_Planes_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -231,6 +233,16 @@
             this.DGV_Prescripciones.Size = new System.Drawing.Size(205, 164);
             this.DGV_Prescripciones.TabIndex = 21;
             // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Estructura";
+            this.Column1.Name = "Column1";
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Prescripción";
+            this.Column2.Name = "Column2";
+            // 
             // BT_SeleccionarPlan
             // 
             this.BT_SeleccionarPlan.Location = new System.Drawing.Point(42, 307);
@@ -260,16 +272,6 @@
             this.BT_Exportar.Text = "Exportar información";
             this.BT_Exportar.UseVisualStyleBackColor = true;
             this.BT_Exportar.Click += new System.EventHandler(this.BT_Exportar_Click);
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Estructura";
-            this.Column1.Name = "Column1";
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Prescripción";
-            this.Column2.Name = "Column2";
             // 
             // Form3
             // 

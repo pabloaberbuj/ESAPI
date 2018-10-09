@@ -105,6 +105,7 @@
             this.TB_CorrespA.Name = "TB_CorrespA";
             this.TB_CorrespA.Size = new System.Drawing.Size(69, 20);
             this.TB_CorrespA.TabIndex = 6;
+            this.TB_CorrespA.TextChanged += new System.EventHandler(this.actualizarBotones);
             // 
             // CB_MenorOMayor
             // 
@@ -134,9 +135,11 @@
             this.TB_ValorEsperado.Name = "TB_ValorEsperado";
             this.TB_ValorEsperado.Size = new System.Drawing.Size(69, 20);
             this.TB_ValorEsperado.TabIndex = 9;
+            this.TB_ValorEsperado.TextChanged += new System.EventHandler(this.actualizarBotones);
             // 
             // BT_AgregarALista
             // 
+            this.BT_AgregarALista.Enabled = false;
             this.BT_AgregarALista.Location = new System.Drawing.Point(494, 136);
             this.BT_AgregarALista.Name = "BT_AgregarALista";
             this.BT_AgregarALista.Size = new System.Drawing.Size(116, 23);
@@ -153,7 +156,7 @@
             this.LB_listaRestricciones.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.LB_listaRestricciones.Size = new System.Drawing.Size(230, 108);
             this.LB_listaRestricciones.TabIndex = 12;
-            this.LB_listaRestricciones.SelectedIndexChanged += new System.EventHandler(this.LB_listaRestricciones_SelectedIndexChanged);
+            this.LB_listaRestricciones.SelectedIndexChanged += new System.EventHandler(this.actualizarBotones);
             // 
             // GB_NuevaRestriccion
             // 
@@ -211,6 +214,7 @@
             this.TB_ValorTolerado.Name = "TB_ValorTolerado";
             this.TB_ValorTolerado.Size = new System.Drawing.Size(69, 20);
             this.TB_ValorTolerado.TabIndex = 20;
+            this.TB_ValorTolerado.TextChanged += new System.EventHandler(this.actualizarBotones);
             // 
             // label3
             // 
@@ -236,6 +240,7 @@
             this.CB_Estructura.Name = "CB_Estructura";
             this.CB_Estructura.Size = new System.Drawing.Size(100, 21);
             this.CB_Estructura.TabIndex = 12;
+            this.CB_Estructura.SelectedIndexChanged += new System.EventHandler(this.actualizarBotones);
             this.CB_Estructura.TextChanged += new System.EventHandler(this.CB_Estructura_TextChanged);
             // 
             // label1
@@ -253,9 +258,11 @@
             this.TB_NombrePlantilla.Name = "TB_NombrePlantilla";
             this.TB_NombrePlantilla.Size = new System.Drawing.Size(192, 20);
             this.TB_NombrePlantilla.TabIndex = 12;
+            this.TB_NombrePlantilla.TextChanged += new System.EventHandler(this.actualizarBotones);
             // 
             // BT_GuardarPlantilla
             // 
+            this.BT_GuardarPlantilla.Enabled = false;
             this.BT_GuardarPlantilla.Location = new System.Drawing.Point(283, 318);
             this.BT_GuardarPlantilla.Name = "BT_GuardarPlantilla";
             this.BT_GuardarPlantilla.Size = new System.Drawing.Size(128, 36);

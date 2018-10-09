@@ -16,19 +16,25 @@ namespace ExploracionPlanes
     {
 
         BindingList<IRestriccion> listaRestricciones = new BindingList<IRestriccion>();
-        Main main = new Main();
         bool editaRestriccion = false;
+        bool editaPlantilla = false;
+        Main main = new Main();
 
 
 
-        public Form1(Main _main, bool edita)
+        public Form1(Main _main, bool _editaPlantilla)
         {
             InitializeComponent();
             CB_MenorOMayor.SelectedIndex = 0;
             CB_TipoRestriccion.SelectedIndex = 0;
             LB_listaRestricciones.DataSource = listaRestricciones;
             LB_listaRestricciones.DisplayMember = "etiqueta";
+            editaPlantilla = _editaPlantilla;
             main = _main;
+            if (_editaPlantilla)
+            {
+                main.plantillaSeleccionada().editar(TB_NombrePlantilla, CHB_esParaExtraccion, listaRestricciones);
+            }
 
 
         }
@@ -241,14 +247,16 @@ namespace ExploracionPlanes
             limpiarPrescripcion();
             CB_Estructura.Items.Clear();
             listaRestricciones.Clear();
+            LB_listaRestricciones.DataSource = listaRestricciones;
             TB_NombrePlantilla.Clear();
             fijarEsParaExtraccion();
         }
         private void BT_GuardarPlantilla_Click(object sender, EventArgs e)
         {
-            Plantilla.guardar(plantillaActual());
+            plantillaActual().guardar(editaPlantilla, main.plantillaSeleccionada());
             limpiarPlantilla();
             main.leerPlantillas();
+            editaPlantilla = false;
         }
 
         private void CB_ValorEsperadoUnidades_SelectedIndexChanged(object sender, EventArgs e)
@@ -269,6 +277,7 @@ namespace ExploracionPlanes
         private void CB_Estructura_TextChanged(object sender, EventArgs e)
         {
             TB_EstructuraNombresAlt.Clear();
+            actualizarBotones(sender, e);
         }
 
         private void CHB_esParaExtraccion_CheckedChanged(object sender, EventArgs e)
@@ -305,20 +314,27 @@ namespace ExploracionPlanes
 
         private void habilitarBoton(bool test, Button bt)
         {
-            if (test)
-            {
-                bt.Enabled = true;
-            }
-            else
-            {
-                bt.Enabled = false;
-            }
+            bt.Enabled = test;
         }
 
         private void LB_listaRestricciones_SelectedIndexChanged(object sender, EventArgs e)
         {
-            habilitarBoton(LB_listaRestricciones.SelectedItems.Count > 0,BT_EliminarRestriccion);
-            habilitarBoton(LB_listaRestricciones.SelectedItems.Count == 1, BT_EditarRestriccion);
+
         }
+
+        private void actualizarBotones(object sender, EventArgs e)
+        {
+            habilitarBoton(LB_listaRestricciones.SelectedItems.Count > 0, BT_EliminarRestriccion);
+            habilitarBoton(LB_listaRestricciones.SelectedItems.Count == 1, BT_EditarRestriccion);
+            habilitarBoton(estaParaGrabarRestriccion(), BT_AgregarALista);
+            habilitarBoton(!string.IsNullOrEmpty(TB_NombrePlantilla.Text) && LB_listaRestricciones.Items.Count > 0, BT_GuardarPlantilla);
+        }
+
+        private bool estaParaGrabarRestriccion()
+        {
+            return !string.IsNullOrEmpty(CB_Estructura.Text) && CB_TipoRestriccion.SelectedIndex != -1 &&
+                  (esParaExtraccion() || (CB_MenorOMayor.SelectedIndex != -1 && !string.IsNullOrEmpty(TB_ValorEsperado.Text)));
+        }
+
     }
 }

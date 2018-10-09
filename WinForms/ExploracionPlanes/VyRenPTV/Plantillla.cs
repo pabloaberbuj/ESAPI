@@ -29,25 +29,23 @@ namespace ExploracionPlanes
             };
         }
 
-        public static void guardar(Plantilla plantilla)
+        public void guardar(bool edita, Plantilla plantillaAEditar = null)
         {
             if (!Directory.Exists(pathDestino))
             {
                 Directory.CreateDirectory(pathDestino);
             }
-            string fileName = IO.GetUniqueFilename(pathDestino, plantilla.nombre);
-            plantilla.path = fileName;
-            IO.writeObjectAsJson(fileName, plantilla);
-            MessageBox.Show("Se ha guardado la plantilla con el nombre: " + Path.GetFileName(fileName));
+            if (edita)
+            {
+                File.Delete(plantillaAEditar.path);
+            }
+            string fileName = IO.GetUniqueFilename(pathDestino, nombre);
+            path = fileName;
+            IO.writeObjectAsJson(path, this);
+            MessageBox.Show("Se ha guardado la plantilla con el nombre: " + Path.GetFileName(path));
         }
 
-        public static void eliminar(Plantilla plantilla)
-        {
-            if(MessageBox.Show("¿Desea eliminar la plantilla?", "Eliminar plantilla", MessageBoxButtons.YesNo)  ==DialogResult.Yes)
-            {
-                File.Delete(plantilla.path);
-            }
-        }
+
 
         public static List<Plantilla> leerPlantillas()
         {
@@ -85,6 +83,28 @@ namespace ExploracionPlanes
                 }
             }
             return estructuras;
+        }
+
+        public void eliminar()
+        {
+            if (MessageBox.Show("¿Desea eliminar la plantilla?","Eliminar Plantilla",MessageBoxButtons.YesNo)==DialogResult.Yes)
+            {
+                File.Delete(path);
+            }
+        }
+
+        public void editar(TextBox TB_nombre, CheckBox CHB_esParaExtraer, BindingList<IRestriccion> ListaRestricciones)
+        {
+            TB_nombre.Text = nombre;
+            if (esParaExtraccion)
+            {
+                CHB_esParaExtraer.Checked = true;
+            }
+            foreach(IRestriccion restriccion in listaRestricciones)
+            {
+                ListaRestricciones.Add(restriccion);
+            }
+            
         }
     }
 }

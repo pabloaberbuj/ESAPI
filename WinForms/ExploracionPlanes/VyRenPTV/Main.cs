@@ -39,7 +39,7 @@ namespace ExploracionPlanes
             aplicarPlantilla.ShowDialog();
         }
 
-        private Plantilla plantillaSeleccionada()
+        public Plantilla plantillaSeleccionada()
         {
             return (Plantilla)LB_Plantillas.SelectedItem;
         }
@@ -59,14 +59,7 @@ namespace ExploracionPlanes
 
         private void habilitarBoton(bool test, Button bt)
         {
-            if (test)
-            {
-                bt.Enabled = true;
-            }
-            else
-            {
-                bt.Enabled = false;
-            }
+            bt.Enabled = test;
         }
 
         private void LB_Plantillas_SelectedIndexChanged(object sender, EventArgs e)
@@ -76,6 +69,12 @@ namespace ExploracionPlanes
             habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_AplicarAUnPlan);
             habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_AplicarPorLote);
 
+        }
+
+        private void BT_Eliminar_Click(object sender, EventArgs e)
+        {
+            plantillaSeleccionada().eliminar();
+            leerPlantillas();
         }
     }
 }

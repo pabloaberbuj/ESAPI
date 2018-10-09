@@ -14,7 +14,7 @@ namespace ExploracionPlanes
 {
     public partial class Form3 : Form
     {
-        VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication("pa", "123qwe");
+        VMS.TPS.Common.Model.API.Application app;
         Patient paciente;
         Course curso;
         PlanSetup plan;
@@ -26,22 +26,24 @@ namespace ExploracionPlanes
         {
             InitializeComponent();
             plantilla = _plantilla;
+            app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
         }
 
-        public Patient abrirPaciente(string ID)
+        public bool abrirPaciente(string ID)
         {
             if (paciente != null)
             {
                 cerrarPaciente();
             }
-            try
+            if (app.PatientSummaries.Any(p => p.Id == ID))
             {
-                return app.OpenPatientById(ID);
+                paciente = app.OpenPatientById(ID);
+                return true;
             }
-            catch (Exception)
+            else
             {
                 MessageBox.Show("El paciente no existe");
-                throw;
+                return false;
             }
         }
 
@@ -98,8 +100,12 @@ namespace ExploracionPlanes
 
         private void BT_AbrirPaciente_Click(object sender, EventArgs e)
         {
-            paciente = abrirPaciente(TB_ID.Text);
-            LB_Cursos.DataSource = listaCursos(paciente);
+            if (abrirPaciente(TB_ID.Text))
+            {
+                LB_Cursos.DataSource = listaCursos(paciente);
+            }
+                
+            
         }
 
         private void LB_Cursos_SelectedIndexChanged(object sender, EventArgs e)
@@ -126,6 +132,7 @@ namespace ExploracionPlanes
             DataGridViewComboBoxColumn dgvCBCol = (DataGridViewComboBoxColumn)DGV_Estructuras.Columns[1];
             dgvCBCol.DataSource = Estructura.listaEstructurasID(Estructura.listaEstructuras(planSeleccionado()));
             asociarEstructuras();
+            DGV_Estructuras.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         private void llenarDGVPrescripciones()
@@ -139,6 +146,7 @@ namespace ExploracionPlanes
                 DGV_Prescripciones.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[0].Value = estructura.nombre;
                 DGV_Prescripciones.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[1].Value = prescripcion;
             }
+            DGV_Prescripciones.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         private void aplicarPrescripciones()
@@ -193,13 +201,17 @@ namespace ExploracionPlanes
             {
                 DGV_Análisis.ColumnCount++;
             }
+            DGV_Análisis.Columns[pacienteNro + 1].HeaderText = paciente.Id;
             for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
             {
                 IRestriccion restriccion = plantilla.listaRestricciones[i];
-                restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
-                DGV_Análisis.Rows[i].Cells[pacienteNro+1].Value = restriccion.valorMedido + " " + restriccion.unidadValor;
-                DGV_Análisis.Columns[pacienteNro + 1].HeaderText = paciente.Id;
+                if (estructuraCorrespondiente(restriccion.estructura.nombre) != null)
+                {
+                    restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
+                    DGV_Análisis.Rows[i].Cells[pacienteNro + 1].Value = restriccion.valorMedido + " " + restriccion.unidadValor;
+                }
             }
+            DGV_Análisis.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         private Structure estructuraCorrespondiente(string nombreEstructura)
@@ -240,6 +252,8 @@ namespace ExploracionPlanes
         {
             if (paciente!=null)
             {
+                LB_Cursos.DataSource = null;
+                LB_Planes.DataSource = null;
                 cerrarPaciente();
                 app.Dispose();
             }
@@ -270,6 +284,23 @@ namespace ExploracionPlanes
             DataObject dataObject = DGV_Análisis.GetClipboardContent();
             // Get the text of the DataObject, and serialize it to a file
             File.WriteAllText(plantilla.nombre + "_" + DateTime.Today.ToShortDateString() + ".txt", dataObject.GetText(TextDataFormat.CommaSeparatedValue));
+        }
+
+        private void habilitarBoton(bool test, Button bt)
+        {
+            bt.Enabled = test;
+        }
+
+        private void TB_ID_TextChanged(object sender, EventArgs e)
+        {
+            habilitarBoton(!string.IsNullOrEmpty(TB_ID.Text), BT_AbrirPaciente);
+        }
+
+
+        private void LB_Planes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            habilitarBoton(LB_Planes.SelectedItems.Count == 1, BT_SeleccionarPlan);
+            habilitarBoton(LB_Planes.SelectedItems.Count == 1, BT_Analizar);
         }
     }
 }
