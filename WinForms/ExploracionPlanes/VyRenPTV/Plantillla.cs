@@ -50,11 +50,18 @@ namespace ExploracionPlanes
         public static List<Plantilla> leerPlantillas()
         {
             List<Plantilla> lista = new List<Plantilla>();
-            string[] plantillas = Directory.GetFiles(pathDestino);
-            foreach(string plantilla in plantillas)
+            if (Directory.Exists(pathDestino))
             {
-                Plantilla p = IO.readJson<Plantilla>(plantilla);
-                lista.Add(p);
+                string[] plantillas = Directory.GetFiles(pathDestino);
+                foreach (string plantilla in plantillas)
+                {
+                    Plantilla p = IO.readJson<Plantilla>(plantilla);
+                    lista.Add(p);
+                }
+            }
+            else
+            {
+                Directory.CreateDirectory(pathDestino);
             }
             return lista;
         }
