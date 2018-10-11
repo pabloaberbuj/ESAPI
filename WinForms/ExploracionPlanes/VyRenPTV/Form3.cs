@@ -14,7 +14,7 @@ namespace ExploracionPlanes
 {
     public partial class Form3 : Form
     {
-        
+        public static string pathDestino = Directory.GetCurrentDirectory() + @"\Exportados\";
         Patient paciente;
         Course curso;
         PlanSetup plan;
@@ -284,7 +284,13 @@ namespace ExploracionPlanes
             // Copy selected cells to DataObject
             DataObject dataObject = DGV_Análisis.GetClipboardContent();
             // Get the text of the DataObject, and serialize it to a file
-            File.WriteAllText(plantilla.nombre + "_" + DateTime.Today.ToShortDateString() + ".txt", dataObject.GetText(TextDataFormat.CommaSeparatedValue));
+            if (!Directory.Exists(pathDestino))
+            {
+                Directory.CreateDirectory(pathDestino);
+            }
+            string nombre = IO.GetUniqueFilename(pathDestino, plantilla.nombre + "_" + DateTime.Today.ToShortDateString() + ".txt");
+            File.WriteAllText(nombre, dataObject.GetText(TextDataFormat.CommaSeparatedValue));
+            MessageBox.Show("Se ha guardado la exploración con el nombre: " + Path.GetFileName(nombre));
         }
 
         private void habilitarBoton(bool test, Button bt)
