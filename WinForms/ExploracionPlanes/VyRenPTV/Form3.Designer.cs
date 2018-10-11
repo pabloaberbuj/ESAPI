@@ -51,6 +51,7 @@
             this.BT_SeleccionarPlan = new System.Windows.Forms.Button();
             this.BT_GuardarPaciente = new System.Windows.Forms.Button();
             this.BT_Exportar = new System.Windows.Forms.Button();
+            this.Métrica = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Prescripciones)).BeginInit();
@@ -84,6 +85,7 @@
             // 
             // BT_AbrirPaciente
             // 
+            this.BT_AbrirPaciente.Enabled = false;
             this.BT_AbrirPaciente.Location = new System.Drawing.Point(46, 50);
             this.BT_AbrirPaciente.Name = "BT_AbrirPaciente";
             this.BT_AbrirPaciente.Size = new System.Drawing.Size(100, 23);
@@ -136,6 +138,7 @@
             this.DGV_Estructuras.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.DGV_Estructuras.Size = new System.Drawing.Size(205, 191);
             this.DGV_Estructuras.TabIndex = 12;
+            this.DGV_Estructuras.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.DGV_Estructuras_RowsAdded);
             // 
             // dePlantilla
             // 
@@ -183,11 +186,14 @@
             this.DGV_Análisis.AllowUserToDeleteRows = false;
             this.DGV_Análisis.AllowUserToResizeRows = false;
             this.DGV_Análisis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DGV_Análisis.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Métrica});
             this.DGV_Análisis.Location = new System.Drawing.Point(475, 33);
             this.DGV_Análisis.Name = "DGV_Análisis";
             this.DGV_Análisis.RowHeadersVisible = false;
             this.DGV_Análisis.Size = new System.Drawing.Size(289, 348);
             this.DGV_Análisis.TabIndex = 16;
+            this.DGV_Análisis.ColumnAdded += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DGV_Análisis_ColumnAdded);
             // 
             // label6
             // 
@@ -200,6 +206,7 @@
             // 
             // BT_Analizar
             // 
+            this.BT_Analizar.Enabled = false;
             this.BT_Analizar.Location = new System.Drawing.Point(310, 246);
             this.BT_Analizar.Name = "BT_Analizar";
             this.BT_Analizar.Size = new System.Drawing.Size(109, 23);
@@ -245,6 +252,7 @@
             // 
             // BT_SeleccionarPlan
             // 
+            this.BT_SeleccionarPlan.Enabled = false;
             this.BT_SeleccionarPlan.Location = new System.Drawing.Point(42, 307);
             this.BT_SeleccionarPlan.Name = "BT_SeleccionarPlan";
             this.BT_SeleccionarPlan.Size = new System.Drawing.Size(109, 23);
@@ -255,6 +263,7 @@
             // 
             // BT_GuardarPaciente
             // 
+            this.BT_GuardarPaciente.Enabled = false;
             this.BT_GuardarPaciente.Location = new System.Drawing.Point(475, 398);
             this.BT_GuardarPaciente.Name = "BT_GuardarPaciente";
             this.BT_GuardarPaciente.Size = new System.Drawing.Size(109, 37);
@@ -265,6 +274,7 @@
             // 
             // BT_Exportar
             // 
+            this.BT_Exportar.Enabled = false;
             this.BT_Exportar.Location = new System.Drawing.Point(655, 398);
             this.BT_Exportar.Name = "BT_Exportar";
             this.BT_Exportar.Size = new System.Drawing.Size(109, 37);
@@ -272,6 +282,11 @@
             this.BT_Exportar.Text = "Exportar información";
             this.BT_Exportar.UseVisualStyleBackColor = true;
             this.BT_Exportar.Click += new System.EventHandler(this.BT_Exportar_Click);
+            // 
+            // Métrica
+            // 
+            this.Métrica.HeaderText = "Métrica";
+            this.Métrica.Name = "Métrica";
             // 
             // Form3
             // 
@@ -333,5 +348,6 @@
         private System.Windows.Forms.Button BT_Exportar;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Métrica;
     }
 }

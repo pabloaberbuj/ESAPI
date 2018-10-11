@@ -306,7 +306,6 @@ namespace ExploracionPlanes
         private void LB_Planes_SelectedIndexChanged(object sender, EventArgs e)
         {
             habilitarBoton(LB_Planes.SelectedItems.Count == 1, BT_SeleccionarPlan);
-            habilitarBoton(LB_Planes.SelectedItems.Count == 1, BT_Analizar);
         }
 
         private void DGV_Análisis_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -315,7 +314,10 @@ namespace ExploracionPlanes
             habilitarBoton(DGV_Análisis.Rows.Count > 0, BT_Imprimir);
         }
 
-
+        private void DGV_Estructuras_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            habilitarBoton(LB_Planes.SelectedItems.Count == 1 && DGV_Estructuras.RowCount > 0, BT_Analizar);
+        }
 
 
 
@@ -350,5 +352,7 @@ namespace ExploracionPlanes
 
 
         #endregion
+
+        
     }
 }

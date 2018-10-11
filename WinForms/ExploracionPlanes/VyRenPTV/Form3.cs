@@ -14,19 +14,27 @@ namespace ExploracionPlanes
 {
     public partial class Form3 : Form
     {
-        VMS.TPS.Common.Model.API.Application app;
+        
         Patient paciente;
         Course curso;
         PlanSetup plan;
         Plantilla plantilla;
         int pacienteNro = 0;
-
+        VMS.TPS.Common.Model.API.Application app;
 
         public Form3(Plantilla _plantilla)
         {
             InitializeComponent();
             plantilla = _plantilla;
-            app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
+            this.Text = plantilla.nombre;
+            try
+            {
+                app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("No se puede acceder a Eclipse.\n Compruebe que está en una PC con acceso al TPS");
+            }
         }
 
         public bool abrirPaciente(string ID)
@@ -104,8 +112,6 @@ namespace ExploracionPlanes
             {
                 LB_Cursos.DataSource = listaCursos(paciente);
             }
-                
-            
         }
 
         private void LB_Cursos_SelectedIndexChanged(object sender, EventArgs e)
@@ -113,11 +119,6 @@ namespace ExploracionPlanes
             LB_Planes.DataSource = null;
             LB_Planes.DataSource = listaPlanes(cursoSeleccionado());
         }
-
-     /*   private void BT_SeleccionarPlantillas_Click(object sender, EventArgs e)
-        {
-            llenarDGVEstructuras();
-        }*/
 
         private void llenarDGVEstructuras()
         {
@@ -243,7 +244,6 @@ namespace ExploracionPlanes
             catch (Exception exp)
             {
                 File.WriteAllText("log.txt", exp.ToString());
-
             }
 
         }
@@ -265,12 +265,13 @@ namespace ExploracionPlanes
             cerrarPaciente();
             TB_ID.Clear();
             LB_Cursos.DataSource = null;
-            //LB_Cursos.Items.Clear();
+            LB_Cursos.Items.Clear();
             LB_Planes.DataSource = null;
-            //LB_Planes.Items.Clear();
+            LB_Planes.Items.Clear();
             DGV_Estructuras.DataSource = null;
             DGV_Estructuras.Rows.Clear();
             DGV_Prescripciones.Rows.Clear();
+            BT_GuardarPaciente.Enabled = false;
             pacienteNro++;
         }
 
@@ -296,11 +297,20 @@ namespace ExploracionPlanes
             habilitarBoton(!string.IsNullOrEmpty(TB_ID.Text), BT_AbrirPaciente);
         }
 
-
         private void LB_Planes_SelectedIndexChanged(object sender, EventArgs e)
         {
             habilitarBoton(LB_Planes.SelectedItems.Count == 1, BT_SeleccionarPlan);
-            habilitarBoton(LB_Planes.SelectedItems.Count == 1, BT_Analizar);
+        }
+
+        private void DGV_Estructuras_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            habilitarBoton(LB_Planes.SelectedItems.Count == 1 && DGV_Estructuras.RowCount > 0, BT_Analizar);
+        }
+
+        private void DGV_Análisis_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
+        {
+            BT_GuardarPaciente.Enabled = true;
+            habilitarBoton(DGV_Análisis.ColumnCount > 1, BT_Exportar);
         }
     }
 }
