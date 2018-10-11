@@ -15,18 +15,25 @@ namespace ExploracionPlanes
     {
         public static string pathDestino = Directory.GetCurrentDirectory() + @"\Plantillas\";
         public string nombre { get; set; }
+        public string etiqueta { get; set; }
         public bool esParaExtraccion { get; set; }
         public BindingList<IRestriccion> listaRestricciones { get; set; }
         public string path { get; set; }
 
         public static Plantilla crear(string _nombre, bool _esParaExtraccion, BindingList<IRestriccion> _listaRestricciones)
         {
-            return new Plantilla()
+            Plantilla plantilla = new Plantilla()
             {
                 nombre = _nombre,
+                etiqueta = _nombre,
                 esParaExtraccion = _esParaExtraccion,
                 listaRestricciones = _listaRestricciones,
             };
+            if (_esParaExtraccion)
+            {
+                plantilla.etiqueta += " (para Extracción)";
+            }
+            return plantilla;
         }
 
         public void guardar(bool edita, Plantilla plantillaAEditar = null)

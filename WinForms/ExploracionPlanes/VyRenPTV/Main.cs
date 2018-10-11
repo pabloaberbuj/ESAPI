@@ -54,7 +54,7 @@ namespace ExploracionPlanes
         {
             LB_Plantillas.DataSource = null;
             LB_Plantillas.DataSource = Plantilla.leerPlantillas();
-            LB_Plantillas.DisplayMember = "nombre";
+            LB_Plantillas.DisplayMember = "etiqueta";
         }
 
         private void habilitarBoton(bool test, Button bt)
