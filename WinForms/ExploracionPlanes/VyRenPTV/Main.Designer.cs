@@ -68,6 +68,7 @@
             // 
             // BT_Editar
             // 
+            this.BT_Editar.Enabled = false;
             this.BT_Editar.Location = new System.Drawing.Point(149, 57);
             this.BT_Editar.Name = "BT_Editar";
             this.BT_Editar.Size = new System.Drawing.Size(108, 23);
@@ -78,6 +79,7 @@
             // 
             // BT_Eliminar
             // 
+            this.BT_Eliminar.Enabled = false;
             this.BT_Eliminar.Location = new System.Drawing.Point(149, 86);
             this.BT_Eliminar.Name = "BT_Eliminar";
             this.BT_Eliminar.Size = new System.Drawing.Size(108, 23);
@@ -88,6 +90,7 @@
             // 
             // BT_AplicarAUnPlan
             // 
+            this.BT_AplicarAUnPlan.Enabled = false;
             this.BT_AplicarAUnPlan.Location = new System.Drawing.Point(149, 163);
             this.BT_AplicarAUnPlan.Name = "BT_AplicarAUnPlan";
             this.BT_AplicarAUnPlan.Size = new System.Drawing.Size(108, 23);
@@ -98,6 +101,7 @@
             // 
             // BT_AplicarPorLote
             // 
+            this.BT_AplicarPorLote.Enabled = false;
             this.BT_AplicarPorLote.Location = new System.Drawing.Point(149, 192);
             this.BT_AplicarPorLote.Name = "BT_AplicarPorLote";
             this.BT_AplicarPorLote.Size = new System.Drawing.Size(108, 23);

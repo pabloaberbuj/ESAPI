@@ -66,7 +66,7 @@ namespace ExploracionPlanes
         {
             habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_Editar);
             habilitarBoton(LB_Plantillas.SelectedItems.Count>0, BT_Eliminar);
-            habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_AplicarAUnPlan);
+            habilitarBoton(LB_Plantillas.SelectedItems.Count == 1 && !((Plantilla)LB_Plantillas.SelectedItems[0]).esParaExtraccion, BT_AplicarAUnPlan);
             habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_AplicarPorLote);
 
         }
