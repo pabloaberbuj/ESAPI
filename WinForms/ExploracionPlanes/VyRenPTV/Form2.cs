@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using VMS.TPS.Common.Model.API;
 using VMS.TPS.Common.Model.Types;
 
+
 namespace ExploracionPlanes
 {
     public partial class Form2 : Form
@@ -128,7 +129,7 @@ namespace ExploracionPlanes
         private void llenarDGVEstructuras()
         {
             DGV_Estructuras.Rows.Clear();
-            DGV_Estructuras.ColumnCount = 3;
+            DGV_Estructuras.ColumnCount = 2;
             foreach (Estructura estructura in plantilla.estructuras())
             {
                 DGV_Estructuras.Rows.Add();
@@ -195,7 +196,7 @@ namespace ExploracionPlanes
             bool aux = false;
             foreach (DataGridViewRow fila in DGV_Estructuras.Rows)
             {
-                if (string.IsNullOrEmpty((string)fila.Cells[2].Value))
+                if (string.IsNullOrEmpty((string)fila.Cells[1].Value))
                 {
                     aux = true;
                 }
@@ -212,12 +213,12 @@ namespace ExploracionPlanes
             {
                 IRestriccion restriccion = plantilla.listaRestricciones[i];
 
-                restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
                 DGV_Análisis.Rows.Add();
                 DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiquetaInicio;
                 DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorEsperado + " " + restriccion.unidadValor;
                 if (estructuraCorrespondiente(restriccion.estructura.nombre) != null)
                 {
+                    restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
                     DGV_Análisis.Rows[i].Cells[1].Value = restriccion.valorMedido + " " + restriccion.unidadValor;
                     colorCelda(DGV_Análisis.Rows[i].Cells[1], restriccion.cumple());
                 }
@@ -240,7 +241,7 @@ namespace ExploracionPlanes
 
         private void BT_Analizar_Click(object sender, EventArgs e)
         {
-            if (estructurasSinAsociar() || MessageBox.Show("¿Hay estructuras sin asociar, desea continuar?", "Estructuras sin asociar", MessageBoxButtons.YesNo) == DialogResult.No)
+            if (estructurasSinAsociar() && MessageBox.Show("¿Hay estructuras sin asociar, desea continuar?", "Estructuras sin asociar", MessageBoxButtons.YesNo) == DialogResult.No)
             {
 
             }

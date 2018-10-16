@@ -56,7 +56,9 @@ namespace ExploracionPlanes
 
         public static List<string> listaEstructurasID(List<Structure> lista)
         {
-            return lista.Select(e => e.Id).ToList<string>();
+            List<string> listaS = lista.Select(e => e.Id).ToList<string>();
+            listaS.Add("");
+            return listaS;
         }
 
 

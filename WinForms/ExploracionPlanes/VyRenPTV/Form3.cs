@@ -123,7 +123,7 @@ namespace ExploracionPlanes
         private void llenarDGVEstructuras()
         {
             DGV_Estructuras.Rows.Clear();
-            DGV_Estructuras.ColumnCount = 3;
+            DGV_Estructuras.ColumnCount = 2;
             foreach (Estructura estructura in plantilla.estructuras())
             {
                 DGV_Estructuras.Rows.Add();
@@ -230,8 +230,28 @@ namespace ExploracionPlanes
 
         private void BT_Analizar_Click(object sender, EventArgs e)
         {
-            aplicarPrescripciones();
-            llenarDGVAnalisis();
+            if (estructurasSinAsociar() && MessageBox.Show("¿Hay estructuras sin asociar, desea continuar?", "Estructuras sin asociar", MessageBoxButtons.YesNo) == DialogResult.No)
+            {
+
+            }
+            else
+            {
+                aplicarPrescripciones();
+                llenarDGVAnalisis();
+            }
+        }
+
+        private bool estructurasSinAsociar()
+        {
+            bool aux = false;
+            foreach (DataGridViewRow fila in DGV_Estructuras.Rows)
+            {
+                if (string.IsNullOrEmpty((string)fila.Cells[1].Value))
+                {
+                    aux = true;
+                }
+            }
+            return aux;
         }
 
         private void BT_SeleccionarPlan_Click(object sender, EventArgs e)
