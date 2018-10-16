@@ -61,7 +61,7 @@ namespace SerializarObjetos
             //XmlTextReader xmlReader = new XmlTextReader("15-36292.xml");
             //XmlReader xmlReader = XmlReader.Create("15-36292.xml");
             PacientePablo paciente = new PacientePablo();
-            /paciente.ReadXml(XmlReader.Create("15-36292.xml"));
+            paciente.ReadXml(XmlReader.Create("15-36292.xml"));
             /*while (xmlReader.Read())
             {
                 

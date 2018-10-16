@@ -9,9 +9,9 @@ namespace SerializarObjetos
 {
     public class PacientePablo : Patient
     {
-        void PacientePablo()
+        public PacientePablo()
         {
-            base.EndSerialization
+            
         }
         
 

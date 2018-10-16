@@ -1,43 +1,45 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Printing;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using VMS.TPS.Common.Model.API;
 using VMS.TPS.Common.Model.Types;
 
+
 namespace ExploracionPlanes
 {
-    public partial class Form3 : Form
+    public partial class PruebaImprimir : Form
     {
-        public static string pathDestino = Directory.GetCurrentDirectory() + @"\Exportados\";
+
         Patient paciente;
         Course curso;
         PlanSetup plan;
         Plantilla plantilla;
-        int pacienteNro = 0;
         VMS.TPS.Common.Model.API.Application app;
 
-        public Form3(Plantilla _plantilla)
+
+        public PruebaImprimir(Plantilla _plantilla)
         {
             InitializeComponent();
             plantilla = _plantilla;
             this.Text = plantilla.nombre;
-            try
+            /*try
             {
                 app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
             }
             catch (Exception)
             {
                 MessageBox.Show("No se puede acceder a Eclipse.\n Compruebe que está en una PC con acceso al TPS");
-            }
+            }*/
         }
 
-        public bool abrirPaciente(string ID)
+       /* public bool abrirPaciente(string ID)
         {
             if (paciente != null)
             {
@@ -102,25 +104,29 @@ namespace ExploracionPlanes
         public List<PlanSetup> listaPlanes(Course curso)
         {
             return curso.PlanSetups.ToList<PlanSetup>();
-        }
+        }*/
 
 
 
         private void BT_AbrirPaciente_Click(object sender, EventArgs e)
         {
-            if (abrirPaciente(TB_ID.Text))
+            /*if (abrirPaciente(TB_ID.Text))
             {
                 LB_Cursos.DataSource = listaCursos(paciente);
-            }
+                L_NombrePaciente.Text = paciente.Name;
+                L_NombrePaciente.Visible = true;
+                this.Text += " - " + paciente.Name;
+            }*/
+
         }
 
         private void LB_Cursos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LB_Planes.DataSource = null;
-            LB_Planes.DataSource = listaPlanes(cursoSeleccionado());
+            /*LB_Planes.DataSource = null;
+            LB_Planes.DataSource = listaPlanes(cursoSeleccionado());*/
         }
 
-        private void llenarDGVEstructuras()
+        /*private void llenarDGVEstructuras()
         {
             DGV_Estructuras.Rows.Clear();
             DGV_Estructuras.ColumnCount = 2;
@@ -134,13 +140,13 @@ namespace ExploracionPlanes
             dgvCBCol.DataSource = Estructura.listaEstructurasID(Estructura.listaEstructuras(planSeleccionado()));
             asociarEstructuras();
             DGV_Estructuras.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-        }
+        }*/
 
-        private void llenarDGVPrescripciones()
+        /*private void llenarDGVPrescripciones()
         {
             DGV_Prescripciones.Rows.Clear();
             DGV_Prescripciones.ColumnCount = 2;
-            double prescripcion = planSeleccionado().TotalPrescribedDose.Dose/100;
+            double prescripcion = planSeleccionado().TotalPrescribedDose.Dose / 100;
             foreach (Estructura estructura in plantilla.estructurasParaPrescribir())
             {
                 DGV_Prescripciones.Rows.Add();
@@ -148,9 +154,9 @@ namespace ExploracionPlanes
                 DGV_Prescripciones.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[1].Value = prescripcion;
             }
             DGV_Prescripciones.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-        }
+        }*/
 
-        private void aplicarPrescripciones()
+       /* private void aplicarPrescripciones()
         {
             foreach (IRestriccion restriccion in plantilla.listaRestricciones)
             {
@@ -185,62 +191,6 @@ namespace ExploracionPlanes
             }
         }
 
-        private void llenarDGVAnalisis()
-        {
-            if (pacienteNro==0)
-            {
-                DGV_Análisis.Rows.Clear();
-                DGV_Análisis.ColumnCount = 2;
-                for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
-                {
-                    IRestriccion restriccion = plantilla.listaRestricciones[i];
-                    DGV_Análisis.Rows.Add();
-                    DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiquetaInicio;
-                }
-            }
-            else
-            {
-                DGV_Análisis.ColumnCount++;
-            }
-            DGV_Análisis.Columns[pacienteNro + 1].HeaderText = paciente.Id;
-            for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
-            {
-                IRestriccion restriccion = plantilla.listaRestricciones[i];
-                if (estructuraCorrespondiente(restriccion.estructura.nombre) != null)
-                {
-                    restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
-                    DGV_Análisis.Rows[i].Cells[pacienteNro + 1].Value = restriccion.valorMedido + restriccion.unidadValor;
-                }
-            }
-            DGV_Análisis.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-        }
-
-        private Structure estructuraCorrespondiente(string nombreEstructura)
-        {
-            foreach (DataGridViewRow fila in DGV_Estructuras.Rows)
-            {
-                if (fila.Cells[0].Value.Equals(nombreEstructura))
-                {
-                    string estructuraID = (string)(fila.Cells[1].Value);
-                    return Estructura.listaEstructuras(planSeleccionado()).Where(s => s.Id.Equals(estructuraID)).FirstOrDefault();
-                }
-            }
-            return null;
-        }
-
-        private void BT_Analizar_Click(object sender, EventArgs e)
-        {
-            if (estructurasSinAsociar() && MessageBox.Show("¿Hay estructuras sin asociar, desea continuar?", "Estructuras sin asociar", MessageBoxButtons.YesNo) == DialogResult.No)
-            {
-
-            }
-            else
-            {
-                aplicarPrescripciones();
-                llenarDGVAnalisis();
-            }
-        }
-
         private bool estructurasSinAsociar()
         {
             bool aux = false;
@@ -252,65 +202,95 @@ namespace ExploracionPlanes
                 }
             }
             return aux;
+        }*/
+
+        private void llenarDGVAnalisis()
+        {
+            DGV_Análisis.Rows.Clear();
+            DGV_Análisis.ColumnCount = 3;
+            //int j = 0;
+            for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
+            {
+                IRestriccion restriccion = plantilla.listaRestricciones[i];
+
+                DGV_Análisis.Rows.Add();
+                DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiquetaInicio;
+                DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorEsperado + restriccion.unidadValor;
+                /*if (estructuraCorrespondiente(restriccion.estructura.nombre) != null)
+                {
+                    restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
+                    DGV_Análisis.Rows[i].Cells[1].Value = restriccion.valorMedido + " " + restriccion.unidadValor;
+                    colorCelda(DGV_Análisis.Rows[i].Cells[1], restriccion.cumple());
+                }*/
+            }
+            DGV_Análisis.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
+
+        /*private Structure estructuraCorrespondiente(string nombreEstructura)
+        {
+            foreach (DataGridViewRow fila in DGV_Estructuras.Rows)
+            {
+                if (fila.Cells[0].Value.Equals(nombreEstructura))
+                {
+                    string estructuraID = (string)(fila.Cells[1].Value);
+                    return Estructura.listaEstructuras(planSeleccionado()).Where(s => s.Id.Equals(estructuraID)).FirstOrDefault();
+                }
+            }
+            return null;
+        }*/
+
+        private void BT_Analizar_Click(object sender, EventArgs e)
+        {
+            /*   if (estructurasSinAsociar() && MessageBox.Show("¿Hay estructuras sin asociar, desea continuar?", "Estructuras sin asociar", MessageBoxButtons.YesNo) == DialogResult.No)
+               {
+
+               }
+               else
+               {*/
+            // aplicarPrescripciones();
+            llenarDGVAnalisis();
+        //}
+        }
+
+        /*private void colorCelda(DataGridViewCell celda, int comparacion)
+        {
+            if (comparacion == 0)
+            {
+                celda.Style.BackColor = Color.LightGreen;
+            }
+            else if (comparacion == 1)
+            {
+                celda.Style.BackColor = Color.LightYellow;
+            }
+            else
+            {
+                celda.Style.BackColor = Color.Red;
+            }
+        }*/
 
         private void BT_SeleccionarPlan_Click(object sender, EventArgs e)
         {
-            try
+         /*   try
             {
                 llenarDGVEstructuras();
                 llenarDGVPrescripciones();
+                L_EstatusAprobacion.Text = planSeleccionado().ApprovalStatus.ToString();
             }
             catch (Exception exp)
             {
                 File.WriteAllText("log.txt", exp.ToString());
-            }
-
+            }*/
         }
 
-        private void Form3_FormClosing(object sender, FormClosingEventArgs e)
+        private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (paciente!=null)
+           /* if (paciente != null)
             {
                 LB_Cursos.DataSource = null;
                 LB_Planes.DataSource = null;
                 cerrarPaciente();
                 app.Dispose();
-            }
-            
-        }
-
-        private void BT_GuardarPaciente_Click(object sender, EventArgs e)
-        {
-            cerrarPaciente();
-            TB_ID.Clear();
-            LB_Cursos.DataSource = null;
-            LB_Cursos.Items.Clear();
-            LB_Planes.DataSource = null;
-            LB_Planes.Items.Clear();
-            DGV_Estructuras.DataSource = null;
-            DGV_Estructuras.Rows.Clear();
-            DGV_Prescripciones.Rows.Clear();
-            BT_GuardarPaciente.Enabled = false;
-            pacienteNro++;
-        }
-
-        private void BT_Exportar_Click(object sender, EventArgs e)
-        {
-            // Choose whether to write header. Use EnableWithoutHeaderText instead to omit header.
-            DGV_Análisis.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
-            // Select all the cells
-            DGV_Análisis.SelectAll();
-            // Copy selected cells to DataObject
-            DataObject dataObject = DGV_Análisis.GetClipboardContent();
-            // Get the text of the DataObject, and serialize it to a file
-            if (!Directory.Exists(pathDestino))
-            {
-                Directory.CreateDirectory(pathDestino);
-            }
-            string nombre = IO.GetUniqueFilename(pathDestino, plantilla.nombre + "_" + DateTime.Today.ToShortDateString() + ".txt");
-            File.WriteAllText(nombre, dataObject.GetText(TextDataFormat.CommaSeparatedValue));
-            MessageBox.Show("Se ha guardado la exploración con el nombre: " + Path.GetFileName(nombre));
+            }*/
         }
 
         private void habilitarBoton(bool test, Button bt)
@@ -323,9 +303,16 @@ namespace ExploracionPlanes
             habilitarBoton(!string.IsNullOrEmpty(TB_ID.Text), BT_AbrirPaciente);
         }
 
+
         private void LB_Planes_SelectedIndexChanged(object sender, EventArgs e)
         {
             habilitarBoton(LB_Planes.SelectedItems.Count == 1, BT_SeleccionarPlan);
+        }
+
+        private void DGV_Análisis_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            habilitarBoton(DGV_Análisis.Rows.Count > 0, BT_VistaPrevia);
+            habilitarBoton(DGV_Análisis.Rows.Count > 0, BT_Imprimir);
         }
 
         private void DGV_Estructuras_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -333,10 +320,40 @@ namespace ExploracionPlanes
             habilitarBoton(LB_Planes.SelectedItems.Count == 1 && DGV_Estructuras.RowCount > 0, BT_Analizar);
         }
 
-        private void DGV_Análisis_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
+
+
+
+        #region Imprimir
+        private void BT_VistaPrevia_Click(object sender, EventArgs e)
         {
-            BT_GuardarPaciente.Enabled = true;
-            habilitarBoton(DGV_Análisis.ColumnCount > 1, BT_Exportar);
+            PrintDocument pd = new PrintDocument();
+            pd = Imprimir.cargarConfiguracion();
+            printPreviewDialog1.Document = pd;
+            pd.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage_1);
+
+            printPreviewDialog1.ShowDialog();
         }
+
+        private void BT_Imprimir_Click(object sender, EventArgs e)
+        {
+            PrintDocument pd = new PrintDocument();
+            pd = Imprimir.cargarConfiguracion();
+            printDialog1.Document = pd;
+            pd.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage_1);
+            pd.PrinterSettings = printDialog1.PrinterSettings;
+            if (printDialog1.ShowDialog() == DialogResult.OK)
+            {
+                pd.Print();
+            }
+        }
+        private void printDocument1_PrintPage_1(object sender, PrintPageEventArgs e)
+        {
+            Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, "Apellido" + ", " + "Nombre" , plantilla.nombre, "pa", DGV_Análisis);
+        }
+
+
+        #endregion
+
+        
     }
 }
