@@ -102,7 +102,7 @@ namespace ExploracionPlanes
 
         public void analizarPlanEstructura(PlanSetup plan, Structure estructura)
         {
-            Structure BODY = plan.StructureSet.Structures.Where(s => s.DicomType == "BODY").FirstOrDefault();
+            Structure BODY = plan.StructureSet.Structures.Where(s => s.DicomType == "EXTERNAL").FirstOrDefault();
             if (BODY == null)
             {
                 MessageBox.Show("No se encuentra la estructura BODY. \nNo se puede analizar el I.C. de la estructura" + estructura.Id);

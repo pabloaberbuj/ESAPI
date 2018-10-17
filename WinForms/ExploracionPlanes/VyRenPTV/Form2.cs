@@ -251,13 +251,9 @@ namespace ExploracionPlanes
         private string infoPlan()
         {
             string infoPlan = planSeleccionado().Id + "     Estado: " + planSeleccionado().ApprovalStatus.ToString();
-            if (planSeleccionado().ApprovalStatus == PlanSetupApprovalStatus.PlanningApproved)
+            if (planSeleccionado().ApprovalStatus == PlanSetupApprovalStatus.PlanningApproved || planSeleccionado().ApprovalStatus == PlanSetupApprovalStatus.TreatmentApproved)
             {
-                infoPlan += "Aprobado por: " + planSeleccionado().PlanningApprover + " (" + planSeleccionado().PlanningApprovalDate + ")";
-            }
-            if (planSeleccionado().ApprovalStatus == PlanSetupApprovalStatus.TreatmentApproved)
-            {
-                infoPlan += "Aprobado por: " + planSeleccionado().TreatmentApprover + " (" + planSeleccionado().TreatmentApprovalDate + ")";
+                infoPlan += " Aprobado por: " + planSeleccionado().PlanningApprover;
             }
             return infoPlan;
         }

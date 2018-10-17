@@ -200,7 +200,7 @@ namespace ExploracionPlanes
                     }
                     
 
-                    Rectangle rect = new Rectangle(x_value-15, y_value + 8, Convert.ToInt32(fuenteTabla.SizeInPoints * text.Length)+15, Convert.ToInt32(fuenteTabla.Height)+2);
+                    Rectangle rect = new Rectangle(x_value-15, y_value + 8, Convert.ToInt32(dc.Width)+5, Convert.ToInt32(fuenteTabla.Height)+2);
                     Brush color = new SolidBrush(tabla[j, i].Style.BackColor);
                     e.Graphics.FillRectangle(color, rect);
                     if (dc.Index==0)
