@@ -52,6 +52,11 @@ namespace ExploracionPlanes
             MessageBox.Show("Se ha guardado la plantilla con el nombre: " + Path.GetFileName(path));
         }
 
+        public void actualizarPath(string _nuevoPath)
+        {
+            path = _nuevoPath;
+            IO.writeObjectAsJson(path, this);
+        }
 
 
         public static List<Plantilla> leerPlantillas()
@@ -59,10 +64,14 @@ namespace ExploracionPlanes
             List<Plantilla> lista = new List<Plantilla>();
             if (Directory.Exists(pathDestino))
             {
-                string[] plantillas = Directory.GetFiles(pathDestino);
-                foreach (string plantilla in plantillas)
+                string[] plantillasPath = Directory.GetFiles(pathDestino);
+                foreach (string plantillaPath in plantillasPath)
                 {
-                    Plantilla p = IO.readJson<Plantilla>(plantilla);
+                    Plantilla p = IO.readJson<Plantilla>(plantillaPath);
+                    if (p.path!=plantillaPath)
+                    {
+                        p.actualizarPath(plantillaPath);
+                    }
                     lista.Add(p);
                 }
             }

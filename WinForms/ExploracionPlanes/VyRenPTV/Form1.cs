@@ -208,7 +208,7 @@ namespace ExploracionPlanes
         {
             if (esRestriccionDosis())
             {
-                return new RestriccionDosis().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente());
+                return new RestriccionIndiceConformidad().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente());
             }
             else if (esRestriccionDmedia())
             {
