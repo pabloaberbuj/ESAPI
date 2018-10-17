@@ -106,11 +106,24 @@ namespace ExploracionPlanes
         public void analizarPlanEstructura(PlanSetup plan, Structure estructura)
         {
             DoseValuePresentation doseValuePresentation = DoseValuePresentation.Absolute;
-            valorMedido = Math.Round(plan.GetDVHCumulativeData(estructura, doseValuePresentation, VolumePresentation.Relative, 0.1).MeanDose.Dose / 100, 2);
+            //plan.GetDVHCumulativeData(estructura, doseValuePresentation, VolumePresentation.Relative, 0.1).SamplingCoverage
+            valorMedido = Math.Round(plan.GetDVHCumulativeData(estructura, doseValuePresentation, VolumePresentation.Relative, 0.01).MeanDose.Dose / 100, 2);
             if (unidadValor == "%")
             {
                 valorMedido = Math.Round(valorMedido / prescripcionEstructura * 100,2); //extraigo en Gy y paso a porcentaje
             }
+        }
+
+        public bool chequearSamplingCoverage(PlanSetup plan, Structure estructura)
+        {
+            if (Double.IsNaN(valorMedido))
+            {
+                if (plan.GetDVHCumulativeData(estructura, DoseValuePresentation.Absolute, VolumePresentation.Relative, 0.01).SamplingCoverage < 0.9)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void agregarALista(BindingList<IRestriccion> lista)

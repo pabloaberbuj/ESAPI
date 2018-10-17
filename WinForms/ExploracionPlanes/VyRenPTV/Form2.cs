@@ -207,20 +207,29 @@ namespace ExploracionPlanes
         private void llenarDGVAnalisis()
         {
             DGV_Análisis.Rows.Clear();
-            DGV_Análisis.ColumnCount = 3;
+            DGV_Análisis.ColumnCount = 4;
             //int j = 0;
             for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
             {
                 IRestriccion restriccion = plantilla.listaRestricciones[i];
 
+                Structure estructura = estructuraCorrespondiente(restriccion.estructura.nombre);
                 DGV_Análisis.Rows.Add();
                 DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiquetaInicio;
-                DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorEsperado + restriccion.unidadValor;
-                if (estructuraCorrespondiente(restriccion.estructura.nombre) != null)
+                DGV_Análisis.Rows[i].Cells[3].Value = restriccion.valorEsperado + restriccion.unidadValor;
+                if (estructura != null)
                 {
-                    restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
-                    DGV_Análisis.Rows[i].Cells[1].Value = restriccion.valorMedido + restriccion.unidadValor;
-                    colorCelda(DGV_Análisis.Rows[i].Cells[1], restriccion.cumple());
+                    DGV_Análisis.Rows[i].Cells[1].Value = Math.Round(estructura.Volume, 2).ToString();
+                    restriccion.analizarPlanEstructura(planSeleccionado(), estructura);
+                    if (restriccion.chequearSamplingCoverage(planSeleccionado(), estructura))
+                    {
+                        MessageBox.Show("La estructura " + estructura.Id + " no tiene el suficiente Sampling Coverage.\nNo se puede realizar el análisis");
+                    }
+                    else
+                    {
+                        DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorMedido + restriccion.unidadValor;
+                        colorCelda(DGV_Análisis.Rows[i].Cells[2], restriccion.cumple());
+                    }
                 }
             }
             DGV_Análisis.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
@@ -237,6 +246,20 @@ namespace ExploracionPlanes
                 }
             }
             return null;
+        }
+
+        private string infoPlan()
+        {
+            string infoPlan = planSeleccionado().Id + "     Estado: " + planSeleccionado().ApprovalStatus.ToString();
+            if (planSeleccionado().ApprovalStatus == PlanSetupApprovalStatus.PlanningApproved)
+            {
+                infoPlan += "Aprobado por: " + planSeleccionado().PlanningApprover + " (" + planSeleccionado().PlanningApprovalDate + ")";
+            }
+            if (planSeleccionado().ApprovalStatus == PlanSetupApprovalStatus.TreatmentApproved)
+            {
+                infoPlan += "Aprobado por: " + planSeleccionado().TreatmentApprover + " (" + planSeleccionado().TreatmentApprovalDate + ")";
+            }
+            return infoPlan;
         }
 
         private void BT_Analizar_Click(object sender, EventArgs e)
@@ -348,7 +371,7 @@ namespace ExploracionPlanes
         }
         private void printDocument1_PrintPage_1(object sender, PrintPageEventArgs e)
         {
-            Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, paciente.LastName + ", " + paciente.FirstName, plantilla.nombre, app.CurrentUser.Id, DGV_Análisis);
+            Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, paciente.LastName + ", " + paciente.FirstName,infoPlan() ,plantilla.nombre, app.CurrentUser.Id, DGV_Análisis);
         }
 
 

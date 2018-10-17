@@ -128,6 +128,17 @@ namespace ExploracionPlanes
 
         }
 
+        public bool chequearSamplingCoverage(PlanSetup plan, Structure estructura)
+        {
+            if (Double.IsNaN(valorMedido))
+            {
+                if (plan.GetDVHCumulativeData(estructura,DoseValuePresentation.Absolute,VolumePresentation.Relative,0.01).SamplingCoverage<0.9)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         public void agregarALista(BindingList<IRestriccion> lista)
         {

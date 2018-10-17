@@ -122,6 +122,18 @@ namespace ExploracionPlanes
             valorMedido = Math.Round(plan.GetVolumeAtDose(estructura, dosis, volumePresentation), 2);
         }
 
+        public bool chequearSamplingCoverage(PlanSetup plan, Structure estructura)
+        {
+            if (Double.IsNaN(valorMedido))
+            {
+                if (plan.GetDVHCumulativeData(estructura, DoseValuePresentation.Absolute, VolumePresentation.Relative, 0.01).SamplingCoverage < 0.9)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
         public void agregarALista(BindingList<IRestriccion> lista)
         {

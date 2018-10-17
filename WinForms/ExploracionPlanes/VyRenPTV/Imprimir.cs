@@ -170,23 +170,23 @@ namespace ExploracionPlanes
 
         public static void imprimirtabla(PrintPageEventArgs e, DataGridView tabla, int anchohoja, int posicionlinea)
         {
-            int x_value = 18;// (anchohoja - tabla.Width) / 2;
+            int x_value = 12;// (anchohoja - tabla.Width) / 2;
             int y_value = posicionlinea;
 
 
             foreach (DataGridViewColumn dc in tabla.Columns)
             {
                 e.Graphics.DrawString(dc.HeaderText, fuenteTablaHeader, negro, x_value, y_value, centro);
-                x_value += dc.Width;// + 5;
+                x_value += dc.Width+ 30;
             }
             y_value += 10;
             for (int i = 0; i < tabla.RowCount; i++)
             {
 
                 DataGridViewRow dr = tabla.Rows[i];
-                x_value = 15;// (anchohoja - tabla.Width) / 2;
+                x_value = 10;// (anchohoja - tabla.Width) / 2;
                 int j = 0;
-                e.Graphics.DrawLine(Pens.Black, new Point(x_value - 40, y_value), new Point(x_value + tabla.Width - 50, y_value));
+                e.Graphics.DrawLine(Pens.Black, new Point(x_value - 35, y_value), new Point(x_value + tabla.Width - 15, y_value));
                 foreach (DataGridViewColumn dc in tabla.Columns)
                 {
                     string text;
@@ -206,23 +206,22 @@ namespace ExploracionPlanes
                     if (dc.Index==0)
                     {
                         e.Graphics.DrawString(text, fuenteTabla, negro, rect, izquierda);
-                        x_value += Math.Max(dc.Width + 8, 50);
                     }
                     else
                     {
-                        e.Graphics.DrawString(text, fuenteTabla, negro, rect, derecha);
-                        x_value += Math.Max(dc.Width + 8, 20);
+                        e.Graphics.DrawString(text, fuenteTabla, negro, rect, centro);
                     }
-                    //x_value += dc.Width + 8;
+                    x_value += dc.Width + 30;
                     j++;
                 }
                 y_value += 25;
             }
         }
-        public static int imprimirCabeceraInforme(PrintPageEventArgs e, int anchohoja, int posicionlinea, string nombrePaciente, string nombrePlantilla, string realizadoPor)
+        public static int imprimirCabeceraInforme(PrintPageEventArgs e, int anchohoja, int posicionlinea, string nombrePaciente, string infoPlan, string nombrePlantilla, string realizadoPor)
         {
             posicionlinea = imprimirTitulo(e, "Título", posicionlinea, 1);
             posicionlinea = imprimirSubtitulo(e, "Paciente: " + nombrePaciente, posicionlinea);
+            posicionlinea = imprimirSubtitulo(e, "Plan: " + infoPlan, posicionlinea);
             posicionlinea = imprimirSubtitulo(e, "Plantilla: " + nombrePlantilla, posicionlinea);
             int x_value = 10;
             imprimirEtiquetaYValor(e, posicionlinea, "Realizado por: ", realizadoPor, x_value);
@@ -231,9 +230,9 @@ namespace ExploracionPlanes
             return posicionlinea += altoTexto*3;
         }
 
-        public static void imprimirInforme(PrintPageEventArgs e, int anchohoja, int posicionlinea, string nombrePaciente, string nombrePlantilla, string realizadoPor, DataGridView tabla)
+        public static void imprimirInforme(PrintPageEventArgs e, int anchohoja, int posicionlinea, string nombrePaciente, string infoPlan, string nombrePlantilla, string realizadoPor, DataGridView tabla)
         {
-            posicionlinea = imprimirCabeceraInforme(e, anchohoja, posicionlinea, nombrePaciente, nombrePlantilla, realizadoPor);
+            posicionlinea = imprimirCabeceraInforme(e, anchohoja, posicionlinea, nombrePaciente, infoPlan, nombrePlantilla, realizadoPor);
             imprimirtabla(e, tabla, anchohoja, posicionlinea);
         }
 

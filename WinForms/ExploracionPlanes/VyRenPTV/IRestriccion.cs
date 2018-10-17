@@ -29,6 +29,7 @@ namespace ExploracionPlanes
         void analizarPlanEstructura(PlanSetup plan, Structure estructura);
         IRestriccion crear(Estructura _estructura, string _unidadValor, string _unidadCorrespondiente, bool _esMenorQue,
             double _valorEsperado, double _valorTolerado, double _valorCorrespondiente);
+        bool chequearSamplingCoverage(PlanSetup plan, Structure estructura);
 
         void editar(ComboBox CB_Estructura, TextBox TB_nombresAlt, ComboBox CB_TipoRestr, TextBox TB_valorCorrespondiente,
             ComboBox CB_UnidadesCorresp, ComboBox CB_EsMenorQue, TextBox TB_ValorEsperado, TextBox TB_ValorTolerado, ComboBox CB_UnidadesValor);

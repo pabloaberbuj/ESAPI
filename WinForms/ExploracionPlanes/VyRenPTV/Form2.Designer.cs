@@ -56,6 +56,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.L_EstatusAprobacion = new System.Windows.Forms.Label();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Volumen = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
@@ -184,12 +185,13 @@
             this.DGV_Análisis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_Análisis.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column3,
+            this.Volumen,
             this.Column4,
             this.Column5});
             this.DGV_Análisis.Location = new System.Drawing.Point(467, 33);
             this.DGV_Análisis.Name = "DGV_Análisis";
             this.DGV_Análisis.RowHeadersVisible = false;
-            this.DGV_Análisis.Size = new System.Drawing.Size(306, 348);
+            this.DGV_Análisis.Size = new System.Drawing.Size(364, 348);
             this.DGV_Análisis.TabIndex = 16;
             this.DGV_Análisis.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.DGV_Análisis_RowsAdded);
             // 
@@ -317,6 +319,12 @@
             this.Column3.HeaderText = "Métrica";
             this.Column3.Name = "Column3";
             // 
+            // Volumen
+            // 
+            this.Volumen.HeaderText = "Vol [cm3]";
+            this.Volumen.Name = "Volumen";
+            this.Volumen.Width = 60;
+            // 
             // Column4
             // 
             this.Column4.HeaderText = "En Plan";
@@ -331,7 +339,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(785, 499);
+            this.ClientSize = new System.Drawing.Size(849, 499);
             this.Controls.Add(this.L_EstatusAprobacion);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.BT_VistaPrevia);
@@ -392,6 +400,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label L_EstatusAprobacion;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Volumen;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
     }

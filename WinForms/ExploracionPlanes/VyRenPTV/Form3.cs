@@ -206,10 +206,18 @@ namespace ExploracionPlanes
             for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
             {
                 IRestriccion restriccion = plantilla.listaRestricciones[i];
-                if (estructuraCorrespondiente(restriccion.estructura.nombre) != null)
+                Structure estructura = estructuraCorrespondiente(restriccion.estructura.nombre);
+                if (estructura != null)
                 {
-                    restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
-                    DGV_Análisis.Rows[i].Cells[pacienteNro + 1].Value = restriccion.valorMedido + restriccion.unidadValor;
+                    restriccion.analizarPlanEstructura(planSeleccionado(), estructura);
+                    if (restriccion.chequearSamplingCoverage(planSeleccionado(), estructura))
+                    {
+                        MessageBox.Show("La estructura " + estructura.Id + " no tiene el suficiente Sampling Coverage.\nNo se puede realizar el análisis");
+                    }
+                    else
+                    {
+                        DGV_Análisis.Rows[i].Cells[pacienteNro + 1].Value = restriccion.valorMedido + restriccion.unidadValor;
+                    }
                 }
             }
             DGV_Análisis.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;

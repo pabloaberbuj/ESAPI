@@ -348,7 +348,8 @@ namespace ExploracionPlanes
         }
         private void printDocument1_PrintPage_1(object sender, PrintPageEventArgs e)
         {
-            Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, "Apellido" + ", " + "Nombre" , plantilla.nombre, "pa", DGV_Análisis);
+            
+            Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, "Apellido" + ", " + "Nombre" , "Plan1", plantilla.nombre, "pa", DGV_Análisis);
         }
 
 
