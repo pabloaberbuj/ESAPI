@@ -64,7 +64,8 @@
             "Dosis",
             "Dmedia",
             "Dmax",
-            "Volumen"});
+            "Volumen",
+            "IC"});
             this.CB_TipoRestriccion.Location = new System.Drawing.Point(112, 42);
             this.CB_TipoRestriccion.Name = "CB_TipoRestriccion";
             this.CB_TipoRestriccion.Size = new System.Drawing.Size(86, 21);

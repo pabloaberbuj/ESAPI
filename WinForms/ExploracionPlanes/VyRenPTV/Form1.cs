@@ -135,6 +135,12 @@ namespace ExploracionPlanes
             return CB_TipoRestriccion.SelectedIndex == 3;
         }
 
+
+        private bool esRestriccionIndiceConformidad()
+        {
+            return CB_TipoRestriccion.SelectedIndex == 4;
+        }
+
         private bool esMenorQue()
         {
             return CB_MenorOMayor.SelectedIndex == 0;
@@ -182,6 +188,8 @@ namespace ExploracionPlanes
                 cargarUnidadesVolumen(CB_CorrespAUnidades);
                 CB_ValorEsperadoUnidades.SelectedIndex = 0;
                 CB_CorrespAUnidades.SelectedIndex = 0;
+                CB_ValorEsperadoUnidades.Visible = true;
+                CB_ValorToleradoUnidades.Visible = true;
             }
             else if (esRestriccionDmedia() || esRestriccionDmax())
             {
@@ -190,8 +198,10 @@ namespace ExploracionPlanes
                 CB_CorrespAUnidades.Visible = false;
                 cargarUnidadesDosis(CB_ValorEsperadoUnidades);
                 CB_ValorEsperadoUnidades.SelectedIndex = 0;
+                CB_ValorEsperadoUnidades.Visible = true;
+                CB_ValorToleradoUnidades.Visible = true;
             }
-            else
+            else if (esRestriccionVolumen())
             {
                 L_CorrespA.Text = "correspondiente a \nuna dosis de: ";
                 L_CorrespA.Visible = true;
@@ -202,13 +212,28 @@ namespace ExploracionPlanes
                 cargarUnidadesVolumen(CB_ValorToleradoUnidades);
                 CB_ValorEsperadoUnidades.SelectedIndex = 0;
                 CB_CorrespAUnidades.SelectedIndex = 0;
+                CB_ValorEsperadoUnidades.Visible = true;
+                CB_ValorToleradoUnidades.Visible = true;
+            }
+
+            else //esRestriccionIndiceConformidad
+            {
+                L_CorrespA.Text = "definido para \nla curva del: ";
+                L_CorrespA.Visible = true;
+                TB_CorrespA.Visible = true;
+                CB_CorrespAUnidades.Visible = true;
+                cargarUnidadesDosis(CB_CorrespAUnidades);
+                CB_CorrespAUnidades.Enabled = false;
+                CB_CorrespAUnidades.SelectedIndex = 1;
+                CB_ValorEsperadoUnidades.Visible = false;
+                CB_ValorToleradoUnidades.Visible = false;
             }
         }
         private IRestriccion restriccionActual()
         {
             if (esRestriccionDosis())
             {
-                return new RestriccionIndiceConformidad().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente());
+                return new RestriccionDosis().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente());
             }
             else if (esRestriccionDmedia())
             {
@@ -218,11 +243,14 @@ namespace ExploracionPlanes
             {
                 return new RestriccionDosisMax().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente());
             }
-            else //esRestriccionVolumen
+            else if (esRestriccionVolumen())
             {
                 return new RestriccionVolumen().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente());
             }
-
+            else //esRestriccionIndiceConformidad
+            {
+                return new RestriccionIndiceConformidad().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente());
+            }
         }
 
         private void CB_TipoRestriccion_SelectedIndexChanged(object sender, EventArgs e)

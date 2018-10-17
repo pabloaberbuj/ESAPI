@@ -76,7 +76,7 @@ namespace ExploracionPlanes
 
         public void crearEtiquetaInicio()
         {
-            etiquetaInicio = estructura.nombre + ": IC";
+            etiquetaInicio = estructura.nombre + ": IC" + " (" + valorCorrespondiente + "%)";
         }
         public void crearEtiqueta()
         {
@@ -133,6 +133,17 @@ namespace ExploracionPlanes
             lista.Add(this);
         }
 
+        public bool dosisEstaEnPorcentaje()
+        {
+            if (unidadValor == "%")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         public void editar(ComboBox CB_Estructura, TextBox TB_nombresAlt, ComboBox CB_TipoRestr, TextBox TB_valorCorrespondiente,
      ComboBox CB_UnidadesCorresp, ComboBox CB_EsMenorQue, TextBox TB_ValorEsperado, TextBox TB_ValorTolerado, ComboBox CB_UnidadesValor)
