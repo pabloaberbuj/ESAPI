@@ -319,6 +319,7 @@ namespace ExploracionPlanes
             {
                 Panel_esMenorque.Visible = true;
             }
+            actualizarBotones(sender,e);
         }
 
         private void fijarEsParaExtraccion()
@@ -376,7 +377,7 @@ namespace ExploracionPlanes
 
         private bool estaParaGrabarRestriccion()
         {
-            return !string.IsNullOrEmpty(CB_Estructura.Text) && CB_TipoRestriccion.SelectedIndex != -1 &&
+                return !string.IsNullOrEmpty(CB_Estructura.Text) && CB_TipoRestriccion.SelectedIndex != -1 &&
                   (esParaExtraccion() || (CB_MenorOMayor.SelectedIndex != -1 && !string.IsNullOrEmpty(TB_ValorEsperado.Text)));
         }
 
