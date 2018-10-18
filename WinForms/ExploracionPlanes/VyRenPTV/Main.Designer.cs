@@ -43,7 +43,7 @@
             this.LB_Plantillas.Location = new System.Drawing.Point(12, 29);
             this.LB_Plantillas.Name = "LB_Plantillas";
             this.LB_Plantillas.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.LB_Plantillas.Size = new System.Drawing.Size(120, 186);
+            this.LB_Plantillas.Size = new System.Drawing.Size(198, 303);
             this.LB_Plantillas.TabIndex = 12;
             this.LB_Plantillas.SelectedIndexChanged += new System.EventHandler(this.LB_Plantillas_SelectedIndexChanged);
             // 
@@ -58,9 +58,9 @@
             // 
             // BT_Nueva
             // 
-            this.BT_Nueva.Location = new System.Drawing.Point(149, 29);
+            this.BT_Nueva.Location = new System.Drawing.Point(232, 29);
             this.BT_Nueva.Name = "BT_Nueva";
-            this.BT_Nueva.Size = new System.Drawing.Size(108, 23);
+            this.BT_Nueva.Size = new System.Drawing.Size(134, 34);
             this.BT_Nueva.TabIndex = 13;
             this.BT_Nueva.Text = "Nueva Plantilla";
             this.BT_Nueva.UseVisualStyleBackColor = true;
@@ -69,44 +69,44 @@
             // BT_Editar
             // 
             this.BT_Editar.Enabled = false;
-            this.BT_Editar.Location = new System.Drawing.Point(149, 57);
+            this.BT_Editar.Location = new System.Drawing.Point(232, 69);
             this.BT_Editar.Name = "BT_Editar";
-            this.BT_Editar.Size = new System.Drawing.Size(108, 23);
+            this.BT_Editar.Size = new System.Drawing.Size(134, 37);
             this.BT_Editar.TabIndex = 14;
-            this.BT_Editar.Text = "Editar";
+            this.BT_Editar.Text = "Editar plantilla";
             this.BT_Editar.UseVisualStyleBackColor = true;
             this.BT_Editar.Click += new System.EventHandler(this.BT_Editar_Click);
             // 
             // BT_Eliminar
             // 
             this.BT_Eliminar.Enabled = false;
-            this.BT_Eliminar.Location = new System.Drawing.Point(149, 86);
+            this.BT_Eliminar.Location = new System.Drawing.Point(232, 112);
             this.BT_Eliminar.Name = "BT_Eliminar";
-            this.BT_Eliminar.Size = new System.Drawing.Size(108, 23);
+            this.BT_Eliminar.Size = new System.Drawing.Size(134, 34);
             this.BT_Eliminar.TabIndex = 15;
-            this.BT_Eliminar.Text = "Eliminar";
+            this.BT_Eliminar.Text = "Eliminar plantilla/s";
             this.BT_Eliminar.UseVisualStyleBackColor = true;
             this.BT_Eliminar.Click += new System.EventHandler(this.BT_Eliminar_Click);
             // 
             // BT_AplicarAUnPlan
             // 
             this.BT_AplicarAUnPlan.Enabled = false;
-            this.BT_AplicarAUnPlan.Location = new System.Drawing.Point(149, 163);
+            this.BT_AplicarAUnPlan.Location = new System.Drawing.Point(232, 221);
             this.BT_AplicarAUnPlan.Name = "BT_AplicarAUnPlan";
-            this.BT_AplicarAUnPlan.Size = new System.Drawing.Size(108, 23);
+            this.BT_AplicarAUnPlan.Size = new System.Drawing.Size(134, 40);
             this.BT_AplicarAUnPlan.TabIndex = 16;
-            this.BT_AplicarAUnPlan.Text = "Aplicar a un plan";
+            this.BT_AplicarAUnPlan.Text = "Aplicar plantilla seleccionada a un plan";
             this.BT_AplicarAUnPlan.UseVisualStyleBackColor = true;
             this.BT_AplicarAUnPlan.Click += new System.EventHandler(this.BT_AplicarAUnPlan_Click);
             // 
             // BT_AplicarPorLote
             // 
             this.BT_AplicarPorLote.Enabled = false;
-            this.BT_AplicarPorLote.Location = new System.Drawing.Point(149, 192);
+            this.BT_AplicarPorLote.Location = new System.Drawing.Point(232, 267);
             this.BT_AplicarPorLote.Name = "BT_AplicarPorLote";
-            this.BT_AplicarPorLote.Size = new System.Drawing.Size(108, 23);
+            this.BT_AplicarPorLote.Size = new System.Drawing.Size(134, 37);
             this.BT_AplicarPorLote.TabIndex = 17;
-            this.BT_AplicarPorLote.Text = "Aplicar por lote";
+            this.BT_AplicarPorLote.Text = "Extraer información de varios planes";
             this.BT_AplicarPorLote.UseVisualStyleBackColor = true;
             this.BT_AplicarPorLote.Click += new System.EventHandler(this.BT_AplicarPorLote_Click);
             // 
@@ -114,7 +114,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(269, 265);
+            this.ClientSize = new System.Drawing.Size(378, 345);
             this.Controls.Add(this.BT_AplicarPorLote);
             this.Controls.Add(this.BT_AplicarAUnPlan);
             this.Controls.Add(this.BT_Eliminar);

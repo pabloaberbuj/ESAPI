@@ -346,11 +346,6 @@ namespace ExploracionPlanes
             bt.Enabled = test;
         }
 
-        private void LB_listaRestricciones_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         public static double validarYConvertirADouble(string entrada)
         {
             CultureInfo alternative = (CultureInfo)CultureInfo.CurrentCulture.Clone();
@@ -375,6 +370,8 @@ namespace ExploracionPlanes
             habilitarBoton(LB_listaRestricciones.SelectedItems.Count == 1, BT_EditarRestriccion);
             habilitarBoton(estaParaGrabarRestriccion(), BT_AgregarALista);
             habilitarBoton(!string.IsNullOrEmpty(TB_NombrePlantilla.Text) && LB_listaRestricciones.Items.Count > 0, BT_GuardarPlantilla);
+            habilitarBoton(LB_listaRestricciones.SelectedItems.Count == 1 && LB_listaRestricciones.SelectedIndex != 0, BT_RestriccionArriba);
+            habilitarBoton(LB_listaRestricciones.SelectedItems.Count == 1 && LB_listaRestricciones.SelectedIndex != LB_listaRestricciones.Items.Count-1, BT_RestriccionAbajo);
         }
 
         private bool estaParaGrabarRestriccion()
@@ -383,5 +380,26 @@ namespace ExploracionPlanes
                   (esParaExtraccion() || (CB_MenorOMayor.SelectedIndex != -1 && !string.IsNullOrEmpty(TB_ValorEsperado.Text)));
         }
 
+
+
+        private void BT_RestriccionArriba_Click(object sender, EventArgs e)
+        {
+            int indice = LB_listaRestricciones.SelectedIndex;
+            IRestriccion item = (IRestriccion)LB_listaRestricciones.SelectedItem;
+            listaRestricciones.Remove(item);
+            listaRestricciones.Insert(indice - 1, item);
+            LB_listaRestricciones.ClearSelected();
+            LB_listaRestricciones.SelectedIndex = indice - 1;
+        }
+
+        private void BT_RestriccionAbajo_Click(object sender, EventArgs e)
+        {
+            int indice = LB_listaRestricciones.SelectedIndex;
+            IRestriccion item = (IRestriccion)LB_listaRestricciones.SelectedItem;
+            listaRestricciones.Remove(item);
+            listaRestricciones.Insert(indice + 1, item);
+            LB_listaRestricciones.ClearSelected();
+            LB_listaRestricciones.SelectedIndex = indice + 1;
+        }
     }
 }

@@ -52,6 +52,8 @@
             this.BT_EliminarRestriccion = new System.Windows.Forms.Button();
             this.CHB_esParaExtraccion = new System.Windows.Forms.CheckBox();
             this.BT_EditarRestriccion = new System.Windows.Forms.Button();
+            this.BT_RestriccionArriba = new System.Windows.Forms.Button();
+            this.BT_RestriccionAbajo = new System.Windows.Forms.Button();
             this.GB_NuevaRestriccion.SuspendLayout();
             this.Panel_esMenorque.SuspendLayout();
             this.SuspendLayout();
@@ -155,7 +157,7 @@
             this.LB_listaRestricciones.Location = new System.Drawing.Point(30, 246);
             this.LB_listaRestricciones.Name = "LB_listaRestricciones";
             this.LB_listaRestricciones.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.LB_listaRestricciones.Size = new System.Drawing.Size(230, 108);
+            this.LB_listaRestricciones.Size = new System.Drawing.Size(309, 186);
             this.LB_listaRestricciones.TabIndex = 12;
             this.LB_listaRestricciones.SelectedIndexChanged += new System.EventHandler(this.actualizarBotones);
             // 
@@ -264,7 +266,7 @@
             // BT_GuardarPlantilla
             // 
             this.BT_GuardarPlantilla.Enabled = false;
-            this.BT_GuardarPlantilla.Location = new System.Drawing.Point(283, 318);
+            this.BT_GuardarPlantilla.Location = new System.Drawing.Point(512, 396);
             this.BT_GuardarPlantilla.Name = "BT_GuardarPlantilla";
             this.BT_GuardarPlantilla.Size = new System.Drawing.Size(128, 36);
             this.BT_GuardarPlantilla.TabIndex = 12;
@@ -275,7 +277,7 @@
             // BT_EliminarRestriccion
             // 
             this.BT_EliminarRestriccion.Enabled = false;
-            this.BT_EliminarRestriccion.Location = new System.Drawing.Point(283, 246);
+            this.BT_EliminarRestriccion.Location = new System.Drawing.Point(362, 246);
             this.BT_EliminarRestriccion.Name = "BT_EliminarRestriccion";
             this.BT_EliminarRestriccion.Size = new System.Drawing.Size(128, 23);
             this.BT_EliminarRestriccion.TabIndex = 14;
@@ -297,7 +299,7 @@
             // BT_EditarRestriccion
             // 
             this.BT_EditarRestriccion.Enabled = false;
-            this.BT_EditarRestriccion.Location = new System.Drawing.Point(283, 275);
+            this.BT_EditarRestriccion.Location = new System.Drawing.Point(362, 275);
             this.BT_EditarRestriccion.Name = "BT_EditarRestriccion";
             this.BT_EditarRestriccion.Size = new System.Drawing.Size(128, 23);
             this.BT_EditarRestriccion.TabIndex = 16;
@@ -305,11 +307,37 @@
             this.BT_EditarRestriccion.UseVisualStyleBackColor = true;
             this.BT_EditarRestriccion.Click += new System.EventHandler(this.BT_EditarRestriccion_Click);
             // 
+            // BT_RestriccionArriba
+            // 
+            this.BT_RestriccionArriba.BackgroundImage = global::ExploracionPlanes.Properties.Resources.icons8_arriba_en_círculo_2_50;
+            this.BT_RestriccionArriba.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BT_RestriccionArriba.Enabled = false;
+            this.BT_RestriccionArriba.Location = new System.Drawing.Point(364, 304);
+            this.BT_RestriccionArriba.Name = "BT_RestriccionArriba";
+            this.BT_RestriccionArriba.Size = new System.Drawing.Size(35, 34);
+            this.BT_RestriccionArriba.TabIndex = 17;
+            this.BT_RestriccionArriba.UseVisualStyleBackColor = true;
+            this.BT_RestriccionArriba.Click += new System.EventHandler(this.BT_RestriccionArriba_Click);
+            // 
+            // BT_RestriccionAbajo
+            // 
+            this.BT_RestriccionAbajo.BackgroundImage = global::ExploracionPlanes.Properties.Resources.icons8_abajo_en_círculo_2_50;
+            this.BT_RestriccionAbajo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BT_RestriccionAbajo.Enabled = false;
+            this.BT_RestriccionAbajo.Location = new System.Drawing.Point(364, 357);
+            this.BT_RestriccionAbajo.Name = "BT_RestriccionAbajo";
+            this.BT_RestriccionAbajo.Size = new System.Drawing.Size(35, 34);
+            this.BT_RestriccionAbajo.TabIndex = 18;
+            this.BT_RestriccionAbajo.UseVisualStyleBackColor = true;
+            this.BT_RestriccionAbajo.Click += new System.EventHandler(this.BT_RestriccionAbajo_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(652, 372);
+            this.ClientSize = new System.Drawing.Size(652, 453);
+            this.Controls.Add(this.BT_RestriccionAbajo);
+            this.Controls.Add(this.BT_RestriccionArriba);
             this.Controls.Add(this.BT_EditarRestriccion);
             this.Controls.Add(this.CHB_esParaExtraccion);
             this.Controls.Add(this.BT_EliminarRestriccion);
@@ -355,6 +383,8 @@
         private System.Windows.Forms.CheckBox CHB_esParaExtraccion;
         private System.Windows.Forms.Panel Panel_esMenorque;
         private System.Windows.Forms.Button BT_EditarRestriccion;
+        private System.Windows.Forms.Button BT_RestriccionArriba;
+        private System.Windows.Forms.Button BT_RestriccionAbajo;
     }
 }
 
