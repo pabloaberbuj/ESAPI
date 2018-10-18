@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,6 +16,10 @@ namespace ExploracionPlanes
         [STAThread]
         static void Main()
         {
+            CultureInfo current = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+            current.NumberFormat.NumberDecimalSeparator = ".";
+            Thread.CurrentThread.CurrentCulture = current;
+            Thread.CurrentThread.CurrentUICulture = current;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Main());

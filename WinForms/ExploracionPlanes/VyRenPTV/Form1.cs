@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Globalization;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -59,7 +60,7 @@ namespace ExploracionPlanes
         {
             if (!string.IsNullOrEmpty(TB_CorrespA.Text))
             {
-                return Convert.ToDouble(TB_CorrespA.Text);
+                return validarYConvertirADouble(TB_CorrespA.Text);
             }
             else
             {
@@ -86,7 +87,7 @@ namespace ExploracionPlanes
         {
             if (!String.IsNullOrEmpty(TB_ValorEsperado.Text))
             {
-                return Convert.ToDouble(TB_ValorEsperado.Text);
+                return validarYConvertirADouble(TB_ValorEsperado.Text);
             }
             else
             {
@@ -98,7 +99,7 @@ namespace ExploracionPlanes
         {
             if (!String.IsNullOrEmpty(TB_ValorTolerado.Text))
             {
-                return Convert.ToDouble(TB_ValorTolerado.Text);
+                return validarYConvertirADouble(TB_ValorTolerado.Text);
             }
             else
             {
@@ -348,6 +349,24 @@ namespace ExploracionPlanes
         private void LB_listaRestricciones_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        public static double validarYConvertirADouble(string entrada)
+        {
+            CultureInfo alternative = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+            alternative.NumberFormat.NumberDecimalSeparator = ",";
+            bool esNumero; double salida = Double.NaN;
+            esNumero = Double.TryParse(entrada, out salida);
+            if (!esNumero)
+            {
+                esNumero = Double.TryParse(entrada, NumberStyles.Float, alternative, out salida);
+                if (!esNumero)
+                {
+                    salida = Double.NaN;
+                }
+            }
+
+            return salida;
         }
 
         private void actualizarBotones(object sender, EventArgs e)
