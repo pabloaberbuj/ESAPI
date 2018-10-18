@@ -149,19 +149,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\arrow-down-circle.svg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\arrow-up-circle.svg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\FlechaArriba.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\icons8-arriba-en-círculo-2-50.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icons8-abajo-en-círculo-2-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\flechaArriba.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

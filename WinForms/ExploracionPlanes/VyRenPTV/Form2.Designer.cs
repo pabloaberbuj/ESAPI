@@ -37,11 +37,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.Label3 = new System.Windows.Forms.Label();
             this.DGV_Estructuras = new System.Windows.Forms.DataGridView();
-            this.dePlantilla = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.delPlan = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.L_NombrePaciente = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.DGV_Análisis = new System.Windows.Forms.DataGridView();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Volumen = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label6 = new System.Windows.Forms.Label();
             this.BT_Analizar = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
@@ -55,10 +57,8 @@
             this.BT_VistaPrevia = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.L_EstatusAprobacion = new System.Windows.Forms.Label();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Volumen = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dePlantilla = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.delPlan = new System.Windows.Forms.DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Prescripciones)).BeginInit();
@@ -143,20 +143,9 @@
             this.DGV_Estructuras.Name = "DGV_Estructuras";
             this.DGV_Estructuras.RowHeadersVisible = false;
             this.DGV_Estructuras.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.DGV_Estructuras.Size = new System.Drawing.Size(205, 191);
+            this.DGV_Estructuras.Size = new System.Drawing.Size(255, 191);
             this.DGV_Estructuras.TabIndex = 12;
             this.DGV_Estructuras.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.DGV_Estructuras_RowsAdded);
-            // 
-            // dePlantilla
-            // 
-            this.dePlantilla.HeaderText = "Plantilla";
-            this.dePlantilla.Name = "dePlantilla";
-            // 
-            // delPlan
-            // 
-            this.delPlan.AutoComplete = false;
-            this.delPlan.HeaderText = "Plan";
-            this.delPlan.Name = "delPlan";
             // 
             // L_NombrePaciente
             // 
@@ -195,6 +184,27 @@
             this.DGV_Análisis.TabIndex = 16;
             this.DGV_Análisis.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.DGV_Análisis_RowsAdded);
             // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Métrica";
+            this.Column3.Name = "Column3";
+            // 
+            // Volumen
+            // 
+            this.Volumen.HeaderText = "Vol [cm3]";
+            this.Volumen.Name = "Volumen";
+            this.Volumen.Width = 60;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "En Plan";
+            this.Column4.Name = "Column4";
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Esperado";
+            this.Column5.Name = "Column5";
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -207,7 +217,7 @@
             // BT_Analizar
             // 
             this.BT_Analizar.Enabled = false;
-            this.BT_Analizar.Location = new System.Drawing.Point(310, 246);
+            this.BT_Analizar.Location = new System.Drawing.Point(325, 249);
             this.BT_Analizar.Name = "BT_Analizar";
             this.BT_Analizar.Size = new System.Drawing.Size(109, 23);
             this.BT_Analizar.TabIndex = 18;
@@ -314,26 +324,17 @@
             this.L_EstatusAprobacion.TabIndex = 26;
             this.L_EstatusAprobacion.Text = "label6";
             // 
-            // Column3
+            // dePlantilla
             // 
-            this.Column3.HeaderText = "Métrica";
-            this.Column3.Name = "Column3";
+            this.dePlantilla.HeaderText = "Plantilla";
+            this.dePlantilla.Name = "dePlantilla";
             // 
-            // Volumen
+            // delPlan
             // 
-            this.Volumen.HeaderText = "Vol [cm3]";
-            this.Volumen.Name = "Volumen";
-            this.Volumen.Width = 60;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "En Plan";
-            this.Column4.Name = "Column4";
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Esperado";
-            this.Column5.Name = "Column5";
+            this.delPlan.AutoComplete = false;
+            this.delPlan.HeaderText = "Plan";
+            this.delPlan.Name = "delPlan";
+            this.delPlan.Width = 150;
             // 
             // Form2
             // 
@@ -389,8 +390,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DataGridView DGV_Prescripciones;
         private System.Windows.Forms.Button BT_SeleccionarPlan;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dePlantilla;
-        private System.Windows.Forms.DataGridViewComboBoxColumn delPlan;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.Button BT_Imprimir;
@@ -403,5 +402,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Volumen;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dePlantilla;
+        private System.Windows.Forms.DataGridViewComboBoxColumn delPlan;
     }
 }

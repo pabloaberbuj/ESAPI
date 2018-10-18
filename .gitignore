@@ -240,3 +240,5 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/WinForms/ExploracionPlanes/VyRenPTV/Resources/arrow-down-circle.svg
+/WinForms/ExploracionPlanes/VyRenPTV/Resources/arrow-up-circle.svg

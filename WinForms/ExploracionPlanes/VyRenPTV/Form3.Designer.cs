@@ -42,6 +42,7 @@
             this.L_Nombre = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.DGV_Análisis = new System.Windows.Forms.DataGridView();
+            this.Métrica = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label6 = new System.Windows.Forms.Label();
             this.BT_Analizar = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
@@ -51,7 +52,6 @@
             this.BT_SeleccionarPlan = new System.Windows.Forms.Button();
             this.BT_GuardarPaciente = new System.Windows.Forms.Button();
             this.BT_Exportar = new System.Windows.Forms.Button();
-            this.Métrica = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Prescripciones)).BeginInit();
@@ -136,7 +136,7 @@
             this.DGV_Estructuras.RowHeadersVisible = false;
             this.DGV_Estructuras.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.DGV_Estructuras.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.DGV_Estructuras.Size = new System.Drawing.Size(205, 191);
+            this.DGV_Estructuras.Size = new System.Drawing.Size(256, 191);
             this.DGV_Estructuras.TabIndex = 12;
             this.DGV_Estructuras.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.DGV_Estructuras_RowsAdded);
             // 
@@ -150,6 +150,7 @@
             this.delPlan.AutoComplete = false;
             this.delPlan.HeaderText = "Plan";
             this.delPlan.Name = "delPlan";
+            this.delPlan.Width = 150;
             // 
             // L_ID
             // 
@@ -191,9 +192,14 @@
             this.DGV_Análisis.Location = new System.Drawing.Point(475, 33);
             this.DGV_Análisis.Name = "DGV_Análisis";
             this.DGV_Análisis.RowHeadersVisible = false;
-            this.DGV_Análisis.Size = new System.Drawing.Size(289, 348);
+            this.DGV_Análisis.Size = new System.Drawing.Size(355, 348);
             this.DGV_Análisis.TabIndex = 16;
             this.DGV_Análisis.ColumnAdded += new System.Windows.Forms.DataGridViewColumnEventHandler(this.DGV_Análisis_ColumnAdded);
+            // 
+            // Métrica
+            // 
+            this.Métrica.HeaderText = "Métrica";
+            this.Métrica.Name = "Métrica";
             // 
             // label6
             // 
@@ -207,7 +213,7 @@
             // BT_Analizar
             // 
             this.BT_Analizar.Enabled = false;
-            this.BT_Analizar.Location = new System.Drawing.Point(310, 246);
+            this.BT_Analizar.Location = new System.Drawing.Point(326, 243);
             this.BT_Analizar.Name = "BT_Analizar";
             this.BT_Analizar.Size = new System.Drawing.Size(109, 23);
             this.BT_Analizar.TabIndex = 18;
@@ -275,7 +281,7 @@
             // BT_Exportar
             // 
             this.BT_Exportar.Enabled = false;
-            this.BT_Exportar.Location = new System.Drawing.Point(655, 398);
+            this.BT_Exportar.Location = new System.Drawing.Point(721, 398);
             this.BT_Exportar.Name = "BT_Exportar";
             this.BT_Exportar.Size = new System.Drawing.Size(109, 37);
             this.BT_Exportar.TabIndex = 24;
@@ -283,16 +289,11 @@
             this.BT_Exportar.UseVisualStyleBackColor = true;
             this.BT_Exportar.Click += new System.EventHandler(this.BT_Exportar_Click);
             // 
-            // Métrica
-            // 
-            this.Métrica.HeaderText = "Métrica";
-            this.Métrica.Name = "Métrica";
-            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(785, 499);
+            this.ClientSize = new System.Drawing.Size(854, 499);
             this.Controls.Add(this.BT_Exportar);
             this.Controls.Add(this.BT_GuardarPaciente);
             this.Controls.Add(this.BT_SeleccionarPlan);
@@ -342,12 +343,12 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DataGridView DGV_Prescripciones;
         private System.Windows.Forms.Button BT_SeleccionarPlan;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dePlantilla;
-        private System.Windows.Forms.DataGridViewComboBoxColumn delPlan;
         private System.Windows.Forms.Button BT_GuardarPaciente;
         private System.Windows.Forms.Button BT_Exportar;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Métrica;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dePlantilla;
+        private System.Windows.Forms.DataGridViewComboBoxColumn delPlan;
     }
 }
