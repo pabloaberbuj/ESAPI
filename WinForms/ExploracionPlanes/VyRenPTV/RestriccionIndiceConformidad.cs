@@ -65,6 +65,7 @@ namespace ExploracionPlanes
             {
                 estructura = _estructura,
                 esMenorQue = _esMenorQue,
+                unidadCorrespondiente = _unidadCorrespondiente,
                 valorCorrespondiente = _valorCorrespondiente, //qué isodosis busco
                 valorEsperado = _valorEsperado,
                 valorTolerado = _valorTolerado,
@@ -110,7 +111,7 @@ namespace ExploracionPlanes
             }
             else
             {
-                valorCorrespondiente = valorCorrespondiente * prescripcionEstructura / 100; //Convierto el % a Gy para extraer
+                valorCorrespondiente = valorCorrespondiente * prescripcionEstructura / 100; //Convierto el % a Gy para extraer 
                 DoseValue dosis = new DoseValue(valorCorrespondiente * 100, DoseValue.DoseUnit.cGy); //y acá en cGy
                 MessageBox.Show("BODY: " + BODY.Id + "\n Valor Correspondiente: en Gy" + valorCorrespondiente.ToString() + "\n dosis en cGy: " + dosis.ValueAsString +
                     "\n volumen isodosis: " + plan.GetVolumeAtDose(BODY, dosis, VolumePresentation.AbsoluteCm3).ToString() + "\n volumen estructura: " + estructura.Volume.ToString());
@@ -137,14 +138,15 @@ namespace ExploracionPlanes
 
         public bool dosisEstaEnPorcentaje()
         {
-            if (unidadValor == "%")
+            /*if (unidadValor == "%")
             {
                 return true;
             }
             else
             {
                 return false;
-            }
+            }*/
+            return true;
         }
 
         public void editar(ComboBox CB_Estructura, TextBox TB_nombresAlt, ComboBox CB_TipoRestr, TextBox TB_valorCorrespondiente,

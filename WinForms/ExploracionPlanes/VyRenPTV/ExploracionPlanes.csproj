@@ -53,15 +53,15 @@
     <Reference Include="System.Xml" />
     <Reference Include="VMS.TPS.Common.Model.API, Version=11.0.47.555, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\dlls\VMS.TPS.Common.Model.API.dll</HintPath>
+      <HintPath>..\..\ExploracionPlanes Eclipse13\VyRenPTV\bin\Debug\VMS.TPS.Common.Model.API.dll</HintPath>
     </Reference>
     <Reference Include="VMS.TPS.Common.Model.Interface, Version=11.0.47.555, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\dlls\VMS.TPS.Common.Model.Interface.dll</HintPath>
+      <HintPath>..\..\ExploracionPlanes Eclipse13\VyRenPTV\bin\Debug\VMS.TPS.Common.Model.Interface.dll</HintPath>
     </Reference>
     <Reference Include="VMS.TPS.Common.Model.Types, Version=11.0.47.555, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\dlls\VMS.TPS.Common.Model.Types.dll</HintPath>
+      <HintPath>..\..\ExploracionPlanes Eclipse13\VyRenPTV\bin\Debug\VMS.TPS.Common.Model.Types.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
