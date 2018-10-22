@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
             this.LB_Cursos = new System.Windows.Forms.ListBox();
             this.TB_ID = new System.Windows.Forms.TextBox();
             this.BT_AbrirPaciente = new System.Windows.Forms.Button();
@@ -38,8 +37,6 @@
             this.DGV_Estructuras = new System.Windows.Forms.DataGridView();
             this.dePlantilla = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.delPlan = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.L_ID = new System.Windows.Forms.Label();
-            this.L_Nombre = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.DGV_Análisis = new System.Windows.Forms.DataGridView();
             this.Métrica = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,32 +49,25 @@
             this.BT_SeleccionarPlan = new System.Windows.Forms.Button();
             this.BT_GuardarPaciente = new System.Windows.Forms.Button();
             this.BT_Exportar = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Prescripciones)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(18, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "ID";
-            // 
             // LB_Cursos
             // 
             this.LB_Cursos.FormattingEnabled = true;
-            this.LB_Cursos.Location = new System.Drawing.Point(47, 125);
+            this.LB_Cursos.Location = new System.Drawing.Point(27, 116);
             this.LB_Cursos.Name = "LB_Cursos";
-            this.LB_Cursos.Size = new System.Drawing.Size(104, 69);
+            this.LB_Cursos.Size = new System.Drawing.Size(119, 69);
             this.LB_Cursos.TabIndex = 1;
             this.LB_Cursos.SelectedIndexChanged += new System.EventHandler(this.LB_Cursos_SelectedIndexChanged);
             // 
             // TB_ID
             // 
-            this.TB_ID.Location = new System.Drawing.Point(27, 15);
+            this.TB_ID.Location = new System.Drawing.Point(27, 24);
             this.TB_ID.Name = "TB_ID";
             this.TB_ID.Size = new System.Drawing.Size(119, 20);
             this.TB_ID.TabIndex = 2;
@@ -86,7 +76,7 @@
             // BT_AbrirPaciente
             // 
             this.BT_AbrirPaciente.Enabled = false;
-            this.BT_AbrirPaciente.Location = new System.Drawing.Point(46, 50);
+            this.BT_AbrirPaciente.Location = new System.Drawing.Point(27, 50);
             this.BT_AbrirPaciente.Name = "BT_AbrirPaciente";
             this.BT_AbrirPaciente.Size = new System.Drawing.Size(100, 23);
             this.BT_AbrirPaciente.TabIndex = 3;
@@ -97,29 +87,29 @@
             // LB_Planes
             // 
             this.LB_Planes.FormattingEnabled = true;
-            this.LB_Planes.Location = new System.Drawing.Point(47, 203);
+            this.LB_Planes.Location = new System.Drawing.Point(27, 222);
             this.LB_Planes.Name = "LB_Planes";
-            this.LB_Planes.Size = new System.Drawing.Size(104, 95);
+            this.LB_Planes.Size = new System.Drawing.Size(119, 95);
             this.LB_Planes.TabIndex = 5;
             this.LB_Planes.SelectedIndexChanged += new System.EventHandler(this.LB_Planes_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 125);
+            this.label2.Location = new System.Drawing.Point(3, 100);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(39, 13);
+            this.label2.Size = new System.Drawing.Size(104, 13);
             this.label2.TabIndex = 7;
-            this.label2.Text = "Cursos";
+            this.label2.Text = "2. Seleccionar curso";
             // 
             // Label3
             // 
             this.Label3.AutoSize = true;
             this.Label3.Location = new System.Drawing.Point(3, 203);
             this.Label3.Name = "Label3";
-            this.Label3.Size = new System.Drawing.Size(39, 13);
+            this.Label3.Size = new System.Drawing.Size(98, 13);
             this.Label3.TabIndex = 8;
-            this.Label3.Text = "Planes";
+            this.Label3.Text = "3. Seleccionar plan";
             // 
             // DGV_Estructuras
             // 
@@ -152,34 +142,14 @@
             this.delPlan.Name = "delPlan";
             this.delPlan.Width = 150;
             // 
-            // L_ID
-            // 
-            this.L_ID.AutoSize = true;
-            this.L_ID.Location = new System.Drawing.Point(3, 86);
-            this.L_ID.Name = "L_ID";
-            this.L_ID.Size = new System.Drawing.Size(35, 13);
-            this.L_ID.TabIndex = 13;
-            this.L_ID.Text = "label5";
-            this.L_ID.Visible = false;
-            // 
-            // L_Nombre
-            // 
-            this.L_Nombre.AutoSize = true;
-            this.L_Nombre.Location = new System.Drawing.Point(44, 86);
-            this.L_Nombre.Name = "L_Nombre";
-            this.L_Nombre.Size = new System.Drawing.Size(35, 13);
-            this.L_Nombre.TabIndex = 14;
-            this.L_Nombre.Text = "label6";
-            this.L_Nombre.Visible = false;
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(176, 9);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(126, 13);
+            this.label5.Size = new System.Drawing.Size(135, 13);
             this.label5.TabIndex = 15;
-            this.label5.Text = "Compatibilizar estructuras";
+            this.label5.Text = "4.Compatibilizar estructuras";
             // 
             // DGV_Análisis
             // 
@@ -206,9 +176,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(472, 9);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(44, 13);
+            this.label6.Size = new System.Drawing.Size(56, 13);
             this.label6.TabIndex = 17;
-            this.label6.Text = "Analizar";
+            this.label6.Text = "6. Analizar";
             // 
             // BT_Analizar
             // 
@@ -226,9 +196,9 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(176, 281);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(110, 13);
+            this.label7.Size = new System.Drawing.Size(122, 13);
             this.label7.TabIndex = 20;
-            this.label7.Text = "Ajustar prescripciones";
+            this.label7.Text = "5. Ajustar prescripciones";
             // 
             // DGV_Prescripciones
             // 
@@ -259,7 +229,7 @@
             // BT_SeleccionarPlan
             // 
             this.BT_SeleccionarPlan.Enabled = false;
-            this.BT_SeleccionarPlan.Location = new System.Drawing.Point(42, 307);
+            this.BT_SeleccionarPlan.Location = new System.Drawing.Point(27, 332);
             this.BT_SeleccionarPlan.Name = "BT_SeleccionarPlan";
             this.BT_SeleccionarPlan.Size = new System.Drawing.Size(109, 23);
             this.BT_SeleccionarPlan.TabIndex = 22;
@@ -274,7 +244,7 @@
             this.BT_GuardarPaciente.Name = "BT_GuardarPaciente";
             this.BT_GuardarPaciente.Size = new System.Drawing.Size(109, 37);
             this.BT_GuardarPaciente.TabIndex = 23;
-            this.BT_GuardarPaciente.Text = "Guardar y cerrar paciente";
+            this.BT_GuardarPaciente.Text = "7. Guardar y cerrar paciente";
             this.BT_GuardarPaciente.UseVisualStyleBackColor = true;
             this.BT_GuardarPaciente.Click += new System.EventHandler(this.BT_GuardarPaciente_Click);
             // 
@@ -289,11 +259,31 @@
             this.BT_Exportar.UseVisualStyleBackColor = true;
             this.BT_Exportar.Click += new System.EventHandler(this.BT_Exportar_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 8);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(89, 13);
+            this.label4.TabIndex = 27;
+            this.label4.Text = "1. Elegir paciente\r\n";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(5, 27);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(21, 13);
+            this.label8.TabIndex = 26;
+            this.label8.Text = "ID:";
+            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(854, 499);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.BT_Exportar);
             this.Controls.Add(this.BT_GuardarPaciente);
             this.Controls.Add(this.BT_SeleccionarPlan);
@@ -303,8 +293,6 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.DGV_Análisis);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.L_Nombre);
-            this.Controls.Add(this.L_ID);
             this.Controls.Add(this.DGV_Estructuras);
             this.Controls.Add(this.Label3);
             this.Controls.Add(this.label2);
@@ -312,7 +300,6 @@
             this.Controls.Add(this.BT_AbrirPaciente);
             this.Controls.Add(this.TB_ID);
             this.Controls.Add(this.LB_Cursos);
-            this.Controls.Add(this.label1);
             this.Name = "Form3";
             this.Text = "Form3";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form3_FormClosing);
@@ -325,8 +312,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListBox LB_Cursos;
         private System.Windows.Forms.TextBox TB_ID;
         private System.Windows.Forms.Button BT_AbrirPaciente;
@@ -334,8 +319,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label Label3;
         private System.Windows.Forms.DataGridView DGV_Estructuras;
-        private System.Windows.Forms.Label L_ID;
-        private System.Windows.Forms.Label L_Nombre;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DataGridView DGV_Análisis;
         private System.Windows.Forms.Label label6;
@@ -350,5 +333,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Métrica;
         private System.Windows.Forms.DataGridViewTextBoxColumn dePlantilla;
         private System.Windows.Forms.DataGridViewComboBoxColumn delPlan;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label8;
     }
 }

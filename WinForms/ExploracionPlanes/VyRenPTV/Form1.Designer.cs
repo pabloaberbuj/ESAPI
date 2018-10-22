@@ -101,7 +101,7 @@
             this.CB_CorrespAUnidades.FormattingEnabled = true;
             this.CB_CorrespAUnidades.Location = new System.Drawing.Point(375, 43);
             this.CB_CorrespAUnidades.Name = "CB_CorrespAUnidades";
-            this.CB_CorrespAUnidades.Size = new System.Drawing.Size(41, 21);
+            this.CB_CorrespAUnidades.Size = new System.Drawing.Size(50, 21);
             this.CB_CorrespAUnidades.TabIndex = 7;
             // 
             // TB_CorrespA
@@ -180,7 +180,7 @@
             this.GB_NuevaRestriccion.Size = new System.Drawing.Size(619, 168);
             this.GB_NuevaRestriccion.TabIndex = 13;
             this.GB_NuevaRestriccion.TabStop = false;
-            this.GB_NuevaRestriccion.Text = "Nueva Restricción";
+            this.GB_NuevaRestriccion.Text = "2. Nueva Restricción";
             // 
             // Panel_esMenorque
             // 
@@ -190,7 +190,7 @@
             this.Panel_esMenorque.Controls.Add(this.TB_ValorEsperado);
             this.Panel_esMenorque.Controls.Add(this.TB_ValorTolerado);
             this.Panel_esMenorque.Controls.Add(this.CB_ValorEsperadoUnidades);
-            this.Panel_esMenorque.Location = new System.Drawing.Point(420, 31);
+            this.Panel_esMenorque.Location = new System.Drawing.Point(429, 30);
             this.Panel_esMenorque.Name = "Panel_esMenorque";
             this.Panel_esMenorque.Size = new System.Drawing.Size(190, 68);
             this.Panel_esMenorque.TabIndex = 23;
@@ -251,15 +251,15 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 16);
+            this.label1.Location = new System.Drawing.Point(27, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
+            this.label1.Size = new System.Drawing.Size(98, 13);
             this.label1.TabIndex = 12;
-            this.label1.Text = "Nombre";
+            this.label1.Text = "1. Nombre Plantilla:";
             // 
             // TB_NombrePlantilla
             // 
-            this.TB_NombrePlantilla.Location = new System.Drawing.Point(97, 13);
+            this.TB_NombrePlantilla.Location = new System.Drawing.Point(128, 6);
             this.TB_NombrePlantilla.Name = "TB_NombrePlantilla";
             this.TB_NombrePlantilla.Size = new System.Drawing.Size(192, 20);
             this.TB_NombrePlantilla.TabIndex = 12;
@@ -290,7 +290,7 @@
             // CHB_esParaExtraccion
             // 
             this.CHB_esParaExtraccion.AutoSize = true;
-            this.CHB_esParaExtraccion.Location = new System.Drawing.Point(314, 13);
+            this.CHB_esParaExtraccion.Location = new System.Drawing.Point(377, 8);
             this.CHB_esParaExtraccion.Name = "CHB_esParaExtraccion";
             this.CHB_esParaExtraccion.Size = new System.Drawing.Size(176, 17);
             this.CHB_esParaExtraccion.TabIndex = 15;
@@ -344,17 +344,17 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(447, 224);
+            this.label5.Location = new System.Drawing.Point(447, 230);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(82, 13);
+            this.label5.Size = new System.Drawing.Size(94, 13);
             this.label5.TabIndex = 24;
-            this.label5.Text = "Nota (opcional):";
+            this.label5.Text = "3. Nota (opcional):";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(652, 453);
+            this.ClientSize = new System.Drawing.Size(664, 453);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.TB_NotaPlantilla);
             this.Controls.Add(this.BT_RestriccionAbajo);

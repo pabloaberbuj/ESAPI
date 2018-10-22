@@ -113,8 +113,6 @@ namespace ExploracionPlanes
             if (abrirPaciente(TB_ID.Text))
             {
                 LB_Cursos.DataSource = listaCursos(paciente);
-                L_NombrePaciente.Text = paciente.Name;
-                L_NombrePaciente.Visible = true;
                 this.Text += " - " + paciente.Name;
             }
 
@@ -302,7 +300,6 @@ namespace ExploracionPlanes
             {
                 llenarDGVEstructuras();
                 llenarDGVPrescripciones();
-                L_EstatusAprobacion.Text = planSeleccionado().ApprovalStatus.ToString();
             }
             catch (Exception exp)
             {
