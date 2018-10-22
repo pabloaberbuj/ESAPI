@@ -13,8 +13,8 @@ namespace ExploracionPlanes
     public partial class Main : Form
     {
         public Form1 crearPlantilla;
-        //public PruebaImprimir aplicarPlantilla;
-        public Form2 aplicarPlantilla;
+        public PruebaImprimir aplicarPlantilla;
+        //public Form2 aplicarPlantilla;
         public Form3 aplicarPorLote;
         public Main()
         {
@@ -38,8 +38,8 @@ namespace ExploracionPlanes
 
         private void BT_AplicarAUnPlan_Click(object sender, EventArgs e)
         {
-            //aplicarPlantilla = new PruebaImprimir(plantillaSeleccionada());
-            aplicarPlantilla = new Form2(plantillaSeleccionada());
+            aplicarPlantilla = new PruebaImprimir(plantillaSeleccionada());
+            //aplicarPlantilla = new Form2(plantillaSeleccionada());
             aplicarPlantilla.ShowDialog();
         }
 

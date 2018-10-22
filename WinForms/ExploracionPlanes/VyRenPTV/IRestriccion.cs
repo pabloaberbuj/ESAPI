@@ -14,6 +14,7 @@ namespace ExploracionPlanes
         Estructura estructura { get; set; }
         string etiqueta { get; set; }
         string etiquetaInicio { get; set; }
+        bool esMenorQue { get; set; }
         double valorMedido { get; set; }
         double valorEsperado { get; set; }
         double valorTolerado { get; set; }

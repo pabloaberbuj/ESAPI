@@ -113,7 +113,7 @@ namespace ExploracionPlanes
             {
                 double valorCorrespondienteGy = valorCorrespondiente * prescripcionEstructura / 100; //Convierto el % a Gy para extraer 
                 DoseValue dosis = new DoseValue(valorCorrespondienteGy * 100, DoseValue.DoseUnit.cGy); //y acá en cGy
-                valorMedido = Math.Round(plan.GetVolumeAtDose(BODY, dosis, VolumePresentation.AbsoluteCm3)/estructura.Volume);
+                valorMedido = Math.Round(plan.GetVolumeAtDose(BODY, dosis, VolumePresentation.AbsoluteCm3)/estructura.Volume,3);
             }
         }
 

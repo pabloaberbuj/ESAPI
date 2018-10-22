@@ -216,7 +216,16 @@ namespace ExploracionPlanes
                 Structure estructura = estructuraCorrespondiente(restriccion.estructura.nombre);
                 DGV_Análisis.Rows.Add();
                 DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiquetaInicio;
-                DGV_Análisis.Rows[i].Cells[3].Value = restriccion.valorEsperado + restriccion.unidadValor;
+                string menorOmayor;
+                if (restriccion.esMenorQue)
+                {
+                    menorOmayor = "<";
+                }
+                else
+                {
+                    menorOmayor = ">";
+                }
+                DGV_Análisis.Rows[i].Cells[3].Value = menorOmayor + restriccion.valorEsperado + restriccion.unidadValor;
                 if (estructura != null)
                 {
                     DGV_Análisis.Rows[i].Cells[1].Value = Math.Round(estructura.Volume, 2).ToString();

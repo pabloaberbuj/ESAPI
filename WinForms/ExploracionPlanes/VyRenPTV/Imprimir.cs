@@ -171,9 +171,9 @@ namespace ExploracionPlanes
 
         public static void imprimirtabla(PrintPageEventArgs e, DataGridView tabla, int anchohoja, int posicionlinea)
         {
-            int x_value = 12;// (anchohoja - tabla.Width) / 2;
+            int x_valueFijo = 12;// (anchohoja - tabla.Width) / 2;
             int y_value = posicionlinea;
-
+            int x_value = x_valueFijo;
 
             foreach (DataGridViewColumn dc in tabla.Columns)
             {
@@ -185,9 +185,9 @@ namespace ExploracionPlanes
             {
 
                 DataGridViewRow dr = tabla.Rows[i];
-                x_value = 10;// (anchohoja - tabla.Width) / 2;
+                x_value = x_valueFijo-5;// (anchohoja - tabla.Width) / 2;
                 int j = 0;
-                e.Graphics.DrawLine(Pens.Black, new Point(x_value - 35, y_value), new Point(x_value + tabla.Width - 15, y_value));
+                e.Graphics.DrawLine(Pens.Black, new Point(x_value - 35, y_value), new Point(x_value + tabla.Width - 10, y_value));
                 foreach (DataGridViewColumn dc in tabla.Columns)
                 {
                     string text;
@@ -216,6 +216,17 @@ namespace ExploracionPlanes
                     j++;
                 }
                 y_value += 25;
+                if (y_value>altoTotal)
+                {
+                    y_value = posicionlinea;
+                    x_valueFijo = 70 + tabla.Width;
+                    foreach (DataGridViewColumn dc in tabla.Columns)
+                    {
+                        e.Graphics.DrawString(dc.HeaderText, fuenteTablaHeader, negro, x_value, y_value, centro);
+                        x_value += dc.Width + 30;
+                    }
+                    y_value += 10;
+                }
             }
         }
         public static int imprimirCabeceraInforme(PrintPageEventArgs e, int anchohoja, int posicionlinea, string nombrePaciente, string infoPlan, string nombrePlantilla, string notaPlantilla, string realizadoPor)
