@@ -234,6 +234,7 @@ namespace ExploracionPlanes
                     imprimirTexto(e, lineaNota, posicionlinea, 1, x_value);
                     posicionlinea += altoTexto;
                 }
+                posicionlinea += altoTexto;
             }
             imprimirEtiquetaYValor(e, posicionlinea, "Realizado por: ", realizadoPor, x_value);
             posicionlinea += altoTexto;

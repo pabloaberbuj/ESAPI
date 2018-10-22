@@ -107,9 +107,9 @@ namespace ExploracionPlanes
             VolumePresentation volumePresentation;
             if (unidadCorrespondiente == "%")
             {
-                valorCorrespondiente = valorCorrespondiente * prescripcionEstructura / 100; //Convierto el % a Gy para extraer
+                double valorCorrespondienteGy = valorCorrespondiente * prescripcionEstructura / 100; //Convierto el % a Gy para extraer
             }
-            DoseValue dosis = new DoseValue(valorCorrespondiente * 100, DoseValue.DoseUnit.cGy);
+            DoseValue dosis = new DoseValue(valorCorrespondienteGy * 100, DoseValue.DoseUnit.cGy);
             
             if (unidadValor == "%")
             {

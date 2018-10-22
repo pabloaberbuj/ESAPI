@@ -111,11 +111,9 @@ namespace ExploracionPlanes
             }
             else
             {
-                valorCorrespondiente = valorCorrespondiente * prescripcionEstructura / 100; //Convierto el % a Gy para extraer 
-                DoseValue dosis = new DoseValue(valorCorrespondiente * 100, DoseValue.DoseUnit.cGy); //y acá en cGy
-                MessageBox.Show("BODY: " + BODY.Id + "\n Valor Correspondiente: en Gy" + valorCorrespondiente.ToString() + "\n dosis en cGy: " + dosis.ValueAsString +
-                    "\n volumen isodosis: " + plan.GetVolumeAtDose(BODY, dosis, VolumePresentation.AbsoluteCm3).ToString() + "\n volumen estructura: " + estructura.Volume.ToString());
-                valorMedido = plan.GetVolumeAtDose(BODY, dosis, VolumePresentation.AbsoluteCm3)/estructura.Volume;
+                double valorCorrespondienteGy = valorCorrespondiente * prescripcionEstructura / 100; //Convierto el % a Gy para extraer 
+                DoseValue dosis = new DoseValue(valorCorrespondienteGy * 100, DoseValue.DoseUnit.cGy); //y acá en cGy
+                valorMedido = Math.Round(plan.GetVolumeAtDose(BODY, dosis, VolumePresentation.AbsoluteCm3)/estructura.Volume);
             }
         }
 

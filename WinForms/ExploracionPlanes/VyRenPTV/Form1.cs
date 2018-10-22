@@ -284,6 +284,7 @@ namespace ExploracionPlanes
             LB_listaRestricciones.DataSource = listaRestricciones;
             TB_NombrePlantilla.Clear();
             fijarEsParaExtraccion();
+            TB_NotaPlantilla.Clear();
         }
         private void BT_GuardarPlantilla_Click(object sender, EventArgs e)
         {
