@@ -54,6 +54,8 @@
             this.BT_EditarRestriccion = new System.Windows.Forms.Button();
             this.BT_RestriccionArriba = new System.Windows.Forms.Button();
             this.BT_RestriccionAbajo = new System.Windows.Forms.Button();
+            this.TB_NotaPlantilla = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.GB_NuevaRestriccion.SuspendLayout();
             this.Panel_esMenorque.SuspendLayout();
             this.SuspendLayout();
@@ -277,9 +279,9 @@
             // BT_EliminarRestriccion
             // 
             this.BT_EliminarRestriccion.Enabled = false;
-            this.BT_EliminarRestriccion.Location = new System.Drawing.Point(362, 246);
+            this.BT_EliminarRestriccion.Location = new System.Drawing.Point(345, 246);
             this.BT_EliminarRestriccion.Name = "BT_EliminarRestriccion";
-            this.BT_EliminarRestriccion.Size = new System.Drawing.Size(128, 23);
+            this.BT_EliminarRestriccion.Size = new System.Drawing.Size(79, 37);
             this.BT_EliminarRestriccion.TabIndex = 14;
             this.BT_EliminarRestriccion.Text = "Eliminar Restricciones";
             this.BT_EliminarRestriccion.UseVisualStyleBackColor = true;
@@ -299,9 +301,9 @@
             // BT_EditarRestriccion
             // 
             this.BT_EditarRestriccion.Enabled = false;
-            this.BT_EditarRestriccion.Location = new System.Drawing.Point(362, 275);
+            this.BT_EditarRestriccion.Location = new System.Drawing.Point(345, 289);
             this.BT_EditarRestriccion.Name = "BT_EditarRestriccion";
-            this.BT_EditarRestriccion.Size = new System.Drawing.Size(128, 23);
+            this.BT_EditarRestriccion.Size = new System.Drawing.Size(79, 39);
             this.BT_EditarRestriccion.TabIndex = 16;
             this.BT_EditarRestriccion.Text = "Editar Restricción";
             this.BT_EditarRestriccion.UseVisualStyleBackColor = true;
@@ -312,7 +314,7 @@
             this.BT_RestriccionArriba.BackgroundImage = global::ExploracionPlanes.Properties.Resources.icons8_arriba_en_círculo_2_50;
             this.BT_RestriccionArriba.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BT_RestriccionArriba.Enabled = false;
-            this.BT_RestriccionArriba.Location = new System.Drawing.Point(364, 304);
+            this.BT_RestriccionArriba.Location = new System.Drawing.Point(345, 334);
             this.BT_RestriccionArriba.Name = "BT_RestriccionArriba";
             this.BT_RestriccionArriba.Size = new System.Drawing.Size(35, 34);
             this.BT_RestriccionArriba.TabIndex = 17;
@@ -324,18 +326,37 @@
             this.BT_RestriccionAbajo.BackgroundImage = global::ExploracionPlanes.Properties.Resources.icons8_abajo_en_círculo_2_50;
             this.BT_RestriccionAbajo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BT_RestriccionAbajo.Enabled = false;
-            this.BT_RestriccionAbajo.Location = new System.Drawing.Point(364, 357);
+            this.BT_RestriccionAbajo.Location = new System.Drawing.Point(345, 374);
             this.BT_RestriccionAbajo.Name = "BT_RestriccionAbajo";
             this.BT_RestriccionAbajo.Size = new System.Drawing.Size(35, 34);
             this.BT_RestriccionAbajo.TabIndex = 18;
             this.BT_RestriccionAbajo.UseVisualStyleBackColor = true;
             this.BT_RestriccionAbajo.Click += new System.EventHandler(this.BT_RestriccionAbajo_Click);
             // 
+            // TB_NotaPlantilla
+            // 
+            this.TB_NotaPlantilla.Location = new System.Drawing.Point(450, 246);
+            this.TB_NotaPlantilla.Multiline = true;
+            this.TB_NotaPlantilla.Name = "TB_NotaPlantilla";
+            this.TB_NotaPlantilla.Size = new System.Drawing.Size(190, 112);
+            this.TB_NotaPlantilla.TabIndex = 19;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(447, 224);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(82, 13);
+            this.label5.TabIndex = 24;
+            this.label5.Text = "Nota (opcional):";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(652, 453);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.TB_NotaPlantilla);
             this.Controls.Add(this.BT_RestriccionAbajo);
             this.Controls.Add(this.BT_RestriccionArriba);
             this.Controls.Add(this.BT_EditarRestriccion);
@@ -385,6 +406,8 @@
         private System.Windows.Forms.Button BT_EditarRestriccion;
         private System.Windows.Forms.Button BT_RestriccionArriba;
         private System.Windows.Forms.Button BT_RestriccionAbajo;
+        private System.Windows.Forms.TextBox TB_NotaPlantilla;
+        private System.Windows.Forms.Label label5;
     }
 }
 

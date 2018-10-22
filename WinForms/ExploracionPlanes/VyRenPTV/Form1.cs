@@ -34,7 +34,7 @@ namespace ExploracionPlanes
             main = _main;
             if (_editaPlantilla)
             {
-                main.plantillaSeleccionada().editar(TB_NombrePlantilla, CHB_esParaExtraccion, listaRestricciones);
+                main.plantillaSeleccionada().editar(TB_NombrePlantilla, CHB_esParaExtraccion, listaRestricciones, TB_NotaPlantilla);
             }
 
 
@@ -78,9 +78,14 @@ namespace ExploracionPlanes
             return CHB_esParaExtraccion.Checked;
         }
 
+        private string notaPlantilla()
+        {
+            return TB_NotaPlantilla.Text;
+        }
+
         private Plantilla plantillaActual()
         {
-            return Plantilla.crear(nombrePlantilla(), esParaExtraccion(), listaRestricciones);
+            return Plantilla.crear(nombrePlantilla(), esParaExtraccion(), listaRestricciones, notaPlantilla());
         }
 
         private double valorEsperado()

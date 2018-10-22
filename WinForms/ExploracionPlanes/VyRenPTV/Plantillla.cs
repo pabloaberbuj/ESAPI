@@ -18,9 +18,10 @@ namespace ExploracionPlanes
         public string etiqueta { get; set; }
         public bool esParaExtraccion { get; set; }
         public BindingList<IRestriccion> listaRestricciones { get; set; }
+        public string nota { get; set; }
         public string path { get; set; }
 
-        public static Plantilla crear(string _nombre, bool _esParaExtraccion, BindingList<IRestriccion> _listaRestricciones)
+        public static Plantilla crear(string _nombre, bool _esParaExtraccion, BindingList<IRestriccion> _listaRestricciones, string _nota)
         {
             Plantilla plantilla = new Plantilla()
             {
@@ -28,6 +29,7 @@ namespace ExploracionPlanes
                 etiqueta = _nombre,
                 esParaExtraccion = _esParaExtraccion,
                 listaRestricciones = _listaRestricciones,
+                nota  = _nota,
             };
             if (_esParaExtraccion)
             {
@@ -116,7 +118,7 @@ namespace ExploracionPlanes
             }
         }
 
-        public void editar(TextBox TB_nombre, CheckBox CHB_esParaExtraer, BindingList<IRestriccion> ListaRestricciones)
+        public void editar(TextBox TB_nombre, CheckBox CHB_esParaExtraer, BindingList<IRestriccion> ListaRestricciones, TextBox TB_notaPlantilla)
         {
             TB_nombre.Text = nombre;
             if (esParaExtraccion)
@@ -127,6 +129,7 @@ namespace ExploracionPlanes
             {
                 ListaRestricciones.Add(restriccion);
             }
+            TB_notaPlantilla.Text = nota;
             
         }
     }
