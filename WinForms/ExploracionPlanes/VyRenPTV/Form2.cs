@@ -367,7 +367,7 @@ namespace ExploracionPlanes
         }
         private void printDocument1_PrintPage_1(object sender, PrintPageEventArgs e)
         {
-            Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, paciente.LastName + ", " + paciente.FirstName,infoPlan() ,plantilla.nombre, app.CurrentUser.Id, DGV_Análisis);
+            Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, paciente.LastName + ", " + paciente.FirstName,infoPlan() ,plantilla.nombre, plantilla.nota, app.CurrentUser.Id, DGV_Análisis);
         }
 
 

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 
 namespace ExploracionPlanes
@@ -217,22 +218,32 @@ namespace ExploracionPlanes
                 y_value += 25;
             }
         }
-        public static int imprimirCabeceraInforme(PrintPageEventArgs e, int anchohoja, int posicionlinea, string nombrePaciente, string infoPlan, string nombrePlantilla, string realizadoPor)
+        public static int imprimirCabeceraInforme(PrintPageEventArgs e, int anchohoja, int posicionlinea, string nombrePaciente, string infoPlan, string nombrePlantilla, string notaPlantilla, string realizadoPor)
         {
+            
             posicionlinea = imprimirTitulo(e, "Título", posicionlinea, 1);
             posicionlinea = imprimirSubtitulo(e, "Paciente: " + nombrePaciente, posicionlinea);
             posicionlinea = imprimirSubtitulo(e, "Plan: " + infoPlan, posicionlinea);
             posicionlinea = imprimirSubtitulo(e, "Plantilla: " + nombrePlantilla, posicionlinea);
             int x_value = 10;
+            if (!string.IsNullOrEmpty(notaPlantilla))
+            {
+                string[] notaPlantillaArray = Regex.Split(notaPlantilla, "\r\n");
+                foreach (string lineaNota in notaPlantillaArray)
+                {
+                    imprimirTexto(e, lineaNota, posicionlinea, 1, x_value);
+                    posicionlinea += altoTexto;
+                }
+            }
             imprimirEtiquetaYValor(e, posicionlinea, "Realizado por: ", realizadoPor, x_value);
             posicionlinea += altoTexto;
             imprimirEtiquetaYValor(e, posicionlinea, "Fecha: ", DateTime.Today.ToShortDateString(), x_value);
             return posicionlinea += altoTexto*3;
         }
 
-        public static void imprimirInforme(PrintPageEventArgs e, int anchohoja, int posicionlinea, string nombrePaciente, string infoPlan, string nombrePlantilla, string realizadoPor, DataGridView tabla)
+        public static void imprimirInforme(PrintPageEventArgs e, int anchohoja, int posicionlinea, string nombrePaciente, string infoPlan, string nombrePlantilla, string notaPlantilla, string realizadoPor, DataGridView tabla)
         {
-            posicionlinea = imprimirCabeceraInforme(e, anchohoja, posicionlinea, nombrePaciente, infoPlan, nombrePlantilla, realizadoPor);
+            posicionlinea = imprimirCabeceraInforme(e, anchohoja, posicionlinea, nombrePaciente, infoPlan, nombrePlantilla, notaPlantilla, realizadoPor);
             imprimirtabla(e, tabla, anchohoja, posicionlinea);
         }
 
