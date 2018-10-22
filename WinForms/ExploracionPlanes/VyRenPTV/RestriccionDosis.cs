@@ -170,7 +170,7 @@ namespace ExploracionPlanes
                 TB_nombresAlt.Text += estructura.nombresPosibles[i];
             }
             CB_TipoRestr.SelectedIndex = 0; //cambiar en cada restriccion
-            TB_valorCorrespondiente.Text = valorCorrespondiente.ToString();
+            TB_valorCorrespondiente.Text = Metodos.validarYConvertirAString(valorCorrespondiente);
             if (esMenorQue)
             {
                 CB_EsMenorQue.SelectedIndex = 0;
@@ -179,8 +179,10 @@ namespace ExploracionPlanes
             {
                 CB_EsMenorQue.SelectedIndex = 1;
             }
-            TB_ValorEsperado.Text = valorEsperado.ToString();
-            TB_ValorTolerado.Text = valorTolerado.ToString();
+            TB_ValorEsperado.Text = Metodos.validarYConvertirAString(valorEsperado);
+            TB_ValorTolerado.Text = Metodos.validarYConvertirAString(valorTolerado);
+            CB_UnidadesValor.SelectedItem = unidadValor;
+            CB_UnidadesCorresp.SelectedItem = unidadCorrespondiente;
         }
 
 

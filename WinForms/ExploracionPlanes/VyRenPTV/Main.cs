@@ -61,17 +61,12 @@ namespace ExploracionPlanes
             LB_Plantillas.DisplayMember = "etiqueta";
         }
 
-        private void habilitarBoton(bool test, Button bt)
-        {
-            bt.Enabled = test;
-        }
-
         private void LB_Plantillas_SelectedIndexChanged(object sender, EventArgs e)
         {
-            habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_Editar);
-            habilitarBoton(LB_Plantillas.SelectedItems.Count>0, BT_Eliminar);
-            habilitarBoton(LB_Plantillas.SelectedItems.Count == 1 && !((Plantilla)LB_Plantillas.SelectedItems[0]).esParaExtraccion, BT_AplicarAUnPlan);
-            habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_AplicarPorLote);
+            Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_Editar);
+            Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count>0, BT_Eliminar);
+            Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1 && !((Plantilla)LB_Plantillas.SelectedItems[0]).esParaExtraccion, BT_AplicarAUnPlan);
+            Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_AplicarPorLote);
 
         }
 

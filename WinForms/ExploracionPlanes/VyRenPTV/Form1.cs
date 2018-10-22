@@ -60,7 +60,7 @@ namespace ExploracionPlanes
         {
             if (!string.IsNullOrEmpty(TB_CorrespA.Text))
             {
-                return validarYConvertirADouble(TB_CorrespA.Text);
+                return Metodos.validarYConvertirADouble(TB_CorrespA.Text);
             }
             else
             {
@@ -92,7 +92,7 @@ namespace ExploracionPlanes
         {
             if (!String.IsNullOrEmpty(TB_ValorEsperado.Text))
             {
-                return validarYConvertirADouble(TB_ValorEsperado.Text);
+                return Metodos.validarYConvertirADouble(TB_ValorEsperado.Text);
             }
             else
             {
@@ -104,7 +104,7 @@ namespace ExploracionPlanes
         {
             if (!String.IsNullOrEmpty(TB_ValorTolerado.Text))
             {
-                return validarYConvertirADouble(TB_ValorTolerado.Text);
+                return Metodos.validarYConvertirADouble(TB_ValorTolerado.Text);
             }
             else
             {
@@ -348,37 +348,17 @@ namespace ExploracionPlanes
             editaRestriccion = true;
         }
 
-        private void habilitarBoton(bool test, Button bt)
-        {
-            bt.Enabled = test;
-        }
 
-        public static double validarYConvertirADouble(string entrada)
-        {
-            CultureInfo alternative = (CultureInfo)CultureInfo.CurrentCulture.Clone();
-            alternative.NumberFormat.NumberDecimalSeparator = ",";
-            bool esNumero; double salida = Double.NaN;
-            esNumero = Double.TryParse(entrada, out salida);
-            if (!esNumero)
-            {
-                esNumero = Double.TryParse(entrada, NumberStyles.Float, alternative, out salida);
-                if (!esNumero)
-                {
-                    salida = Double.NaN;
-                }
-            }
 
-            return salida;
-        }
-
+        
         private void actualizarBotones(object sender, EventArgs e)
         {
-            habilitarBoton(LB_listaRestricciones.SelectedItems.Count > 0, BT_EliminarRestriccion);
-            habilitarBoton(LB_listaRestricciones.SelectedItems.Count == 1, BT_EditarRestriccion);
-            habilitarBoton(estaParaGrabarRestriccion(), BT_AgregarALista);
-            habilitarBoton(!string.IsNullOrEmpty(TB_NombrePlantilla.Text) && LB_listaRestricciones.Items.Count > 0, BT_GuardarPlantilla);
-            habilitarBoton(LB_listaRestricciones.SelectedItems.Count == 1 && LB_listaRestricciones.SelectedIndex != 0, BT_RestriccionArriba);
-            habilitarBoton(LB_listaRestricciones.SelectedItems.Count == 1 && LB_listaRestricciones.SelectedIndex != LB_listaRestricciones.Items.Count-1, BT_RestriccionAbajo);
+            Metodos.habilitarBoton(LB_listaRestricciones.SelectedItems.Count > 0, BT_EliminarRestriccion);
+            Metodos.habilitarBoton(LB_listaRestricciones.SelectedItems.Count == 1, BT_EditarRestriccion);
+            Metodos.habilitarBoton(estaParaGrabarRestriccion(), BT_AgregarALista);
+            Metodos.habilitarBoton(!string.IsNullOrEmpty(TB_NombrePlantilla.Text) && LB_listaRestricciones.Items.Count > 0, BT_GuardarPlantilla);
+            Metodos.habilitarBoton(LB_listaRestricciones.SelectedItems.Count == 1 && LB_listaRestricciones.SelectedIndex != 0, BT_RestriccionArriba);
+            Metodos.habilitarBoton(LB_listaRestricciones.SelectedItems.Count == 1 && LB_listaRestricciones.SelectedIndex != LB_listaRestricciones.Items.Count-1, BT_RestriccionAbajo);
         }
 
         private bool estaParaGrabarRestriccion()

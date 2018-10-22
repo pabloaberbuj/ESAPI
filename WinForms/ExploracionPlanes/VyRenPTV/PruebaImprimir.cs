@@ -293,31 +293,28 @@ namespace ExploracionPlanes
             }*/
         }
 
-        private void habilitarBoton(bool test, Button bt)
-        {
-            bt.Enabled = test;
-        }
+
 
         private void TB_ID_TextChanged(object sender, EventArgs e)
         {
-            habilitarBoton(!string.IsNullOrEmpty(TB_ID.Text), BT_AbrirPaciente);
+            Metodos.habilitarBoton(!string.IsNullOrEmpty(TB_ID.Text), BT_AbrirPaciente);
         }
 
 
         private void LB_Planes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            habilitarBoton(LB_Planes.SelectedItems.Count == 1, BT_SeleccionarPlan);
+            Metodos.habilitarBoton(LB_Planes.SelectedItems.Count == 1, BT_SeleccionarPlan);
         }
 
         private void DGV_Análisis_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            habilitarBoton(DGV_Análisis.Rows.Count > 0, BT_VistaPrevia);
-            habilitarBoton(DGV_Análisis.Rows.Count > 0, BT_Imprimir);
+            Metodos.habilitarBoton(DGV_Análisis.Rows.Count > 0, BT_VistaPrevia);
+            Metodos.habilitarBoton(DGV_Análisis.Rows.Count > 0, BT_Imprimir);
         }
 
         private void DGV_Estructuras_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            habilitarBoton(LB_Planes.SelectedItems.Count == 1 && DGV_Estructuras.RowCount > 0, BT_Analizar);
+            Metodos.habilitarBoton(LB_Planes.SelectedItems.Count == 1 && DGV_Estructuras.RowCount > 0, BT_Analizar);
         }
 
 

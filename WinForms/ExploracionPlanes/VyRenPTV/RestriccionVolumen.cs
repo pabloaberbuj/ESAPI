@@ -105,9 +105,10 @@ namespace ExploracionPlanes
         public void analizarPlanEstructura(PlanSetup plan, Structure estructura)
         {
             VolumePresentation volumePresentation;
+            double valorCorrespondienteGy = valorCorrespondiente;
             if (unidadCorrespondiente == "%")
             {
-                double valorCorrespondienteGy = valorCorrespondiente * prescripcionEstructura / 100; //Convierto el % a Gy para extraer
+                valorCorrespondienteGy = valorCorrespondiente * prescripcionEstructura / 100; //Convierto el % a Gy para extraer
             }
             DoseValue dosis = new DoseValue(valorCorrespondienteGy * 100, DoseValue.DoseUnit.cGy);
             
@@ -161,7 +162,7 @@ namespace ExploracionPlanes
                 TB_nombresAlt.Text += "\r\n" + estructura.nombresPosibles[i];
             }
             CB_TipoRestr.SelectedIndex = 3; //cambiar en cada restriccion
-            TB_valorCorrespondiente.Text = valorCorrespondiente.ToString();
+            TB_valorCorrespondiente.Text = Metodos.validarYConvertirAString(valorCorrespondiente);
             if (esMenorQue)
             {
                 CB_EsMenorQue.SelectedIndex = 0;
@@ -170,8 +171,10 @@ namespace ExploracionPlanes
             {
                 CB_EsMenorQue.SelectedIndex = 1;
             }
-            TB_ValorEsperado.Text = valorEsperado.ToString();
-            TB_ValorTolerado.Text = valorTolerado.ToString();
+            TB_ValorEsperado.Text = Metodos.validarYConvertirAString(valorEsperado);
+            TB_ValorTolerado.Text = Metodos.validarYConvertirAString(valorTolerado);
+            CB_UnidadesValor.SelectedItem = unidadValor;
+            CB_UnidadesCorresp.SelectedItem = unidadCorrespondiente;
         }
 
     }

@@ -321,30 +321,25 @@ namespace ExploracionPlanes
             MessageBox.Show("Se ha guardado la exploración con el nombre: " + Path.GetFileName(nombre));
         }
 
-        private void habilitarBoton(bool test, Button bt)
-        {
-            bt.Enabled = test;
-        }
-
         private void TB_ID_TextChanged(object sender, EventArgs e)
         {
-            habilitarBoton(!string.IsNullOrEmpty(TB_ID.Text), BT_AbrirPaciente);
+            Metodos.habilitarBoton(!string.IsNullOrEmpty(TB_ID.Text), BT_AbrirPaciente);
         }
 
         private void LB_Planes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            habilitarBoton(LB_Planes.SelectedItems.Count == 1, BT_SeleccionarPlan);
+            Metodos.habilitarBoton(LB_Planes.SelectedItems.Count == 1, BT_SeleccionarPlan);
         }
 
         private void DGV_Estructuras_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            habilitarBoton(LB_Planes.SelectedItems.Count == 1 && DGV_Estructuras.RowCount > 0, BT_Analizar);
+            Metodos.habilitarBoton(LB_Planes.SelectedItems.Count == 1 && DGV_Estructuras.RowCount > 0, BT_Analizar);
         }
 
         private void DGV_Análisis_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
         {
             BT_GuardarPaciente.Enabled = true;
-            habilitarBoton(DGV_Análisis.ColumnCount > 1, BT_Exportar);
+            Metodos.habilitarBoton(DGV_Análisis.ColumnCount > 1, BT_Exportar);
         }
     }
 }
