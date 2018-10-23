@@ -35,6 +35,7 @@
             this.BT_Eliminar = new System.Windows.Forms.Button();
             this.BT_AplicarAUnPlan = new System.Windows.Forms.Button();
             this.BT_AplicarPorLote = new System.Windows.Forms.Button();
+            this.BT_Duplicar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // LB_Plantillas
@@ -80,7 +81,7 @@
             // BT_Eliminar
             // 
             this.BT_Eliminar.Enabled = false;
-            this.BT_Eliminar.Location = new System.Drawing.Point(232, 112);
+            this.BT_Eliminar.Location = new System.Drawing.Point(232, 157);
             this.BT_Eliminar.Name = "BT_Eliminar";
             this.BT_Eliminar.Size = new System.Drawing.Size(134, 34);
             this.BT_Eliminar.TabIndex = 15;
@@ -91,7 +92,7 @@
             // BT_AplicarAUnPlan
             // 
             this.BT_AplicarAUnPlan.Enabled = false;
-            this.BT_AplicarAUnPlan.Location = new System.Drawing.Point(232, 221);
+            this.BT_AplicarAUnPlan.Location = new System.Drawing.Point(232, 240);
             this.BT_AplicarAUnPlan.Name = "BT_AplicarAUnPlan";
             this.BT_AplicarAUnPlan.Size = new System.Drawing.Size(134, 40);
             this.BT_AplicarAUnPlan.TabIndex = 16;
@@ -102,7 +103,7 @@
             // BT_AplicarPorLote
             // 
             this.BT_AplicarPorLote.Enabled = false;
-            this.BT_AplicarPorLote.Location = new System.Drawing.Point(232, 267);
+            this.BT_AplicarPorLote.Location = new System.Drawing.Point(232, 295);
             this.BT_AplicarPorLote.Name = "BT_AplicarPorLote";
             this.BT_AplicarPorLote.Size = new System.Drawing.Size(134, 37);
             this.BT_AplicarPorLote.TabIndex = 17;
@@ -110,11 +111,23 @@
             this.BT_AplicarPorLote.UseVisualStyleBackColor = true;
             this.BT_AplicarPorLote.Click += new System.EventHandler(this.BT_AplicarPorLote_Click);
             // 
+            // BT_Duplicar
+            // 
+            this.BT_Duplicar.Enabled = false;
+            this.BT_Duplicar.Location = new System.Drawing.Point(232, 112);
+            this.BT_Duplicar.Name = "BT_Duplicar";
+            this.BT_Duplicar.Size = new System.Drawing.Size(134, 37);
+            this.BT_Duplicar.TabIndex = 18;
+            this.BT_Duplicar.Text = "Duplicar plantilla";
+            this.BT_Duplicar.UseVisualStyleBackColor = true;
+            this.BT_Duplicar.Click += new System.EventHandler(this.BT_Duplicar_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(378, 345);
+            this.Controls.Add(this.BT_Duplicar);
             this.Controls.Add(this.BT_AplicarPorLote);
             this.Controls.Add(this.BT_AplicarAUnPlan);
             this.Controls.Add(this.BT_Eliminar);
@@ -138,5 +151,6 @@
         private System.Windows.Forms.Button BT_Eliminar;
         private System.Windows.Forms.Button BT_AplicarAUnPlan;
         private System.Windows.Forms.Button BT_AplicarPorLote;
+        private System.Windows.Forms.Button BT_Duplicar;
     }
 }

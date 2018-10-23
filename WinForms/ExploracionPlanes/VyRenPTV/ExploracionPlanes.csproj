@@ -55,7 +55,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\dlls\VMS.TPS.Common.Model.API.dll</HintPath>
     </Reference>
-    <Reference Include="VMS.TPS.Common.Model.Interface, Version=11.0.47.555, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="VMS.TPS.Common.Model.Interface, Version=13.6.30.20230, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\dlls\VMS.TPS.Common.Model.Interface.dll</HintPath>
     </Reference>
@@ -73,6 +73,12 @@
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTB.Designer.cs">
+      <DependentUpon>FormTB.cs</DependentUpon>
     </Compile>
     <Compile Include="Metodos.cs" />
     <Compile Include="PruebaImprimir.cs">
@@ -112,6 +118,9 @@
     <Compile Include="RestriccionVolumen.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTB.resx">
+      <DependentUpon>FormTB.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PruebaImprimir.resx">
       <DependentUpon>PruebaImprimir.cs</DependentUpon>

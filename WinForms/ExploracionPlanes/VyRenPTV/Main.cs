@@ -13,8 +13,8 @@ namespace ExploracionPlanes
     public partial class Main : Form
     {
         public Form1 crearPlantilla;
-        public PruebaImprimir aplicarPlantilla;
-        //public Form2 aplicarPlantilla;
+        //public PruebaImprimir aplicarPlantilla;
+        public Form2 aplicarPlantilla;
         public Form3 aplicarPorLote;
         public Main()
         {
@@ -38,8 +38,8 @@ namespace ExploracionPlanes
 
         private void BT_AplicarAUnPlan_Click(object sender, EventArgs e)
         {
-            aplicarPlantilla = new PruebaImprimir(plantillaSeleccionada());
-            //aplicarPlantilla = new Form2(plantillaSeleccionada());
+            //aplicarPlantilla = new PruebaImprimir(plantillaSeleccionada());
+            aplicarPlantilla = new Form2(plantillaSeleccionada());
             aplicarPlantilla.ShowDialog();
         }
 
@@ -64,6 +64,7 @@ namespace ExploracionPlanes
         private void LB_Plantillas_SelectedIndexChanged(object sender, EventArgs e)
         {
             Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_Editar);
+            Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_Duplicar);
             Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count>0, BT_Eliminar);
             Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1 && !((Plantilla)LB_Plantillas.SelectedItems[0]).esParaExtraccion, BT_AplicarAUnPlan);
             Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_AplicarPorLote);
@@ -74,6 +75,20 @@ namespace ExploracionPlanes
         {
             plantillaSeleccionada().eliminar();
             leerPlantillas();
+        }
+
+        private void BT_Duplicar_Click(object sender, EventArgs e)
+        {
+            FormTB formTb = new FormTB();
+            formTb.Text = "Nombre plantilla";
+            formTb.Controls.OfType<Label>().FirstOrDefault().Text = "Ingrese el nombre de la nueva plantilla";
+            formTb.ShowDialog();
+            if (formTb.DialogResult == DialogResult.OK)
+            {
+                plantillaSeleccionada().duplicar(formTb.salida);
+                leerPlantillas();
+            }
+            
         }
     }
 }

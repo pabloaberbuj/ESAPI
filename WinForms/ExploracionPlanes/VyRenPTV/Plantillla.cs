@@ -60,6 +60,13 @@ namespace ExploracionPlanes
             IO.writeObjectAsJson(path, this);
         }
 
+        public void duplicar(string nombreNuevo)
+        {
+            Plantilla duplicada = crear(nombreNuevo, this.esParaExtraccion, this.listaRestricciones, this.nota);
+            duplicada.guardar(false);
+
+        }
+
 
         public static List<Plantilla> leerPlantillas()
         {
