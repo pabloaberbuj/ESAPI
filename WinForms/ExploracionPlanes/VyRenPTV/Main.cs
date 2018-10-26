@@ -7,20 +7,28 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using VMS.TPS.Common.Model.API;
 
 namespace ExploracionPlanes
 {
     public partial class Main : Form
     {
         public Form1 crearPlantilla;
-        public PruebaImprimir aplicarPlantilla;
-        //public Form2 aplicarPlantilla;
+        //public PruebaImprimir aplicarPlantilla;
+        public Form2 aplicarPlantilla;
         public Form3 aplicarPorLote;
-        public Main()
+        Patient pacienteContext=null;
+        PlanSetup planContext=null;
+        public Main(Patient _pacienteContext = null, PlanSetup _planContext = null)
         {
             InitializeComponent();
             leerPlantillas();
-            
+            pacienteContext = _pacienteContext;
+            planContext = _planContext;
+            if (pacienteContext!=null && planContext!=null)
+            {
+                MessageBox.Show(pacienteContext.Id + " " + planContext.Id);
+            }
         }
 
         private void BT_Nueva_Click(object sender, EventArgs e)
@@ -38,8 +46,8 @@ namespace ExploracionPlanes
 
         private void BT_AplicarAUnPlan_Click(object sender, EventArgs e)
         {
-            aplicarPlantilla = new PruebaImprimir(plantillaSeleccionada());
-            //aplicarPlantilla = new Form2(plantillaSeleccionada());
+            //aplicarPlantilla = new PruebaImprimir(plantillaSeleccionada());
+            aplicarPlantilla = new Form2(plantillaSeleccionada());
             aplicarPlantilla.ShowDialog();
         }
 

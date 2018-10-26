@@ -202,7 +202,7 @@ namespace ExploracionPlanes
             {
                 DGV_Análisis.ColumnCount++;
             }
-            DGV_Análisis.Columns[pacienteNro + 1].HeaderText = paciente.Id;
+            DGV_Análisis.Columns[pacienteNro + 1].HeaderText = paciente.Id + "\n" + planSeleccionado().Id;
             for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
             {
                 IRestriccion restriccion = plantilla.listaRestricciones[i];

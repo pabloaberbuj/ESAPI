@@ -36,6 +36,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'a|AnyCPU'">
     <OutputPath>bin\a\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -116,6 +119,7 @@
     <Compile Include="RestriccionDosisMedia.cs" />
     <Compile Include="RestriccionIndiceConformidad.cs" />
     <Compile Include="RestriccionVolumen.cs" />
+    <Compile Include="Script.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
