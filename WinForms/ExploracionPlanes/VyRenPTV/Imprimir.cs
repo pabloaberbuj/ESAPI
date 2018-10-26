@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,6 @@ namespace ExploracionPlanes
 {
     public class Imprimir
     {
-
         public static Font fuenteTitulo = new Font("Arial", 14, FontStyle.Bold);
         public static Font fuenteSubtitulo = new Font("Arial", 11, FontStyle.Bold);
         public static Font fuenteSubtitulo2 = new Font("Arial", 10, FontStyle.Bold);
@@ -257,6 +257,9 @@ namespace ExploracionPlanes
         {
             posicionlinea = imprimirCabeceraInforme(e, anchohoja, posicionlinea, nombrePaciente, infoPlan, nombrePlantilla, notaPlantilla, realizadoPor);
             imprimirtabla(e, tabla, anchohoja, posicionlinea);
+            /*Bitmap bitmap = new Bitmap(anchohoja,altoTotal);
+            e.Graphics.DrawImage(bitmap, anchoTotal, altoTotal);
+            bitmap.Save("prueba.bmp");*/
         }
 
     }

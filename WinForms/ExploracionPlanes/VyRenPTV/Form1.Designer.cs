@@ -98,6 +98,7 @@
             // CB_CorrespAUnidades
             // 
             this.CB_CorrespAUnidades.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_CorrespAUnidades.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CB_CorrespAUnidades.FormattingEnabled = true;
             this.CB_CorrespAUnidades.Location = new System.Drawing.Point(375, 43);
             this.CB_CorrespAUnidades.Name = "CB_CorrespAUnidades";
@@ -115,13 +116,14 @@
             // CB_MenorOMayor
             // 
             this.CB_MenorOMayor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_MenorOMayor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CB_MenorOMayor.FormattingEnabled = true;
             this.CB_MenorOMayor.Items.AddRange(new object[] {
-            "<",
-            ">"});
+            "≤",
+            "≥"});
             this.CB_MenorOMayor.Location = new System.Drawing.Point(17, 13);
             this.CB_MenorOMayor.Name = "CB_MenorOMayor";
-            this.CB_MenorOMayor.Size = new System.Drawing.Size(41, 21);
+            this.CB_MenorOMayor.Size = new System.Drawing.Size(41, 23);
             this.CB_MenorOMayor.TabIndex = 8;
             // 
             // CB_ValorEsperadoUnidades
@@ -130,7 +132,7 @@
             this.CB_ValorEsperadoUnidades.FormattingEnabled = true;
             this.CB_ValorEsperadoUnidades.Location = new System.Drawing.Point(139, 14);
             this.CB_ValorEsperadoUnidades.Name = "CB_ValorEsperadoUnidades";
-            this.CB_ValorEsperadoUnidades.Size = new System.Drawing.Size(41, 21);
+            this.CB_ValorEsperadoUnidades.Size = new System.Drawing.Size(50, 21);
             this.CB_ValorEsperadoUnidades.TabIndex = 10;
             this.CB_ValorEsperadoUnidades.SelectedIndexChanged += new System.EventHandler(this.CB_ValorEsperadoUnidades_SelectedIndexChanged);
             // 
@@ -177,7 +179,7 @@
             this.GB_NuevaRestriccion.Controls.Add(this.CB_CorrespAUnidades);
             this.GB_NuevaRestriccion.Location = new System.Drawing.Point(30, 53);
             this.GB_NuevaRestriccion.Name = "GB_NuevaRestriccion";
-            this.GB_NuevaRestriccion.Size = new System.Drawing.Size(619, 168);
+            this.GB_NuevaRestriccion.Size = new System.Drawing.Size(636, 168);
             this.GB_NuevaRestriccion.TabIndex = 13;
             this.GB_NuevaRestriccion.TabStop = false;
             this.GB_NuevaRestriccion.Text = "2. Nueva Restricción";
@@ -192,7 +194,7 @@
             this.Panel_esMenorque.Controls.Add(this.CB_ValorEsperadoUnidades);
             this.Panel_esMenorque.Location = new System.Drawing.Point(429, 30);
             this.Panel_esMenorque.Name = "Panel_esMenorque";
-            this.Panel_esMenorque.Size = new System.Drawing.Size(190, 68);
+            this.Panel_esMenorque.Size = new System.Drawing.Size(201, 68);
             this.Panel_esMenorque.TabIndex = 23;
             // 
             // label4
@@ -210,7 +212,7 @@
             this.CB_ValorToleradoUnidades.FormattingEnabled = true;
             this.CB_ValorToleradoUnidades.Location = new System.Drawing.Point(139, 41);
             this.CB_ValorToleradoUnidades.Name = "CB_ValorToleradoUnidades";
-            this.CB_ValorToleradoUnidades.Size = new System.Drawing.Size(41, 21);
+            this.CB_ValorToleradoUnidades.Size = new System.Drawing.Size(50, 21);
             this.CB_ValorToleradoUnidades.TabIndex = 22;
             // 
             // TB_ValorTolerado
@@ -268,7 +270,7 @@
             // BT_GuardarPlantilla
             // 
             this.BT_GuardarPlantilla.Enabled = false;
-            this.BT_GuardarPlantilla.Location = new System.Drawing.Point(512, 396);
+            this.BT_GuardarPlantilla.Location = new System.Drawing.Point(538, 396);
             this.BT_GuardarPlantilla.Name = "BT_GuardarPlantilla";
             this.BT_GuardarPlantilla.Size = new System.Drawing.Size(128, 36);
             this.BT_GuardarPlantilla.TabIndex = 12;
@@ -338,7 +340,7 @@
             this.TB_NotaPlantilla.Location = new System.Drawing.Point(450, 246);
             this.TB_NotaPlantilla.Multiline = true;
             this.TB_NotaPlantilla.Name = "TB_NotaPlantilla";
-            this.TB_NotaPlantilla.Size = new System.Drawing.Size(190, 112);
+            this.TB_NotaPlantilla.Size = new System.Drawing.Size(216, 112);
             this.TB_NotaPlantilla.TabIndex = 19;
             // 
             // label5
@@ -354,7 +356,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(664, 453);
+            this.ClientSize = new System.Drawing.Size(678, 453);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.TB_NotaPlantilla);
             this.Controls.Add(this.BT_RestriccionAbajo);
