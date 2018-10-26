@@ -96,7 +96,7 @@
             this.BT_AplicarAUnPlan.Name = "BT_AplicarAUnPlan";
             this.BT_AplicarAUnPlan.Size = new System.Drawing.Size(134, 40);
             this.BT_AplicarAUnPlan.TabIndex = 16;
-            this.BT_AplicarAUnPlan.Text = "Aplicar plantilla seleccionada a un plan";
+            this.BT_AplicarAUnPlan.Text = "Aplicar plantilla a un plan";
             this.BT_AplicarAUnPlan.UseVisualStyleBackColor = true;
             this.BT_AplicarAUnPlan.Click += new System.EventHandler(this.BT_AplicarAUnPlan_Click);
             // 
