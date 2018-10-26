@@ -19,6 +19,7 @@ namespace ExploracionPlanes
         public Form3 aplicarPorLote;
         Patient pacienteContext=null;
         PlanSetup planContext=null;
+        
         public Main(Patient _pacienteContext = null, PlanSetup _planContext = null)
         {
             InitializeComponent();
@@ -97,6 +98,12 @@ namespace ExploracionPlanes
                 leerPlantillas();
             }
             
+        }
+
+        public void abrirForm()
+        {
+            Main main = new Main();
+            main.ShowDialog();
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using VMS.TPS.Common.Model.API;
 using ExploracionPlanes;
+using System.Windows.Forms;
 
 namespace VMS.TPS
 {
@@ -17,6 +18,7 @@ namespace VMS.TPS
             public void Execute(ScriptContext context)
             {
                 ExploracionPlanes.Main main = new Main(context.Patient, context.PlanSetup);
+                main.abrirForm();
             }
         }
     }
