@@ -14,6 +14,7 @@ namespace ExploracionPlanes
     public class Plantilla
     {
         public static string pathDestino = Directory.GetCurrentDirectory() + @"\Plantillas\";
+        //ExploracionPlanes.
         public string nombre { get; set; }
         public string etiqueta { get; set; }
         public bool esParaExtraccion { get; set; }

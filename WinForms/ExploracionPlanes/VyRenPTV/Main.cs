@@ -17,18 +17,31 @@ namespace ExploracionPlanes
         //public PruebaImprimir aplicarPlantilla;
         public Form2 aplicarPlantilla;
         public Form3 aplicarPorLote;
+        bool hayContext = false;
         Patient pacienteContext=null;
         PlanSetup planContext=null;
-        
-        public Main(Patient _pacienteContext = null, PlanSetup _planContext = null)
+
+        public Main(bool _hayContext = false, Patient _pacienteContext = null, PlanSetup _planContext = null)
         {
             InitializeComponent();
             leerPlantillas();
+            hayContext = _hayContext;
             pacienteContext = _pacienteContext;
             planContext = _planContext;
-            if (pacienteContext!=null && planContext!=null)
+            habilitarBotones();
+            if (hayContext && pacienteContext==null)
             {
-                MessageBox.Show(pacienteContext.Id + " " + planContext.Id);
+                MessageBox.Show("Debe abrir un paciente");
+                this.Close();
+            }
+            else if (hayContext && planContext==null)
+            {
+                MessageBox.Show("Debe seleccionar un plan");
+                this.Close();
+            }
+            else
+            {
+
             }
         }
 
@@ -48,8 +61,12 @@ namespace ExploracionPlanes
         private void BT_AplicarAUnPlan_Click(object sender, EventArgs e)
         {
             //aplicarPlantilla = new PruebaImprimir(plantillaSeleccionada());
-            aplicarPlantilla = new Form2(plantillaSeleccionada());
+            aplicarPlantilla = new Form2(plantillaSeleccionada(),hayContext, pacienteContext, planContext);
             aplicarPlantilla.ShowDialog();
+            if (hayContext)
+            {
+                aplicarPlantilla.Dispose();
+            }
         }
 
         public Plantilla plantillaSeleccionada()
@@ -72,12 +89,7 @@ namespace ExploracionPlanes
 
         private void LB_Plantillas_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_Editar);
-            Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_Duplicar);
-            Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count>0, BT_Eliminar);
-            Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1 && !((Plantilla)LB_Plantillas.SelectedItems[0]).esParaExtraccion, BT_AplicarAUnPlan);
-            Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_AplicarPorLote);
-
+            habilitarBotones();
         }
 
         private void BT_Eliminar_Click(object sender, EventArgs e)
@@ -97,14 +109,30 @@ namespace ExploracionPlanes
                 plantillaSeleccionada().duplicar(formTb.salida);
                 leerPlantillas();
             }
-            
         }
 
-        public void abrirForm()
+        private void habilitarBotones()
         {
-            Main main = new Main();
-            main.ShowDialog();
+            if (hayContext)
+            {
+                BT_Nueva.Enabled = false;
+                BT_Editar.Enabled = false;
+                BT_Duplicar.Enabled = false;
+                BT_Eliminar.Enabled = false;
+                BT_AplicarAUnPlan.Enabled = true;
+                BT_AplicarPorLote.Enabled = false;
+            }
+            else
+            {
+                Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_Editar);
+                Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_Duplicar);
+                Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count > 0, BT_Eliminar);
+                Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1 && !((Plantilla)LB_Plantillas.SelectedItems[0]).esParaExtraccion, BT_AplicarAUnPlan);
+                Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_AplicarPorLote);
+            }
         }
+
+        
     }
 }
 

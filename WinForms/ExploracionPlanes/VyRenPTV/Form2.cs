@@ -21,21 +21,37 @@ namespace ExploracionPlanes
         Course curso;
         PlanSetup plan;
         Plantilla plantilla;
+        bool hayContext = false;
+        PrintDialog printDialog1 = new PrintDialog();
+        PrintPreviewDialog printPreviewDialog1 = new PrintPreviewDialog();
         VMS.TPS.Common.Model.API.Application app;
 
 
-        public Form2(Plantilla _plantilla)
+        public Form2(Plantilla _plantilla, bool _hayContext = false, Patient _pacienteContext = null, PlanSetup _planContext = null)
         {
             InitializeComponent();
             plantilla = _plantilla;
             this.Text = plantilla.nombre;
-            try
+            hayContext = _hayContext;
+            if (_hayContext)
             {
-                app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
+                paciente = _pacienteContext;
+                plan = _planContext;
+                prepararControlesContext();
+                llenarDGVEstructuras();
+                llenarDGVPrescripciones();
+                BT_Analizar.Enabled = true;
             }
-            catch (Exception)
+            else
             {
-                MessageBox.Show("No se puede acceder a Eclipse.\n Compruebe que está en una PC con acceso al TPS");
+                try
+                {
+                    app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("No se puede acceder a Eclipse.\n Compruebe que está en una PC con acceso al TPS");
+                }
             }
         }
 
@@ -86,7 +102,11 @@ namespace ExploracionPlanes
 
         public PlanSetup planSeleccionado()
         {
-            if (LB_Planes.SelectedItems.Count == 1)
+            if (hayContext)
+            {
+                return plan;
+            }
+            else if (LB_Planes.SelectedItems.Count == 1)
             {
                 return (PlanSetup)LB_Planes.SelectedItems[0];
             }
@@ -257,7 +277,7 @@ namespace ExploracionPlanes
 
         private string infoPlan()
         {
-            string infoPlan = planSeleccionado().Id + "     Estado: " + planSeleccionado().ApprovalStatus.ToString();
+            string infoPlan = planSeleccionado().Id;
             if (planSeleccionado().ApprovalStatus == PlanSetupApprovalStatus.PlanningApproved || planSeleccionado().ApprovalStatus == PlanSetupApprovalStatus.TreatmentApproved)
             {
                 infoPlan += " Aprobado por: " + planSeleccionado().PlanningApprover;
@@ -309,7 +329,11 @@ namespace ExploracionPlanes
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (paciente != null)
+            if (hayContext)
+            {
+
+            }
+            else if (paciente != null)
             {
                 LB_Cursos.DataSource = null;
                 LB_Planes.DataSource = null;
@@ -342,6 +366,17 @@ namespace ExploracionPlanes
             Metodos.habilitarBoton(LB_Planes.SelectedItems.Count == 1 && DGV_Estructuras.RowCount > 0, BT_Analizar);
         }
 
+        private void prepararControlesContext()
+        {
+            label4.Enabled = false;
+            TB_ID.Enabled = false;
+            BT_AbrirPaciente.Enabled = false;
+            label2.Enabled = false;
+            LB_Cursos.Enabled = false;
+            Label3.Enabled = false;
+            LB_Planes.Enabled = false;
+            BT_SeleccionarPlan.Enabled = false;
+        }
 
 
 

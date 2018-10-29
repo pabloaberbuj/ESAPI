@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
             this.label1 = new System.Windows.Forms.Label();
             this.LB_Cursos = new System.Windows.Forms.ListBox();
             this.TB_ID = new System.Windows.Forms.TextBox();
@@ -53,8 +52,6 @@
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BT_SeleccionarPlan = new System.Windows.Forms.Button();
             this.BT_Imprimir = new System.Windows.Forms.Button();
-            this.printDialog1 = new System.Windows.Forms.PrintDialog();
-            this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             this.BT_VistaPrevia = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
@@ -280,20 +277,6 @@
             this.BT_Imprimir.UseVisualStyleBackColor = true;
             this.BT_Imprimir.Click += new System.EventHandler(this.BT_Imprimir_Click);
             // 
-            // printDialog1
-            // 
-            this.printDialog1.UseEXDialog = true;
-            // 
-            // printPreviewDialog1
-            // 
-            this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
-            this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-            this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
-            this.printPreviewDialog1.Enabled = true;
-            this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
-            this.printPreviewDialog1.Name = "printPreviewDialog1";
-            this.printPreviewDialog1.Visible = false;
-            // 
             // BT_VistaPrevia
             // 
             this.BT_VistaPrevia.Enabled = false;
@@ -368,8 +351,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.Button BT_Imprimir;
-        private System.Windows.Forms.PrintDialog printDialog1;
-        private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
         private System.Windows.Forms.Button BT_VistaPrevia;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Volumen;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using VMS.TPS.Common.Model.API;
 
 
@@ -14,9 +15,10 @@ namespace VMS.TPS
         }
         public void Execute(ScriptContext context)
         {
-            ExploracionPlanes.Main main = new ExploracionPlanes.Main(context.Patient, context.PlanSetup);
-            {
-            }
+            ExploracionPlanes.Main main = new ExploracionPlanes.Main(true, context.Patient, context.PlanSetup);
+            main.ShowDialog();
+            main.Dispose();
+            
         }
     }
 }
