@@ -20,14 +20,16 @@ namespace ExploracionPlanes
         bool hayContext = false;
         Patient pacienteContext=null;
         PlanSetup planContext=null;
+        User usuarioContext = null;
 
-        public Main(bool _hayContext = false, Patient _pacienteContext = null, PlanSetup _planContext = null)
+        public Main(bool _hayContext = false, Patient _pacienteContext = null, PlanSetup _planContext = null, User _usuarioContext = null)
         {
             InitializeComponent();
             leerPlantillas();
             hayContext = _hayContext;
             pacienteContext = _pacienteContext;
             planContext = _planContext;
+            usuarioContext = _usuarioContext;
             habilitarBotones();
             if (hayContext && pacienteContext==null)
             {
@@ -61,7 +63,7 @@ namespace ExploracionPlanes
         private void BT_AplicarAUnPlan_Click(object sender, EventArgs e)
         {
             //aplicarPlantilla = new PruebaImprimir(plantillaSeleccionada());
-            aplicarPlantilla = new Form2(plantillaSeleccionada(),hayContext, pacienteContext, planContext);
+            aplicarPlantilla = new Form2(plantillaSeleccionada(),hayContext, pacienteContext, planContext, usuarioContext);
             aplicarPlantilla.ShowDialog();
             if (hayContext)
             {

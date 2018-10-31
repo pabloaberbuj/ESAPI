@@ -20,6 +20,7 @@ namespace ExploracionPlanes
         Patient paciente;
         Course curso;
         PlanSetup plan;
+        User usuario;
         Plantilla plantilla;
         bool hayContext = false;
         PrintDialog printDialog1 = new PrintDialog();
@@ -27,7 +28,7 @@ namespace ExploracionPlanes
         VMS.TPS.Common.Model.API.Application app;
 
 
-        public Form2(Plantilla _plantilla, bool _hayContext = false, Patient _pacienteContext = null, PlanSetup _planContext = null)
+        public Form2(Plantilla _plantilla, bool _hayContext = false, Patient _pacienteContext = null, PlanSetup _planContext = null, User _usuarioContext=null)
         {
             InitializeComponent();
             plantilla = _plantilla;
@@ -37,6 +38,7 @@ namespace ExploracionPlanes
             {
                 paciente = _pacienteContext;
                 plan = _planContext;
+                usuario = _usuarioContext;
                 prepararControlesContext();
                 llenarDGVEstructuras();
                 llenarDGVPrescripciones();
@@ -383,29 +385,46 @@ namespace ExploracionPlanes
         #region Imprimir
         private void BT_VistaPrevia_Click(object sender, EventArgs e)
         {
-            PrintDocument pd = new PrintDocument();
-            pd = Imprimir.cargarConfiguracion();
-            printPreviewDialog1.Document = pd;
-            pd.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage_1);
+            
+                PrintDocument pd = new PrintDocument();
+                pd = Imprimir.cargarConfiguracion();
+                printPreviewDialog1.Document = pd;
+                pd.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage_1);
+                
 
-            printPreviewDialog1.ShowDialog();
+                printPreviewDialog1.ShowDialog();
+            
+     
         }
 
         private void BT_Imprimir_Click(object sender, EventArgs e)
         {
-            PrintDocument pd = new PrintDocument();
-            pd = Imprimir.cargarConfiguracion();
-            printDialog1.Document = pd;
-            pd.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage_1);
-            pd.PrinterSettings = printDialog1.PrinterSettings;
-            if (printDialog1.ShowDialog() == DialogResult.OK)
-            {
-                pd.Print();
-            }
+            
+                PrintDocument pd = new PrintDocument();
+                pd = Imprimir.cargarConfiguracion();
+                printDialog1.Document = pd;
+                pd.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage_1);
+                pd.PrinterSettings = printDialog1.PrinterSettings;
+                if (printDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    pd.Print();
+                }
         }
         private void printDocument1_PrintPage_1(object sender, PrintPageEventArgs e)
         {
-            Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, paciente.LastName + ", " + paciente.FirstName,infoPlan() ,plantilla.nombre, plantilla.nota, app.CurrentUser.Id, DGV_Análisis);
+            if (hayContext)
+            {
+                Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, paciente.LastName + ", " + paciente.FirstName, infoPlan(), plantilla.nombre, plantilla.nota, usuario.Id, DGV_Análisis);
+            }
+            else
+            {
+                Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, paciente.LastName + ", " + paciente.FirstName, infoPlan(), plantilla.nombre, plantilla.nota, app.CurrentUser.Id, DGV_Análisis);
+            }
+            
+            
+            
+            
+
         }
 
 
