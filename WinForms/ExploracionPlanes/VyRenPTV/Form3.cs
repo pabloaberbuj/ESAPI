@@ -14,7 +14,7 @@ namespace ExploracionPlanes
 {
     public partial class Form3 : Form
     {
-        public static string pathDestino = Directory.GetCurrentDirectory() + @"\Exportados\";
+        public static string pathDestino = Configuracion.pathExportados();
         Patient paciente;
         Course curso;
         PlanSetup plan;

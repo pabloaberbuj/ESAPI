@@ -13,7 +13,7 @@ namespace ExploracionPlanes
 {
     public class Plantilla
     {
-        public static string pathDestino = Directory.GetCurrentDirectory() + @"\Plantillas\";
+        public static string pathDestino = Configuracion.pathPlantilla();
         //ExploracionPlanes.
         public string nombre { get; set; }
         public string etiqueta { get; set; }

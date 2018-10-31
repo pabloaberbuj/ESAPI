@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0616F0B0-84EF-499E-932A-D4D77E21502D}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ExploracionPlanes</RootNamespace>
     <AssemblyName>ExploracionPlanes</AssemblyName>
@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analisis.cs" />
+    <Compile Include="Configuracion.cs" />
     <Compile Include="Diccionario.cs" />
     <Compile Include="Estructura.cs" />
     <Compile Include="Form1.cs">

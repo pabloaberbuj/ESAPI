@@ -18,25 +18,32 @@ namespace ExploracionPlanes
         public Form2 aplicarPlantilla;
         public Form3 aplicarPorLote;
         bool hayContext = false;
-        Patient pacienteContext=null;
-        PlanSetup planContext=null;
+        Patient pacienteContext = null;
+        PlanSetup planContext = null;
         User usuarioContext = null;
 
         public Main(bool _hayContext = false, Patient _pacienteContext = null, PlanSetup _planContext = null, User _usuarioContext = null)
         {
             InitializeComponent();
-            leerPlantillas();
+            if (!Configuracion.chequearConfiguracion())
+            {
+
+            }
+            else
+            {
+                leerPlantillas();
+            }
             hayContext = _hayContext;
             pacienteContext = _pacienteContext;
             planContext = _planContext;
             usuarioContext = _usuarioContext;
             habilitarBotones();
-            if (hayContext && pacienteContext==null)
+            if (hayContext && pacienteContext == null)
             {
                 MessageBox.Show("Debe abrir un paciente");
                 this.Close();
             }
-            else if (hayContext && planContext==null)
+            else if (hayContext && planContext == null)
             {
                 MessageBox.Show("Debe seleccionar un plan");
                 this.Close();
@@ -63,7 +70,7 @@ namespace ExploracionPlanes
         private void BT_AplicarAUnPlan_Click(object sender, EventArgs e)
         {
             //aplicarPlantilla = new PruebaImprimir(plantillaSeleccionada());
-            aplicarPlantilla = new Form2(plantillaSeleccionada(),hayContext, pacienteContext, planContext, usuarioContext);
+            aplicarPlantilla = new Form2(plantillaSeleccionada(), hayContext, pacienteContext, planContext, usuarioContext);
             aplicarPlantilla.ShowDialog();
             if (hayContext)
             {
@@ -134,7 +141,7 @@ namespace ExploracionPlanes
             }
         }
 
-        
+
     }
 }
 
