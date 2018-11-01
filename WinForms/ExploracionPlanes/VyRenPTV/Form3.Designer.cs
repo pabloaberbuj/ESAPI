@@ -147,9 +147,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(176, 9);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(135, 13);
+            this.label5.Size = new System.Drawing.Size(109, 13);
             this.label5.TabIndex = 15;
-            this.label5.Text = "4.Compatibilizar estructuras";
+            this.label5.Text = "4. Asociar estructuras";
             // 
             // DGV_Análisis
             // 

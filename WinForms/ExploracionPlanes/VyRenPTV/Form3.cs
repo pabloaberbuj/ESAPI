@@ -110,6 +110,7 @@ namespace ExploracionPlanes
         {
             if (abrirPaciente(TB_ID.Text))
             {
+                LB_Cursos.DataSource = null;
                 LB_Cursos.DataSource = listaCursos(paciente);
             }
         }
