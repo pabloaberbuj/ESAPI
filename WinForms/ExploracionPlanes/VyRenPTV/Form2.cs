@@ -280,10 +280,10 @@ namespace ExploracionPlanes
         private string infoPlan()
         {
             string infoPlan = planSeleccionado().Id;
-            if (planSeleccionado().ApprovalStatus == PlanSetupApprovalStatus.PlanningApproved || planSeleccionado().ApprovalStatus == PlanSetupApprovalStatus.TreatmentApproved)
+         /*   if (planSeleccionado().ApprovalStatus == PlanSetupApprovalStatus.PlanningApproved || planSeleccionado().ApprovalStatus == PlanSetupApprovalStatus.TreatmentApproved)
             {
                 infoPlan += " Aprobado por: " + planSeleccionado().PlanningApprover;
-            }
+            }*/
             return infoPlan;
         }
 
@@ -414,22 +414,13 @@ namespace ExploracionPlanes
         {
             if (hayContext)
             {
-                Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, paciente.LastName + ", " + paciente.FirstName, infoPlan(), plantilla.nombre, plantilla.nota, usuario.Id, DGV_Análisis);
+                Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, paciente.LastName + ", " + paciente.FirstName, infoPlan(), plantilla.nombre, plantilla.nota, usuario.Name, DGV_Análisis);
             }
             else
             {
-                Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, paciente.LastName + ", " + paciente.FirstName, infoPlan(), plantilla.nombre, plantilla.nota, app.CurrentUser.Id, DGV_Análisis);
+                Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, paciente.LastName + ", " + paciente.FirstName, infoPlan(), plantilla.nombre, plantilla.nota, app.CurrentUser.Name, DGV_Análisis);
             }
-            
-            
-            
-            
-
         }
-
-
         #endregion
-
-        
     }
 }

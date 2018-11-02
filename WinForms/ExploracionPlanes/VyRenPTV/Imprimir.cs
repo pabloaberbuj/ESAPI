@@ -232,7 +232,7 @@ namespace ExploracionPlanes
         public static int imprimirCabeceraInforme(PrintPageEventArgs e, int anchohoja, int posicionlinea, string nombrePaciente, string infoPlan, string nombrePlantilla, string notaPlantilla, string realizadoPor)
         {
             
-            posicionlinea = imprimirTitulo(e, "Título", posicionlinea, 1);
+            posicionlinea = imprimirTitulo(e, "Analisis de restricciones en plan de tratamiento", posicionlinea, 1);
             posicionlinea = imprimirSubtitulo(e, "Paciente: " + nombrePaciente, posicionlinea);
             posicionlinea = imprimirSubtitulo(e, "Plan: " + infoPlan, posicionlinea);
             posicionlinea = imprimirSubtitulo(e, "Plantilla: " + nombrePlantilla, posicionlinea);
