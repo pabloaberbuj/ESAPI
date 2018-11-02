@@ -133,7 +133,7 @@
             this.CB_ValorEsperadoUnidades.Location = new System.Drawing.Point(139, 14);
             this.CB_ValorEsperadoUnidades.Name = "CB_ValorEsperadoUnidades";
             this.CB_ValorEsperadoUnidades.Size = new System.Drawing.Size(50, 21);
-            this.CB_ValorEsperadoUnidades.TabIndex = 8;
+            this.CB_ValorEsperadoUnidades.TabIndex = 9;
             this.CB_ValorEsperadoUnidades.SelectedIndexChanged += new System.EventHandler(this.CB_ValorEsperadoUnidades_SelectedIndexChanged);
             // 
             // TB_ValorEsperado
@@ -214,13 +214,14 @@
             this.CB_ValorToleradoUnidades.Name = "CB_ValorToleradoUnidades";
             this.CB_ValorToleradoUnidades.Size = new System.Drawing.Size(50, 21);
             this.CB_ValorToleradoUnidades.TabIndex = 22;
+            this.CB_ValorToleradoUnidades.SelectedIndexChanged += new System.EventHandler(this.CB_ValorToleradoUnidades_SelectedIndexChanged);
             // 
             // TB_ValorTolerado
             // 
             this.TB_ValorTolerado.Location = new System.Drawing.Point(64, 41);
             this.TB_ValorTolerado.Name = "TB_ValorTolerado";
             this.TB_ValorTolerado.Size = new System.Drawing.Size(69, 20);
-            this.TB_ValorTolerado.TabIndex = 9;
+            this.TB_ValorTolerado.TabIndex = 8;
             this.TB_ValorTolerado.TextChanged += new System.EventHandler(this.actualizarBotones);
             // 
             // label3

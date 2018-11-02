@@ -169,10 +169,19 @@ namespace ExploracionPlanes
         {
             if (editaRestriccion)
             {
+                int ubicacion = LB_listaRestricciones.SelectedIndex;
                 listaRestricciones.Remove((IRestriccion)LB_listaRestricciones.SelectedItem);
+                listaRestricciones.Insert(ubicacion, restriccionActual());
                 editaRestriccion = false;
+                LB_listaRestricciones.Enabled = true;
+                LB_listaRestricciones.ClearSelected();
+                LB_listaRestricciones.SelectedIndex = ubicacion;
             }
-            restriccionActual().agregarALista(listaRestricciones);
+            else
+            {
+                restriccionActual().agregarALista(listaRestricciones);
+                LB_listaRestricciones.ClearSelected();
+            }
             limpiarPrescripcion();
             if (!CB_Estructura.Items.Contains(estructura().nombre))
             {
@@ -299,6 +308,11 @@ namespace ExploracionPlanes
             CB_ValorToleradoUnidades.SelectedIndex = CB_ValorEsperadoUnidades.SelectedIndex;
         }
 
+        private void CB_ValorToleradoUnidades_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CB_ValorEsperadoUnidades.SelectedIndex = CB_ValorToleradoUnidades.SelectedIndex;
+        }
+
         private void BT_EliminarRestriccion_Click(object sender, EventArgs e)
         {
             List<IRestriccion> listaAEliminar = LB_listaRestricciones.SelectedItems.OfType<IRestriccion>().ToList();
@@ -342,6 +356,7 @@ namespace ExploracionPlanes
 
         private void BT_EditarRestriccion_Click(object sender, EventArgs e)
         {
+            LB_listaRestricciones.Enabled = false;
             ((IRestriccion)(LB_listaRestricciones.SelectedItem)).editar(CB_Estructura, TB_EstructuraNombresAlt, CB_TipoRestriccion, TB_CorrespA,
                 CB_CorrespAUnidades, CB_MenorOMayor, TB_ValorEsperado, TB_ValorTolerado, CB_ValorEsperadoUnidades);
             BT_AgregarALista.Text = "Guardar";
@@ -388,5 +403,7 @@ namespace ExploracionPlanes
             LB_listaRestricciones.ClearSelected();
             LB_listaRestricciones.SelectedIndex = indice + 1;
         }
+
+        
     }
 }

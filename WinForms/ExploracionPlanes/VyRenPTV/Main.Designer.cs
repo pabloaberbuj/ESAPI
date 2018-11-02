@@ -103,9 +103,9 @@
             // BT_AplicarPorLote
             // 
             this.BT_AplicarPorLote.Enabled = false;
-            this.BT_AplicarPorLote.Location = new System.Drawing.Point(232, 295);
+            this.BT_AplicarPorLote.Location = new System.Drawing.Point(232, 292);
             this.BT_AplicarPorLote.Name = "BT_AplicarPorLote";
-            this.BT_AplicarPorLote.Size = new System.Drawing.Size(134, 37);
+            this.BT_AplicarPorLote.Size = new System.Drawing.Size(134, 40);
             this.BT_AplicarPorLote.TabIndex = 6;
             this.BT_AplicarPorLote.Text = "Extraer información de varios planes";
             this.BT_AplicarPorLote.UseVisualStyleBackColor = true;

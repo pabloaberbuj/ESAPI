@@ -26,6 +26,7 @@ namespace ExploracionPlanes
 
         public PruebaImprimir(Plantilla _plantilla)
         {
+            
             InitializeComponent();
             plantilla = _plantilla;
             this.Text = plantilla.nombre;
