@@ -101,9 +101,18 @@ namespace ExploracionPlanes
         }
 
 
-        public void analizarPlanEstructura(PlanSetup plan, Structure estructura)
+        public void analizarPlanEstructura(PlanningItem plan, Structure estructura)
         {
-            Structure BODY = plan.StructureSet.Structures.Where(s => s.DicomType == "EXTERNAL").FirstOrDefault();
+            Structure BODY;
+            if (plan.GetType() == typeof(PlanSetup))
+            {
+                BODY = ((PlanSetup)plan).StructureSet.Structures.Where(s => s.DicomType == "EXTERNAL").FirstOrDefault();
+            }
+            else
+            {
+                BODY = ((PlanSum)plan).StructureSet.Structures.Where(s => s.DicomType == "EXTERNAL").FirstOrDefault();
+            }
+                
             if (BODY == null)
             {
                 MessageBox.Show("No se encuentra la estructura BODY. \nNo se puede analizar el I.C. de la estructura" + estructura.Id);
@@ -113,11 +122,21 @@ namespace ExploracionPlanes
             {
                 double valorCorrespondienteGy = valorCorrespondiente * prescripcionEstructura / 100; //Convierto el % a Gy para extraer 
                 DoseValue dosis = new DoseValue(valorCorrespondienteGy * 100, DoseValue.DoseUnit.cGy); //y acá en cGy
-                valorMedido = Math.Round(plan.GetVolumeAtDose(BODY, dosis, VolumePresentation.AbsoluteCm3)/estructura.Volume,3);
+
+                if (plan.GetType() == typeof(PlanSetup))
+                {
+                    valorMedido = Math.Round(((PlanSetup)plan).GetVolumeAtDose(BODY, dosis, VolumePresentation.AbsoluteCm3) / estructura.Volume, 3);
+                }
+                else
+                {
+                    DVHPoint[] curveData = ((PlanSum)plan).GetDVHCumulativeData(BODY, DoseValuePresentation.Absolute, VolumePresentation.AbsoluteCm3, 0.01).CurveData;
+                    valorMedido = Math.Round((DVHDataExtensions_ESAPIX.GetVolumeAtDose(curveData, dosis) / estructura.Volume), 3);
+                }
+                    
             }
         }
 
-        public bool chequearSamplingCoverage(PlanSetup plan, Structure estructura)
+        public bool chequearSamplingCoverage(PlanningItem plan, Structure estructura)
         {
             if (Double.IsNaN(valorMedido))
             {

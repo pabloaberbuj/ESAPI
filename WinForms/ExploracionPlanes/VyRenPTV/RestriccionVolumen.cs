@@ -102,7 +102,7 @@ namespace ExploracionPlanes
             }
         }
 
-        public void analizarPlanEstructura(PlanSetup plan, Structure estructura)
+        public void analizarPlanEstructura(PlanningItem plan, Structure estructura)
         {
             VolumePresentation volumePresentation;
             double valorCorrespondienteGy = valorCorrespondiente;
@@ -120,10 +120,18 @@ namespace ExploracionPlanes
             {
                 volumePresentation = VolumePresentation.AbsoluteCm3;
             }
-            valorMedido = Math.Round(plan.GetVolumeAtDose(estructura, dosis, volumePresentation), 2);
+            if (plan.GetType() == typeof(PlanSetup))
+            {
+                valorMedido = Math.Round(((PlanSetup)plan).GetVolumeAtDose(estructura, dosis, volumePresentation), 2);
+            }
+            else
+            {
+                DVHPoint[] curveData = ((PlanSum)plan).GetDVHCumulativeData(estructura, DoseValuePresentation.Absolute, volumePresentation, 0.01).CurveData;
+                valorMedido = Math.Round(DVHDataExtensions_ESAPIX.GetVolumeAtDose(curveData, dosis),2);
+            }
         }
 
-        public bool chequearSamplingCoverage(PlanSetup plan, Structure estructura)
+        public bool chequearSamplingCoverage(PlanningItem plan, Structure estructura)
         {
             if (Double.IsNaN(valorMedido))
             {

@@ -106,7 +106,7 @@ namespace ExploracionPlanes
 
         
 
-        public void analizarPlanEstructura(PlanSetup plan, Structure estructura) //Ver cuál sirve
+        public void analizarPlanEstructura(PlanningItem plan, Structure estructura) //Ver cuál sirve
         {
             
             DoseValuePresentation doseValuePresentation = DoseValuePresentation.Absolute;
@@ -117,7 +117,7 @@ namespace ExploracionPlanes
             }
         }
 
-        public bool chequearSamplingCoverage(PlanSetup plan, Structure estructura)
+        public bool chequearSamplingCoverage(PlanningItem plan, Structure estructura)
         {
             if (Double.IsNaN(valorMedido))
             {

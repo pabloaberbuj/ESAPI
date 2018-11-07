@@ -103,7 +103,7 @@ namespace ExploracionPlanes
 
 
 
-        public void analizarPlanEstructura(PlanSetup plan, Structure estructura)
+        public void analizarPlanEstructura(PlanningItem plan, Structure estructura)
         {
             DoseValuePresentation doseValuePresentation = DoseValuePresentation.Absolute;
             //plan.GetDVHCumulativeData(estructura, doseValuePresentation, VolumePresentation.Relative, 0.1).SamplingCoverage
@@ -114,7 +114,7 @@ namespace ExploracionPlanes
             }
         }
 
-        public bool chequearSamplingCoverage(PlanSetup plan, Structure estructura)
+        public bool chequearSamplingCoverage(PlanningItem plan, Structure estructura)
         {
             if (Double.IsNaN(valorMedido))
             {

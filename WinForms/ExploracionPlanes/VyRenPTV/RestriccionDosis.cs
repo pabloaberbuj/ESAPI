@@ -108,7 +108,7 @@ namespace ExploracionPlanes
 
 
 
-        public void analizarPlanEstructura(PlanSetup plan, Structure estructura)
+        public void analizarPlanEstructura(PlanningItem plan, Structure estructura)
         {
             VolumePresentation volumePresentation;
             DoseValuePresentation doseValuePresentation = DoseValuePresentation.Absolute;
@@ -120,7 +120,16 @@ namespace ExploracionPlanes
             {
                 volumePresentation = VolumePresentation.AbsoluteCm3;
             }
-            valorMedido = Math.Round(plan.GetDoseAtVolume(estructura, valorCorrespondiente, volumePresentation, doseValuePresentation).Dose / 100, 2);
+            if (plan.GetType() == typeof(PlanSetup))
+            {
+                valorMedido = Math.Round(((PlanSetup)plan).GetDoseAtVolume(estructura, valorCorrespondiente, volumePresentation, doseValuePresentation).Dose / 100, 2);
+            }
+            else
+            {
+                DVHPoint[] curveData = ((PlanSum)plan).GetDVHCumulativeData(estructura, doseValuePresentation, volumePresentation, 0.01).CurveData;
+                valorMedido = Math.Round(DVHDataExtensions_ESAPIX.GetDoseAtVolume(curveData, valorCorrespondiente).Dose/100,2);
+            }
+                
             if (unidadValor == "%")
             {
                 valorMedido = Math.Round(valorMedido / prescripcionEstructura * 100, 2); //extraigo en Gy y paso a porcentaje
@@ -128,7 +137,7 @@ namespace ExploracionPlanes
 
         }
 
-        public bool chequearSamplingCoverage(PlanSetup plan, Structure estructura)
+        public bool chequearSamplingCoverage(PlanningItem plan, Structure estructura)
         {
             if (Double.IsNaN(valorMedido))
             {

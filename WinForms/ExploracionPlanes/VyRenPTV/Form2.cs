@@ -19,7 +19,7 @@ namespace ExploracionPlanes
 
         Patient paciente;
         Course curso;
-        PlanSetup plan;
+        PlanningItem plan;
         User usuario;
         Plantilla plantilla;
         bool hayContext = false;
@@ -102,7 +102,7 @@ namespace ExploracionPlanes
             }
         }
 
-        public PlanSetup planSeleccionado()
+        public PlanningItem planSeleccionado()
         {
             if (hayContext)
             {
@@ -110,7 +110,7 @@ namespace ExploracionPlanes
             }
             else if (LB_Planes.SelectedItems.Count == 1)
             {
-                return (PlanSetup)LB_Planes.SelectedItems[0];
+                return (PlanningItem)LB_Planes.SelectedItems[0];
             }
             else
             {
@@ -123,11 +123,24 @@ namespace ExploracionPlanes
             return paciente.Courses.ToList<Course>();
         }
 
-        public List<PlanSetup> listaPlanes(Course curso)
+        /*public List<PlanSetup> listaPlanes(Course curso)
         {
             return curso.PlanSetups.ToList<PlanSetup>();
-        }
+        }*/
 
+        public List<PlanningItem> listaPlanes(Course curso)
+        {
+            List<PlanningItem> lista = new List<PlanningItem>();
+            foreach (PlanSetup planSetup in curso.PlanSetups)
+            {
+                lista.Add(planSetup);
+            }
+            foreach (PlanSum planSum in curso.PlanSums)
+            {
+                lista.Add(planSum);
+            }
+            return lista;
+        }
 
 
         private void BT_AbrirPaciente_Click(object sender, EventArgs e)
@@ -166,7 +179,19 @@ namespace ExploracionPlanes
         {
             DGV_Prescripciones.Rows.Clear();
             DGV_Prescripciones.ColumnCount = 2;
-            double prescripcion = planSeleccionado().TotalPrescribedDose.Dose / 100;
+            double prescripcion = 0;
+            if (plan.GetType() == typeof(PlanSetup))
+            {
+                prescripcion = ((PlanSetup)planSeleccionado()).TotalPrescribedDose.Dose / 100;
+            }
+            else
+            {
+                foreach (PlanSetup plan in ((PlanSum)planSeleccionado()).PlanSetups) //asumo que todos los planes suman con peso 1. Más adelante se puede mejorar con PlanSumComponents
+                {
+                    prescripcion += plan.TotalPrescribedDose.Dose / 100;
+                }
+            }
+                
             foreach (Estructura estructura in plantilla.estructurasParaPrescribir())
             {
                 DGV_Prescripciones.Rows.Add();

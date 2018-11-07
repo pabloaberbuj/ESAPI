@@ -40,10 +40,19 @@ namespace ExploracionPlanes
             return null;
         }
 
-        public static List<Structure> listaEstructuras(PlanSetup plan) //CHEQUEAR FILTRAR POR TIPO
+        public static List<Structure> listaEstructuras(PlanningItem plan) //CHEQUEAR FILTRAR POR TIPO
         {
-            List<Structure> sinFiltrar = plan.StructureSet.Structures.ToList();
+            List<Structure> sinFiltrar = new List<Structure>();
             List<Structure> filtradas = new List<Structure>();
+
+            if (plan.GetType() == typeof(PlanSetup))
+            {
+                sinFiltrar = ((PlanSetup)plan).StructureSet.Structures.ToList();
+            }
+            else //(plan.GetType() == typeof(PlanSum))
+            {
+                sinFiltrar = ((PlanSum)plan).StructureSet.Structures.ToList();
+            }
             foreach (Structure estructura in sinFiltrar)
             {
                 if (estructura.DicomType != "SUPPORT")
