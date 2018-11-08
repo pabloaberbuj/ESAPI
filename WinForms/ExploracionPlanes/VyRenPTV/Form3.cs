@@ -17,7 +17,7 @@ namespace ExploracionPlanes
         public static string pathDestino = Configuracion.pathExportados();
         Patient paciente;
         Course curso;
-        PlanSetup plan;
+        PlanningItem plan;
         Plantilla plantilla;
         int pacienteNro = 0;
         VMS.TPS.Common.Model.API.Application app;
@@ -65,7 +65,7 @@ namespace ExploracionPlanes
             return paciente.Courses.Where(c => c.Id == nombreCurso).FirstOrDefault();
         }
 
-        public PlanSetup abrirPlan(Course curso, string nombrePlan)
+        public PlanningItem abrirPlan(Course curso, string nombrePlan)
         {
             return curso.PlanSetups.Where(p => p.Id == nombrePlan).FirstOrDefault();
         }
@@ -82,11 +82,11 @@ namespace ExploracionPlanes
             }
         }
 
-        public PlanSetup planSeleccionado()
+        public PlanningItem planSeleccionado()
         {
             if (LB_Planes.SelectedItems.Count == 1)
             {
-                return (PlanSetup)LB_Planes.SelectedItems[0];
+                return (PlanningItem)LB_Planes.SelectedItems[0];
             }
             else
             {
@@ -94,14 +94,23 @@ namespace ExploracionPlanes
             }
         }
 
-        public List<Course> listaCursos(Patient paciente)
+        public BindingList<Course> listaCursos(Patient paciente)
         {
-            return paciente.Courses.ToList<Course>();
+            return new BindingList<Course>(paciente.Courses.ToList());
         }
 
-        public List<PlanSetup> listaPlanes(Course curso)
+        public BindingList<PlanningItem> listaPlanes(Course curso)
         {
-            return curso.PlanSetups.ToList<PlanSetup>();
+            BindingList<PlanningItem> lista = new BindingList<PlanningItem>();
+            foreach (PlanSetup planSetup in curso.PlanSetups)
+            {
+                lista.Add(planSetup);
+            }
+            foreach (PlanSum planSum in curso.PlanSums)
+            {
+                lista.Add(planSum);
+            }
+            return lista;
         }
 
 
@@ -110,14 +119,14 @@ namespace ExploracionPlanes
         {
             if (abrirPaciente(TB_ID.Text))
             {
-                LB_Cursos.DataSource = null;
+                //LB_Cursos.DataSource = null;
                 LB_Cursos.DataSource = listaCursos(paciente);
             }
         }
 
         private void LB_Cursos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LB_Planes.DataSource = null;
+            //LB_Planes.DataSource = null;
             LB_Planes.DataSource = listaPlanes(cursoSeleccionado());
         }
 
@@ -141,7 +150,18 @@ namespace ExploracionPlanes
         {
             DGV_Prescripciones.Rows.Clear();
             DGV_Prescripciones.ColumnCount = 2;
-            double prescripcion = planSeleccionado().TotalPrescribedDose.Dose/100;
+            double prescripcion = 0;
+            if (planSeleccionado().GetType() == typeof(PlanSetup))
+            {
+                prescripcion = ((PlanSetup)planSeleccionado()).TotalPrescribedDose.Dose / 100;
+            }
+            else
+            {
+                foreach (PlanSetup plan in ((PlanSum)planSeleccionado()).PlanSetups) //asumo que todos los planes suman con peso 1. Más adelante se puede mejorar con PlanSumComponents
+                {
+                    prescripcion += plan.TotalPrescribedDose.Dose / 100;
+                }
+            }
             foreach (Estructura estructura in plantilla.estructurasParaPrescribir())
             {
                 DGV_Prescripciones.Rows.Add();
@@ -283,6 +303,7 @@ namespace ExploracionPlanes
             {
                 LB_Cursos.DataSource = null;
                 LB_Planes.DataSource = null;
+                
                 cerrarPaciente();
                 app.Dispose();
             }
@@ -293,6 +314,7 @@ namespace ExploracionPlanes
         {
             cerrarPaciente();
             TB_ID.Clear();
+            paciente = null;
             LB_Cursos.DataSource = null;
             LB_Cursos.Items.Clear();
             LB_Planes.DataSource = null;

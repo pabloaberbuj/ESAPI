@@ -55,7 +55,7 @@ namespace ExploracionPlanes
             }
             foreach (Structure estructura in sinFiltrar)
             {
-                if (estructura.DicomType != "SUPPORT")
+                if (estructura.DicomType != "SUPPORT" && !estructura.IsEmpty)
                 {
                     filtradas.Add(estructura);
                 }

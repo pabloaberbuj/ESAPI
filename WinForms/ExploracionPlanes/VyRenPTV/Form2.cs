@@ -85,7 +85,7 @@ namespace ExploracionPlanes
             return paciente.Courses.Where(c => c.Id == nombreCurso).FirstOrDefault();
         }
 
-        public PlanSetup abrirPlan(Course curso, string nombrePlan)
+        public PlanningItem abrirPlan(Course curso, string nombrePlan)
         {
             return curso.PlanSetups.Where(p => p.Id == nombrePlan).FirstOrDefault();
         }
@@ -180,20 +180,24 @@ namespace ExploracionPlanes
             DGV_Prescripciones.Rows.Clear();
             DGV_Prescripciones.ColumnCount = 2;
             double prescripcion = 0;
-            if (plan.GetType() == typeof(PlanSetup))
+            if (planSeleccionado().GetType() == typeof(PlanSetup))
             {
+                MessageBox.Show("Es planSetup");
                 prescripcion = ((PlanSetup)planSeleccionado()).TotalPrescribedDose.Dose / 100;
             }
             else
             {
-                foreach (PlanSetup plan in ((PlanSum)planSeleccionado()).PlanSetups) //asumo que todos los planes suman con peso 1. Más adelante se puede mejorar con PlanSumComponents
+                MessageBox.Show("Es planSuma");
+                foreach (PlanSetup planS in ((PlanSum)planSeleccionado()).PlanSetups) //asumo que todos los planes suman con peso 1. Más adelante se puede mejorar con PlanSumComponents
                 {
-                    prescripcion += plan.TotalPrescribedDose.Dose / 100;
+                    MessageBox.Show("Tiene un plan Setup");
+                    prescripcion += planS.TotalPrescribedDose.Dose / 100;
                 }
             }
                 
             foreach (Estructura estructura in plantilla.estructurasParaPrescribir())
             {
+                MessageBox.Show("se va a agregar " + estructura.nombre);
                 DGV_Prescripciones.Rows.Add();
                 DGV_Prescripciones.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[0].Value = estructura.nombre;
                 DGV_Prescripciones.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[1].Value = prescripcion;
