@@ -123,11 +123,6 @@ namespace ExploracionPlanes
             return paciente.Courses.ToList<Course>();
         }
 
-        /*public List<PlanSetup> listaPlanes(Course curso)
-        {
-            return curso.PlanSetups.ToList<PlanSetup>();
-        }*/
-
         public List<PlanningItem> listaPlanes(Course curso)
         {
             List<PlanningItem> lista = new List<PlanningItem>();
@@ -147,7 +142,15 @@ namespace ExploracionPlanes
         {
             if (abrirPaciente(TB_ID.Text))
             {
-                LB_Cursos.DataSource = listaCursos(paciente);
+                LB_Cursos.Items.Clear();
+                foreach (Course curso in listaCursos(paciente))
+                {
+                    LB_Cursos.Items.Add(curso);
+                }
+                if (LB_Cursos.Items.Count > 0)
+                {
+                    LB_Cursos.SelectedIndex = 0;
+                }
                 this.Text += " - " + paciente.Name;
             }
 
@@ -155,8 +158,15 @@ namespace ExploracionPlanes
 
         private void LB_Cursos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            LB_Planes.DataSource = null;
-            LB_Planes.DataSource = listaPlanes(cursoSeleccionado());
+            LB_Planes.Items.Clear();
+            foreach (PlanningItem plan in listaPlanes(cursoSeleccionado()))
+            {
+                LB_Planes.Items.Add(plan);
+            }
+            if (LB_Planes.Items.Count > 0)
+            {
+                LB_Planes.SelectedIndex = 0;
+            }
         }
 
         private void llenarDGVEstructuras()
@@ -366,8 +376,6 @@ namespace ExploracionPlanes
             }
             else if (paciente != null)
             {
-                LB_Cursos.DataSource = null;
-                LB_Planes.DataSource = null;
                 cerrarPaciente();
                 app.Dispose();
             }
@@ -443,11 +451,11 @@ namespace ExploracionPlanes
         {
             if (hayContext)
             {
-                Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, paciente.LastName + ", " + paciente.FirstName, infoPlan(), plantilla.nombre, plantilla.nota, usuario.Name, DGV_Análisis);
+                Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, paciente.LastName + ", " + paciente.FirstName, paciente.Id, infoPlan(), plantilla.nombre, plantilla.nota, usuario.Name, DGV_Análisis);
             }
             else
             {
-                Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, paciente.LastName + ", " + paciente.FirstName, infoPlan(), plantilla.nombre, plantilla.nota, app.CurrentUser.Name, DGV_Análisis);
+                Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, paciente.LastName + ", " + paciente.FirstName, paciente.Id, infoPlan(), plantilla.nombre, plantilla.nota, app.CurrentUser.Name, DGV_Análisis);
             }
         }
         #endregion

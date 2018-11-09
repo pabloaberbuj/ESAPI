@@ -229,11 +229,11 @@ namespace ExploracionPlanes
                 }
             }
         }
-        public static int imprimirCabeceraInforme(PrintPageEventArgs e, int anchohoja, int posicionlinea, string nombrePaciente, string infoPlan, string nombrePlantilla, string notaPlantilla, string realizadoPor)
+        public static int imprimirCabeceraInforme(PrintPageEventArgs e, int anchohoja, int posicionlinea, string nombrePaciente, string IDPaciente, string infoPlan, string nombrePlantilla, string notaPlantilla, string realizadoPor)
         {
             
             posicionlinea = imprimirTitulo(e, "Analisis de restricciones en plan de tratamiento", posicionlinea, 1);
-            posicionlinea = imprimirSubtitulo(e, "Paciente: " + nombrePaciente, posicionlinea);
+            posicionlinea = imprimirSubtitulo(e, "Paciente: " + nombrePaciente + " (ID: "+ IDPaciente + ")", posicionlinea);
             posicionlinea = imprimirSubtitulo(e, "Plan: " + infoPlan, posicionlinea);
             posicionlinea = imprimirSubtitulo(e, "Plantilla: " + nombrePlantilla, posicionlinea);
             int x_value = 10;
@@ -253,9 +253,9 @@ namespace ExploracionPlanes
             return posicionlinea += altoTexto*3;
         }
 
-        public static void imprimirInforme(PrintPageEventArgs e, int anchohoja, int posicionlinea, string nombrePaciente, string infoPlan, string nombrePlantilla, string notaPlantilla, string realizadoPor, DataGridView tabla)
+        public static void imprimirInforme(PrintPageEventArgs e, int anchohoja, int posicionlinea, string nombrePaciente, string IDPaciente, string infoPlan, string nombrePlantilla, string notaPlantilla, string realizadoPor, DataGridView tabla)
         {
-            posicionlinea = imprimirCabeceraInforme(e, anchohoja, posicionlinea, nombrePaciente, infoPlan, nombrePlantilla, notaPlantilla, realizadoPor);
+            posicionlinea = imprimirCabeceraInforme(e, anchohoja, posicionlinea, nombrePaciente, IDPaciente, infoPlan, nombrePlantilla, notaPlantilla, realizadoPor);
             imprimirtabla(e, tabla, anchohoja, posicionlinea);
             /*Bitmap bitmap = new Bitmap(anchohoja,altoTotal);
             e.Graphics.DrawImage(bitmap, anchoTotal, altoTotal);

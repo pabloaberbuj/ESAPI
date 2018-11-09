@@ -55,6 +55,8 @@ namespace ExploracionPlanes
             }
         }
 
+        
+
         public void cerrarPaciente()
         {
             app.ClosePatient();
@@ -78,7 +80,7 @@ namespace ExploracionPlanes
             }
             else
             {
-                return curso;
+                return null;
             }
         }
 
@@ -90,18 +92,18 @@ namespace ExploracionPlanes
             }
             else
             {
-                return plan;
+                return null;
             }
         }
 
-        public BindingList<Course> listaCursos(Patient paciente)
+        public List<Course> listaCursos(Patient paciente)
         {
-            return new BindingList<Course>(paciente.Courses.ToList());
+            return new List<Course>(paciente.Courses.ToList());
         }
 
-        public BindingList<PlanningItem> listaPlanes(Course curso)
+        public List<PlanningItem> listaPlanes(Course curso)
         {
-            BindingList<PlanningItem> lista = new BindingList<PlanningItem>();
+            List<PlanningItem> lista = new List<PlanningItem>();
             foreach (PlanSetup planSetup in curso.PlanSetups)
             {
                 lista.Add(planSetup);
@@ -119,15 +121,29 @@ namespace ExploracionPlanes
         {
             if (abrirPaciente(TB_ID.Text))
             {
-                //LB_Cursos.DataSource = null;
-                LB_Cursos.DataSource = listaCursos(paciente);
+                LB_Cursos.Items.Clear();
+                foreach (Course curso in listaCursos(paciente))
+                {
+                    LB_Cursos.Items.Add(curso);
+                }
+                if (LB_Cursos.Items.Count>0)
+                {
+                    LB_Cursos.SelectedIndex = 0;
+                }
             }
         }
 
         private void LB_Cursos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //LB_Planes.DataSource = null;
-            LB_Planes.DataSource = listaPlanes(cursoSeleccionado());
+            LB_Planes.Items.Clear();
+            foreach (PlanningItem plan in listaPlanes(cursoSeleccionado()))
+            {
+                LB_Planes.Items.Add(plan);
+            }
+            if (LB_Planes.Items.Count>0)
+            {
+                LB_Planes.SelectedIndex = 0;
+            }
         }
 
         private void llenarDGVEstructuras()
@@ -301,23 +317,18 @@ namespace ExploracionPlanes
         {
             if (paciente!=null)
             {
-                LB_Cursos.DataSource = null;
-                LB_Planes.DataSource = null;
-                
+                LB_Cursos.Items.Clear();
+                LB_Planes.Items.Clear();
                 cerrarPaciente();
-                app.Dispose();
             }
-            
+            app.Dispose();
         }
 
         private void BT_GuardarPaciente_Click(object sender, EventArgs e)
         {
             cerrarPaciente();
             TB_ID.Clear();
-            paciente = null;
-            LB_Cursos.DataSource = null;
             LB_Cursos.Items.Clear();
-            LB_Planes.DataSource = null;
             LB_Planes.Items.Clear();
             DGV_Estructuras.DataSource = null;
             DGV_Estructuras.Rows.Clear();

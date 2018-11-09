@@ -347,7 +347,7 @@ namespace ExploracionPlanes
         private void printDocument1_PrintPage_1(object sender, PrintPageEventArgs e)
         {
             
-            Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, "Apellido" + ", " + "Nombre" , "Plan1", plantilla.nombre, plantilla.nota,"pa", DGV_Análisis);
+            Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, "Apellido" + ", " + "Nombre" , "ID", "Plan1", plantilla.nombre, plantilla.nota,"pa", DGV_Análisis);
         }
 
 
