@@ -67,6 +67,7 @@ namespace VMS.TPS
             {
                 for (int j = 0; j < y; j++)
                 {
+                    
                     bitmapXY.SetPixel(i, j, Color.FromArgb(matrizXY[i, j], matrizXY[i, j], matrizXY[i, j]));
                 }
             }

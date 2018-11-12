@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -65,52 +66,51 @@ namespace PruebaImagenes
 
         public void Imagen(Patient paciente, PlanSetup plan)
         {
-            VMS.TPS.Common.Model.API.Image imagen = plan.Beams.First().ReferenceImage;
-            int x = imagen.XSize;
-            int y = imagen.YSize;
-            int z = imagen.ZSize;
-            int[,] matrizXY = new int[x, y];
-            int[,] matrizXZ = new int[x, y];
-            int[,] matrizYZ = new int[y, z];
-            try
+            foreach (Beam campo in plan.Beams)
             {
-                imagen.GetVoxels(0, matrizXY);
+                MessageBox.Show("Se inicia campo " + campo.Id);
+                try
+                {
+                    VMS.TPS.Common.Model.API.Image imagen = campo.ReferenceImage;
+                    int x = imagen.XSize;
+                    int y = imagen.YSize;
+                    int[,] matrizXY = new int[x, y];
+                    int[,] matrizXY2 = new int[x, y];
+                    imagen.GetVoxels(0, matrizXY);
+
+                    MessageBox.Show("Se obtuvo la matriz");
+                    Bitmap bitmapXY = new Bitmap(x, y);
+                    Bitmap bitmapXY2 = new Bitmap(x, y);
+
+                    for (int i = 0; i < x; i++)
+                    {
+                        for (int j = 0; j < y; j++)
+                        {
+                            int valor = Convert.ToInt32(matrizXY[i, j] / imagen.Window * 255);
+                            bitmapXY.SetPixel(i, j, Color.FromArgb(valor, valor, valor));
+                            int valorDV = Convert.ToInt32(imagen.VoxelToDisplayValue(matrizXY[i, j]) * 255);
+                            bitmapXY2.SetPixel(i, j, Color.FromArgb(valor, valor, valor));
+                        }
+                    }
+                    bitmapXY.Save("drr_" + campo.Id + ".jpg", ImageFormat.Jpeg);
+                    bitmapXY2.Save("drr2_" + campo.Id + ".jpg", ImageFormat.Jpeg);
+                    MessageBox.Show("se guardó la imagen");
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("No se pudo abrir la imagen");
+                    throw;
+                }
+                
+                
             }
-            catch (Exception)
-            {
-
-                MessageBox.Show("El tamaño XY no es correcto");
-            }
-
-            try
-            {
-                imagen.GetVoxels(0, matrizXZ);
-            }
-            catch (Exception)
-            {
-
-                MessageBox.Show("El tamaño XZ no es correcto");
-            }
-
-            try
-            {
-                imagen.GetVoxels(0, matrizYZ);
-            }
-            catch (Exception)
-            {
-
-                MessageBox.Show("El tamaño YZ no es correcto");
-            }
-
-
-            Bitmap bitmapXY = new Bitmap(x, y);
-            Bitmap bitmapXZ = new Bitmap(x, z);
-            Bitmap bitmapYZ = new Bitmap(y, z);
-
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            abrirPaciente(textBox1.Text);
+            plan = paciente.Courses.First().PlanSetups.First();
+            Imagen(paciente, plan);
 
         }
     }
