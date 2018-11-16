@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
+using MigraDoc.Rendering.Forms;
 
 
 namespace ExploracionPlanes
@@ -27,7 +28,15 @@ namespace ExploracionPlanes
             pdfRenderer.Document = report;
             pdfRenderer.RenderDocument();
             pdfRenderer.PdfDocument.Save(path);
-            MessageBox.Show("Se ha guardado la plantilla con el nombre: " + Path.GetFileName(path));
+            MessageBox.Show("Se ha guardado el reporte con el nombre: " + Path.GetFileName(path));
+        }
+
+        public static void imprimir(Document report)
+        {
+            DocumentRenderer documentRenderer = new DocumentRenderer(report);
+            MigraDoc.Rendering.Printing.MigraDocPrintDocument printDocument = new MigraDoc.Rendering.Printing.MigraDocPrintDocument();
+            printDocument.Renderer = documentRenderer;
+          
 
         }
 
@@ -100,7 +109,7 @@ namespace ExploracionPlanes
 
         public static MigraDoc.DocumentObjectModel.Color colorDGVaTable(System.Drawing.Color color)
         {
-            return Color.FromArgb(color.A, color.R, color.G, color.B);
+            return new Color(color.A, color.R, color.G, color.B);
         }
     }
 }

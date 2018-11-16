@@ -337,8 +337,8 @@ namespace ExploracionPlanes
         private void BT_Imprimir_Click(object sender, EventArgs e)
         {
             PrintDocument pd = new PrintDocument();
-            pd = Imprimir.cargarConfiguracion();
-            printDialog1.Document = pd;
+            //pd = Imprimir.cargarConfiguracion();
+            //printDialog1.Document = pd;
             pd.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage_1);
             pd.PrinterSettings = printDialog1.PrinterSettings;
             if (printDialog1.ShowDialog() == DialogResult.OK)
@@ -348,7 +348,6 @@ namespace ExploracionPlanes
         }
         private void printDocument1_PrintPage_1(object sender, PrintPageEventArgs e)
         {
-            
             Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, "Apellido" + ", " + "Nombre" , "ID", "Plan1", plantilla.nombre, plantilla.nota,"pa", DGV_Análisis);
         }
 

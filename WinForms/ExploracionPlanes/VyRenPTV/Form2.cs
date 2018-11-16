@@ -396,7 +396,7 @@ namespace ExploracionPlanes
 
         private void DGV_Análisis_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            Metodos.habilitarBoton(DGV_Análisis.Rows.Count > 0, BT_VistaPrevia);
+            Metodos.habilitarBoton(DGV_Análisis.Rows.Count > 0, BT_GuardarReporte);
             Metodos.habilitarBoton(DGV_Análisis.Rows.Count > 0, BT_Imprimir);
         }
 
@@ -420,18 +420,10 @@ namespace ExploracionPlanes
 
 
         #region Imprimir
-        private void BT_VistaPrevia_Click(object sender, EventArgs e)
-        {
-            
-                PrintDocument pd = new PrintDocument();
-                pd = Imprimir.cargarConfiguracion();
-                printPreviewDialog1.Document = pd;
-                pd.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage_1);
-                
 
-                printPreviewDialog1.ShowDialog();
-            
-     
+        private void BT_GuardarReporte_Click(object sender, EventArgs e)
+        {
+            Reporte.exportarAPdf(paciente.LastName, paciente.FirstName, paciente.Id, plantilla.nombre, Reporte.crearReporte(paciente.LastName, paciente.Name, paciente.Id, plantilla.nombre, plantilla.nota, usuario.Name, DGV_Análisis));
         }
 
         private void BT_Imprimir_Click(object sender, EventArgs e)
@@ -459,5 +451,7 @@ namespace ExploracionPlanes
             }
         }
         #endregion
+
+        
     }
 }

@@ -52,7 +52,7 @@
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BT_SeleccionarPlan = new System.Windows.Forms.Button();
             this.BT_Imprimir = new System.Windows.Forms.Button();
-            this.BT_VistaPrevia = new System.Windows.Forms.Button();
+            this.BT_GuardarReporte = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).BeginInit();
@@ -277,16 +277,16 @@
             this.BT_Imprimir.UseVisualStyleBackColor = true;
             this.BT_Imprimir.Click += new System.EventHandler(this.BT_Imprimir_Click);
             // 
-            // BT_VistaPrevia
+            // BT_GuardarReporte
             // 
-            this.BT_VistaPrevia.Enabled = false;
-            this.BT_VistaPrevia.Location = new System.Drawing.Point(537, 397);
-            this.BT_VistaPrevia.Name = "BT_VistaPrevia";
-            this.BT_VistaPrevia.Size = new System.Drawing.Size(109, 23);
-            this.BT_VistaPrevia.TabIndex = 24;
-            this.BT_VistaPrevia.Text = "VistaPrevia";
-            this.BT_VistaPrevia.UseVisualStyleBackColor = true;
-            this.BT_VistaPrevia.Click += new System.EventHandler(this.BT_VistaPrevia_Click);
+            this.BT_GuardarReporte.Enabled = false;
+            this.BT_GuardarReporte.Location = new System.Drawing.Point(537, 397);
+            this.BT_GuardarReporte.Name = "BT_GuardarReporte";
+            this.BT_GuardarReporte.Size = new System.Drawing.Size(109, 23);
+            this.BT_GuardarReporte.TabIndex = 24;
+            this.BT_GuardarReporte.Text = "Guardar Reporte";
+            this.BT_GuardarReporte.UseVisualStyleBackColor = true;
+            this.BT_GuardarReporte.Click += new System.EventHandler(this.BT_GuardarReporte_Click);
             // 
             // label4
             // 
@@ -303,7 +303,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(849, 499);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.BT_VistaPrevia);
+            this.Controls.Add(this.BT_GuardarReporte);
             this.Controls.Add(this.BT_Imprimir);
             this.Controls.Add(this.BT_SeleccionarPlan);
             this.Controls.Add(this.DGV_Prescripciones);
@@ -351,7 +351,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.Button BT_Imprimir;
-        private System.Windows.Forms.Button BT_VistaPrevia;
+        private System.Windows.Forms.Button BT_GuardarReporte;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Volumen;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
