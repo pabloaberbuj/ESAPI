@@ -5,7 +5,7 @@ using System.Text;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 
-namespace PruebaReporte
+namespace ExploracionPlanes
 {
     internal class Estilos
     {
@@ -17,7 +17,11 @@ namespace PruebaReporte
             texto.ParagraphFormat.Font.Size = 10;
             texto.ParagraphFormat.Font.Bold = false;
             texto.ParagraphFormat.Alignment = ParagraphAlignment.Left;
-            texto.ParagraphFormat.SpaceAfter = 6;
+            texto.ParagraphFormat.SpaceAfter = 3;
+            texto.ParagraphFormat.AddTabStop(75);
+
+            var textoPrrafo = doc.AddStyle("Texto Parrafo", "Texto");
+            texto.ParagraphFormat.Alignment = ParagraphAlignment.Justify;
 
             var textoNegrita = doc.AddStyle("Texto Negrita", "Texto");
             textoNegrita.ParagraphFormat.Font.Bold = true;
@@ -38,16 +42,24 @@ namespace PruebaReporte
 
             var tabla = doc.AddStyle("Tabla", "Texto");
             tabla.ParagraphFormat.Font.Name = "Microsoft Sans Serif";
-            tabla.ParagraphFormat.Font.Size = 9;
+            tabla.ParagraphFormat.Font.Size = 8;
+            tabla.ParagraphFormat.SpaceAfter = 2;
 
             var tablaHeader = doc.AddStyle("Tabla Header", "Tabla");
             tablaHeader.ParagraphFormat.Font.Bold = true;
+            tablaHeader.ParagraphFormat.SpaceAfter = 2;
+        }
+
+        public static void formatearSeccion(Section seccion)
+        {
+            seccion.PageSetup.TopMargin = 20;
+            seccion.PageSetup.BottomMargin = 20;
         }
         public static void formatearTabla(Table tabla)
         {
             tabla.Style = "Tabla";
-            tabla.TopPadding = 5;
-            tabla.BottomPadding = 5;
+            tabla.TopPadding = 2;
+            tabla.BottomPadding = 2;
 
             tabla.Borders.Visible = true;
             tabla.Borders.Width = 0.25;
@@ -65,7 +77,16 @@ namespace PruebaReporte
             tabla.Columns[0].Style = "Texto";
             tabla.Columns[1].Style = "Texto Negrita";
             tabla.Borders.Visible = false;
-            
+        }
+
+        public static Paragraph etiquetaYValor(string etiqueta, string valor)
+        {
+            Paragraph parrafo = new Paragraph();
+            parrafo.Style = "Texto";
+            parrafo.AddFormattedText(etiqueta + ":", "Texto Negrita");
+            parrafo.AddTab();
+            parrafo.AddText(valor);
+            return parrafo;
         }
     }
 }

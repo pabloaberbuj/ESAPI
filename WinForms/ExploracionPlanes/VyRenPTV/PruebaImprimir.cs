@@ -324,12 +324,14 @@ namespace ExploracionPlanes
         #region Imprimir
         private void BT_VistaPrevia_Click(object sender, EventArgs e)
         {
-            PrintDocument pd = new PrintDocument();
+            /*PrintDocument pd = new PrintDocument();
             pd = Imprimir.cargarConfiguracion();
             printPreviewDialog1.Document = pd;
             pd.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage_1);
-
-            printPreviewDialog1.ShowDialog();
+            
+            printPreviewDialog1.ShowDialog();*/
+            Reporte.exportarAPdf("APELLIDO", "Nombre", "12-34567", plantilla.nombre, Reporte.crearReporte("APELLIDO", "Nombre", "12-34567", plantilla.nombre, plantilla.nota, "pa", DGV_Análisis));
+            MessageBox.Show("Se creó");
         }
 
         private void BT_Imprimir_Click(object sender, EventArgs e)

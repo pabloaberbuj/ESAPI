@@ -21,6 +21,12 @@ namespace ExploracionPlanes
             return aux[1].Split('\t')[1] + @"\Exportados\";
         }
 
+        public static string pathReportes()
+        {
+            string[] aux = File.ReadAllLines("Configuracion.txt");
+            return aux[1].Split('\t')[1] + @"\Reportes\";
+        }
+
         public static bool hayArchivoConfiguracion()
         {
             return File.Exists("Configuracion.txt");
@@ -29,15 +35,15 @@ namespace ExploracionPlanes
         public static bool estaCompletoArchivoConfiguracion()
         {
             string[] auxS = File.ReadAllLines("Configuracion.txt");
-            if (auxS.Length != 2)
+            if (auxS.Length != 3)
             {
                 return false;
             }
-            else if (auxS[0].Split('\t').Length != 2 || auxS[1].Split('\t').Length != 2)
+            else if (auxS[0].Split('\t').Length != 2 || auxS[1].Split('\t').Length != 2 || auxS[2].Split('\t').Length !=2)
             {
                 return false;
             }
-            else if (String.IsNullOrEmpty(auxS[0].Split('\t')[1]) || String.IsNullOrEmpty(auxS[0].Split('\t')[1]))
+            else if (String.IsNullOrEmpty(auxS[0].Split('\t')[1]) || String.IsNullOrEmpty(auxS[1].Split('\t')[1]) || String.IsNullOrEmpty(auxS[2].Split('\t')[1]))
             {
                 return false;
             }
@@ -45,8 +51,7 @@ namespace ExploracionPlanes
         }
         public static void crearArchivoConfiguracion()
         {
-            string[] configuracion = { "Plantillas" + "\t" + Directory.GetCurrentDirectory(), "Exportados" + "\t" + Directory.GetCurrentDirectory() };
-            //File.Create("Configuracion.txt");
+            string[] configuracion = { "Plantillas" + "\t" + Directory.GetCurrentDirectory(), "Exportados" + "\t" + Directory.GetCurrentDirectory(), "Reportes" + "\t" + Directory.GetCurrentDirectory() };
             File.WriteAllLines("Configuracion.txt", configuracion);
         }
 
