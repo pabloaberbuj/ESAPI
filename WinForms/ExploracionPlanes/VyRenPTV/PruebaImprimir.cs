@@ -10,6 +10,9 @@ using System.Text;
 using System.Windows.Forms;
 using VMS.TPS.Common.Model.API;
 using VMS.TPS.Common.Model.Types;
+using MigraDoc.DocumentObjectModel;
+using MigraDoc.Rendering;
+using MigraDoc.Rendering.Forms;
 
 
 namespace ExploracionPlanes
@@ -336,11 +339,16 @@ namespace ExploracionPlanes
 
         private void BT_Imprimir_Click(object sender, EventArgs e)
         {
-            PrintDocument pd = new PrintDocument();
+            MigraDoc.Rendering.Printing.MigraDocPrintDocument pd = new MigraDoc.Rendering.Printing.MigraDocPrintDocument();
+            //PrintDocument pd = new PrintDocument();
             //pd = Imprimir.cargarConfiguracion();
             //printDialog1.Document = pd;
-            pd.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage_1);
+            var rendered = new DocumentRenderer(Reporte.crearReporte("Apellido", "Nombre", "12-34567", plantilla.nombre, plantilla.nota, "pa", DGV_Análisis));
+            pd.Renderer = rendered;
+            //pd.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage_1);
+            
             pd.PrinterSettings = printDialog1.PrinterSettings;
+            pd.SelectedPage = 1;
             if (printDialog1.ShowDialog() == DialogResult.OK)
             {
                 pd.Print();
@@ -348,7 +356,8 @@ namespace ExploracionPlanes
         }
         private void printDocument1_PrintPage_1(object sender, PrintPageEventArgs e)
         {
-            Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, "Apellido" + ", " + "Nombre" , "ID", "Plan1", plantilla.nombre, plantilla.nota,"pa", DGV_Análisis);
+            Reporte.crearReporte("Apellido", "Nombre", "12-34567", plantilla.nombre, plantilla.nota, "pa", DGV_Análisis);
+            //Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, "Apellido" + ", " + "Nombre" , "ID", "Plan1", plantilla.nombre, plantilla.nota,"pa", DGV_Análisis);
         }
 
 
