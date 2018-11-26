@@ -211,7 +211,9 @@ namespace ExploracionPlanes
         private void llenarDGVAnalisis()
         {
             DGV_Análisis.Rows.Clear();
-            DGV_Análisis.ColumnCount = 3;
+            DGV_Análisis.ColumnCount = 4;
+            DGV_Análisis.Columns[3].Width = 10;
+            //DGV_Análisis.Columns.Add(new DataGridViewButtonColumn());
             //int j = 0;
             for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
             {
@@ -220,6 +222,10 @@ namespace ExploracionPlanes
                 DGV_Análisis.Rows.Add();
                 DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiquetaInicio;
                 DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorEsperado + restriccion.unidadValor;
+                if (restriccion.GetType()==typeof(RestriccionDosisMax))
+                {
+                    
+                }
                 /*if (estructuraCorrespondiente(restriccion.estructura.nombre) != null)
                 {
                     restriccion.analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(restriccion.estructura.nombre));
@@ -229,6 +235,7 @@ namespace ExploracionPlanes
             }
             DGV_Análisis.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
+       
 
         /*private Structure estructuraCorrespondiente(string nombreEstructura)
         {

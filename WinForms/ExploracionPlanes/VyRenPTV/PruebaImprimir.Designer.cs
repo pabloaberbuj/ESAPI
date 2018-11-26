@@ -189,7 +189,7 @@
             this.DGV_Análisis.Location = new System.Drawing.Point(467, 33);
             this.DGV_Análisis.Name = "DGV_Análisis";
             this.DGV_Análisis.RowHeadersVisible = false;
-            this.DGV_Análisis.Size = new System.Drawing.Size(306, 348);
+            this.DGV_Análisis.Size = new System.Drawing.Size(352, 348);
             this.DGV_Análisis.TabIndex = 16;
             this.DGV_Análisis.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.DGV_Análisis_RowsAdded);
             // 
@@ -328,7 +328,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(785, 499);
+            this.ClientSize = new System.Drawing.Size(831, 499);
             this.Controls.Add(this.L_EstatusAprobacion);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.BT_VistaPrevia);

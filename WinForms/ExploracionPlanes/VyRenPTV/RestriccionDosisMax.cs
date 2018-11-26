@@ -19,6 +19,7 @@ namespace ExploracionPlanes
         public double valorEsperado { get; set; }
         public double valorTolerado { get; set; }
         public double valorCorrespondiente { get; set; }
+        public static double volumenDosisMaxima = Configuracion.volDosisMaxima();
         public double prescripcionEstructura { get; set; }
         public string etiquetaInicio { get; set; }
         public string etiqueta { get; set; }
@@ -110,10 +111,37 @@ namespace ExploracionPlanes
         {
             
             DoseValuePresentation doseValuePresentation = DoseValuePresentation.Absolute;
-            valorMedido = Math.Round(plan.GetDVHCumulativeData(estructura, doseValuePresentation, VolumePresentation.Relative, 0.01).MaxDose.Dose / 100, 2);
+            if (plan.GetType() == typeof(PlanSetup))
+            {
+                valorMedido = Math.Round(((PlanSetup)plan).GetDoseAtVolume(estructura, volumenDosisMaxima, VolumePresentation.AbsoluteCm3, doseValuePresentation).Dose / 100, 2);
+            }
+            else
+            {
+                DVHPoint[] curveData = ((PlanSum)plan).GetDVHCumulativeData(estructura, doseValuePresentation, VolumePresentation.AbsoluteCm3, 0.01).CurveData;
+                valorMedido = Math.Round(DVHDataExtensions_ESAPIX.GetDoseAtVolume(curveData, volumenDosisMaxima).Dose / 100, 2);
+            }
             if (unidadValor == "%")
             {
                 valorMedido = Math.Round(valorMedido / prescripcionEstructura * 100,2); //extraigo en Gy y paso a porcentaje
+            }
+        }
+
+        public void analizarPlanEstructura(PlanningItem plan, Structure estructura, double volumenDosisMaximaOVR) //Ver cuál sirve
+        {
+
+            DoseValuePresentation doseValuePresentation = DoseValuePresentation.Absolute;
+            if (plan.GetType() == typeof(PlanSetup))
+            {
+                valorMedido = Math.Round(((PlanSetup)plan).GetDoseAtVolume(estructura, volumenDosisMaximaOVR, VolumePresentation.AbsoluteCm3, doseValuePresentation).Dose / 100, 2);
+            }
+            else
+            {
+                DVHPoint[] curveData = ((PlanSum)plan).GetDVHCumulativeData(estructura, doseValuePresentation, VolumePresentation.AbsoluteCm3, 0.01).CurveData;
+                valorMedido = Math.Round(DVHDataExtensions_ESAPIX.GetDoseAtVolume(curveData, volumenDosisMaximaOVR).Dose / 100, 2);
+            }
+            if (unidadValor == "%")
+            {
+                valorMedido = Math.Round(valorMedido / prescripcionEstructura * 100, 2); //extraigo en Gy y paso a porcentaje
             }
         }
 
