@@ -10,6 +10,9 @@ using System.Text;
 using System.Windows.Forms;
 using VMS.TPS.Common.Model.API;
 using VMS.TPS.Common.Model.Types;
+using MigraDoc.DocumentObjectModel;
+using MigraDoc.Rendering;
+using MigraDoc.Rendering.Forms;
 
 
 namespace ExploracionPlanes
@@ -343,15 +346,15 @@ namespace ExploracionPlanes
         {
             if (comparacion == 0)
             {
-                celda.Style.BackColor = Color.LightGreen;
+                celda.Style.BackColor = System.Drawing.Color.LightGreen;
             }
             else if (comparacion == 1)
             {
-                celda.Style.BackColor = Color.LightYellow;
+                celda.Style.BackColor = System.Drawing.Color.LightYellow;
             }
             else
             {
-                celda.Style.BackColor = Color.Red;
+                celda.Style.BackColor = System.Drawing.Color.Red;
             }
         }
 
@@ -420,26 +423,38 @@ namespace ExploracionPlanes
 
 
         #region Imprimir
-
+        private Document reporte()
+        {
+            string usuarioNombre;
+            if (hayContext)
+            {
+                usuarioNombre = app.CurrentUser.Name;
+            }
+            else
+            {
+                usuarioNombre = usuario.Name;
+            }
+            return Reporte.crearReporte(paciente.LastName, paciente.Name, paciente.Id, plantilla.nombre, plantilla.nota, usuarioNombre, DGV_Análisis);
+        }
         private void BT_GuardarReporte_Click(object sender, EventArgs e)
         {
-            Reporte.exportarAPdf(paciente.LastName, paciente.FirstName, paciente.Id, plantilla.nombre, Reporte.crearReporte(paciente.LastName, paciente.Name, paciente.Id, plantilla.nombre, plantilla.nota, usuario.Name, DGV_Análisis));
+            Reporte.exportarAPdf(paciente.LastName, paciente.FirstName, paciente.Id, plantilla.nombre, reporte());
         }
 
         private void BT_Imprimir_Click(object sender, EventArgs e)
         {
-            
-                PrintDocument pd = new PrintDocument();
-                pd = Imprimir.cargarConfiguracion();
-                printDialog1.Document = pd;
-                pd.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage_1);
+            MigraDoc.Rendering.Printing.MigraDocPrintDocument pd = new MigraDoc.Rendering.Printing.MigraDocPrintDocument();
+            var rendered = new DocumentRenderer(reporte());
+            rendered.PrepareDocument();
+            pd.Renderer = rendered;
+            if (printDialog1.ShowDialog() == DialogResult.OK)
+            {
                 pd.PrinterSettings = printDialog1.PrinterSettings;
-                if (printDialog1.ShowDialog() == DialogResult.OK)
-                {
-                    pd.Print();
-                }
+                pd.Print();
+            }
+
         }
-        private void printDocument1_PrintPage_1(object sender, PrintPageEventArgs e)
+        /*private void printDocument1_PrintPage_1(object sender, PrintPageEventArgs e)
         {
             if (hayContext)
             {
@@ -449,7 +464,7 @@ namespace ExploracionPlanes
             {
                 Imprimir.imprimirInforme(e, Imprimir.anchoTotal, 10, paciente.LastName + ", " + paciente.FirstName, paciente.Id, infoPlan(), plantilla.nombre, plantilla.nota, app.CurrentUser.Name, DGV_Análisis);
             }
-        }
+        }*/
         #endregion
 
         
