@@ -13,9 +13,11 @@ namespace ExploracionPlanes
     {
         public string salida { get; set; }
         
-        public FormTB()
+        public FormTB(string textoTB = "")
         {
             InitializeComponent();
+            TB_Llenar.Text = textoTB;
+            StartPosition = FormStartPosition.CenterParent;
         }
 
         private void BT_Aceptar_Click(object sender, EventArgs e)

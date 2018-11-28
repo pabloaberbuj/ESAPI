@@ -36,16 +36,16 @@
             // 
             // TB_Llenar
             // 
-            this.TB_Llenar.Location = new System.Drawing.Point(15, 37);
+            this.TB_Llenar.Location = new System.Drawing.Point(15, 50);
             this.TB_Llenar.Name = "TB_Llenar";
-            this.TB_Llenar.Size = new System.Drawing.Size(183, 20);
+            this.TB_Llenar.Size = new System.Drawing.Size(200, 20);
             this.TB_Llenar.TabIndex = 0;
             this.TB_Llenar.TextChanged += new System.EventHandler(this.TB_Llenar_TextChanged);
             // 
             // BT_Aceptar
             // 
             this.BT_Aceptar.Enabled = false;
-            this.BT_Aceptar.Location = new System.Drawing.Point(15, 72);
+            this.BT_Aceptar.Location = new System.Drawing.Point(15, 85);
             this.BT_Aceptar.Name = "BT_Aceptar";
             this.BT_Aceptar.Size = new System.Drawing.Size(75, 23);
             this.BT_Aceptar.TabIndex = 1;
@@ -55,7 +55,8 @@
             // 
             // BT_Cancelar
             // 
-            this.BT_Cancelar.Location = new System.Drawing.Point(123, 72);
+            this.BT_Cancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.BT_Cancelar.Location = new System.Drawing.Point(140, 85);
             this.BT_Cancelar.Name = "BT_Cancelar";
             this.BT_Cancelar.Size = new System.Drawing.Size(75, 23);
             this.BT_Cancelar.TabIndex = 2;
@@ -77,7 +78,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.BT_Cancelar;
-            this.ClientSize = new System.Drawing.Size(210, 107);
+            this.ClientSize = new System.Drawing.Size(235, 121);
             this.Controls.Add(this.L_Texto);
             this.Controls.Add(this.BT_Cancelar);
             this.Controls.Add(this.BT_Aceptar);

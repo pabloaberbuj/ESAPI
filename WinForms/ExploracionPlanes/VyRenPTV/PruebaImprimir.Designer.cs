@@ -42,9 +42,6 @@
             this.L_NombrePaciente = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.DGV_Análisis = new System.Windows.Forms.DataGridView();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label6 = new System.Windows.Forms.Label();
             this.BT_Analizar = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
@@ -58,6 +55,10 @@
             this.BT_VistaPrevia = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.L_EstatusAprobacion = new System.Windows.Forms.Label();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Prescripciones)).BeginInit();
@@ -185,28 +186,15 @@
             this.DGV_Análisis.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column3,
             this.Column4,
-            this.Column5});
+            this.Column5,
+            this.Column6});
             this.DGV_Análisis.Location = new System.Drawing.Point(467, 33);
             this.DGV_Análisis.Name = "DGV_Análisis";
             this.DGV_Análisis.RowHeadersVisible = false;
             this.DGV_Análisis.Size = new System.Drawing.Size(352, 348);
             this.DGV_Análisis.TabIndex = 16;
+            this.DGV_Análisis.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGV_Análisis_CellContentClick);
             this.DGV_Análisis.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.DGV_Análisis_RowsAdded);
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Métrica";
-            this.Column3.Name = "Column3";
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "En Plan";
-            this.Column4.Name = "Column4";
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Esperado";
-            this.Column5.Name = "Column5";
             // 
             // label6
             // 
@@ -324,6 +312,28 @@
             this.L_EstatusAprobacion.TabIndex = 26;
             this.L_EstatusAprobacion.Text = "label6";
             // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Métrica";
+            this.Column3.Name = "Column3";
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "En Plan";
+            this.Column4.Name = "Column4";
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Esperado";
+            this.Column5.Name = "Column5";
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "";
+            this.Column6.Name = "Column6";
+            this.Column6.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column6.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // PruebaImprimir
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -391,5 +401,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewButtonColumn Column6;
     }
 }

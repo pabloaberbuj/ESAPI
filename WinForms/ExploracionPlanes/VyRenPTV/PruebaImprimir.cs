@@ -212,7 +212,14 @@ namespace ExploracionPlanes
         {
             DGV_Análisis.Rows.Clear();
             DGV_Análisis.ColumnCount = 4;
-            DGV_Análisis.Columns[3].Width = 10;
+
+            DataGridViewButtonColumn button = (DataGridViewButtonColumn)DGV_Análisis.Columns[3];
+            
+
+            DGV_Análisis.Columns[3].Width = 20;
+            DGV_Análisis.Columns[3].DefaultCellStyle.Padding = new Padding(10);
+            
+
             //DGV_Análisis.Columns.Add(new DataGridViewButtonColumn());
             //int j = 0;
             for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
@@ -224,6 +231,8 @@ namespace ExploracionPlanes
                 DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorEsperado + restriccion.unidadValor;
                 if (restriccion.GetType()==typeof(RestriccionDosisMax))
                 {
+                    button.Text = "...";
+                    DGV_Análisis.Rows[i].Cells[3].Style.Padding = new Padding(0,0,0,1);
                     
                 }
                 /*if (estructuraCorrespondiente(restriccion.estructura.nombre) != null)
@@ -361,8 +370,26 @@ namespace ExploracionPlanes
             return Reporte.crearReporte("Apellido", "Nombre", "12-34567", plantilla.nombre, plantilla.nota, "pa", DGV_Análisis);
         }
 
+
         #endregion
 
-        
+        private void DGV_Análisis_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var senderGrid = (DataGridView)sender;
+
+            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
+                e.RowIndex >= 0)
+            {
+                FormTB formTb = new FormTB(RestriccionDosisMax.volumenDosisMaxima.ToString());
+                formTb.Text = "Volumen dosis maxima";
+                formTb.Controls.OfType<Label>().FirstOrDefault().Text = "Definir un nuevo volumen para el \ncálculo de la dosis máxima [cm3]";
+                formTb.ShowDialog();
+                
+                if (formTb.DialogResult == DialogResult.OK)
+                {
+                    MessageBox.Show("Se ha elegido " + formTb.salida + "\n" + "en la fila" + e.RowIndex.ToString());
+                }
+            }
+        }
     }
 }
