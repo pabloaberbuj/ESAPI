@@ -216,8 +216,8 @@ namespace ExploracionPlanes
             DataGridViewButtonColumn button = (DataGridViewButtonColumn)DGV_Análisis.Columns[3];
             
 
-            DGV_Análisis.Columns[3].Width = 20;
-            DGV_Análisis.Columns[3].DefaultCellStyle.Padding = new Padding(10);
+            DGV_Análisis.Columns[3].Width = 10;
+            DGV_Análisis.Columns[3].DefaultCellStyle.Padding = new Padding(11);
             
 
             //DGV_Análisis.Columns.Add(new DataGridViewButtonColumn());
@@ -231,7 +231,14 @@ namespace ExploracionPlanes
                 DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorEsperado + restriccion.unidadValor;
                 if (restriccion.GetType()==typeof(RestriccionDosisMax))
                 {
-                    button.Text = "...";
+                    DataGridViewButtonCell bt = (DataGridViewButtonCell)DGV_Análisis.Rows[i].Cells[3];
+                    bt.FlatStyle = FlatStyle.System;
+                    bt.Style.BackColor = System.Drawing.Color.LightGray;
+                    bt.Style.ForeColor = System.Drawing.Color.Black;
+                    bt.Style.SelectionBackColor = System.Drawing.Color.LightGray;
+                    bt.Style.SelectionForeColor = System.Drawing.Color.Black;
+                    bt.Selected = false;
+                    bt.Value = RestriccionDosisMax.volumenDosisMaxima.ToString();
                     DGV_Análisis.Rows[i].Cells[3].Style.Padding = new Padding(0,0,0,1);
                     
                 }
@@ -388,6 +395,7 @@ namespace ExploracionPlanes
                 if (formTb.DialogResult == DialogResult.OK)
                 {
                     MessageBox.Show("Se ha elegido " + formTb.salida + "\n" + "en la fila" + e.RowIndex.ToString());
+                    (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex]).Value = formTb.salida;
                 }
             }
         }
