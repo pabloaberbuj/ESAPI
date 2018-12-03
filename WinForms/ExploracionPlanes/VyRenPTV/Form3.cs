@@ -226,6 +226,11 @@ namespace ExploracionPlanes
             }
         }
 
+        private bool incluirVolumenesEstructuras()
+        {
+            return CHB_VolumenEstructuras.Checked;
+        }
+
         private void llenarDGVAnalisis()
         {
             if (pacienteNro==0)
@@ -238,12 +243,25 @@ namespace ExploracionPlanes
                     DGV_Análisis.Rows.Add();
                     DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiquetaInicio;
                 }
+                CHB_VolumenEstructuras.Enabled = false;
+                if (incluirVolumenesEstructuras())
+                {
+                    DGV_Análisis.ColumnCount++;
+                }
             }
             else
             {
                 DGV_Análisis.ColumnCount++;
             }
-            DGV_Análisis.Columns[pacienteNro + 1].HeaderText = paciente.Id + "\n" + planSeleccionado().Id;
+            int indicePaciente = pacienteNro;
+            if (incluirVolumenesEstructuras())
+            {
+                indicePaciente = pacienteNro * 2;
+                DGV_Análisis.ColumnCount++;
+                DGV_Análisis.Columns[indicePaciente * 2 + 2].HeaderText = "Volumen";
+            }
+            DGV_Análisis.Columns[indicePaciente*2 + 1].HeaderText = paciente.Id + "\n" + planSeleccionado().Id;
+
             for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
             {
                 IRestriccion restriccion = plantilla.listaRestricciones[i];
@@ -257,7 +275,11 @@ namespace ExploracionPlanes
                     }
                     else
                     {
-                        DGV_Análisis.Rows[i].Cells[pacienteNro + 1].Value = restriccion.valorMedido + restriccion.unidadValor;
+                        DGV_Análisis.Rows[i].Cells[indicePaciente*2 + 1].Value = restriccion.valorMedido + restriccion.unidadValor;
+                    }
+                    if (incluirVolumenesEstructuras())
+                    {
+                        DGV_Análisis.Rows[i].Cells[indicePaciente*2 + 2].Value = Math.Round(estructura.Volume,2);
                     }
                 }
             }
@@ -309,6 +331,7 @@ namespace ExploracionPlanes
             {
                 llenarDGVEstructuras();
                 llenarDGVPrescripciones();
+                CHB_VolumenEstructuras.Enabled = true;
             }
             catch (Exception exp)
             {

@@ -82,7 +82,10 @@ namespace ExploracionPlanes
             MigraDoc.DocumentObjectModel.Tables.Table tabla = new MigraDoc.DocumentObjectModel.Tables.Table();
             foreach (DataGridViewColumn columna in DGV.Columns)
             {
-                tabla.AddColumn(columna.Width);
+                if (columna.Name != "VolumenDmax") //para que no agregue la columna de volúmen de dosis máxima
+                {
+                    tabla.AddColumn(columna.Width);
+                }
             }
             var filaHeadertabla = tabla.AddRow();
             foreach (DataGridViewRow filaDGV in DGV.Rows)
@@ -99,7 +102,7 @@ namespace ExploracionPlanes
                     tableFila.Cells[i].Shading.Color = colorDGVaTable(filaDGV.Cells[i].Style.BackColor);
                 }
             }
-            for (int i = 0; i < DGV.ColumnCount; i++)
+            for (int i = 0; i < DGV.ColumnCount-1; i++)
             {
                 tabla.Rows[0].Cells[i].AddParagraph(DGV.Columns[i].HeaderText);
             }

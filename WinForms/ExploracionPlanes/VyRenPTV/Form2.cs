@@ -269,8 +269,8 @@ namespace ExploracionPlanes
         {
             DGV_Análisis.Rows.Clear();
 
-            DGV_Análisis.Columns[3].Width = 15;
-            DGV_Análisis.Columns[4].DefaultCellStyle.Padding = new Padding(16);
+            DGV_Análisis.Columns[3].Width = 10;
+            DGV_Análisis.Columns[4].DefaultCellStyle.Padding = new Padding(11);
             //DGV_Análisis.ColumnCount = 4;
             //int j = 0;
             for (int i = 0; i < plantilla.listaRestricciones.Count; i++)

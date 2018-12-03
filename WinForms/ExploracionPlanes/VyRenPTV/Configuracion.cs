@@ -57,7 +57,7 @@ namespace ExploracionPlanes
         }
         public static void crearArchivoConfiguracion()
         {
-            string[] configuracion = { "Plantillas" + "\t" + Directory.GetCurrentDirectory(), "Exportados" + "\t" + Directory.GetCurrentDirectory(), "Reportes" + "\t" + Directory.GetCurrentDirectory(), "VolumenDosisMáxima[cm3]" + "\t" + "0.03"};
+            string[] configuracion = { "Plantillas" + "\t" + Directory.GetCurrentDirectory(), "Exportados" + "\t" + Directory.GetCurrentDirectory(), "Reportes" + "\t" + Directory.GetCurrentDirectory(), "VolumenDosisMáxima[cm3]" + "\t" + "0.3"};
             File.WriteAllLines("Configuracion.txt", configuracion);
         }
 

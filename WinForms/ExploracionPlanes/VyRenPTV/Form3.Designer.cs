@@ -52,6 +52,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.L_NombrePaciente = new System.Windows.Forms.Label();
+            this.CHB_VolumenEstructuras = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Prescripciones)).BeginInit();
@@ -184,7 +185,7 @@
             // BT_Analizar
             // 
             this.BT_Analizar.Enabled = false;
-            this.BT_Analizar.Location = new System.Drawing.Point(326, 243);
+            this.BT_Analizar.Location = new System.Drawing.Point(326, 267);
             this.BT_Analizar.Name = "BT_Analizar";
             this.BT_Analizar.Size = new System.Drawing.Size(109, 23);
             this.BT_Analizar.TabIndex = 18;
@@ -195,7 +196,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(176, 281);
+            this.label7.Location = new System.Drawing.Point(176, 297);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(122, 13);
             this.label7.TabIndex = 20;
@@ -210,7 +211,7 @@
             this.DGV_Prescripciones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2});
-            this.DGV_Prescripciones.Location = new System.Drawing.Point(179, 307);
+            this.DGV_Prescripciones.Location = new System.Drawing.Point(179, 323);
             this.DGV_Prescripciones.Name = "DGV_Prescripciones";
             this.DGV_Prescripciones.RowHeadersVisible = false;
             this.DGV_Prescripciones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
@@ -288,11 +289,25 @@
             this.L_NombrePaciente.Text = "Nombre Paciente";
             this.L_NombrePaciente.Visible = false;
             // 
+            // CHB_VolumenEstructuras
+            // 
+            this.CHB_VolumenEstructuras.AutoSize = true;
+            this.CHB_VolumenEstructuras.Checked = true;
+            this.CHB_VolumenEstructuras.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHB_VolumenEstructuras.Enabled = false;
+            this.CHB_VolumenEstructuras.Location = new System.Drawing.Point(179, 243);
+            this.CHB_VolumenEstructuras.Name = "CHB_VolumenEstructuras";
+            this.CHB_VolumenEstructuras.Size = new System.Drawing.Size(230, 17);
+            this.CHB_VolumenEstructuras.TabIndex = 29;
+            this.CHB_VolumenEstructuras.Text = "Incluir volumen de estructuras en el análisis";
+            this.CHB_VolumenEstructuras.UseVisualStyleBackColor = true;
+            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(854, 499);
+            this.Controls.Add(this.CHB_VolumenEstructuras);
             this.Controls.Add(this.L_NombrePaciente);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label8);
@@ -348,5 +363,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label L_NombrePaciente;
+        private System.Windows.Forms.CheckBox CHB_VolumenEstructuras;
     }
 }
