@@ -40,10 +40,6 @@
             this.delPlan = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.label5 = new System.Windows.Forms.Label();
             this.DGV_Análisis = new System.Windows.Forms.DataGridView();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Volumen = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label6 = new System.Windows.Forms.Label();
             this.BT_Analizar = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
@@ -54,6 +50,12 @@
             this.BT_Imprimir = new System.Windows.Forms.Button();
             this.BT_GuardarReporte = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Volumen = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.VolumenDmax = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.L_NombrePaciente = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Prescripciones)).BeginInit();
@@ -71,7 +73,7 @@
             // LB_Cursos
             // 
             this.LB_Cursos.FormattingEnabled = true;
-            this.LB_Cursos.Location = new System.Drawing.Point(32, 124);
+            this.LB_Cursos.Location = new System.Drawing.Point(32, 162);
             this.LB_Cursos.Name = "LB_Cursos";
             this.LB_Cursos.Size = new System.Drawing.Size(119, 69);
             this.LB_Cursos.TabIndex = 1;
@@ -99,7 +101,7 @@
             // LB_Planes
             // 
             this.LB_Planes.FormattingEnabled = true;
-            this.LB_Planes.Location = new System.Drawing.Point(32, 227);
+            this.LB_Planes.Location = new System.Drawing.Point(32, 265);
             this.LB_Planes.Name = "LB_Planes";
             this.LB_Planes.Size = new System.Drawing.Size(119, 95);
             this.LB_Planes.TabIndex = 5;
@@ -108,7 +110,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 99);
+            this.label2.Location = new System.Drawing.Point(12, 137);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(104, 13);
             this.label2.TabIndex = 7;
@@ -117,7 +119,7 @@
             // Label3
             // 
             this.Label3.AutoSize = true;
-            this.Label3.Location = new System.Drawing.Point(12, 208);
+            this.Label3.Location = new System.Drawing.Point(12, 246);
             this.Label3.Name = "Label3";
             this.Label3.Size = new System.Drawing.Size(98, 13);
             this.Label3.TabIndex = 8;
@@ -173,34 +175,15 @@
             this.Column3,
             this.Volumen,
             this.Column4,
-            this.Column5});
+            this.Column5,
+            this.VolumenDmax});
             this.DGV_Análisis.Location = new System.Drawing.Point(467, 33);
             this.DGV_Análisis.Name = "DGV_Análisis";
             this.DGV_Análisis.RowHeadersVisible = false;
-            this.DGV_Análisis.Size = new System.Drawing.Size(364, 348);
+            this.DGV_Análisis.Size = new System.Drawing.Size(406, 348);
             this.DGV_Análisis.TabIndex = 16;
+            this.DGV_Análisis.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGV_Análisis_CellContentClick);
             this.DGV_Análisis.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.DGV_Análisis_RowsAdded);
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Métrica";
-            this.Column3.Name = "Column3";
-            // 
-            // Volumen
-            // 
-            this.Volumen.HeaderText = "Vol [cm3]";
-            this.Volumen.Name = "Volumen";
-            this.Volumen.Width = 60;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "En Plan";
-            this.Column4.Name = "Column4";
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Esperado";
-            this.Column5.Name = "Column5";
             // 
             // label6
             // 
@@ -258,7 +241,7 @@
             // BT_SeleccionarPlan
             // 
             this.BT_SeleccionarPlan.Enabled = false;
-            this.BT_SeleccionarPlan.Location = new System.Drawing.Point(32, 338);
+            this.BT_SeleccionarPlan.Location = new System.Drawing.Point(32, 376);
             this.BT_SeleccionarPlan.Name = "BT_SeleccionarPlan";
             this.BT_SeleccionarPlan.Size = new System.Drawing.Size(109, 23);
             this.BT_SeleccionarPlan.TabIndex = 22;
@@ -297,11 +280,51 @@
             this.label4.TabIndex = 25;
             this.label4.Text = "1. Elegir paciente\r\n";
             // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Métrica";
+            this.Column3.Name = "Column3";
+            // 
+            // Volumen
+            // 
+            this.Volumen.HeaderText = "Vol [cm3]";
+            this.Volumen.Name = "Volumen";
+            this.Volumen.Width = 60;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "En Plan";
+            this.Column4.Name = "Column4";
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Esperado";
+            this.Column5.Name = "Column5";
+            // 
+            // VolumenDmax
+            // 
+            this.VolumenDmax.HeaderText = "";
+            this.VolumenDmax.Name = "VolumenDmax";
+            this.VolumenDmax.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.VolumenDmax.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.VolumenDmax.Width = 30;
+            // 
+            // L_NombrePaciente
+            // 
+            this.L_NombrePaciente.AutoSize = true;
+            this.L_NombrePaciente.Location = new System.Drawing.Point(29, 92);
+            this.L_NombrePaciente.Name = "L_NombrePaciente";
+            this.L_NombrePaciente.Size = new System.Drawing.Size(89, 13);
+            this.L_NombrePaciente.TabIndex = 26;
+            this.L_NombrePaciente.Text = "Nombre Paciente";
+            this.L_NombrePaciente.Visible = false;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(849, 499);
+            this.ClientSize = new System.Drawing.Size(899, 499);
+            this.Controls.Add(this.L_NombrePaciente);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.BT_GuardarReporte);
             this.Controls.Add(this.BT_Imprimir);
@@ -352,12 +375,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.Button BT_Imprimir;
         private System.Windows.Forms.Button BT_GuardarReporte;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dePlantilla;
+        private System.Windows.Forms.DataGridViewComboBoxColumn delPlan;
+        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Volumen;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dePlantilla;
-        private System.Windows.Forms.DataGridViewComboBoxColumn delPlan;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DataGridViewButtonColumn VolumenDmax;
+        private System.Windows.Forms.Label L_NombrePaciente;
     }
 }

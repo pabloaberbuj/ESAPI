@@ -88,7 +88,7 @@ namespace ExploracionPlanes
             foreach (DataGridViewRow filaDGV in DGV.Rows)
             {
                 var tableFila = tabla.AddRow();
-                for (int i = 0; i < DGV.ColumnCount; i++)
+                for (int i = 0; i < DGV.ColumnCount-1; i++) //-1 para que no agregue la columna de volúmen de dosis máxima
                 {
                     string valor = "";
                     if (filaDGV.Cells[i].Value != null)

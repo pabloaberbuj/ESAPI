@@ -51,6 +51,7 @@ namespace ExploracionPlanes
             else
             {
                 MessageBox.Show("El paciente no existe");
+                L_NombrePaciente.Visible = false;
                 return false;
             }
         }
@@ -60,6 +61,7 @@ namespace ExploracionPlanes
         public void cerrarPaciente()
         {
             app.ClosePatient();
+            L_NombrePaciente.Visible = false;
         }
 
         public Course abrirCurso(Patient paciente, string nombreCurso)
@@ -121,6 +123,8 @@ namespace ExploracionPlanes
         {
             if (abrirPaciente(TB_ID.Text))
             {
+                L_NombrePaciente.Text = paciente.LastName + ", " + paciente.FirstName;
+                L_NombrePaciente.Visible = true;
                 LB_Cursos.Items.Clear();
                 foreach (Course curso in listaCursos(paciente))
                 {

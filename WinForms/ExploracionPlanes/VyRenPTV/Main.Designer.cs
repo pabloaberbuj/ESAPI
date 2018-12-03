@@ -136,7 +136,7 @@
             this.Controls.Add(this.LB_Plantillas);
             this.Controls.Add(this.label4);
             this.Name = "Main";
-            this.Text = "Main";
+            this.Text = "Exploracion de planes";
             this.ResumeLayout(false);
             this.PerformLayout();
 

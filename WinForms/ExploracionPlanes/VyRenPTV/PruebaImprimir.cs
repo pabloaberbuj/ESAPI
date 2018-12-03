@@ -237,7 +237,6 @@ namespace ExploracionPlanes
                     bt.Style.ForeColor = System.Drawing.Color.Black;
                     bt.Style.SelectionBackColor = System.Drawing.Color.LightGray;
                     bt.Style.SelectionForeColor = System.Drawing.Color.Black;
-                    bt.Selected = false;
                     bt.Value = RestriccionDosisMax.volumenDosisMaxima.ToString();
                     DGV_Análisis.Rows[i].Cells[3].Style.Padding = new Padding(0,0,0,1);
                     

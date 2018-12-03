@@ -51,6 +51,7 @@
             this.BT_Exportar = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.L_NombrePaciente = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Prescripciones)).BeginInit();
@@ -59,7 +60,7 @@
             // LB_Cursos
             // 
             this.LB_Cursos.FormattingEnabled = true;
-            this.LB_Cursos.Location = new System.Drawing.Point(27, 116);
+            this.LB_Cursos.Location = new System.Drawing.Point(27, 137);
             this.LB_Cursos.Name = "LB_Cursos";
             this.LB_Cursos.Size = new System.Drawing.Size(119, 69);
             this.LB_Cursos.TabIndex = 1;
@@ -87,7 +88,7 @@
             // LB_Planes
             // 
             this.LB_Planes.FormattingEnabled = true;
-            this.LB_Planes.Location = new System.Drawing.Point(27, 222);
+            this.LB_Planes.Location = new System.Drawing.Point(27, 243);
             this.LB_Planes.Name = "LB_Planes";
             this.LB_Planes.Size = new System.Drawing.Size(119, 95);
             this.LB_Planes.TabIndex = 5;
@@ -96,7 +97,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 100);
+            this.label2.Location = new System.Drawing.Point(3, 121);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(104, 13);
             this.label2.TabIndex = 7;
@@ -105,7 +106,7 @@
             // Label3
             // 
             this.Label3.AutoSize = true;
-            this.Label3.Location = new System.Drawing.Point(3, 203);
+            this.Label3.Location = new System.Drawing.Point(3, 224);
             this.Label3.Name = "Label3";
             this.Label3.Size = new System.Drawing.Size(98, 13);
             this.Label3.TabIndex = 8;
@@ -229,7 +230,7 @@
             // BT_SeleccionarPlan
             // 
             this.BT_SeleccionarPlan.Enabled = false;
-            this.BT_SeleccionarPlan.Location = new System.Drawing.Point(27, 332);
+            this.BT_SeleccionarPlan.Location = new System.Drawing.Point(27, 353);
             this.BT_SeleccionarPlan.Name = "BT_SeleccionarPlan";
             this.BT_SeleccionarPlan.Size = new System.Drawing.Size(109, 23);
             this.BT_SeleccionarPlan.TabIndex = 22;
@@ -277,11 +278,22 @@
             this.label8.TabIndex = 26;
             this.label8.Text = "ID:";
             // 
+            // L_NombrePaciente
+            // 
+            this.L_NombrePaciente.AutoSize = true;
+            this.L_NombrePaciente.Location = new System.Drawing.Point(24, 89);
+            this.L_NombrePaciente.Name = "L_NombrePaciente";
+            this.L_NombrePaciente.Size = new System.Drawing.Size(89, 13);
+            this.L_NombrePaciente.TabIndex = 28;
+            this.L_NombrePaciente.Text = "Nombre Paciente";
+            this.L_NombrePaciente.Visible = false;
+            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(854, 499);
+            this.Controls.Add(this.L_NombrePaciente);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.BT_Exportar);
@@ -335,5 +347,6 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn delPlan;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label L_NombrePaciente;
     }
 }
