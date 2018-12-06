@@ -189,6 +189,8 @@ namespace ExploracionPlanes
             dgvCBCol.DataSource = Estructura.listaEstructurasID(Estructura.listaEstructuras(planSeleccionado()));
             asociarEstructuras();
             DGV_Estructuras.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            DGV_Estructuras.Columns[0].ReadOnly = true;
+            DGV_Estructuras.Columns[1].ReadOnly = false;
         }
 
         private void llenarDGVPrescripciones()
@@ -215,6 +217,8 @@ namespace ExploracionPlanes
                 DGV_Prescripciones.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[1].Value = prescripcion;
             }
             DGV_Prescripciones.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            DGV_Prescripciones.Columns[0].ReadOnly = true;
+            DGV_Prescripciones.Columns[1].ReadOnly = false;
         }
 
         private void aplicarPrescripciones()
@@ -267,6 +271,7 @@ namespace ExploracionPlanes
 
         private void llenarDGVAnalisis()
         {
+            DGV_Análisis.ReadOnly = true;
             DGV_Análisis.Rows.Clear();
 
             DGV_Análisis.Columns[3].Width = 10;

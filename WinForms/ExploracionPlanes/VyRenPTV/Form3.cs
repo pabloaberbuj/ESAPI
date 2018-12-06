@@ -159,11 +159,12 @@ namespace ExploracionPlanes
                 DGV_Estructuras.Rows.Add();
                 DGV_Estructuras.Rows[DGV_Estructuras.Rows.Count - 1].Cells[0].Value = estructura.nombre;
             }
-
             DataGridViewComboBoxColumn dgvCBCol = (DataGridViewComboBoxColumn)DGV_Estructuras.Columns[1];
             dgvCBCol.DataSource = Estructura.listaEstructurasID(Estructura.listaEstructuras(planSeleccionado()));
             asociarEstructuras();
             DGV_Estructuras.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            DGV_Estructuras.Columns[0].ReadOnly = true;
+            DGV_Estructuras.Columns[1].ReadOnly = false;
         }
 
         private void llenarDGVPrescripciones()
@@ -189,6 +190,8 @@ namespace ExploracionPlanes
                 DGV_Prescripciones.Rows[DGV_Prescripciones.Rows.Count - 1].Cells[1].Value = prescripcion;
             }
             DGV_Prescripciones.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            DGV_Prescripciones.Columns[0].ReadOnly = true;
+            DGV_Prescripciones.Columns[1].ReadOnly = false;
         }
 
         private void aplicarPrescripciones()
@@ -233,6 +236,7 @@ namespace ExploracionPlanes
 
         private void llenarDGVAnalisis()
         {
+            DGV_Análisis.ReadOnly = true;
             if (pacienteNro==0)
             {
                 DGV_Análisis.Rows.Clear();
@@ -243,11 +247,6 @@ namespace ExploracionPlanes
                     DGV_Análisis.Rows.Add();
                     DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiquetaInicio;
                 }
-                
-                /*if (incluirVolumenesEstructuras())
-                {
-                    DGV_Análisis.ColumnCount++;
-                }*/
             }
             else
             {
@@ -258,9 +257,9 @@ namespace ExploracionPlanes
             {
                 indicePaciente = pacienteNro * 2;
                 DGV_Análisis.ColumnCount++;
-                DGV_Análisis.Columns[indicePaciente * 2 + 2].HeaderText = "Volumen";
+                DGV_Análisis.Columns[indicePaciente + 2].HeaderText = paciente.Id + "\nVolumen";
             }
-            DGV_Análisis.Columns[indicePaciente*2 + 1].HeaderText = paciente.Id + "\n" + planSeleccionado().Id;
+            DGV_Análisis.Columns[indicePaciente + 1].HeaderText = paciente.Id + "\n" + planSeleccionado().Id;
 
             for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
             {
@@ -275,11 +274,11 @@ namespace ExploracionPlanes
                     }
                     else
                     {
-                        DGV_Análisis.Rows[i].Cells[indicePaciente*2 + 1].Value = restriccion.valorMedido + restriccion.unidadValor;
+                        DGV_Análisis.Rows[i].Cells[indicePaciente + 1].Value = restriccion.valorMedido + restriccion.unidadValor;
                     }
                     if (incluirVolumenesEstructuras())
                     {
-                        DGV_Análisis.Rows[i].Cells[indicePaciente*2 + 2].Value = Math.Round(estructura.Volume,2);
+                        DGV_Análisis.Rows[i].Cells[indicePaciente + 2].Value = Math.Round(estructura.Volume,2);
                     }
                 }
             }
@@ -386,6 +385,7 @@ namespace ExploracionPlanes
             }
             string nombre = IO.GetUniqueFilename(pathDestino, plantilla.nombre + "_" + DateTime.Today.ToShortDateString() + ".txt");
             File.WriteAllText(nombre, dataObject.GetText(TextDataFormat.CommaSeparatedValue));
+            DGV_Análisis.ClearSelection();
             MessageBox.Show("Se ha guardado la exploración con el nombre: " + Path.GetFileName(nombre));
         }
 
