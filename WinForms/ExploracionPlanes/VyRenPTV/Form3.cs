@@ -243,11 +243,11 @@ namespace ExploracionPlanes
                     DGV_Análisis.Rows.Add();
                     DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiquetaInicio;
                 }
-                CHB_VolumenEstructuras.Enabled = false;
-                if (incluirVolumenesEstructuras())
+                
+                /*if (incluirVolumenesEstructuras())
                 {
                     DGV_Análisis.ColumnCount++;
-                }
+                }*/
             }
             else
             {
@@ -309,6 +309,10 @@ namespace ExploracionPlanes
             {
                 aplicarPrescripciones();
                 llenarDGVAnalisis();
+                if (pacienteNro==0)
+                {
+                    CHB_VolumenEstructuras.Enabled = false;
+                }
             }
         }
 
@@ -331,7 +335,10 @@ namespace ExploracionPlanes
             {
                 llenarDGVEstructuras();
                 llenarDGVPrescripciones();
-                CHB_VolumenEstructuras.Enabled = true;
+                if (pacienteNro==0)
+                {
+                    CHB_VolumenEstructuras.Enabled = true;
+                }
             }
             catch (Exception exp)
             {
