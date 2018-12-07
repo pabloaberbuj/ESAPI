@@ -383,8 +383,12 @@ namespace ExploracionPlanes
             {
                 Directory.CreateDirectory(pathDestino);
             }
-            string nombre = IO.GetUniqueFilename(pathDestino, plantilla.nombre + "_" + DateTime.Today.ToShortDateString() + ".txt");
-            File.WriteAllText(nombre, dataObject.GetText(TextDataFormat.CommaSeparatedValue));
+            string nombre = IO.GetUniqueFilename(pathDestino, plantilla.nombre + "_" + DateTime.Today.ToString("dd-MM-yyyy"));
+
+            string aux = dataObject.GetText(TextDataFormat.CommaSeparatedValue);
+            aux = aux.Replace('\n', ' ');
+            aux = aux.Replace("\r", "\r\n");
+            File.WriteAllText(nombre, aux);
             DGV_Análisis.ClearSelection();
             MessageBox.Show("Se ha guardado la exploración con el nombre: " + Path.GetFileName(nombre));
         }

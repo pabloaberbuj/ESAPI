@@ -19,7 +19,7 @@ namespace ExploracionPlanes
 {
     public partial class PruebaImprimir : Form
     {
-
+        public static string pathDestino = Configuracion.pathExportados();
         Patient paciente;
         Course curso;
         PlanSetup plan;
@@ -29,7 +29,7 @@ namespace ExploracionPlanes
 
         public PruebaImprimir(Plantilla _plantilla)
         {
-            
+
             InitializeComponent();
             plantilla = _plantilla;
             this.Text = plantilla.nombre;
@@ -43,72 +43,72 @@ namespace ExploracionPlanes
             }*/
         }
 
-       /* public bool abrirPaciente(string ID)
-        {
-            if (paciente != null)
-            {
-                cerrarPaciente();
-            }
-            if (app.PatientSummaries.Any(p => p.Id == ID))
-            {
-                paciente = app.OpenPatientById(ID);
-                return true;
-            }
-            else
-            {
-                MessageBox.Show("El paciente no existe");
-                return false;
-            }
-        }
+        /* public bool abrirPaciente(string ID)
+         {
+             if (paciente != null)
+             {
+                 cerrarPaciente();
+             }
+             if (app.PatientSummaries.Any(p => p.Id == ID))
+             {
+                 paciente = app.OpenPatientById(ID);
+                 return true;
+             }
+             else
+             {
+                 MessageBox.Show("El paciente no existe");
+                 return false;
+             }
+         }
 
-        public void cerrarPaciente()
-        {
-            app.ClosePatient();
-        }
+         public void cerrarPaciente()
+         {
+             app.ClosePatient();
+         }
 
-        public Course abrirCurso(Patient paciente, string nombreCurso)
-        {
-            return paciente.Courses.Where(c => c.Id == nombreCurso).FirstOrDefault();
-        }
+         public Course abrirCurso(Patient paciente, string nombreCurso)
+         {
+             return paciente.Courses.Where(c => c.Id == nombreCurso).FirstOrDefault();
+         }
 
-        public PlanSetup abrirPlan(Course curso, string nombrePlan)
-        {
-            return curso.PlanSetups.Where(p => p.Id == nombrePlan).FirstOrDefault();
-        }
+         public PlanSetup abrirPlan(Course curso, string nombrePlan)
+         {
+             return curso.PlanSetups.Where(p => p.Id == nombrePlan).FirstOrDefault();
+         }
 
-        public Course cursoSeleccionado()
-        {
-            if (LB_Cursos.SelectedItems.Count == 1)
-            {
-                return (Course)LB_Cursos.SelectedItems[0];
-            }
-            else
-            {
-                return curso;
-            }
-        }
+         public Course cursoSeleccionado()
+         {
+             if (LB_Cursos.SelectedItems.Count == 1)
+             {
+                 return (Course)LB_Cursos.SelectedItems[0];
+             }
+             else
+             {
+                 return curso;
+             }
+         }
 
-        public PlanSetup planSeleccionado()
-        {
-            if (LB_Planes.SelectedItems.Count == 1)
-            {
-                return (PlanSetup)LB_Planes.SelectedItems[0];
-            }
-            else
-            {
-                return plan;
-            }
-        }
+         public PlanSetup planSeleccionado()
+         {
+             if (LB_Planes.SelectedItems.Count == 1)
+             {
+                 return (PlanSetup)LB_Planes.SelectedItems[0];
+             }
+             else
+             {
+                 return plan;
+             }
+         }
 
-        public List<Course> listaCursos(Patient paciente)
-        {
-            return paciente.Courses.ToList<Course>();
-        }
+         public List<Course> listaCursos(Patient paciente)
+         {
+             return paciente.Courses.ToList<Course>();
+         }
 
-        public List<PlanSetup> listaPlanes(Course curso)
-        {
-            return curso.PlanSetups.ToList<PlanSetup>();
-        }*/
+         public List<PlanSetup> listaPlanes(Course curso)
+         {
+             return curso.PlanSetups.ToList<PlanSetup>();
+         }*/
 
 
 
@@ -160,53 +160,53 @@ namespace ExploracionPlanes
             DGV_Prescripciones.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }*/
 
-       /* private void aplicarPrescripciones()
-        {
-            foreach (IRestriccion restriccion in plantilla.listaRestricciones)
-            {
-                if (restriccion.dosisEstaEnPorcentaje())
-                {
-                    foreach (DataGridViewRow fila in DGV_Prescripciones.Rows)
-                    {
-                        if (restriccion.estructura.nombre.Equals(fila.Cells[0].Value))
-                        {
-                            restriccion.prescripcionEstructura = Convert.ToDouble(fila.Cells[1].Value);
-                            break;
-                        }
-                    }
-                }
-            }
+        /* private void aplicarPrescripciones()
+         {
+             foreach (IRestriccion restriccion in plantilla.listaRestricciones)
+             {
+                 if (restriccion.dosisEstaEnPorcentaje())
+                 {
+                     foreach (DataGridViewRow fila in DGV_Prescripciones.Rows)
+                     {
+                         if (restriccion.estructura.nombre.Equals(fila.Cells[0].Value))
+                         {
+                             restriccion.prescripcionEstructura = Convert.ToDouble(fila.Cells[1].Value);
+                             break;
+                         }
+                     }
+                 }
+             }
 
-        }
+         }
 
-        private void asociarEstructuras()
-        {
-            for (int i = 0; i < DGV_Estructuras.Rows.Count; i++)
-            {
-                Structure estructura = Estructura.asociarConLista(plantilla.estructuras()[i].nombresPosibles, Estructura.listaEstructuras(planSeleccionado()));
-                if (estructura != null)
-                {
-                    (DGV_Estructuras.Rows[i].Cells[1]).Value = estructura.Id;
-                }
-                else
-                {
-                    (DGV_Estructuras.Rows[i].Cells[1]).Value = "";
-                }
-            }
-        }
+         private void asociarEstructuras()
+         {
+             for (int i = 0; i < DGV_Estructuras.Rows.Count; i++)
+             {
+                 Structure estructura = Estructura.asociarConLista(plantilla.estructuras()[i].nombresPosibles, Estructura.listaEstructuras(planSeleccionado()));
+                 if (estructura != null)
+                 {
+                     (DGV_Estructuras.Rows[i].Cells[1]).Value = estructura.Id;
+                 }
+                 else
+                 {
+                     (DGV_Estructuras.Rows[i].Cells[1]).Value = "";
+                 }
+             }
+         }
 
-        private bool estructurasSinAsociar()
-        {
-            bool aux = false;
-            foreach (DataGridViewRow fila in DGV_Estructuras.Rows)
-            {
-                if (string.IsNullOrEmpty((string)fila.Cells[1].Value))
-                {
-                    aux = true;
-                }
-            }
-            return aux;
-        }*/
+         private bool estructurasSinAsociar()
+         {
+             bool aux = false;
+             foreach (DataGridViewRow fila in DGV_Estructuras.Rows)
+             {
+                 if (string.IsNullOrEmpty((string)fila.Cells[1].Value))
+                 {
+                     aux = true;
+                 }
+             }
+             return aux;
+         }*/
 
         private void llenarDGVAnalisis()
         {
@@ -214,11 +214,12 @@ namespace ExploracionPlanes
             DGV_Análisis.ColumnCount = 4;
 
             DataGridViewButtonColumn button = (DataGridViewButtonColumn)DGV_Análisis.Columns[3];
-            
+
 
             DGV_Análisis.Columns[3].Width = 10;
             DGV_Análisis.Columns[3].DefaultCellStyle.Padding = new Padding(11);
-            
+            DGV_Análisis.Columns[2].HeaderText = "casa\ncasa";
+            DGV_Análisis.Columns[3].HeaderText = "casa\ncasa";
 
             //DGV_Análisis.Columns.Add(new DataGridViewButtonColumn());
             //int j = 0;
@@ -229,7 +230,7 @@ namespace ExploracionPlanes
                 DGV_Análisis.Rows.Add();
                 DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiquetaInicio;
                 DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorEsperado + restriccion.unidadValor;
-                if (restriccion.GetType()==typeof(RestriccionDosisMax))
+                if (restriccion.GetType() == typeof(RestriccionDosisMax))
                 {
                     DataGridViewButtonCell bt = (DataGridViewButtonCell)DGV_Análisis.Rows[i].Cells[3];
                     bt.FlatStyle = FlatStyle.System;
@@ -238,8 +239,8 @@ namespace ExploracionPlanes
                     bt.Style.SelectionBackColor = System.Drawing.Color.LightGray;
                     bt.Style.SelectionForeColor = System.Drawing.Color.Black;
                     bt.Value = RestriccionDosisMax.volumenDosisMaxima.ToString();
-                    DGV_Análisis.Rows[i].Cells[3].Style.Padding = new Padding(0,0,0,1);
-                    
+                    DGV_Análisis.Rows[i].Cells[3].Style.Padding = new Padding(0, 0, 0, 1);
+
                 }
                 /*if (estructuraCorrespondiente(restriccion.estructura.nombre) != null)
                 {
@@ -250,7 +251,7 @@ namespace ExploracionPlanes
             }
             DGV_Análisis.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
-       
+
 
         /*private Structure estructuraCorrespondiente(string nombreEstructura)
         {
@@ -275,7 +276,7 @@ namespace ExploracionPlanes
                {*/
             // aplicarPrescripciones();
             llenarDGVAnalisis();
-        //}
+            //}
         }
 
         /*private void colorCelda(DataGridViewCell celda, int comparacion)
@@ -296,27 +297,27 @@ namespace ExploracionPlanes
 
         private void BT_SeleccionarPlan_Click(object sender, EventArgs e)
         {
-         /*   try
-            {
-                llenarDGVEstructuras();
-                llenarDGVPrescripciones();
-                L_EstatusAprobacion.Text = planSeleccionado().ApprovalStatus.ToString();
-            }
-            catch (Exception exp)
-            {
-                File.WriteAllText("log.txt", exp.ToString());
-            }*/
+            /*   try
+               {
+                   llenarDGVEstructuras();
+                   llenarDGVPrescripciones();
+                   L_EstatusAprobacion.Text = planSeleccionado().ApprovalStatus.ToString();
+               }
+               catch (Exception exp)
+               {
+                   File.WriteAllText("log.txt", exp.ToString());
+               }*/
         }
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
-           /* if (paciente != null)
-            {
-                LB_Cursos.DataSource = null;
-                LB_Planes.DataSource = null;
-                cerrarPaciente();
-                app.Dispose();
-            }*/
+            /* if (paciente != null)
+             {
+                 LB_Cursos.DataSource = null;
+                 LB_Planes.DataSource = null;
+                 cerrarPaciente();
+                 app.Dispose();
+             }*/
         }
 
 
@@ -361,15 +362,26 @@ namespace ExploracionPlanes
 
         private void BT_Imprimir_Click(object sender, EventArgs e)
         {
-            MigraDoc.Rendering.Printing.MigraDocPrintDocument pd = new MigraDoc.Rendering.Printing.MigraDocPrintDocument();
-            var rendered = new DocumentRenderer(reporte());
-            rendered.PrepareDocument();
-            pd.Renderer = rendered;
-            if (printDialog1.ShowDialog() == DialogResult.OK)
+            // Choose whether to write header. Use EnableWithoutHeaderText instead to omit header.
+            DGV_Análisis.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+            // Select all the cells
+            DGV_Análisis.SelectAll();
+            // Copy selected cells to DataObject
+            DataObject dataObject = DGV_Análisis.GetClipboardContent();
+            // Get the text of the DataObject, and serialize it to a file
+            if (!Directory.Exists(pathDestino))
             {
-                pd.PrinterSettings = printDialog1.PrinterSettings;
-                pd.Print();
+                Directory.CreateDirectory(pathDestino);
             }
+            string nombre = IO.GetUniqueFilename(pathDestino, plantilla.nombre + "_" + DateTime.Today.ToString("dd-MM-yyyy"));
+
+            string aux = dataObject.GetText(TextDataFormat.CommaSeparatedValue);
+            aux = aux.Replace('\n', ' ');
+            aux = aux.Replace("\r", "\r\n");
+                
+            File.WriteAllText(nombre, aux);
+            DGV_Análisis.ClearSelection();
+            MessageBox.Show("Se ha guardado la exploración con el nombre: " + Path.GetFileName(nombre));
         }
         private Document reporte()
         {
@@ -390,7 +402,7 @@ namespace ExploracionPlanes
                 formTb.Text = "Volumen dosis maxima";
                 formTb.Controls.OfType<Label>().FirstOrDefault().Text = "Definir un nuevo volumen para el \ncálculo de la dosis máxima [cm3]";
                 formTb.ShowDialog();
-                
+
                 if (formTb.DialogResult == DialogResult.OK)
                 {
                     MessageBox.Show("Se ha elegido " + formTb.salida + "\n" + "en la fila" + e.RowIndex.ToString());
