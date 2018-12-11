@@ -402,7 +402,11 @@ namespace ExploracionPlanes
                 LB_Planes.Items.Clear();
                 cerrarPaciente();
             }
-            app.Dispose();
+            if (app!= null)
+            {
+                app.Dispose();
+            }
+            
         }
 
 

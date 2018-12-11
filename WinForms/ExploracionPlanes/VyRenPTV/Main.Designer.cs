@@ -36,6 +36,7 @@
             this.BT_AplicarAUnPlan = new System.Windows.Forms.Button();
             this.BT_AplicarPorLote = new System.Windows.Forms.Button();
             this.BT_Duplicar = new System.Windows.Forms.Button();
+            this.BT_Ver = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // LB_Plantillas
@@ -44,7 +45,7 @@
             this.LB_Plantillas.Location = new System.Drawing.Point(12, 29);
             this.LB_Plantillas.Name = "LB_Plantillas";
             this.LB_Plantillas.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.LB_Plantillas.Size = new System.Drawing.Size(198, 303);
+            this.LB_Plantillas.Size = new System.Drawing.Size(198, 316);
             this.LB_Plantillas.TabIndex = 7;
             this.LB_Plantillas.SelectedIndexChanged += new System.EventHandler(this.LB_Plantillas_SelectedIndexChanged);
             // 
@@ -81,7 +82,7 @@
             // BT_Eliminar
             // 
             this.BT_Eliminar.Enabled = false;
-            this.BT_Eliminar.Location = new System.Drawing.Point(232, 157);
+            this.BT_Eliminar.Location = new System.Drawing.Point(232, 195);
             this.BT_Eliminar.Name = "BT_Eliminar";
             this.BT_Eliminar.Size = new System.Drawing.Size(134, 34);
             this.BT_Eliminar.TabIndex = 4;
@@ -92,7 +93,7 @@
             // BT_AplicarAUnPlan
             // 
             this.BT_AplicarAUnPlan.Enabled = false;
-            this.BT_AplicarAUnPlan.Location = new System.Drawing.Point(232, 240);
+            this.BT_AplicarAUnPlan.Location = new System.Drawing.Point(232, 254);
             this.BT_AplicarAUnPlan.Name = "BT_AplicarAUnPlan";
             this.BT_AplicarAUnPlan.Size = new System.Drawing.Size(134, 40);
             this.BT_AplicarAUnPlan.TabIndex = 5;
@@ -103,7 +104,7 @@
             // BT_AplicarPorLote
             // 
             this.BT_AplicarPorLote.Enabled = false;
-            this.BT_AplicarPorLote.Location = new System.Drawing.Point(232, 292);
+            this.BT_AplicarPorLote.Location = new System.Drawing.Point(232, 306);
             this.BT_AplicarPorLote.Name = "BT_AplicarPorLote";
             this.BT_AplicarPorLote.Size = new System.Drawing.Size(134, 40);
             this.BT_AplicarPorLote.TabIndex = 6;
@@ -122,11 +123,23 @@
             this.BT_Duplicar.UseVisualStyleBackColor = true;
             this.BT_Duplicar.Click += new System.EventHandler(this.BT_Duplicar_Click);
             // 
+            // BT_Ver
+            // 
+            this.BT_Ver.Enabled = false;
+            this.BT_Ver.Location = new System.Drawing.Point(232, 155);
+            this.BT_Ver.Name = "BT_Ver";
+            this.BT_Ver.Size = new System.Drawing.Size(134, 34);
+            this.BT_Ver.TabIndex = 12;
+            this.BT_Ver.Text = "Ver Plantilla";
+            this.BT_Ver.UseVisualStyleBackColor = true;
+            this.BT_Ver.Click += new System.EventHandler(this.BT_Ver_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(378, 345);
+            this.ClientSize = new System.Drawing.Size(378, 358);
+            this.Controls.Add(this.BT_Ver);
             this.Controls.Add(this.BT_Duplicar);
             this.Controls.Add(this.BT_AplicarPorLote);
             this.Controls.Add(this.BT_AplicarAUnPlan);
@@ -152,5 +165,6 @@
         private System.Windows.Forms.Button BT_AplicarAUnPlan;
         private System.Windows.Forms.Button BT_AplicarPorLote;
         private System.Windows.Forms.Button BT_Duplicar;
+        private System.Windows.Forms.Button BT_Ver;
     }
 }

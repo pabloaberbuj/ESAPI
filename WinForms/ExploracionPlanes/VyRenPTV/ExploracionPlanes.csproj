@@ -39,6 +39,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icono256.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MigraDoc.DocumentObjectModel, Version=1.32.4334.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
       <HintPath>..\packages\PDFsharp-MigraDoc-GDI.1.32.4334.0\lib\net20\MigraDoc.DocumentObjectModel.dll</HintPath>
@@ -69,17 +72,17 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="VMS.TPS.Common.Model.API, Version=11.0.47.555, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="VMS.TPS.Common.Model.API, Version=13.6.30.20230, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Downloads\VMS.TPS.Common.Model.API.dll</HintPath>
+      <HintPath>..\..\..\dlls\VMS.TPS.Common.Model.API.dll</HintPath>
     </Reference>
-    <Reference Include="VMS.TPS.Common.Model.Interface, Version=11.0.47.555, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="VMS.TPS.Common.Model.Interface, Version=13.6.30.20230, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Downloads\VMS.TPS.Common.Model.Interface.dll</HintPath>
+      <HintPath>..\..\..\dlls\VMS.TPS.Common.Model.Interface.dll</HintPath>
     </Reference>
-    <Reference Include="VMS.TPS.Common.Model.Types, Version=11.0.47.555, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="VMS.TPS.Common.Model.Types, Version=13.6.30.20230, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Downloads\VMS.TPS.Common.Model.Types.dll</HintPath>
+      <HintPath>..\..\..\dlls\VMS.TPS.Common.Model.Types.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -102,6 +105,12 @@
       <DependentUpon>FormTB.cs</DependentUpon>
     </Compile>
     <Compile Include="Metodos.cs" />
+    <Compile Include="PlantillaBlanco.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlantillaBlanco.Designer.cs">
+      <DependentUpon>PlantillaBlanco.cs</DependentUpon>
+    </Compile>
     <Compile Include="PruebaImprimir.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,9 +150,13 @@
     <Compile Include="Script.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTB.resx">
       <DependentUpon>FormTB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlantillaBlanco.resx">
+      <DependentUpon>PlantillaBlanco.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PruebaImprimir.resx">
       <DependentUpon>PruebaImprimir.cs</DependentUpon>
@@ -189,6 +202,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\flechaArriba.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icono256.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

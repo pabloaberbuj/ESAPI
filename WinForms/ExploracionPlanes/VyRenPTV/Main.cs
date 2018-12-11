@@ -17,6 +17,7 @@ namespace ExploracionPlanes
         //public PruebaImprimir aplicarPlantilla;
         public Form2 aplicarPlantilla;
         public Form3 aplicarPorLote;
+        public PlantillaBlanco plantillaBlanco;
         bool hayContext = false;
         Patient pacienteContext = null;
         PlanSetup planContext = null;
@@ -89,6 +90,13 @@ namespace ExploracionPlanes
             aplicarPorLote.ShowDialog();
         }
 
+
+        private void BT_Ver_Click(object sender, EventArgs e)
+        {
+            plantillaBlanco = new PlantillaBlanco(plantillaSeleccionada());
+            plantillaBlanco.ShowDialog();
+        }
+
         public void leerPlantillas()
         {
             LB_Plantillas.DataSource = null;
@@ -120,12 +128,14 @@ namespace ExploracionPlanes
             }
         }
 
+
         private void habilitarBotones()
         {
             if (hayContext)
             {
                 BT_Nueva.Enabled = false;
                 BT_Editar.Enabled = false;
+                BT_Ver.Enabled = false;
                 BT_Duplicar.Enabled = false;
                 BT_Eliminar.Enabled = false;
                 BT_AplicarAUnPlan.Enabled = true;
@@ -135,6 +145,7 @@ namespace ExploracionPlanes
             {
                 Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_Editar);
                 Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_Duplicar);
+                Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_Ver);
                 Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count > 0, BT_Eliminar);
                 Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1 && !((Plantilla)LB_Plantillas.SelectedItems[0]).esParaExtraccion, BT_AplicarAUnPlan);
                 Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_AplicarPorLote);

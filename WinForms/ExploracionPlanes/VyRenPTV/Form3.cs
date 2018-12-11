@@ -354,7 +354,10 @@ namespace ExploracionPlanes
                 LB_Planes.Items.Clear();
                 cerrarPaciente();
             }
-            app.Dispose();
+            if (app != null)
+            {
+                app.Dispose();
+            }
         }
 
         private void BT_GuardarPaciente_Click(object sender, EventArgs e)
