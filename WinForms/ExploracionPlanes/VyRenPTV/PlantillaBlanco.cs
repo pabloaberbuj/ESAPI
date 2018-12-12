@@ -57,7 +57,7 @@ namespace ExploracionPlanes
         }
         private void BT_GuardarReporte_Click(object sender, EventArgs e)
         {
-            Reporte.exportarAPdf("", "", "", plantilla.nombre, reporte());
+            Reporte.exportarAPdf("", "", "", "", plantilla.nombre, reporte());
         }
 
         private void BT_Imprimir_Click(object sender, EventArgs e)

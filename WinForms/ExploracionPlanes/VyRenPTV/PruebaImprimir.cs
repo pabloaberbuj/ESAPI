@@ -356,7 +356,7 @@ namespace ExploracionPlanes
             pd.PrintPage += new PrintPageEventHandler(printDocument1_PrintPage_1);
             
             printPreviewDialog1.ShowDialog();*/
-            Reporte.exportarAPdf("APELLIDO", "Nombre", "12-34567", plantilla.nombre, Reporte.crearReporte("APELLIDO", "Nombre", "12-34567", plantilla.nombre, plantilla.nota, "pa", DGV_Análisis));
+            Reporte.exportarAPdf("APELLIDO", "Nombre", "12-34567", "plan", plantilla.nombre, Reporte.crearReporte("APELLIDO", "Nombre", "12-34567", plantilla.nombre, plantilla.nota, "pa", DGV_Análisis));
             MessageBox.Show("Se creó");
         }
 

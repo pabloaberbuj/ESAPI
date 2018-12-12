@@ -16,13 +16,24 @@ namespace ExploracionPlanes
     {
         public static string pathDestino = Configuracion.pathReportes();
 
-        public static void exportarAPdf(string apellidoPaciente, string nombrePaciente, string IDPaciente, string nombrePlantilla, Document report)
+        public static void exportarAPdf(string apellidoPaciente, string nombrePaciente, string IDPaciente, string nombrePlan, string nombrePlantilla, Document report)
         {
             if (!Directory.Exists(pathDestino))
             {
                 Directory.CreateDirectory(pathDestino);
             }
-            string nombre = IDPaciente + "_" + apellidoPaciente + ", " + nombrePaciente + "_" + nombrePlantilla;
+            string paciente="";
+            string plan = "";
+            if (apellidoPaciente != "" || nombrePaciente != "")
+            {
+                paciente = IDPaciente + "_" + apellidoPaciente + ", " + nombrePaciente + "_";
+            }
+            if (nombrePlan!="")
+            {
+                plan = nombrePlan + "_";
+            }
+            
+            string nombre = paciente + plan + nombrePlantilla;
             string path = IO.GetUniqueFilename(pathDestino, nombre, "pdf");
             PdfDocumentRenderer pdfRenderer = new PdfDocumentRenderer();
             pdfRenderer.Document = report;
@@ -69,11 +80,18 @@ namespace ExploracionPlanes
         private static void cargarEncabezado(Section seccion, string apellidoPaciente, string nombrePaciente, string IDPaciente, string nombrePlantilla, string realizadoPor)
         {
             seccion.AddParagraph("Analisis de restricciones en plan de tratamiento", "Titulo");
-            seccion.Add(Estilos.etiquetaYValor("Paciente", apellidoPaciente + ", " + nombrePaciente));
+            string paciente="";
+            string fecha = "";
+            if (apellidoPaciente!="" || nombrePaciente != "")
+            {
+                paciente = apellidoPaciente + ", " + nombrePaciente;
+                fecha = DateTime.Today.ToShortDateString();
+            }
+            seccion.Add(Estilos.etiquetaYValor("Paciente", paciente));
             seccion.Add(Estilos.etiquetaYValor("ID", IDPaciente));
             seccion.Add(Estilos.etiquetaYValor("Plantilla", nombrePlantilla));
             seccion.Add(Estilos.etiquetaYValor("Realizado por", realizadoPor));
-            seccion.Add(Estilos.etiquetaYValor("Fecha", DateTime.Today.ToShortDateString()));
+            seccion.Add(Estilos.etiquetaYValor("Fecha", fecha));
         }
 
 

@@ -485,7 +485,7 @@ namespace ExploracionPlanes
         }
         private void BT_GuardarReporte_Click(object sender, EventArgs e)
         {
-            Reporte.exportarAPdf(paciente.LastName, paciente.FirstName, paciente.Id, plantilla.nombre, reporte());
+            Reporte.exportarAPdf(paciente.LastName, paciente.FirstName, paciente.Id, planSeleccionado().Id,plantilla.nombre, reporte());
         }
 
         private void BT_Imprimir_Click(object sender, EventArgs e)
