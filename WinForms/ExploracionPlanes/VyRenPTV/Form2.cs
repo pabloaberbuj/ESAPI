@@ -294,7 +294,13 @@ namespace ExploracionPlanes
                 {
                     menorOmayor = ">";
                 }
-                DGV_Análisis.Rows[i].Cells[3].Value = menorOmayor + restriccion.valorEsperado + restriccion.unidadValor;
+                string valorEsperadoString = menorOmayor + restriccion.valorEsperado + restriccion.unidadValor;
+                if (!Double.IsNaN(restriccion.valorTolerado))
+                {
+                    valorEsperadoString += " (" + restriccion.valorTolerado + ")";
+                }
+                
+            DGV_Análisis.Rows[i].Cells[3].Value = ;
                 if (estructura != null)
                 {
                     DGV_Análisis.Rows[i].Cells[1].Value = Math.Round(estructura.Volume, 2).ToString();
@@ -402,11 +408,11 @@ namespace ExploracionPlanes
                 LB_Planes.Items.Clear();
                 cerrarPaciente();
             }
-            if (app!= null)
+            if (app != null)
             {
                 app.Dispose();
             }
-            
+
         }
 
 
@@ -485,7 +491,7 @@ namespace ExploracionPlanes
         }
         private void BT_GuardarReporte_Click(object sender, EventArgs e)
         {
-            Reporte.exportarAPdf(paciente.LastName, paciente.FirstName, paciente.Id, planSeleccionado().Id,plantilla.nombre, reporte());
+            Reporte.exportarAPdf(paciente.LastName, paciente.FirstName, paciente.Id, planSeleccionado().Id, plantilla.nombre, reporte());
         }
 
         private void BT_Imprimir_Click(object sender, EventArgs e)
