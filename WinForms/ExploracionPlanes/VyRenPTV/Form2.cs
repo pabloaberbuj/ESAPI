@@ -297,10 +297,10 @@ namespace ExploracionPlanes
                 string valorEsperadoString = menorOmayor + restriccion.valorEsperado + restriccion.unidadValor;
                 if (!Double.IsNaN(restriccion.valorTolerado))
                 {
-                    valorEsperadoString += " (" + restriccion.valorTolerado + ")";
+                    valorEsperadoString += " (" + restriccion.valorTolerado + restriccion.unidadValor + ")";
                 }
                 
-            DGV_Análisis.Rows[i].Cells[3].Value = ;
+            DGV_Análisis.Rows[i].Cells[3].Value = valorEsperadoString;
                 if (estructura != null)
                 {
                     DGV_Análisis.Rows[i].Cells[1].Value = Math.Round(estructura.Volume, 2).ToString();

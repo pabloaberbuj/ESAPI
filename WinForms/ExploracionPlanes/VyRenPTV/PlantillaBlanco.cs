@@ -44,7 +44,13 @@ namespace ExploracionPlanes
                 {
                     menorOmayor = ">";
                 }
-                DGV_Análisis.Rows[i].Cells[3].Value = menorOmayor + restriccion.valorEsperado + restriccion.unidadValor;
+                string valorEsperadoString = menorOmayor + restriccion.valorEsperado + restriccion.unidadValor;
+                if (!Double.IsNaN(restriccion.valorTolerado))
+                {
+                    valorEsperadoString += " (" + restriccion.valorTolerado + restriccion.unidadValor + ")";
+                }
+
+                DGV_Análisis.Rows[i].Cells[3].Value = valorEsperadoString;
                 DGV_Análisis.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             }
         }
