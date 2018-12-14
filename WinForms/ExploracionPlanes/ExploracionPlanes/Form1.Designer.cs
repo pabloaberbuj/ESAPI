@@ -295,9 +295,9 @@
             this.CHB_esParaExtraccion.AutoSize = true;
             this.CHB_esParaExtraccion.Location = new System.Drawing.Point(377, 8);
             this.CHB_esParaExtraccion.Name = "CHB_esParaExtraccion";
-            this.CHB_esParaExtraccion.Size = new System.Drawing.Size(176, 17);
+            this.CHB_esParaExtraccion.Size = new System.Drawing.Size(154, 17);
             this.CHB_esParaExtraccion.TabIndex = 15;
-            this.CHB_esParaExtraccion.Text = "Es sólo para extraer información";
+            this.CHB_esParaExtraccion.Text = "Es una plantilla de métricas";
             this.CHB_esParaExtraccion.UseVisualStyleBackColor = true;
             this.CHB_esParaExtraccion.CheckedChanged += new System.EventHandler(this.CHB_esParaExtraccion_CheckedChanged);
             // 
@@ -372,6 +372,7 @@
             this.Controls.Add(this.LB_listaRestricciones);
             this.Name = "Form1";
             this.Text = "Creación de plantillas";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.GB_NuevaRestriccion.ResumeLayout(false);
             this.GB_NuevaRestriccion.PerformLayout();
             this.Panel_esMenorque.ResumeLayout(false);

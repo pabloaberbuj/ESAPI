@@ -41,6 +41,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="VMS.CA.Scripting">
+      <HintPath>..\..\..\..\..\..\Downloads\PDSAPI\VMS.CA.Scripting.dll</HintPath>
+    </Reference>
     <Reference Include="VMS.TPS.Common.Model.API, Version=13.6.30.20230, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\dlls\VMS.TPS.Common.Model.API.dll</HintPath>

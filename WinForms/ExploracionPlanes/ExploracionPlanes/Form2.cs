@@ -487,7 +487,7 @@ namespace ExploracionPlanes
             {
                 usuarioNombre = app.CurrentUser.Name;
             }
-            return Reporte.crearReporte(paciente.LastName, paciente.Name, paciente.Id, plantilla.nombre, plantilla.nota, usuarioNombre, DGV_Análisis);
+            return Reporte.crearReporte(paciente.LastName, paciente.FirstName, paciente.Id, plantilla.nombre, plantilla.nota, usuarioNombre, DGV_Análisis);
         }
         private void BT_GuardarReporte_Click(object sender, EventArgs e)
         {

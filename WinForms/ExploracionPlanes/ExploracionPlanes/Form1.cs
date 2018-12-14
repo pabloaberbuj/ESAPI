@@ -404,6 +404,12 @@ namespace ExploracionPlanes
             LB_listaRestricciones.SelectedIndex = indice + 1;
         }
 
-        
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (listaRestricciones.Count>0 && MessageBox.Show("Hay restricciones que no han sido guardadas \n ¿Desea salir sin guardar?","Salir",MessageBoxButtons.YesNo) == DialogResult.No)
+            {
+                e.Cancel=true;
+            }
+        }
     }
 }
