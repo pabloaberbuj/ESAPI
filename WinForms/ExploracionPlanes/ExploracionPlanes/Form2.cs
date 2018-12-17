@@ -46,6 +46,9 @@ namespace ExploracionPlanes
                 llenarDGVEstructuras();
                 llenarDGVPrescripciones();
                 BT_Analizar.Enabled = true;
+                L_NombrePaciente.Text = paciente.LastName + ", " + paciente.FirstName;
+                L_NombrePaciente.Visible = true;
+                this.Text += " - " + paciente.LastName + ", " + paciente.FirstName;
             }
             else
             {
@@ -69,6 +72,9 @@ namespace ExploracionPlanes
             if (app.PatientSummaries.Any(p => p.Id == ID))
             {
                 paciente = app.OpenPatientById(ID);
+                L_NombrePaciente.Text = paciente.LastName + ", " + paciente.FirstName;
+                L_NombrePaciente.Visible = true;
+                this.Text += " - " + paciente.LastName + ", " + paciente.FirstName;
                 return true;
             }
             else
@@ -110,10 +116,12 @@ namespace ExploracionPlanes
         {
             if (hayContext)
             {
+                MessageBox.Show("Hay Context");
                 return plan;
             }
             else if (LB_Planes.SelectedItems.Count == 1)
             {
+                MessageBox.Show("Se seleccionó el plan" + ((PlanningItem)LB_Planes.SelectedItems[0]).Id);
                 return (PlanningItem)LB_Planes.SelectedItems[0];
             }
             else
@@ -133,10 +141,12 @@ namespace ExploracionPlanes
             foreach (PlanSetup planSetup in curso.PlanSetups)
             {
                 lista.Add(planSetup);
+                MessageBox.Show("Se agregó el planSetup " + planSetup.Id);
             }
             foreach (PlanSum planSum in curso.PlanSums)
             {
                 lista.Add(planSum);
+                MessageBox.Show("Se agregó el planSum " + planSum.Id);
             }
             return lista;
         }
@@ -146,8 +156,6 @@ namespace ExploracionPlanes
         {
             if (abrirPaciente(TB_ID.Text))
             {
-                L_NombrePaciente.Text = paciente.LastName + ", " + paciente.FirstName;
-                L_NombrePaciente.Visible = true;
                 LB_Cursos.Items.Clear();
                 foreach (Course curso in listaCursos(paciente))
                 {
@@ -157,7 +165,6 @@ namespace ExploracionPlanes
                 {
                     LB_Cursos.SelectedIndex = 0;
                 }
-                this.Text += " - " + paciente.Name;
             }
 
         }
@@ -187,6 +194,7 @@ namespace ExploracionPlanes
 
             DataGridViewComboBoxColumn dgvCBCol = (DataGridViewComboBoxColumn)DGV_Estructuras.Columns[1];
             dgvCBCol.DataSource = Estructura.listaEstructurasID(Estructura.listaEstructuras(planSeleccionado()));
+            MessageBox.Show("El plan seleccionado tiene " + Estructura.listaEstructuras(planSeleccionado()).Count.ToString());
             asociarEstructuras();
             DGV_Estructuras.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             DGV_Estructuras.Columns[0].ReadOnly = true;

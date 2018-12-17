@@ -48,12 +48,10 @@ namespace ExploracionPlanes
             if (plan.GetType() == typeof(PlanSetup))
             {
                 sinFiltrar = ((PlanSetup)plan).StructureSet.Structures.ToList();
-                MessageBox.Show("Hay " + sinFiltrar.Count + "estructuras sin filtrar");
             }
             else //(plan.GetType() == typeof(PlanSum))
             {
                 sinFiltrar = ((PlanSum)plan).StructureSet.Structures.ToList();
-                MessageBox.Show("Hay " + sinFiltrar.Count + "estructuras sin filtrar");
             }
             foreach (Structure estructura in sinFiltrar)
             {
@@ -62,6 +60,7 @@ namespace ExploracionPlanes
                     filtradas.Add(estructura);
                 }
             }
+            MessageBox.Show("Hay " + sinFiltrar.Count + "estructuras sin filtrar");
             MessageBox.Show("Hay " + filtradas.Count + "estructuras filtradas");
             return filtradas;
         }
