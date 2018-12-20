@@ -172,7 +172,7 @@ namespace ExploracionPlanes
             DGV_Prescripciones.Rows.Clear();
             DGV_Prescripciones.ColumnCount = 2;
             double prescripcion = 0;
-            if (planSeleccionado().GetType() == typeof(PlanSetup))
+            if (planSeleccionado() is PlanSetup)
             {
                 prescripcion = ((PlanSetup)planSeleccionado()).TotalPrescribedDose.Dose / 100;
             }

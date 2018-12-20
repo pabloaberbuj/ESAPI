@@ -45,10 +45,14 @@ namespace ExploracionPlanes
             List<Structure> sinFiltrar = new List<Structure>();
             List<Structure> filtradas = new List<Structure>();
 
-            if (plan.GetType() == typeof(PlanSetup))
+            if (plan is PlanSetup)
             {
                 sinFiltrar = ((PlanSetup)plan).StructureSet.Structures.ToList();
             }
+            /*else if (plan.GetType() == typeof(ExternalPlanSetup))
+            {
+                sinFiltrar = ((ExternalPlanSetup)plan).StructureSet.Structures.ToList();
+            }*/
             else //(plan.GetType() == typeof(PlanSum))
             {
                 sinFiltrar = ((PlanSum)plan).StructureSet.Structures.ToList();

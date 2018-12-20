@@ -104,10 +104,14 @@ namespace ExploracionPlanes
         public void analizarPlanEstructura(PlanningItem plan, Structure estructura)
         {
             Structure BODY;
-            if (plan.GetType() == typeof(PlanSetup))
+            if (plan is PlanSetup)
             {
                 BODY = ((PlanSetup)plan).StructureSet.Structures.Where(s => s.DicomType == "EXTERNAL").FirstOrDefault();
             }
+            /*else if (plan.GetType() == typeof(ExternalPlanSetup))
+            {
+                BODY = ((ExternalPlanSetup)plan).StructureSet.Structures.Where(s => s.DicomType == "EXTERNAL").FirstOrDefault();
+            }*/
             else
             {
                 BODY = ((PlanSum)plan).StructureSet.Structures.Where(s => s.DicomType == "EXTERNAL").FirstOrDefault();
@@ -123,10 +127,14 @@ namespace ExploracionPlanes
                 double valorCorrespondienteGy = valorCorrespondiente * prescripcionEstructura / 100; //Convierto el % a Gy para extraer 
                 DoseValue dosis = new DoseValue(valorCorrespondienteGy * 100, DoseValue.DoseUnit.cGy); //y acá en cGy
 
-                if (plan.GetType() == typeof(PlanSetup))
+                if (plan is PlanSetup)
                 {
                     valorMedido = Math.Round(((PlanSetup)plan).GetVolumeAtDose(BODY, dosis, VolumePresentation.AbsoluteCm3) / estructura.Volume, 3);
                 }
+                /*else if (plan.GetType() == typeof(ExternalPlanSetup))
+                {
+                    valorMedido = Math.Round(((ExternalPlanSetup)plan).GetVolumeAtDose(BODY, dosis, VolumePresentation.AbsoluteCm3) / estructura.Volume, 3);
+                }*/
                 else
                 {
                     DVHPoint[] curveData = ((PlanSum)plan).GetDVHCumulativeData(BODY, DoseValuePresentation.Absolute, VolumePresentation.AbsoluteCm3, 0.01).CurveData;

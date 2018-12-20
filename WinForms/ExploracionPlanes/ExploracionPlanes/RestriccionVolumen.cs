@@ -120,10 +120,14 @@ namespace ExploracionPlanes
             {
                 volumePresentation = VolumePresentation.AbsoluteCm3;
             }
-            if (plan.GetType() == typeof(PlanSetup))
+            if (plan is PlanSetup)
             {
                 valorMedido = Math.Round(((PlanSetup)plan).GetVolumeAtDose(estructura, dosis, volumePresentation), 2);
             }
+            /*else if (plan.GetType() == typeof(ExternalPlanSetup))
+            {
+                valorMedido = Math.Round(((ExternalPlanSetup)plan).GetVolumeAtDose(estructura, dosis, volumePresentation), 2);
+            }*/
             else
             {
                 DVHPoint[] curveData = ((PlanSum)plan).GetDVHCumulativeData(estructura, DoseValuePresentation.Absolute, volumePresentation, 0.01).CurveData;
