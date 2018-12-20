@@ -74,13 +74,13 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="VMS.TPS.Common.Model.API">
-      <HintPath>..\..\..\..\..\..\Downloads\VMS.TPS.Common.Model.API.dll</HintPath>
+      <HintPath>..\..\..\dlls\VMS.TPS.Common.Model.API.dll</HintPath>
     </Reference>
     <Reference Include="VMS.TPS.Common.Model.Interface">
-      <HintPath>..\..\..\..\..\..\Downloads\VMS.TPS.Common.Model.Interface.dll</HintPath>
+      <HintPath>..\..\..\dlls\VMS.TPS.Common.Model.Interface.dll</HintPath>
     </Reference>
     <Reference Include="VMS.TPS.Common.Model.Types">
-      <HintPath>..\..\..\..\..\..\Downloads\drive-download-20180802T181659Z-001\VMS.TPS.Common.Model.Types.dll</HintPath>
+      <HintPath>..\..\..\dlls\VMS.TPS.Common.Model.Types.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

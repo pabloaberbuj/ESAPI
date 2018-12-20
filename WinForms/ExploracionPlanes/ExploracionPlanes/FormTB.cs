@@ -12,19 +12,33 @@ namespace ExploracionPlanes
     public partial class FormTB : Form
     {
         public string salida { get; set; }
-        
-        public FormTB(string textoTB = "")
+        public bool salidaDouble { get; set; }
+                
+        public FormTB(string textoTB = "", bool _salidaDouble=false)
         {
             InitializeComponent();
             TB_Llenar.Text = textoTB;
+            salidaDouble = _salidaDouble;
             StartPosition = FormStartPosition.CenterParent;
         }
 
         private void BT_Aceptar_Click(object sender, EventArgs e)
         {
+            double aux=0;
+            if (salidaDouble)
+            {
+                aux = Metodos.validarYConvertirADouble(TB_Llenar.Text);
+            }
             salida = TB_Llenar.Text;
-            DialogResult = DialogResult.OK;
-            Close();
+            if (!Double.IsNaN(aux))
+            {
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+            else
+            {
+                TB_Llenar.SelectAll();
+            }
         }
 
         private void BT_Cancelar_Click(object sender, EventArgs e)

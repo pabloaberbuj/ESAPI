@@ -25,7 +25,7 @@ namespace ExploracionPlanes
                 esNumero = Double.TryParse(entrada, NumberStyles.Float, alternative, out salida);
                 if (!esNumero)
                 {
-                    MessageBox.Show("El formato de uno de los parámetros ingresados es incorrecto.\nSe esperaba un número");
+                    MessageBox.Show("El formato ingresado es incorrecto.\nSe esperaba un número");
                     salida = Double.NaN;
                 }
             }

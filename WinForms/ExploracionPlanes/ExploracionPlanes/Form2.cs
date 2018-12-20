@@ -116,12 +116,10 @@ namespace ExploracionPlanes
         {
             if (hayContext)
             {
-                MessageBox.Show("Hay Context");
                 return plan;
             }
             else if (LB_Planes.SelectedItems.Count == 1)
             {
-                MessageBox.Show("Se seleccionó el plan" + ((PlanningItem)LB_Planes.SelectedItems[0]).Id);
                 return (PlanningItem)LB_Planes.SelectedItems[0];
             }
             else
@@ -141,12 +139,10 @@ namespace ExploracionPlanes
             foreach (PlanSetup planSetup in curso.PlanSetups)
             {
                 lista.Add(planSetup);
-                MessageBox.Show("Se agregó el planSetup " + planSetup.Id);
             }
             foreach (PlanSum planSum in curso.PlanSums)
             {
                 lista.Add(planSum);
-                MessageBox.Show("Se agregó el planSum " + planSum.Id);
             }
             return lista;
         }
@@ -194,7 +190,6 @@ namespace ExploracionPlanes
 
             DataGridViewComboBoxColumn dgvCBCol = (DataGridViewComboBoxColumn)DGV_Estructuras.Columns[1];
             dgvCBCol.DataSource = Estructura.listaEstructurasID(Estructura.listaEstructuras(planSeleccionado()));
-            MessageBox.Show("El plan seleccionado tiene " + Estructura.listaEstructuras(planSeleccionado()).Count.ToString());
             asociarEstructuras();
             DGV_Estructuras.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             DGV_Estructuras.Columns[0].ReadOnly = true;
@@ -470,14 +465,14 @@ namespace ExploracionPlanes
             if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
                 e.RowIndex >= 0)
             {
-                FormTB formTb = new FormTB(RestriccionDosisMax.volumenDosisMaxima.ToString());
+                FormTB formTb = new FormTB((senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex]).Value.ToString(), true);
                 formTb.Text = "Volumen dosis maxima";
                 formTb.Controls.OfType<Label>().FirstOrDefault().Text = "Definir el tamaño del elemento de volumen para el \ncálculo de la dosis máxima [cm3]";
                 formTb.ShowDialog();
 
                 if (formTb.DialogResult == DialogResult.OK)
                 {
-                    ((RestriccionDosisMax)(plantilla.listaRestricciones[e.RowIndex])).analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(plantilla.listaRestricciones[e.RowIndex].estructura.nombre), Convert.ToDouble(formTb.salida));
+                    ((RestriccionDosisMax)(plantilla.listaRestricciones[e.RowIndex])).analizarPlanEstructura(planSeleccionado(), estructuraCorrespondiente(plantilla.listaRestricciones[e.RowIndex].estructura.nombre), Metodos.validarYConvertirADouble(formTb.salida));
                     DGV_Análisis.Rows[e.RowIndex].Cells[2].Value = plantilla.listaRestricciones[e.RowIndex].valorMedido + plantilla.listaRestricciones[e.RowIndex].unidadValor;
                     colorCelda(DGV_Análisis.Rows[e.RowIndex].Cells[2], plantilla.listaRestricciones[e.RowIndex].cumple());
                     (senderGrid.Rows[e.RowIndex].Cells[e.ColumnIndex]).Value = formTb.salida;

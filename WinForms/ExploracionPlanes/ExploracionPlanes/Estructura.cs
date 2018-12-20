@@ -64,8 +64,6 @@ namespace ExploracionPlanes
                     filtradas.Add(estructura);
                 }
             }
-            MessageBox.Show("Hay " + sinFiltrar.Count + "estructuras sin filtrar");
-            MessageBox.Show("Hay " + filtradas.Count + "estructuras filtradas");
             return filtradas;
         }
 
@@ -73,7 +71,6 @@ namespace ExploracionPlanes
         {
             List<string> listaS = lista.Select(e => e.Id).ToList<string>();
             listaS.Add("");
-            MessageBox.Show("Hay " + listaS.Count + "ID de estructuras");
             return listaS;
         }
 
