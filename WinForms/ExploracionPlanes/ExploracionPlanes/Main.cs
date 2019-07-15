@@ -19,40 +19,90 @@ namespace ExploracionPlanes
         public Form3 aplicarPorLote;
         public PlantillaBlanco plantillaBlanco;
         bool hayContext = false;
+        bool editaPlantilla = false;
         Patient pacienteContext = null;
-        PlanSetup planContext = null;
+        PlanningItem planContext = null;
         User usuarioContext = null;
+        IEnumerable<PlanSum> planSumsContext = null;
+        string texto = "";
 
-        public Main(bool _hayContext = false, Patient _pacienteContext = null, PlanSetup _planContext = null, User _usuarioContext = null)
+        public Main(bool _hayContext = false, Patient _pacienteContext = null, PlanningItem _planContext = null, User _usuarioContext = null, IEnumerable<PlanSum> _planSumsContext = null)
         {
             InitializeComponent();
-            if (!Configuracion.chequearConfiguracion())
-            {
-
-            }
-            else
-            {
-                leerPlantillas();
-            }
+            leerPlantillas();
             hayContext = _hayContext;
             pacienteContext = _pacienteContext;
             planContext = _planContext;
             usuarioContext = _usuarioContext;
+            planSumsContext = _planSumsContext;
             habilitarBotones();
-            if (hayContext && pacienteContext == null)
+            if (hayContext && planContext != null)
+            {
+                texto += Chequeos.chequeos(planContext, false);
+                if (texto != "")
+                {
+                    if (MessageBox.Show(texto, "Chequeos en plan actual") == DialogResult.OK)
+                    {
+
+                    }
+                }
+                else
+                {
+                    if (MessageBox.Show("Todo bien", "Chequeos en plan actual") == DialogResult.OK)
+                    {
+
+                    }
+                }
+            }
+            else if (hayContext && pacienteContext == null)
             {
                 MessageBox.Show("Debe abrir un paciente");
                 this.Close();
             }
             else if (hayContext && planContext == null)
             {
-                MessageBox.Show("Debe seleccionar un plan");
-                this.Close();
+                if (_planSumsContext != null)
+                {
+                    PlanesSumaContext planesSumaContext = new PlanesSumaContext(planSumsContext);
+                    planesSumaContext.ShowDialog();
+                    planContext = planesSumaContext.PlanSuma;
+                    texto += Chequeos.chequeos(planContext, true);
+                    if (texto != "")
+                    {
+                        if (MessageBox.Show(texto, "Chequeos en plan actual") == DialogResult.OK)
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        if (MessageBox.Show("Todo bien", "Chequeos en plan actual") == DialogResult.OK)
+                        {
+
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Debe seleccionar un plan");
+                    this.Close();
+                }
+
             }
             else
             {
-
+                /*MessageBox.Show("Se va a hacer el chequeo");
+                texto += Chequeos.chequeos(planContext, false);
+                if (texto != "")
+                {
+                    MessageBox.Show(texto, "Chequeos en plan actual");
+                }
+                else
+                {
+                    MessageBox.Show("Todo bien", "Chequeos en plan actual");
+                }*/
             }
+
         }
 
         private void BT_Nueva_Click(object sender, EventArgs e)
@@ -143,16 +193,48 @@ namespace ExploracionPlanes
             }
             else
             {
-                Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_Editar);
-                Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_Duplicar);
+                Metodos.habilitarBoton(editaPlantilla, BT_Nueva);
+                Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1 && editaPlantilla, BT_Editar);
+                Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1 && editaPlantilla, BT_Duplicar);
                 Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_Ver);
-                Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count > 0, BT_Eliminar);
+                Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count > 0 && editaPlantilla, BT_Eliminar);
                 Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1 && !((Plantilla)LB_Plantillas.SelectedItems[0]).esParaExtraccion, BT_AplicarAUnPlan);
                 Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_AplicarPorLote);
+                Metodos.habilitarBoton(editaPlantilla, BT_Configuracion);
             }
         }
 
+        private void BT_HabilitarEdicion_Click(object sender, EventArgs e)
+        {
+            if (editaPlantilla == false)
+            {
+                FormTB formTb = new FormTB("", false, true);
+                formTb.Text = "Edición de plantillas";
+                formTb.Controls.OfType<Label>().FirstOrDefault().Text = "Ingrese contraseña para edición de plantillas";
+                formTb.ShowDialog();
+                if (formTb.DialogResult == DialogResult.OK)
+                {
+                    editaPlantilla = true;
+                    L_Editando.Visible = true;
+                    BT_HabilitarEdicion.Text = "Deshabilitar Edición";
+                }
+            }
+            else
+            {
+                editaPlantilla = false;
+                L_Editando.Visible = false;
+                BT_HabilitarEdicion.Text = "Habilitar Edición";
+            }
+            habilitarBotones();
+        }
 
+        private void BT_Configuracion_Click(object sender, EventArgs e)
+        {
+            FormConfiguracion formConfiguracion = new FormConfiguracion();
+            formConfiguracion.ShowDialog();
+            //LB_Plantillas.Items.Clear();
+            leerPlantillas();
+        }
     }
 }
 

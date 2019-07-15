@@ -1,0 +1,1226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{795632C2-E1B6-409D-932C-FB9EA1B760ED}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AriaQ</RootNamespace>
+    <AssemblyName>AriaQ</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccessStatu.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AccountBillingCode.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AccountBillingCodeMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActCaptDiagnosi.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActCaptDiagnosisMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActCaptTreatment.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActInstChecklistItem.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActInstProcCode.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActInstProcCodeMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Activity.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityAssociation.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityAttribute.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityAttributeMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityCapture.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityCaptureAttribute.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityCaptureAttributeMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityCaptureMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityCategory.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityChecklistItem.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityCodeMd.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityCodeMdMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityInstance.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityInstanceLink.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityInstanceLinkMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityInstanceMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityPttrn.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityPttrnPerCycle.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityPttrnResrc.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityPttrnToSchedActivity.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivitySession.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityToProcedureCode.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityToProcedureItem.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActtyCatgryResrcType.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AddOn.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AddOnMaterial.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AddOnValidation.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Address.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ADT08.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Application.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ApplicationAccessLog.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ApplicationPrintReport.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Applicator.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ApplicatorJawSize.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppObject.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Approval.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppUser.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ArchiveLocation.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ArchiveRestoredFile.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Aria.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Aria.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Aria.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Aria.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Aria.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Attendee.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AttendeeMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AttributeMetaData.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AuditLog.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AuraConfiguration.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Auxiliary.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AvailPrefPttrnDetail.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AvailPrefWeeklyPttrn.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BeamlineOption.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BillingService.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BillSysChrgWrk.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BillSysHospDeptActivity.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BillSysSentCharge.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Block.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BrachyApplicator.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BrachyField.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BrachyFieldHstry.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BrachySolidApplicator.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BrachyUnit.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BreakPoint.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChangeTrackingTableList.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Channel.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChargesControl.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChartQA.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChartQATreatment.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChecklistGroup.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChecklistItem.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChecklistItemGroup.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChildMachine.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ChildProcessing.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeStructureCode.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Compensator.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigurationGuard.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigurationItem.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigurationSet.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConfiguredEMT.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContrastBolu.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContrastBolusCode.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContrastFlow.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ControlPoint.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ControlPointProton.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Course.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CourseDiagnosi.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CoursePrintInfo.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Credit.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CreditMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CTScanner.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CTSimulator.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBHistory.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DCObjectPointerSery.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DCObjectPointerStudy.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DCObjectTrackingInfo.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DCTransferSyntax.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DeliverySetupDevice.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DeliverySetupDeviceMachine.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DemExternalBeam.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DemGroup.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Department.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DepartmentPttrnDetail.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DeptGrpAssociation.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DerivedImageCode.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DerivedInstanceUID.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DiagnosisStage.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DICOMCodeMeaning.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DICOMCodeScheme.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DICOMCodeValue.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DicomLocation.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Directive.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Doctor.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DoctorBillingService.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DoctorMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DoseContribution.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DoseCorrectionLog.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DoseMatrix.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DoseRate.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DoseTemplate.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DosimetricData.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DrillBit.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DVH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DVHEstimationTrainingSet.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DVHEstimationTrainingSetPlanSetup.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DVHEstimationTrainingSetPlanSetupStructureMapping.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DVHEstimationTrainingSetStructure.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DynamicWedge.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Employer.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EnergyMode.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorMsg.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EstimatedDVH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExternalBeam.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExternalField.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExternalFieldCommon.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExternalFieldCommonHstry.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExternalFieldHstry.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExternalIntegration.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FieldAddOn.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FieldPhoto.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FieldProton.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FieldStructure.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FieldVariation.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FileLocation.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GraphicAnnotation.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GraphicAnnotationType.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GroupResource.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Hospital.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Image.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Image4D.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ImageMatchResult.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ImageSlouse.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ImagingDevice.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ImportExportColumn.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ImportExportReference.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ImportExportTable.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InitialCTDetail.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IntfTrgr.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InVivoDosimetry.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LanguageLookup.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LinkRTTemp.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LinkUsage.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LocalizationJig.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LookupMapping.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LookupServiceCache.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LookupTable.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LTAScheduledTask.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LTAScheduledTaskPatient.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Machine.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MatchResult.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Material.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Message.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MillingMachine.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MLC.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MLCBank.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MLCLeaf.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MLCPlan.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MobilePhoneProvider.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NextKeyTable.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NonScheduledActivity.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NonScheduledActivityMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectPointer.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ObsoleteObject.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OperatingLimit.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ParameterType.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatEdHstryControl.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatEdHstryRelevance.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Patient.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientActual.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientAddress.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientAuthorization.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientDepartment.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientDirective.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientDoctor.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientEditingLog.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientHospital.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientHospitalMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientLocation.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientLocationMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientNote.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientParticular.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientPayor.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientPayorMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientRTStatu.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientStaff.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientSupportDevice.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientTransportation.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PatientVolume.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Payor.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PayorAuthorization.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PerformedProcedure.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Photo.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PhotonCompensator.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PhysicalMaterial.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PhysicianIntent.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlanConcurrency.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlanningSystem.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlanRelationship.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlanSetup.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlanSetupStructureModelStructure.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlanSum.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlanSumPlanSetup.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlanType.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlanVariation.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PointOfContact.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PortalDoseAnalysi.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PortImager.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Prescription.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrescriptionAnatomy.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrescriptionAnatomyItem.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrescriptionProperty.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrescriptionPropertyItem.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrescriptionTemplate.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrescriptionTemplateAnatomy.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrescriptionTemplateAnatomyItem.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrescriptionTemplateProperty.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrescriptionTemplatePropertyItem.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrimaryFluenceMode.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PrintReport.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProcedureCode.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProcedureCodeMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProcedureItem.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProcedureItemResource.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProcedureItemSOPClass.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Processing.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProtonBeamSpot.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProtonCompensator.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProtonLateralSpreader.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PttrnRelatedNonSchActivity.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PurgePatientTemp.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Radiation.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RadiationDeliverySetupDevice.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RadiationDevice.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RadiationHstry.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RadiationRefPoint.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RadioactiveSource.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RadioactiveSourceModel.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RangeModulator.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RangeShifter.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Recipient.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RecurrenceElement.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RecurrenceRule.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RefPoint.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RefPointHstry.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RefPointLocation.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RefPointLog.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RefWaveformField.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RefWaveformRelation.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReminderAck.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Report.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReportLinkage.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReportParameter.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Resource.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceAddress.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceDepartment.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceGroup.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceIdentifier.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceIdentifierType.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceType.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ResourceVenue.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RTPlan.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduledActivity.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduledActivityMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduledObjectPointer.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduledPerformedProcedure.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduledProcedure.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduledProcedureItem.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScheduleHoliday.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Series.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceControl.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Session.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SessionProcedure.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SessionProcedurePart.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SessionProcedureTemplate.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SessionProcedureTemplatePart.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SessionRTPlan.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SimulationImager.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Simulator.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SliceCT.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SliceMR.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SlicePortalDoseAnalysi.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SliceRT.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Slot.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SlotAddOn.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Slouse.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Snout.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SOPClass.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SourcePosition.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpatialRegistration.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpatialRegistrationImage.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpatialRegistrationIOD.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Staff.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StaffMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StandardWedge.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="stgDimPrescription.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="stgDimPrescriptionAnatomy.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="stgDimPrescriptionProperty.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="stgDimTreatmentTransaction.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Structure.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StructureCode.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StructureIdStructureCode.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StructureSet.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StructureStructureCode.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StructureType.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="STTFile.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Study.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SystemRoot.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Technique.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Template.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateCycle.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateCycleMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateDiagnosi.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Temp_DoseFiguresApp.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Temp_DoseFiguresAppSum.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Temp_DoseRefPoint.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Temp_TRTEventsCorrelated.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Temp_TRTHistoryRecords.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TFHAddOn.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TickerChannel.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TickerMessage.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TickerMessageChannel.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tolerance.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ToleranceLimit.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tracking.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TrackingField.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TrackingImage.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TrackingInformation.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Transportation.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tray.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TreatmentCycle.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TreatmentPhase.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TreatmentRecord.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserDefActAttr.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserDefActAttrMH.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserDefActAttrValue.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Venue.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VideoDigitizer.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VolOptConstraint.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VolOptMatrix.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VolOptStruct.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VolOptStructCstr.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VolumeCode.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VolumeType.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Wedge.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WeeklyChargeLink.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Workspace.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Workstation.cs">
+      <DependentUpon>Aria.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Aria.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Aria.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Aria.edmx.diagram">
+      <DependentUpon>Aria.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Aria.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Aria.Context.cs</LastGenOutput>
+      <DependentUpon>Aria.edmx</DependentUpon>
+    </Content>
+    <Content Include="Aria.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Aria.edmx</DependentUpon>
+      <LastGenOutput>Aria.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

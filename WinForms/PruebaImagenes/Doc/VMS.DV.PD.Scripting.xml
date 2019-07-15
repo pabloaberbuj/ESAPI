@@ -1,0 +1,909 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VMS.DV.PD.Scripting</name>
+    </assembly>
+    <members>
+        <member name="T:VMS.DV.PD.Scripting.Application">
+            <summary>
+            The main application interface for standalone applications using the Portal Dosimetry scripting API.
+            </summary>
+            <remarks>This class must not be used by plug-in scripts. It is intended for use by standalone applications only.</remarks>
+        </member>
+        <member name="M:VMS.DV.PD.Scripting.Application.#ctor(VMS.CA.Scripting.IDatabaseProvider,VMS.CA.Scripting.User)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:VMS.DV.PD.Scripting.Application.CreateApplication(System.String,System.String,System.Boolean)">
+            <summary>
+            Creates an application instance and logs into the ARIA system.
+            </summary>
+            <param name="username">Username for logging in or null value to invoke an interactive login dialog.</param>
+            <param name="password">Password for logging in or null value to invoke an interactive login dialog.</param>
+            <param name="demoMode">If true, the application is launched in demo mode using XML and DICOM files instead of the ARIA database.
+            If false, the ARIA database is used as data source.</param>
+            <returns>Application object that is the root of the datamodel.</returns>
+            <remarks>Dispose must be called before the program exits. Only one Application instance may be created during the entire run of the program.</remarks>
+            <exception cref="T:System.InvalidOperationException">Thrown when an application object was already created.</exception>
+            <exception cref="T:System.Configuration.ConfigurationErrorsException">Thrown when the application configuration file contains no or an invalid 'AssemblyPath' setting.</exception>
+            <exception cref="T:System.Exception">Thrown in case of other errors, e.g. login failed, required license not available or database connection problems.</exception>
+        </member>
+        <member name="M:VMS.DV.PD.Scripting.Application.OpenPatient(VMS.CA.Scripting.PatientSummary)">
+            <summary>
+            Opens a patient.
+            </summary>
+            <param name="patientSummary">Patient summary. Call <see cref="P:VMS.CA.Scripting.Application_.PatientSummaries"/> to find all patients on the database.</param>
+            <returns>Opened patient if found, null otherwise</returns>
+            <remarks>Only one patient can be open at the same time.</remarks>
+        </member>
+        <member name="M:VMS.DV.PD.Scripting.Application.OpenPatientById(System.String)">
+            <summary>
+            Opens a patient by using a patient identifier.
+            </summary>
+            <param name="id">Patient ID</param>
+            <returns>Opened patient if found, null otherwise</returns>
+            <remarks>Only one patient can be open at the same time.</remarks>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.DoseImage">
+            <summary>
+            Represents a dose image (portal dose or predicted dose) in the Portal Dosimetry application.
+            Wraps an image of type <see cref="T:VMS.CA.Scripting.ImageRT"/>.
+            </summary>
+            <remarks>When converting raw pixel values to dose values using the <see cref="M:VMS.CA.Scripting.Frame.VoxelToDisplayValue(System.Int32)"/>
+            method, it needs to be considered that the resulting display value does not take normalization into account,
+            except for the currently active dose image.<br/>
+            To get correct dose values using normalization, first create an analysis with <see cref="M:VMS.DV.PD.Scripting.PortalDoseImage.CreateTransientAnalysis(VMS.DV.PD.Scripting.PDTemplate,VMS.DV.PD.Scripting.DoseImage)"/>
+            and specify the desired normalization properties for the analysis. Finally get the linear transfer function to convert raw pixel values
+            to dose values by calling the method <see cref="M:VMS.DV.PD.Scripting.PDAnalysis.GetTransferFunction(System.Boolean,System.Double@,System.Double@)"/>.</remarks>
+        </member>
+        <member name="M:VMS.DV.PD.Scripting.DoseImage.GetMinMax(System.Int32@,System.Int32@,System.Boolean)">
+            <summary>
+            Get the pixel raw values that represent the minimal and maximal dose in the image.
+            </summary>
+            <param name="minValue">Returns the raw value representing the minimal dose</param>
+            <param name="maxValue">Returns the raw value representing the maximal dose</param>
+            <param name="useCutOff">If true, the min and max values are found by cutting off 0.1 % at the ends of the histogram. This eliminates outliers.</param>
+            <remarks>'Min' and 'max' means 'Minumum/maximum in display values'.
+            Use the <see cref="M:VMS.CA.Scripting.Frame.VoxelToDisplayValue(System.Int32)"/> method to convert raw values to display values.<br/>
+            Consider that normalization is only done for the currently active dose image.
+            All other dose images are using the display unit as stored in the database, e.g. Gy/MU for predicted doses.</remarks>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.DoseImage.DoseImageMethodImpl">
+            <summary>
+            Injected class method implementation.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.DoseImage.DoseImageType">
+            <summary>
+            The dose image type.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.DoseImage.OriginalUnit">
+            <summary>
+            The original unit of this dose image.
+            </summary>
+            <remarks>Plug-in scripts only: The currently active image is normalized and therefore the original unit and the current unit may differ.</remarks>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.DoseImage.CurrentUnit">
+            <summary>
+            The current unit of this dose image.
+            </summary>
+            <remarks>Plug-in scripts only: The currently active image is normalized and therefore the original unit and the current unit may differ.</remarks>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.DoseImage.Visible">
+            <summary>
+            Gets if this dose image is currently visible in the user interface, taking the plan filter and the 'Disposed' flag into account.
+            For standalone scripting API applications, all plans are visible and disposed images have this flag set to false.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.DoseImage.IsCompositeImage">
+            <summary>
+            Gets if this is a composite image.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.DoseImage.PDBeam">
+            <summary>
+            Used for navigating to parent beam.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.DoseImage.Image">
+            <summary>
+            Used for navigating to the wrapped base image.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.DoseImage.ComposedImages">
+            <summary>
+            The images this image is composed from if it is a composite image. Empty list if it is not a composite image.
+            </summary>
+            <remarks>The images in this collection are never composite images (no recursive composition possible).</remarks>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.DoseImage.IDoseImageImpl">
+            <summary>
+            Interface used to inject the implementation of the public class methods.
+            </summary>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.DoseImageType">
+            <summary>
+            The enumeration of dose image types.
+            </summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.DoseImageType.Undefined">
+            <summary>Dose image type is undefined</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.DoseImageType.PredictedDose">
+            <summary>Predicted (calculated) dose</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.DoseImageType.PortalDose">
+            <summary>Portal (acquired) dose</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.DoseImageType.EvaluatedDose">
+            <summary>Evaluated dose (gamma evaluation or dose difference)</summary>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.NormalizationMethod">
+            <summary>
+            The enumeration of normalization methods used in relative dosimetry.
+            </summary>
+            <remarks>The normalization defines what dose value is assumed to be 100 %</remarks>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.NormalizationMethod.Unknown">
+            <summary>Unknown or not applicable</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.NormalizationMethod.MaxPredictedDose">
+            <summary>Maximum in predicted dose is 100 %, portal dose is scaled accordingly</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.NormalizationMethod.MaxEachDose">
+            <summary>Maximum in each dose is 100 %</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.NormalizationMethod.Point">
+            <summary>Dose at user selected point is 100 %</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.NormalizationMethod.Isocenter">
+            <summary>Dose at isocenter point is 100 %</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.NormalizationMethod.MinimizeDifference">
+            <summary>Maximum in portal dose is 100 %, predicted dose is scaled to minimize the (quadratic) difference between predicted and portal dose</summary>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.ROIType">
+            <summary>
+            The enumeration of types of region of interest for analysis.
+            </summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.ROIType.None">
+            <summary>No ROI used (whole image used)</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.ROIType.User">
+            <summary>User defined rectangular ROI</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.ROIType.Field">
+            <summary>ROI is field outline (rectangular bounding box of field) plus margin</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.ROIType.CIAO">
+            <summary>ROI is CIAO of MLC / jaws plus margin (this is an non-rectangular ROI)</summary>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.AnalysisMode">
+            <summary>
+            The enumeration of dosimetric modes (relative or absolute) to perform an analysis.
+            </summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.AnalysisMode.CU">
+            <summary>Analysis done in CU mode (absolute mode, using PDIP)</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.AnalysisMode.Gy">
+            <summary>Analysis done in Gy mode (absolute mode, using dose to water)</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.AnalysisMode.Relative">
+            <summary>Analysis done in relative mode</summary>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.DoseImageUnitType">
+            <summary>
+            The enumeration of units of dose images.
+            </summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.DoseImageUnitType.Relative">
+            <summary>Dose image with relative unit</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.DoseImageUnitType.CU">
+            <summary>Dose image with CU unit (calibration unit)</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.DoseImageUnitType.Gy">
+            <summary>Dose image with Gy unit (dose to water)</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.DoseImageUnitType.GyPerMU">
+            <summary>Dose image with Gy/MU unit (used for predicted doses from the PDIP algorithm)</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.DoseImageUnitType.Other">
+            <summary>Dimensionless or unknown unit type</summary>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.EvaluationTestKind">
+            <summary>
+            The enumeration of evaluation tests that are available in an analysis.
+            </summary>
+            <remarks>All tests are only taking pixels inside of the region of interest (ROI) and in the defined dose threshold into account.</remarks>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.EvaluationTestKind.GammaAreaLessThanOne">
+            <summary>Percent of area with gamma value less than 1.0</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.EvaluationTestKind.GammaLargestConnectedArea">
+            <summary>Largest connected area with gamma > threshold (in percent of whole area)</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.EvaluationTestKind.MaxGamma">
+            <summary>Maximum gamma value of whole image</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.EvaluationTestKind.AverageGamma">
+            <summary>Average gamma value of whole image</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.EvaluationTestKind.GammaAreaAboveThreshold1">
+            <summary>Percent of area with gamma value above a user defined threshold 1</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.EvaluationTestKind.GammaAreaAboveThreshold2">
+            <summary>Percent of area with gamma value above a user defined threshold 2</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.EvaluationTestKind.MaxDoseDifference">
+            <summary>Maximum dose difference value of whole image in absolute mode</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.EvaluationTestKind.AverageDoseDifference">
+            <summary>Average dose difference value of whole image in absolute mode</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.EvaluationTestKind.DoseDiffAboveThreshold1">
+            <summary>Percent of area with dose difference value above a user defined threshold 1 (absolute mode)</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.EvaluationTestKind.DoseDiffAboveThreshold2">
+            <summary>Percent of area with dose difference value above a user defined threshold 2 (absolute mode)</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.EvaluationTestKind.MaxDoseDifferenceRelative">
+            <summary>Maximum dose difference value of whole image in relative mode</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.EvaluationTestKind.AverageDoseDifferenceRelative">
+            <summary>Average dose difference value of whole image in relative mode</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.EvaluationTestKind.DoseDiffAboveThreshold1Relative">
+            <summary>Percent of area with dose difference value above a user defined threshold 1 (relative mode)</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.EvaluationTestKind.DoseDiffAboveThreshold2Relative">
+            <summary>Percent of area with dose difference value above a user defined threshold 2 (relative mode)</summary>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.EvaluationTestResult">
+            <summary>
+            The enumeration of evaluation test results.
+            </summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.EvaluationTestResult.Passed">
+            <summary>Evalation test has passed</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.EvaluationTestResult.Failed">
+            <summary>Evalation test has failed</summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.EvaluationTestResult.DontCare">
+            <summary>Used to mark that this test value is displayed but it does not matter if the test passed or failed</summary>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.EvaluationTest">
+            <summary>
+            Represents a dose evaluation test. Note that values in percent must be in 0 .. 1 (meaning 0 to 100 percent).
+            </summary>
+        </member>
+        <member name="M:VMS.DV.PD.Scripting.EvaluationTest.ToString">
+            <summary>Returns a string representation of this object (EvaluationTestKind).</summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.EvaluationTest.EvaluationTestKind">
+            <summary>
+            The evaluation test kind.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.EvaluationTest.TestValue">
+            <summary>
+            The result value of the test.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.EvaluationTest.TestParameter">
+            <summary>
+            The evaluation test parameter (threshold value as defined by user). NaN when the test has no parameter.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.EvaluationTest.TestLimit">
+            <summary>
+            The evaluation test limit (test value is tested against this limit). NaN when not tested against the limit, typically because the test is disabled.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.EvaluationTest.TestResult">
+            <summary>
+            The evaluation test result received by comparing the test value against the test limit.
+            </summary>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.EvaluationTestDesc">
+            <summary>
+            Represents a description of an evaluation test as part of a template.
+            </summary>
+        </member>
+        <member name="M:VMS.DV.PD.Scripting.EvaluationTestDesc.#ctor(VMS.DV.PD.Scripting.EvaluationTestKind,System.Double,System.Double,System.Boolean)">
+            <summary>Creates a new instance of the class. Refer to the class property documentation for a description of the constructor arguments.</summary>
+        </member>
+        <member name="M:VMS.DV.PD.Scripting.EvaluationTestDesc.ToString">
+            <summary>Returns a string representation of this object (EvaluationTestKind).</summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.EvaluationTestDesc.EvaluationTestKind">
+            <summary>
+            The evaluation test kind.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.EvaluationTestDesc.TestParameter">
+            <summary>
+            The evaluation test parameter (threshold value as defined by user). NaN when the test has no parameter.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.EvaluationTestDesc.TestLimit">
+            <summary>
+            The evaluation test limit (test value is tested against this limit).
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.EvaluationTestDesc.TestAgainstLimit">
+            <summary>
+            Flag if the test value shall be tested against the test limit and if the test shall fail when the test value is out of limit.
+            </summary>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.ObjectCollection`1">
+            <summary>
+            Represents a read-only collection of objects.
+            </summary>
+            <typeparam name="T">Type of objects in the object collection.</typeparam>
+        </member>
+        <member name="M:VMS.DV.PD.Scripting.ObjectCollection`1.GetEnumerator">
+            <summary>
+            Gets a type safe enumerator for the objects.
+            </summary>
+            <returns>Enumerator</returns>
+        </member>
+        <member name="M:VMS.DV.PD.Scripting.ObjectCollection`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Gets an enumerator for the objects.
+            </summary>
+            <returns>Enumerator</returns>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.ObjectCollection`1.Item(System.Int32)">
+            <summary>
+            Gets the object at position 'index'.
+            </summary>
+            <param name="index">Zero based index</param>
+            <returns>Object at position 'index'</returns>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.ObjectCollection`1.Count">
+            <summary>
+            Gets the number of objects in the collection.
+            </summary>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.Patient">
+            <summary>
+            Represents a patient in the Portal Dosimetry application.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.Patient.PDPlanSetups">
+            <summary>
+            The list of Portal Dosimetry plan setups of this patient. Only plans containing dose images are returned.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.Patient.PDTemplates">
+            <summary>
+            The list of Portal Dosimetry analysis templates defined in the system.
+            </summary>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.PDAnalysis">
+            <summary>
+            Represents a Portal Dosimetry analysis, a comparison or a dose constancy check.
+            </summary>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.PDAnalysis.ROIMask_CreateOnAccess">
+            <summary>
+            Delegate called on first access to the <see cref="P:VMS.DV.PD.Scripting.PDAnalysis.ROIMask"/> property, must return property value.
+            </summary>
+        </member>
+        <member name="M:VMS.DV.PD.Scripting.PDAnalysis.GetTransferFunction(System.Boolean,System.Double@,System.Double@)">
+            <summary>
+            Calculates the transfer function to convert raw pixel values to dose values according to the normalization method of the analysis:<br/>
+            Dose value = raw value * slope + intercept<br/>
+            See remarks section for more information on the usage of this method.
+            </summary>
+            <param name="referenceImage">If true, the transfer function for the reference dose image is returned, if false the transfer function for the portal dose image is returned.</param>
+            <param name="slope">Slope of the linear transfer function.</param>
+            <param name="intercept">Intercept of the linear transfer function.</param>
+            <remarks>For CU mode, the transfer function returns Gy (predicted dose), respectively CU (portal dose) values.
+            For relative mode, the resulting dose values are in the range [0, 1].<br/>
+            Note that the transfer function only needs to be applied to the portal dose and the reference dose image of the analysis.
+            For the GammaImage, DoseDiffImage and ReferenceImageOnPortalDoseImageGrid images, the <see cref="M:VMS.CA.Scripting.Frame.VoxelToDisplayValue(System.Int32)"/> method
+            can be directly used to calculate dose values from raw values.</remarks>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.PDAnalysisMethodImpl">
+            <summary>
+            Injected class method implementation.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.SummaryResult">
+            <summary>
+            The summary test result of the evaluation tests. The analysis is failed if one or more of the tests failed.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.IsPrimary">
+            <summary>
+            Flag if this is the primary analysis for the portal dose image.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.IsComparison">
+            <summary>
+            Flag if this analysis is a comparison against another portal dose image or against another predicted dose image than the predicted dose of the beam.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.IsConstancyCheck">
+            <summary>
+            Flag if this analysis is a constancy check using a baseline portal dose image as reference.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.CreatorUserName">
+            <summary>
+            The creator of the analysis.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.CreationDate">
+            <summary>
+            The date/time the analysis was performed.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.AlignmentDone">
+            <summary>
+            Gets if image alignment (imager position correction) was done during the analysis.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.IDULat">
+            <summary>
+            The portal dose IDU lateral value used during this analysis. This value can be different to the value in the portal dose image.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.IDULng">
+            <summary>
+            The portal dose IDU longitudinal value used during this analysis. This value can be different to the value in the portal dose image.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.IDURtn">
+            <summary>
+            The portal dose IDU rotation value used during this analysis. This value can be different to the value in the portal dose image.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.Mode">
+            <summary>
+            The analysis mode: CU mode or relative mode.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.NormalizationMethod">
+            <summary>
+            The dose normalization method used for this analysis (only relevant in relative mode).
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.NormalizationPoint">
+            <summary>
+            The dose normalization point in DICOM coordinates when the normalization method is set to 'Point', a vector of NaN otherwise.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.NormalizationFactorRefDose">
+            <summary>
+            The additional normalization factor applied to the reference dose image. Only used in relative mode.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.NormalizationFactorPortDose">
+            <summary>
+            The additional normalization factor applied to the portal dose image. Only used in relative mode.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.ROIType">
+            <summary>
+            The type of region of interest used for the analysis.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.UserROI">
+            <summary>
+            The user ROI rectangle if one is defined (in pixel coordinates). Only valid if ROIType is set to 'User'.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.FieldROIMargin">
+            <summary>
+            The margin around the field outline when the field ROI or CIAO ROI type is used (millimeters).
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.UseThreshold">
+            <summary>
+            True if a threshold value is used. If true, the final ROI is defined as the pixels having a dose larger than the threshold value and located inside of the ROI.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.Threshold">
+            <summary>
+            The ROI threshold value in percents (0 to 1, 1 means 100 %), double.NaN if none.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.ROIMask">
+            <summary>
+            The ROI as two dimensional mask [x, y], 1 means inside ROI and threshold, 0 means outside. The mask has the same size as the portal dose image.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.GammaParamDoseDiff">
+            <summary>
+            The maximum allowed dose difference (in percents [0 to 1, 1 means 100 %] of reference dose) in the Gamma analysis.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.GammaParamDTA">
+            <summary>
+            The 'distance to agreement' parameter value (in millimeters) in the Gamma analysis.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.GammaParamHistogramCutoff">
+            <summary>
+            The histogram cutoff parameter (in percents, 0 .. 1, 1 means 100 %) in the Gamma analysis.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.GammaLocalLowerThreshold">
+            <summary>
+            The lower threshold parameter (in percents of max reference dose, 0 .. 1, 1 means 100 %) in the local Gamma analysis.
+            </summary>
+            <remarks>In local Gamma analysis the GammaParamDoseDiff parameter is in percents of the local pixel dose value in the reference image if the
+            dose value of the pixel is larger than GammaLocalLowerThreshold * MaxReferenceDose. If the pixel dose value is smaller, the used
+            threshold value is (GammaLocalLowerThreshold * GammaParamDoseDiff) of the max dose.</remarks>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.GammaLocalReference">
+            <summary>
+            True if local Gamma analysis, false if global (standard) Gamma analysis.
+            </summary>
+            <remarks>For local Gamma analysis, the GammaParamDoseDiff parameter is in percents of the local pixel dose value in the reference image.
+            For global Gamma analysis, the GammaParamDoseDiff parameter is in percents of the maximum dose in the reference image.</remarks>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.EvaluationTests">
+            <summary>
+            The evaluation tests performed in this analysis.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.PortalDoseImage">
+            <summary>
+            The portal dose image of the analysis.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.ReferenceImage">
+            <summary>
+            The reference image of the analysis. Typically a predicted dose.
+            When comparing two portal doses in an analysis, the reference image is also a portal dose.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.ReferenceImageOnPortalDoseImageGrid">
+            <summary>
+            The reference image of the analysis resampled on the pixel grid of the portal dose image.
+            </summary>
+            <remarks>This image can be compared to the portal dose image pixel by pixel.
+            Consider that raw pixel values cannot be compared directly; raw pixel values of this image must be converted to dose values using <see cref="M:VMS.CA.Scripting.Frame.VoxelToDisplayValue(System.Int32)"/>
+            respectively the linear transfer function (<see cref="M:VMS.DV.PD.Scripting.PDAnalysis.GetTransferFunction(System.Boolean,System.Double@,System.Double@)"/>) for portal and reference doses when normalization needs to be considered.</remarks>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.GammaImage">
+            <summary>
+            Gamma analysis image.
+            </summary>
+            <remarks>The gamma image has the same resolution, size and transformation to the Dicom coordinate system as the portal dose image.</remarks>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDAnalysis.DoseDiffImage">
+            <summary>
+            Dose difference image.
+            </summary>
+            <remarks>The dose difference image has the same resolution, size and transformation to the Dicom coordinate system as the portal dose image.</remarks>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.PDAnalysis.IPDAnalysisImpl">
+            <summary>
+            Interface used to inject the implementation of the public class methods.
+            </summary>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.PDBeam">
+            <summary>
+            Represents a Portal Dosimetry beam object as shown in the user interface.
+            Wraps a beam of type <see cref="P:VMS.DV.PD.Scripting.PDBeam.Beam"/>.
+            </summary>
+            <remarks>This object only exists for beams having at least one dose image (predicted and/or portal dose image).</remarks>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.PDBeam.PlannedMUs_CreateOnAccess">
+            <summary>
+            Delegate called on first access to the <see cref="P:VMS.DV.PD.Scripting.PDBeam.PlannedMUs"/> property, must return property value.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDBeam.PlannedMUs">
+            <summary>
+            The planned MUs for this beam.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDBeam.PredictedDoseImage">
+            <summary>
+            The predicted dose image assigned to this beam, null if none.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDBeam.PortalDoseImages">
+            <summary>
+            The portal dose images attached to this beam.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDBeam.ConstancyCheckBaselineImage">
+            <summary>
+            The baseline image for dose constancy checks, null if none is defined for this beam.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDBeam.PDPlanSetup">
+            <summary>
+            Used for navigating to parent plan setup.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDBeam.Beam">
+            <summary>
+            Used for navigating to wrapped beam.
+            </summary>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.PDSession">
+            <summary>
+            Represents a session in the Portal Dosimetry application.
+            A session contains all portal dose images of a plan having a gap between the acquisition times less than one hour.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDSession.SessionDate">
+            <summary>
+            The date and time when the session has started.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDSession.PDPlanSetup">
+            <summary>
+            Navigation to the parent plan.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDSession.PortalDoseImages">
+            <summary>
+            The portal dose images acquired in this session.
+            </summary>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.PDTemplate">
+            <summary>
+            Represents a template for performing a Portal Dosimetry analysis.
+            </summary>
+        </member>
+        <member name="M:VMS.DV.PD.Scripting.PDTemplate.#ctor(System.Boolean,System.Boolean,System.Boolean,VMS.DV.PD.Scripting.AnalysisMode,VMS.DV.PD.Scripting.NormalizationMethod,System.Boolean,System.Double,VMS.DV.PD.Scripting.ROIType,System.Double,System.Double,System.Double,System.Boolean,System.Collections.Generic.IEnumerable{VMS.DV.PD.Scripting.EvaluationTestDesc})">
+            <summary>Creates a new instance of the class. Refer to the class property documentation for a description of the constructor arguments.</summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDTemplate.ConstancyCheck">
+            <summary>
+            Flag if this template is used for dose constancy check (true) or for normal analysis (false).
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDTemplate.AlignmentNeeded">
+            <summary>
+            Flag if auto alignment (imager position correction) shall be done when applying this template.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDTemplate.AlignToSetupImage">
+            <summary>
+            Flag if alignment is done against a setup image (true) or against the predicted dose image (false).
+            The value of this flag is ignored when AlignmentNeeded is set to false.
+            When set to true, a setup image must be available else applying the template fails.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDTemplate.Mode">
+            <summary>
+            The analysis mode the template can be used for: CU, Gy or relative mode.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDTemplate.NormalizationMethod">
+            <summary>
+            The dose normalization method using for this analysis. Only used in relative analysis mode.
+            'Point' normalization mode is not supported in templates.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDTemplate.UseThreshold">
+            <summary>
+            True if a threshold value is used as ROI.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDTemplate.Threshold">
+            <summary>
+            The ROI threshold value in percent (0 to 1), double.NaN if none.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDTemplate.ROIType">
+            <summary>
+            The type of region of interest used for the analysis. 'User' ROI mode is not supported in templates.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDTemplate.FieldROIMargin">
+            <summary>
+            The margin around the field outline when the field ROI or CIAO ROI type is used (millimeters).
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDTemplate.GammaParamDoseDiff">
+            <summary>
+            The maximum allowed dose difference (in percent [0 to 1] of reference max) in the Gamma analysis.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDTemplate.GammaParamDTA">
+            <summary>
+            The 'distance to agreement' parameter value (in millimeters) in the Gamma analysis.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDTemplate.GammaLocalReference">
+            <summary>
+            True if local Gamma analysis, false if global (standard) Gamma analysis.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDTemplate.EvaluationTests">
+            <summary>
+            Evaluation tests to be performed as part of the analysis.
+            </summary>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.PortalDoseImage">
+            <summary>
+            Represents a portal dose image in the Portal Dosimetry application.
+            </summary>
+            <remarks>See remarks for the <see cref="T:VMS.DV.PD.Scripting.DoseImage"/> class about converting raw pixel values to dose values.</remarks>
+        </member>
+        <member name="F:VMS.DV.PD.Scripting.PortalDoseImage.CanUseAbsoluteMode_CreateOnAccess">
+            <summary>
+            Delegate called on first access to the <see cref="P:VMS.DV.PD.Scripting.PortalDoseImage.CanUseAbsoluteMode"/> property, must return property value.
+            </summary>
+        </member>
+        <member name="M:VMS.DV.PD.Scripting.PortalDoseImage.TransformToPredictedDose(VMS.CA.Scripting.VVector)">
+            <summary>
+            Transforms a point from the portal dose Dicom coordinate system to the predicted dose Dicom coordinate system.
+            </summary>
+            <param name="point">Point in Dicom coordinates of portal dose.</param>
+            <returns>Point in Dicom coordinates of predicted dose.</returns>
+        </member>
+        <member name="M:VMS.DV.PD.Scripting.PortalDoseImage.TransformToPortalDose(VMS.CA.Scripting.VVector)">
+            <summary>
+            Transforms a point from the predicted dose Dicom coordinate system to the portal dose Dicom coordinate system.
+            </summary>
+            <param name="point">Point in Dicom coordinates of predicted dose.</param>
+            <returns>Point in Dicom coordinates of portal dose.</returns>
+        </member>
+        <member name="M:VMS.DV.PD.Scripting.PortalDoseImage.TransformToReferenceImage(VMS.CA.Scripting.VVector)">
+            <summary>
+            Transforms a point from the portal dose Dicom coordinate system to the beam reference image Dicom coordinate system.
+            </summary>
+            <param name="point">Point in Dicom coordinates of portal dose.</param>
+            <returns>Point in Dicom coordinates of the beam reference image.</returns>
+            <remarks>Throws an exception when the beam has no reference image.</remarks>
+        </member>
+        <member name="M:VMS.DV.PD.Scripting.PortalDoseImage.TransformFromReferenceImage(VMS.CA.Scripting.VVector)">
+            <summary>
+            Transforms a point from the beam reference image Dicom coordinate system to the portal dose Dicom coordinate system.
+            </summary>
+            <param name="point">Point in Dicom coordinates of the beam reference image.</param>
+            <returns>Point in Dicom coordinates of the portal dose.</returns>
+            <remarks>Throws an exception when the beam has no reference image.</remarks>
+        </member>
+        <member name="M:VMS.DV.PD.Scripting.PortalDoseImage.CreateTransientAnalysis(VMS.DV.PD.Scripting.PDTemplate,VMS.DV.PD.Scripting.DoseImage)">
+            <summary>
+            Creates a transient analysis using the parameters given by the template.
+            When creation of the analysis fails (e.g. because auto alignment fails), an exception is thrown.
+            </summary>
+            <param name="template">The template for performing the analysis.</param>
+            <param name="referenceImage">The reference image of the analysis. Typically this is the predicted dose image.</param>
+            <returns>The created analysis. The analysis will not be attached to the Analyses collection of the portal dose image!</returns>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PortalDoseImage.PortalDoseImageMethodImpl">
+            <summary>
+            Injected class method implementation.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PortalDoseImage.CanUseAbsoluteMode">
+            <summary>
+            Gets if this portal dose image and the assigned predicted dose image can be used in absolute dosimetric mode.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PortalDoseImage.AlignmentNeeded">
+            <summary>
+            Gets if the portal dose image should be aligned to the predicted dose before doing an analysis.
+            </summary>
+            <remarks>Alignment is needed when the image is not yet aligned and when the imager is configured for alignment.</remarks>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PortalDoseImage.Session">
+            <summary>
+            Used for navigation to the session.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PortalDoseImage.Analyses">
+            <summary>
+            The portal dose analyses attached to this image.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PortalDoseImage.PredictedDoseImage">
+            <summary>
+            The predicted dose image that is assigned to this portal dose image. Null when no predicted dose is available
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PortalDoseImage.DefaultTemplate">
+            <summary>
+            The default template to be used to create analyses for this portal dose image.
+            If the plan of the image has a template assigned, this template is returned, else the default template is returned.
+            </summary>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.PortalDoseImage.IPortalDoseImageImpl">
+            <summary>
+            Interface used to inject the implementation of the public class methods.
+            </summary>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.ScriptContext">
+            <summary>
+            A class that contains the context information for the script. Used for plug-in scripts running in the
+            context of an application.
+            </summary>
+        </member>
+        <member name="M:VMS.DV.PD.Scripting.ScriptContext.#ctor(VMS.CA.Scripting.User,VMS.DV.PD.Scripting.Patient,VMS.DV.PD.Scripting.PDPlanSetup,VMS.DV.PD.Scripting.PDBeam,VMS.DV.PD.Scripting.DoseImage,VMS.DV.PD.Scripting.PDAnalysis)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="user">Current user</param>
+            <param name="patient">Current patient</param>
+            <param name="planSetup">Current plan</param>
+            <param name="beam">Current beam</param>
+            <param name="image">Current dose image</param>
+            <param name="analysis">Current analysis</param>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.ScriptContext.Patient">
+            <summary>
+            The patient. The value may be null if the context has no patient. 
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.ScriptContext.PDPlanSetup">
+            <summary>
+            The plan. The value may be null if the context has no plan. 
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.ScriptContext.PDBeam">
+            <summary>
+            The beam. The value may be null if the context has no beam. 
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.ScriptContext.DoseImage">
+            <summary>
+            The dose image - either prediced or portal dose. The value may be null if the context has no dose image.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.ScriptContext.Analysis">
+            <summary>
+            The analysis. The value may be null if the context has no analysis.
+            </summary>
+            <remarks>
+            This object represents the analysis with parameters as currently set on the Portal Dosimetry user interface.
+            If an analysis is selected in the dose image panel, this object is a copy of the selected analysis because the original analysis
+            parameters may have been modified on the user interface.<br/>
+            If no analysis is selected but the active portal dose image has a predicted dose image assigned, this object
+            represents a transient analysis. This object is null when a predicted dose or a portal dose with no predicted dose
+            is selected.
+            </remarks>
+        </member>
+        <member name="T:VMS.DV.PD.Scripting.PDPlanSetup">
+            <summary>
+            Represents a Portal Dosimetry plan setup object as shown in the user interface. Contains the beam, session and composite image object collections.<br/>
+            Wraps a plan object of type <see cref="P:VMS.DV.PD.Scripting.PDPlanSetup.PlanSetup"/>.
+            </summary>
+            <remarks>This object only exists for plans having at least one dose image (predicted and/or portal dose image).</remarks>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDPlanSetup.Patient">
+            <summary>
+            Used for navigating to the parent patient.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDPlanSetup.Beams">
+            <summary>
+            The list of Portal Dosimetry beam objects of this plan.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDPlanSetup.Sessions">
+            <summary>
+            The list of Portal Dosimetry sessions of this plan.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDPlanSetup.CompositeImages">
+            <summary>
+            The list of composite images created with images of this plan.
+            </summary>
+        </member>
+        <member name="P:VMS.DV.PD.Scripting.PDPlanSetup.PlanSetup">
+            <summary>
+            Used for navigating to wrapped plan setup.
+            </summary>
+        </member>
+    </members>
+</doc>

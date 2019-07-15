@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,6 +75,27 @@ namespace ExploracionPlanes
             return listaS;
         }
 
+        public static Dictionary<string, string> diccionario()
+        {
+            Dictionary<string, string> Diccionario = new Dictionary<string, string>();
+            string[] estructuras = File.ReadAllLines(Properties.Settings.Default.Path + @"\PlanExplorer\" + "estructuras.txt");
+            foreach (string linea in estructuras)
+            {
+                Diccionario.Add(linea.Split('\t')[0], linea.Split('\t')[1]);
+            }
 
+            return Diccionario;
+        }
+        public static string nombreEnDiccionario(Estructura estructura)
+        {
+            if (diccionario().ContainsKey(estructura.nombre))
+            {
+                return diccionario()[estructura.nombre];
+            }
+            else
+            {
+                return estructura.nombre;
+            }
+        }
     }
 }

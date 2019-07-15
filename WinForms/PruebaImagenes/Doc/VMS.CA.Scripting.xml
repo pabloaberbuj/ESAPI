@@ -1,0 +1,2999 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VMS.CA.Scripting</name>
+    </assembly>
+    <members>
+        <member name="T:VMS.CA.Scripting.AddOn">
+            <summary>
+            Represents an add-on, which is a beam modifying device that is inserted into a beam in an accessory slot of the external beam machine. 
+            An add-on is used to shape the beam or modulate its intensity or both. Add-ons are blocks, MLCs, wedges, compensators, applicators, 
+            a tray, and other devices or materials that can be fixed to a tray to be mounted into an accessory slot. 
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.ApiDataObject">
+            <summary>
+            The base class of objects in the CA Scripting API. 
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ApiDataObject.m_bValid">
+            <summary>Object valid or not. Objects of closed patients or object not yet bound are invalid.</summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.ApiDataObject.ToString">
+            <summary>
+            Returns a string that represents the current object. For scripting API objects, the Id is returned.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.ApiDataObject._FireCreateNavigation(System.String)">
+            <summary>
+            Fires the <see cref="E:VMS.CA.Scripting.ApiDataObject.CreateNavigation"/> event.
+            </summary>
+            <param name="sNavigation">Property name of navigation to create</param>
+        </member>
+        <member name="M:VMS.CA.Scripting.ApiDataObject._BeforeObjectAccess">
+            <summary>
+            Method called before accessing a method or property of the scripting API object.
+            Checks if script is aborted or if a unbound object is accessed.
+            </summary>
+        </member>
+        <member name="E:VMS.CA.Scripting.ApiDataObject.CreateNavigation">
+            <summary>
+            Event fired when one of the navigations to the child objects must be created. These navigations
+            are created delayed on first access.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ApiDataObject.Id">
+            <summary>
+            The identifier of the object.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ApiDataObject.Name">
+            <summary>
+            The name of the object.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ApiDataObject.Comment">
+            <summary>
+            A comment about the object.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ApiDataObject.HistoryDateTime">
+            <summary>
+            The date when this object was last modified. DateTime.MinValue when not available.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ApiDataObject.HistoryUserName">
+            <summary>
+            The identifier of the last user who modified this object. Null when not available.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ApiDataObject.Valid">
+            <summary>
+            True if this object is valid, false when the corresponding patient was closed.
+            Access to the objects throws an exception when it is invalid.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.ApiDataObject.CreateNavigationHandler">
+            <summary>
+            Handler called to create a navigation from this object to a child object.
+            </summary>
+            <param name="sender">The parent object</param>
+            <param name="sNavigation">The navigation to create (name of the property)</param>
+        </member>
+        <member name="P:VMS.CA.Scripting.AddOn.CreationDateTime">
+            <summary>
+            The date when this object was created.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.ApplicationConnector">
+            <summary>
+            Scripting API infrastructure class, not intended for use by user scripts.<br/>
+            </summary>
+            <remarks>
+            Connects the scripting API Application object with a database provider by dynamically
+            loading the implementation assembly. This allows to keep the scripting API assembly
+            free from references to any other Varian assemblies and thus makes versioning of the
+            scripting API independent from versioning of Varian base libraries (OSP, CA).
+            </remarks>
+        </member>
+        <member name="M:VMS.CA.Scripting.ApplicationConnector.CreateDBProvider(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Creates a database provider by dynamically loading the given assembly, finding the given type
+            and calling the given creator method using .NET reflection.
+            </summary>
+            <param name="sProviderAssemblyName">Assembly full name of provider assembly, as returned by Assembly.FullName but without version. See remarks for more information.</param>
+            <param name="sCreatorTypeName">Fully qualified name of the creator type</param>
+            <param name="sCreatorMethodName">Method name of the creator method. The method must be static, having a bool parameter (demo mode) and
+            returning an object of type IDatabaseProvider.</param>
+            <param name="bDemoMode">If true, the provider is created for data access in demo mode, if false in DB mode</param>
+            <returns>Created database provider. Never null, exceptions are thrown in case of errors.</returns>
+            <remarks>The assembly will be searched in the current assembly search paths and in an additonal directory that
+            is given by the 'AssemblyPath' setting in the appSettings section of the application configuration file of the
+            calling application.</remarks>
+        </member>
+        <member name="T:VMS.CA.Scripting.Application_">
+            <summary>
+            The main application interface. 
+            </summary>
+            <remarks>
+            Scripting API infrastructure class, not intended for direct use by user scripts.
+            Use the non-abstract Application class instead.<br/>
+            Deriving classes need to implement a static CreateApplication method and two methods to open a patient:
+            OpenPatient and OpenPatientById, that return a Patient type (and not the Patient_ base class)
+            </remarks>
+        </member>
+        <member name="F:VMS.CA.Scripting.Application_.sm_application">
+            <summary>Appliation object, must be set in the CreateApplication() method of the derived application class</summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.Application_.#ctor(VMS.CA.Scripting.IDatabaseProvider,VMS.CA.Scripting.User)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.Application_.ClosePatient">
+            <summary>
+            Closes the current patient. If the script tries to access the data of a closed patient, an access violation exception occurs.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.Application_._OpenPatientById(System.String)">
+            <summary>
+            Opens the given patient.
+            </summary>
+            <param name="sId">Patient ID</param>
+            <returns>Opened patient if found, null otherwise</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.Application_.Dispose">
+            <summary>
+            Implements <see cref="M:System.IDisposable.Dispose"/>. Call when not using the application object anymore.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Application_.CurrentUser">
+            <summary>
+            The user who is currently logged on.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Application_.PatientSummaries">
+            <summary>
+            Fetches patient summaries from the database.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.Beam">
+            <summary>
+            Represents one beam (also referred to as "field") of an external beam treatment plan. 
+            See the definition of DICOM RT Beam for more details. 
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.Beam.ArcLength_CreateOnAccess">
+            <summary>
+            Delegate called on first access to the <see cref="P:VMS.CA.Scripting.Beam.ArcLength"/> property, must return property value.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.Beam.GantryDirection_CreateOnAccess">
+            <summary>
+            Delegate called on first access to the <see cref="P:VMS.CA.Scripting.Beam.GantryDirection"/> property, must return property value.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.Beam.IsocenterPosition_CreateOnAccess">
+            <summary>
+            Delegate called on first access to the <see cref="P:VMS.CA.Scripting.Beam.IsocenterPosition"/> property, must return property value.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.Beam.MLCPlanType_CreateOnAccess">
+            <summary>
+            Delegate called on first access to the <see cref="P:VMS.CA.Scripting.Beam.MLCPlanType"/> property, must return property value.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.ArcLength">
+            <summary>
+            The arc length (in degrees, zero when no arc beam).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.CreationDateTime">
+            <summary>
+            The date when this object was created.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.DoseRate">
+            <summary>
+            The dose rate of the treatment machine in MU/min.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.EnergyModeDisplayName">
+            <summary>
+            The display name of the energy mode. For example '18E' or '6X-SRS'.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.GantryDirection">
+            <summary>
+            The gantry rotation direction: clockwise (CW), counterclockwise (CCW), or none.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.IsocenterPosition">
+            <summary>
+            The position of the isocenter.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.IsSetupField">
+            <summary>
+            Checks if a field is a setup field.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.MLCPlanType">
+            <summary>
+            The type of the Multileaf Collimator (MLC) plan.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.NormalizationFactor">
+            <summary>
+            The field normalization factor.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.PlannedSSD">
+            <summary>
+            The Source-to-Skin Distance (SSD) value defined by the user.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.SetupTechnique">
+            <summary>
+            The setup technique.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.WeightFactor">
+            <summary>
+            The weight factor of the beam.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.BeamNumber">
+            <summary>
+            The number of this beam. The number must be unique within a plan.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.SetupNote">
+            <summary>
+            The setup notes to be shown to the user at the time of treatment.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.ExternalBeam">
+            <summary>
+            External beam this beam is planned to be treated on.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.MLC">
+            <summary>
+            Returns a hardware description of the Multileaf Collimator (MLC) used in an MLC plan, or null if no MLC exists.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.ControlPoints">
+            <summary>
+            An enumerable sequence of machine parameters that describe the planned treatment beam.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.ReferenceImage">
+            <summary>
+            The reference image of the field.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.FieldImages">
+            <summary>
+            All images assigned to this field.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.PlanSetup">
+            <summary>
+            The parent plan setup
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Beam.TreatmentRecords">
+            <summary>
+            The collection of treatment records
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.Contour">
+            <summary>
+            A planar contour which consists of 3 or more contour points (see <see cref="T:VMS.CA.Scripting.VVector"/>) and encloses an area.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.Contour.ContourPoints_CreateOnAccess">
+            <summary>
+            Delegate called on first access to the <see cref="P:VMS.CA.Scripting.Contour.ContourPoints"/> property, must return property value.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.Contour.Area_CreateOnAccess">
+            <summary>
+            Delegate called on first access to the <see cref="P:VMS.CA.Scripting.Contour.Area"/> property, must return property value.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.Contour.CenterOfGravity_CreateOnAccess">
+            <summary>
+            Delegate called on first access to the <see cref="P:VMS.CA.Scripting.Contour.CenterOfGravity"/> property, must return property value.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Contour.Closed">
+            <summary>
+            Flag indicating if the contour is closed or open.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Contour.PointCount">
+            <summary>
+            The number of points in the contour.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Contour.ContourPoints">
+            <summary>
+            The contour points in Dicom coordinates.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Contour.Area">
+            <summary>
+            The area of the contour in square-millimeters.
+            The contour is assumed to be non self-intersecting.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Contour.CenterOfGravity">
+            <summary>
+            The center of gravity (centroid) of the contour, in Dicom coordinates.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.ControlPoint">
+            <summary>
+            Represents a point in a planned sequence of treatment beam parameters. 
+            See the definition of control points in a DICOM RT Beam. 
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ControlPoint.CollimatorAngle">
+            <summary>
+            The orientation of the IEC BEAM LIMITING DEVICE coordinate system with respect to the IEC GANTRY coordinate system (in degrees).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ControlPoint.GantryAngle">
+            <summary>
+            The gantry angle of the radiation source. In other words, the orientation of the IEC GANTRY coordinate system
+            with respect to the IEC FIXED REFERENCE coordinate system (in degrees).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ControlPoint.JawPositions">
+            <summary>
+            The positions of the beam collimator jaws (in mm) in the IEC BEAM LIMITING DEVICE coordinates.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ControlPoint.LeafPositions">
+            <summary>
+            The positions of the beam collimator leaf pairs (in mm) in the IEC BEAMLIMITING DEVICE coordinate axis appropriate to the device type.
+            For example, the X-axis for MLCX and the Y-axis for MLCY. The two-dimensional array is indexed [bank, leaf] where the bank is either 0 or 1.
+            Bank 0 represents the leaf bank to the negative MLC X direction, and bank 1 to the positive MLC X direction.
+            If there is no MLC, a (0,0)-length array is returned.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ControlPoint.MetersetWeight">
+            <summary>
+            The cumulative meterset weight to this control point. The cumulative meterset weight for the first item in a control point sequence is zero.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ControlPoint.PatientSupportAngle">
+            <summary>
+            The patient support angle. In other words, the orientation of the IEC PATIENT SUPPORT (turntable) coordinate
+            system with respect to the IEC FIXED REFERENCE coordinate system (in degrees).
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.ControlPointCollection">
+            <summary>
+            Represents a collection of machine parameters that describe the planned treatment beam. 
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.ControlPointCollection.GetEnumerator">
+            <summary>
+            Retrieves enumerator for ControlPoints in the collection.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.ControlPointCollection.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Retrieves enumerator for ControlPoints in the collection.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ControlPointCollection.Count">
+            <summary>
+            The number of control points in the collection.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ControlPointCollection.Item(System.Int32)">
+            <summary>
+            Gets the specified ControlPoint from the collection.
+            </summary>
+            <param name="index">Zero based index of the ControlPoint to retrieve.</param>
+            <returns>ControlPoint at the given index.</returns>
+        </member>
+        <member name="T:VMS.CA.Scripting.Course">
+            <summary>
+            A course represents the course of treatment that a patient will be given. 
+            Every patient must have a course, and all plans always belong to a course.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Course.StartDateTime">
+            <summary>
+            The date and time when the course was started.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Course.CompletedDateTime">
+            <summary>
+            The date and time when the course was completed.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Course.Status">
+            <summary>
+            The clinical status of the course.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Course.PlanSetups">
+            <summary>
+            A collection of plans belonging to the course.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.Doctor">
+            <summary>
+            Represents a doctor, either an oncologist or a referring physician.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Doctor.LastName">
+            <summary>
+            The last name of the doctor.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Doctor.FirstName">
+            <summary>
+            The first name of the doctor.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Doctor.IsOncologist">
+            <summary>
+            Gets if the doctor is oncologist.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.CourseStatus">
+            <summary>
+            Course status.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.CourseStatus.Active">
+            <summary>Course is active</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.CourseStatus.Completed">
+            <summary>Course is completed</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.CourseStatus.Restored">
+            <summary>Course is restored</summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.SeriesModality">
+            <summary>
+            The enumeration of series modalities.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.SeriesModality.CT">
+            <summary>CT image series</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.SeriesModality.MR">
+            <summary>MR image series</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.SeriesModality.PT">
+            <summary>PET image series</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.SeriesModality.CR">
+            <summary>Computed radiograph series</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.SeriesModality.US">
+            <summary>Ultrasound series</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.SeriesModality.RTIMAGE">
+            <summary>RT image series (projection images)</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.SeriesModality.RTSTRUCT">
+            <summary>RT structure set series</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.SeriesModality.RTPLAN">
+            <summary>RT plan series</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.SeriesModality.RTDOSE">
+            <summary>RT dose series</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.SeriesModality.REG">
+            <summary>Spatial registration series</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.SeriesModality.RTTRTRECORD">
+            <summary>Treatment record series</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.SeriesModality.TRACKINGPROTOCOL">
+            <summary>Tracking protocol series</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.SeriesModality.TRACKINGWAVEFORM">
+            <summary>Tracking waveform series</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.SeriesModality.Other">
+            <summary>Other series type</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.SeriesModality.Undefined">
+            <summary>Undefined series type</summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.PlanSetupApprovalStatus">
+            <summary>
+            The enumeration of plan approval states. 
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanSetupApprovalStatus.Rejected">
+            <summary>Plan has been Completed before, but reopend again</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanSetupApprovalStatus.UnApproved">
+            <summary>Inital status</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanSetupApprovalStatus.Reviewed">
+            <summary>Plan is reviewed and ready for approval</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanSetupApprovalStatus.PlanningApproved">
+            <summary>Planning has been finished</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanSetupApprovalStatus.TreatmentApproved">
+            <summary>Plan is ready for treatment</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanSetupApprovalStatus.CompletedEarly">
+            <summary>Plan is completed.
+            Treatment has not been finished what has been actually been planned. 
+            No more modification possible.</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanSetupApprovalStatus.Completed">
+            <summary>Plan is completed.
+            Treatment is finished completely. No more modification possible.</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanSetupApprovalStatus.Retired">
+            <summary>Plan is a former plan</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanSetupApprovalStatus.UnPlannedTreatment">
+            <summary>Unplanned treatment mode. This plan was created by treatment applications</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanSetupApprovalStatus.ExternallyApproved">
+            <summary>The plan was approved by an external application and imported over DICOM</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanSetupApprovalStatus.Unknown">
+            <summary>Unknown plan status</summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.PlanIntent">
+            <summary>
+            Intent of a plan.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanIntent.Unknown">
+            <summary>
+            Unknown technique
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanIntent.Curative">
+            <summary>
+            Curative therapy on patient
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanIntent.Palliative">
+            <summary>
+            Palliative therapy on patient
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanIntent.Prophylactic">
+            <summary>
+            Preventative therapy on patient
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanIntent.Verification">
+            <summary>
+            Verification of patient plan using phantom
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanIntent.MachineQA">
+            <summary>
+            Quality assurance of the delivery machine (independently of a specific patient)
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanIntent.Research">
+            <summary>
+            Research project
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanIntent.Service">
+            <summary>
+            Machine repair or maintenance operation
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.TreatmentType">
+            <summary>
+            The treatment type of a plan.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.TreatmentType.Other">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.TreatmentType.Linac">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.TreatmentType.Proton">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.TreatmentType.Brachy">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.TreatmentType.Tomo">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.TreatmentType.Robotic">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.TreatmentType.MultiSource">
+            <summary/>
+        </member>
+        <member name="T:VMS.CA.Scripting.PatientOrientation">
+            <summary>
+            The enumeration of patient orientations.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PatientOrientation.NoOrientation">
+            <summary>Patient orientation is unknown or not set</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PatientOrientation.HeadFirstSupine">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.PatientOrientation.HeadFirstProne">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.PatientOrientation.HeadFirstDecubitusRight">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.PatientOrientation.HeadFirstDecubitusLeft">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.PatientOrientation.FeetFirstSupine">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.PatientOrientation.FeetFirstProne">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.PatientOrientation.FeetFirstDecubitusRight">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.PatientOrientation.FeetFirstDecubitusLeft">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.PatientOrientation.Sitting">
+            <summary>Face first sitting</summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.GantryDirection">
+            <summary>
+            The enumeration of gantry rotation directions.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.GantryDirection.None">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.GantryDirection.Clockwise">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.GantryDirection.CounterClockwise">
+            <summary/>
+        </member>
+        <member name="T:VMS.CA.Scripting.MLCPlanType">
+            <summary>
+            The enumeration of Multileaf Collimator (MLC) techniques.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.MLCPlanType.Static">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.MLCPlanType.DoseDynamic">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.MLCPlanType.ArcDynamic">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.MLCPlanType.VMAT">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.MLCPlanType.ProtonLayerStacking">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.MLCPlanType.NotDefined">
+            <summary/>
+        </member>
+        <member name="T:VMS.CA.Scripting.SetupTechnique">
+            <summary>
+            The enumeration of setup techniques for a beam.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.SetupTechnique.Unknown">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.SetupTechnique.Isocentric">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.SetupTechnique.FixedSSD">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.SetupTechnique.TBI">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.SetupTechnique.BreastBridge">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.SetupTechnique.SkinApposition">
+            <summary/>
+        </member>
+        <member name="T:VMS.CA.Scripting.TreatmentDeliveryType">
+            <summary>
+            The enumeration of delivery types of treatment.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.TreatmentDeliveryType.Unknown">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.TreatmentDeliveryType.Treatment">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.TreatmentDeliveryType.Continuation">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.TreatmentDeliveryType.OpenPortFilm">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.TreatmentDeliveryType.TreatmentPortFilm">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.TreatmentDeliveryType.Setup">
+            <summary/>
+        </member>
+        <member name="F:VMS.CA.Scripting.TreatmentDeliveryType.Verification">
+            <summary/>
+        </member>
+        <member name="T:VMS.CA.Scripting.MLCType">
+            <summary>
+            The enumeration of MLC types (orientations).
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.MLCType.X">
+            <summary>MLC in IEC X direction.</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.MLCType.Y">
+            <summary>MLC in IEC Y direction.</summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.PatientNoteStatus">
+            <summary>
+            The enumeration of states of a patient note.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PatientNoteStatus.Cancelled">
+            <summary>
+            Cancelled
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PatientNoteStatus.Open">
+            <summary>
+            Initial status (not yet read).
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PatientNoteStatus.Read">
+            <summary>
+            Status after reading (and approving) the note.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PatientNoteStatus.Deleted">
+            <summary>The note shall not be used for clinical purpose anymore. The state is similar to deleting 
+            the note but due to traceablity, it will be kept physically.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.ImageModality">
+            <summary>
+            The enumeration of image modalities.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageModality.CT">
+            <summary>CT image</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageModality.MR">
+            <summary>MR image</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageModality.PET">
+            <summary>PET image</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageModality.RT">
+            <summary>RT image, the image is of type <see cref="T:VMS.CA.Scripting.ImageRT"/>.</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageModality.US">
+            <summary>Ultrasound image</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageModality.SC">
+            <summary>Secondary capture image</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageModality.XR">
+            <summary>X-ray image</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageModality.CR">
+            <summary>Computed radiagraph image</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageModality.Unknown">
+            <summary>Unknown modality</summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.ImageRTType">
+            <summary>
+            The enumeration of RT image types.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageRTType.DRR">
+            <summary>
+            Digital Reconstructed Radiography Image.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageRTType.PORTAL">
+            <summary>
+            Portal Image.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageRTType.SIMULATOR">
+            <summary>
+            Simulator Image.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageRTType.RADIOGRAPH">
+            <summary>
+            Radiographic Image.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageRTType.BLANK">
+            <summary>
+            Image pixels set to background value.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageRTType.FLUENCE">
+            <summary>
+            Fluence map.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageRTType.OTHER">
+            <summary>
+            Other (non-standard) type.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.ImageRTSubType">
+            <summary>
+            The enumeration of RT image subtypes.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageRTSubType.ACQUIRED_DOSE">
+            <summary>
+            Image is containing an acquired dose (from MV acquisition).
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageRTSubType.CALCULATED_DOSE">
+            <summary>
+            Image is containing a calculated dose (typically calculated from Eclipse or other planning systems).
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageRTSubType.OTHER">
+            <summary>
+            Other (non-standard) sub-type.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.ImageStatus">
+            <summary>
+            The enumeration of image states.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageStatus.New">
+            <summary>New image</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageStatus.Approved">
+            <summary>Approved by qualified user</summary> 
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageStatus.ActionRequired">
+            <summary>Action required</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageStatus.Reviewed">
+            <summary>Image is reviewed</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageStatus.Disposed">
+            <summary>The image shall not be used for clinical 
+            purpose anymore. The state is similar to deleting 
+            the image but disposed images can be un-deleted again.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.ImageStatus.Unknown">
+            <summary>Image status is unknown</summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.GraphicAnnotationType">
+            <summary>
+            The enumeration of graphic annotation types.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.GraphicAnnotationType.User">
+            <summary>
+            User Defined.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.GraphicAnnotationType.PlanFieldEdge">
+            <summary>
+            Planned Field Edge.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.GraphicAnnotationType.DEFieldEdge">
+            <summary>
+            Double Exposure Field Edge.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.GraphicAnnotationType.DetFieldEdge">
+            <summary>
+            Detected Field Edge.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.GraphicAnnotationType.MatchContour">
+            <summary>
+            Match anatomy contours for manual matching.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.GraphicAnnotationType.Measurement">
+            <summary>
+            Measurement.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.GraphicAnnotationType.Graticule">
+            <summary>
+            Graticule.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.GraphicAnnotationType.Marker">
+            <summary>
+            Marker.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.GraphicAnnotationType.PointMatchContour">
+            <summary>
+            Points for point matching.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.GraphicAnnotationType.ProjectedStructures">
+            <summary>
+            Projected Structures (e.g. from CT to DRR).
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.StructureType">
+            <summary>
+            The enumeration of structure types, used for structures contained in a structure set.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.BrachyShape">
+            <summary>
+            BrachyShape (DICOM Type 'BRACHY_CHANNEL')
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.Bolus">
+            <summary>
+            Bolus (DICOM Type 'BOLUS')
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.Marker">
+            <summary>
+            Marker (DICOM Type 'MARKER').
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.MatchContour">
+            <summary>
+            Match anatomy contours for manual matching (DICOM Type 'MARKER', SupType 'REFERENCE_LINE')
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.Isocenter">
+            <summary>
+            Isocenter (DICOM Type 'ISOCENTER').
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.AcqIsocenter">
+            <summary>
+            Acquisition Isocenter
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.InitLaserIso">
+            <summary>
+            Initial Laser Isocenter position
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.InitMatchIso">
+            <summary>
+            Initial Match isocenter position
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.Registration">
+            <summary>
+            Registration (DICOM Type 'REGISTRATION')
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.BrachyAccessory">
+            <summary> 
+            Brachy Accessory (DICOM Type 'BRACHY_ACCESSORY')
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.BrachySrcApp">
+            <summary> 
+            Brachy Src App (DICOM Type 'BRACHY_SRC_APP')
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.BrachyChnlShld">
+            <summary> 
+            Brachy Channel Shield (DICOM Type 'BRACHY_CHNL_SHLD')
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.Unknown">
+            <summary>
+            Unknown stucture type
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.Headring">
+            <summary> 
+            Headring for stereotaxis
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.Biteblock">
+            <summary> 
+            Biteblock for stereotaxis
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.HeadframeRod">
+            <summary> 
+            Headframe rod for stereotaxis
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.Headframe">
+            <summary> 
+            Headframe for stereotaxis
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.HeadframePhantom">
+            <summary> 
+            Headframe phantom for stereotaxis
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.SRSOrigin">
+            <summary> 
+            SRS origin for stereotaxis
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.GTV">
+            <summary> 
+            GTV definition
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.CTV">
+            <summary> 
+            CTV definition
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.PTV">
+            <summary> 
+            PTV definition
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.Avoidance">
+            <summary> 
+            Area to avoid dose deposition
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.Body">
+            <summary> 
+            Body outline
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.Organ">
+            <summary> 
+            Patient organ
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.TreatedVolume">
+            <summary> 
+            Treated volume
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.IrradVolume">
+            <summary> 
+            Irradiated volume
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.ContrastAgent">
+            <summary> 
+            Volume into which a contrast agent has been injected
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.Cavity">
+            <summary> 
+            Patient anatomical cavity
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.Support">
+            <summary> 
+            External patient support device
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.Fixation">
+            <summary> 
+            External patient fixation or immobilisation device
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.DoseRegion">
+            <summary> 
+            ROI to be used as a doce reference
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.Control">
+            <summary> 
+            ROI to be used in control of dose optimization and calculation
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureType.None">
+            <summary> 
+            Used for all structure types from incoming structure sets, which are empty or not known
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.StructureStatus">
+            <summary>
+            The enumeration of structure states.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureStatus.Unapproved">
+            <summary>
+            The object is new in the system and has not been reviewed.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureStatus.Reviewed">
+            <summary>
+            A user has seen the object, but not yet taken the final decision what to do with it or the user does not have
+            the right to take a final decision.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureStatus.Approved">
+            <summary>
+            A qualified user has decided that the object is accepted for downstream usage.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureStatus.Rejected">
+            <summary>
+            A qualified user has decided that the object is invalid for downstream operations.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.StructureStatus.Undefined">
+            <summary>
+            Undefined structure status.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.ExternalBeam">
+            <summary>
+            Represents a treatment machine used for delivering external beam radiotherapy.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ExternalBeam.MachineModel">
+            <summary>
+            The model of the treatment machine.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ExternalBeam.Manufacturer">
+            <summary>
+            Manufacturer of the treatment machine.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ExternalBeam.SerialNumber">
+            <summary>
+            Serial number of the treatment machine.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ExternalBeam.MachineScaleDisplayName">
+            <summary>
+            The name of the scale used in the treatment machine.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ExternalBeam.SourceAxisDistance">
+            <summary>
+            The source to axis distance (in millimeters).
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.Fractionation">
+            <summary>
+            The fractionation scheme of a plan. 
+            See the definitions of the applicable parts of DICOM RT Fraction Scheme for more details.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Fractionation.CreationDateTime">
+            <summary>
+            The date when this object was created.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Fractionation.CreationUserName">
+            <summary>
+            The name of the user who saved the object for the first time.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Fractionation.NumberOfFractions">
+            <summary>
+            The number of fractions.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Fractionation.UID">
+            <summary>
+            The DICOM UID of the fractionation.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Fractionation.Series">
+            <summary>
+            The series of the plan.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Fractionation.PlanSetup">
+            <summary>
+            Used for navigating to parent plan setup.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.Frame">
+            <summary>
+            A frame is a container that holds image acquisition parameters and the  raw image data for a single image that is usually part of a larger sequence of images.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.Frame.DisplayUnit_CreateOnAccess">
+            <summary>
+            Delegate called on first access to the <see cref="P:VMS.CA.Scripting.Frame.DisplayUnit"/> property, must return property value.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.Frame.Window_CreateOnAccess">
+            <summary>
+            Delegate called on first access to the <see cref="P:VMS.CA.Scripting.Frame.Window"/> property, must return property value.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.Frame.Level_CreateOnAccess">
+            <summary>
+            Delegate called on first access to the <see cref="P:VMS.CA.Scripting.Frame.Level"/> property, must return property value.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.Frame.DicomToVoxel(VMS.CA.Scripting.VVector)">
+            <summary>
+            Converts DICOM coordinates to the voxel coordinate system of the image.
+            </summary>
+            <param name="dicom">Coordinate value in DICOM coordinate system.</param>
+            <returns>The coordinate value in the voxel coordinate system of the image.</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.Frame.VoxelToDicom(VMS.CA.Scripting.VVector)">
+            <summary>
+            Converts voxel coordinates to DICOM coordinates.
+            </summary>
+            <param name="voxel">Coordinate value in image voxel coordinate system.</param>
+            <returns>The coordinate value in the DICOM coordinate system.</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.Frame.GetImageProfile(VMS.CA.Scripting.VVector,VMS.CA.Scripting.VVector,System.Double[])">
+            <summary>
+            Gets an image profile.
+            </summary>
+            <param name="start">Location of the first point of the profile, in voxel coordinates.</param>
+            <param name="stop">Location of the last point of the profile, in voxel coordinates.</param>
+            <param name="preallocatedBuffer">Preallocated buffer where the values are stored. The size of the buffer determines the number of values to return.</param>
+            <returns>The ImageProfile object holding the image pixel values along the line segment defined by start and stop parameters.<br/>
+            The profile data is returned in the display unit, e.g. HU for CT slices.</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.Frame.GetVoxels(System.Int32,System.UInt16[0:,0:])">
+            <summary>
+            Gets the voxels of the given image plane.
+            </summary>
+            <param name="planeIndex">Zero based index of the plane. For frames belonging to projection images, this index must be zero.</param>
+            <param name="preallocatedBuffer">Preallocated buffer where the voxel values are stored. The size of the buffer must conform with the X- and Y-size of this image.</param>
+        </member>
+        <member name="M:VMS.CA.Scripting.Frame.VoxelToDisplayValue(System.Int32)">
+            <summary>
+            Converts the given raw voxel value to the corresponding value in the user interface display unit, for example, HU, Bq/ml.
+            </summary>
+            <param name="voxelValue">Voxel value.</param>
+            <returns>Value converted to user interface display unit.</returns>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.FrameMethodImpl">
+            <summary>
+            Injected class method implementation.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.FrameNumber">
+            <summary>
+            The number of this frame, zero based.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.CreationDateTime">
+            <summary>
+            The date when this frame was created.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.AcquisitionDateTime">
+            <summary>
+            The date when this frame was acquired.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.FrameTimeIncrement">
+            <summary>
+            The real time increment between the beginning of the PREVIOUS frame
+            and the beginning of this frame in milliseconds.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.XSize">
+            <summary>
+            The size in X-direction in voxels.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.YSize">
+            <summary>
+            The size in Y-direction in voxels.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.ZSize">
+            <summary>
+            The size in Z-direction in voxels. 1 for frames belonging to projection images.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.XRes">
+            <summary>
+            The pixel size in X-direction in millimeters. NaN if frame is unscaled.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.YRes">
+            <summary>
+            The pixel size in Y-direction in millimeters. NaN if frame is unscaled.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.ZRes">
+            <summary>
+            The pixel size in Z-direction in millimeters. Zero for frames belonging to projection images.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.Origin">
+            <summary>
+            The origin of the frame. In other words, the DICOM patient coordinates of the center point of the upper-left hand corner voxel of the first plane (plane index 0).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.XDirection">
+            <summary>
+            The direction of the x-axis in the frame (in DICOM patient coordinate system).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.YDirection">
+            <summary>
+            The direction of the y-axis in the frame (in DICOM patient coordinate system).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.ZDirection">
+            <summary>
+            The direction of the z-axis in the image (in DICOM patient coordinate system).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.DisplayUnit">
+            <summary>
+            The name of the display unit in which the voxels of the frame are shown in the user interface.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.Window">
+            <summary>
+            The display window of the frame. The value is given in display scale, not in voxel scale.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.Level">
+            <summary>
+            The level of the frame (center of window). The value is given in display scale, not in voxel scale.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.Image">
+            <summary>
+            Navigation to the image this frame belongs to. Each frame belongs to exactly one image.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Frame.GraphicAnnotations">
+            <summary>
+            The enumeration of graphic annotations.<br/>
+            Graphic annotations are text labels (projection and volume images) and
+            planar contours (projection images only).
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.Frame.IFrameImpl">
+            <summary>
+            Interface used to inject the implementation of the public class methods.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.FrameCollection">
+            <summary>
+            Represents a collection of frames belonging to an image.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.FrameCollection.GetEnumerator">
+            <summary>
+            Retrieves enumerator for frames in the collection.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.FrameCollection.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Retrieves enumerator for frames in the collection.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.FrameCollection.Count">
+            <summary>
+            The number of frames in the collection.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.FrameCollection.Item(System.Int32)">
+            <summary>
+            Gets the specified frame from the collection.
+            </summary>
+            <param name="index">Zero based index of the frame to retrieve.</param>
+            <returns>Frame at the given index.</returns>
+        </member>
+        <member name="T:VMS.CA.Scripting.FrameRT">
+            <summary>
+            A Frame for an RT Image. Includes the usual frame information along with additional 
+            information relevant to RT, like the energy, collimator rotation, and patient position.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.FrameRT.Energy">
+            <summary>
+            Source energy. Peak kilo voltage output of X-ray generator used to acquire image (in keV).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.FrameRT.SourceRtn">
+            <summary>
+            Rotation of the virtual (DRR) or real (PORTAL, SIMULATOR, RADIOGRAPH) radiation source
+            used to acquire the image with respect to the IEC FIXED REFERENCE coordinate system (deg).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.FrameRT.OffPlaneAngle">
+            <summary>
+            Angle describing the rotation of the OFF-PLANE coordinate system around the postive X-Axis direction of
+            the IEC GANTRY coordinate system. A positive angle corresponds to a clockwise rotation as viewed in the
+            direction of the X-Axis. The zero angle describes a radiation source on the Z-Axis of the IEC GANTRY system.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.FrameRT.CollimatorRtn">
+            <summary>
+            Collimator (beam limiting device) rotation, i.e. orientation of IEC BEAM LIMITING
+            DEVICE coordinate system with respect to IEC GANTRY coordinate system.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.FrameRT.PatientSupportAngle">
+            <summary>
+            The patient support rotation angle. In other words, the orientation of the IEC PATIENT SUPPORT (turntable)
+            coordinate system with respect to the IEC FIXED REFERENCE coordinate system (in degrees).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.FrameRT.PatientSupportPitchAngle">
+            <summary>
+            The patient support pitch angle (around the isocenter, in degrees).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.FrameRT.PatientSupportRollAngle">
+            <summary>
+            The patient support roll angle (around the isocenter, in degrees).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.FrameRT.PatientSupportLateralPosition">
+            <summary>
+            The patient support lateral position (isocentric couch representation).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.FrameRT.PatientSupportLongitudinalPosition">
+            <summary>
+            The patient support longitudinal position (isocentric couch representation).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.FrameRT.PatientSupportVerticalPosition">
+            <summary>
+            The patient support vertical position (isocentric couch representation).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.FrameRT.ImageRT">
+            <summary>
+            Navigation to the RT image containing this frame.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.FrameRTCollection">
+            <summary>
+            Represents a collection of RT frames belonging to an RT image.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.FrameRTCollection.GetEnumerator">
+            <summary>
+            Retrieves enumerator for frames in the collection.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.FrameRTCollection.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Retrieves enumerator for frames in the collection.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.FrameRTCollection.Count">
+            <summary>
+            The number of frames in the collection.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.FrameRTCollection.Item(System.Int32)">
+            <summary>
+            Gets the specified frame from the collection.
+            </summary>
+            <param name="index">Zero based index of the frame to retrieve.</param>
+            <returns>Frame at the given index.</returns>
+        </member>
+        <member name="T:VMS.CA.Scripting.Globals">
+            <summary>
+             class that contains static methods. 
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Globals.AbortNow">
+            <summary>
+            The flag that aborts script execution the next time any property or method of the Scripting API is accessed.
+            </summary>
+            <remarks>Setting this flag to true will throw a <see cref="T:System.OperationCanceledException"/> next time the scripting API is accessed.
+            If this exception is caught in user script code, aborting the script fails.</remarks>
+        </member>
+        <member name="P:VMS.CA.Scripting.Globals.PlugIn">
+            <summary>
+            Determines if the caller is running in the context of a plug-in script (true) or in a standalone application (false).
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.GraphicAnnotation">
+            <summary>
+            A graphical annotation containing 2d contours and/or text labels.  
+            Could be a Field Aperture contour or a custom user defined text label.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.GraphicAnnotation.GraphicAnnotationType">
+            <summary>
+            The type of the annotation.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.GraphicAnnotation.Color">
+            <summary>
+            The color to draw the contours of this annotation.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.GraphicAnnotation.Labels">
+            <summary>
+            The collection of text labels.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.GraphicAnnotation.Contours">
+            <summary>
+            The collection of contours.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.GraphicAnnotation.Frame">
+            <summary>
+            Navigation to parent frame.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.Hospital">
+            <summary>
+            Represents a hospital.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Hospital.Location">
+            <summary>
+            The location of the hospital.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.IDatabaseProvider">
+            <summary>
+            Scripting API infrastructure interface, not intended for use by user scripts.<br/>
+            </summary>
+            <remarks>
+            Interface for decoupling a Varian DB application from the scripting application class.
+            </remarks>
+        </member>
+        <member name="M:VMS.CA.Scripting.IDatabaseProvider.LoginToDatabase(System.String,System.String)">
+            <summary>
+            Login to the database with given user name and password.
+            </summary>
+            <param name="username">User name, show graphical login dialog if null</param>
+            <param name="password">Password, show graphical login dialog if null</param>
+            <returns>Logged in user if success, null if failure or login canceled by the user</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.IDatabaseProvider.LogoutAndCleanup">
+            <summary>
+            Logout from the database and cleanup of all resources.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.IDatabaseProvider.GetPatientSummaries">
+            <summary>
+            Gets all patients on the database.
+            </summary>
+            <returns>Patient summary enumeration, only containing patients assigned to same department as the logged in user when HIPAA is enabled</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.IDatabaseProvider.OpenPatient(System.String)">
+            <summary>
+            Opens the given patient. Only one patient can be open at the same time.
+            </summary>
+            <param name="sPatientId">Patient ID</param>
+            <returns>Open patient, null if failure</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.IDatabaseProvider.ClosePatient">
+            <summary>
+            Closes the currently open patient.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.Image">
+            <summary>
+            Represents a 2D or 3D image, which can be a DRR, a CT, MR, or other volumetric dataset.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Image.ImageModality">
+            <summary>
+            The modality of the image, e.g. CT, MR, RT, etc.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Image.CreationDateTime">
+            <summary>
+            The date when this object was created.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Image.FOR">
+            <summary>
+            The UID of the frame of reference.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Image.UID">
+            <summary>
+            The DICOM UID of the image, null if none.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Image.ImagingOrientation">
+            <summary>
+            The orientation of the patient.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Image.ImageStatus">
+            <summary>
+            The image status.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Image.Remarks">
+            <summary>
+            The user defined image remarks.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Image.IsProcessed">
+            <summary>
+            Returns the value true if an image processing filter is in use for the image.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Image.Frames">
+            <summary>
+            The frames of the image. An image contains at least one frame. The frame index is zero based.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Image.Series">
+            <summary>
+            Used for navigating to parent series.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.ImageProfile">
+            <summary>
+            Represents an image line profile. 
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.LineProfile">
+            <summary>
+            Represents values along a line segment.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.LineProfile.#ctor(VMS.CA.Scripting.VVector,VMS.CA.Scripting.VVector,System.Double[])">
+            <summary>
+            Constructs a LineProfile.
+            </summary>
+            <param name="origin">Origin, i.e. position of first point of the profile.</param>
+            <param name="step">Step length and direction between points on the profile.</param>
+            <param name="data">Array of values of the profile.</param>
+        </member>
+        <member name="M:VMS.CA.Scripting.LineProfile.GetEnumerator">
+            <summary>
+            An enumerator for the points in the profile. 
+            </summary>
+            <returns>Enumerator for points in the profile.</returns>
+        </member>
+        <member name="P:VMS.CA.Scripting.LineProfile.Count">
+            <summary>
+            The number of points in the profile.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.LineProfile.Item(System.Int32)">
+            <summary>
+            Gets the specified point from the profile.
+            </summary>
+            <param name="index">Zero based index of the point to retrieve.</param>
+            <returns>Point at the given index.</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.ImageProfile.#ctor(VMS.CA.Scripting.VVector,VMS.CA.Scripting.VVector,System.Double[],System.String)">
+            <summary>
+            Constructs an ImageProfile.
+            </summary>
+            <param name="origin">Origin, i.e. position of first point of the profile.</param>
+            <param name="step">Step length and direction between points on the profile.</param>
+            <param name="data">Array of values of the profile.</param>
+            <param name="unit">Unit of values in the profile.</param>
+        </member>
+        <member name="P:VMS.CA.Scripting.ImageProfile.Unit">
+            <summary>
+            The unit of the points on the image profile.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.Label">
+            <summary>
+            Represents a text label.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Label.Text">
+            <summary>
+            The text of the label.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Label.Position">
+            <summary>
+            The position of the label in Dicom coordinates.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.ProfilePoint">
+            <summary>
+            Represents a point of a line profile.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.ProfilePoint.#ctor(VMS.CA.Scripting.VVector,System.Double)">
+            <summary>
+            Constructs a ProfilePoint.
+            </summary>
+            <param name="position">Position of the point.</param>
+            <param name="value">Value of the point.</param>
+        </member>
+        <member name="P:VMS.CA.Scripting.ProfilePoint.Position">
+            <summary>
+            The position of the point.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ProfilePoint.Value">
+            <summary>
+            The value of the point.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.MLC">
+            <summary>
+            Represents a Multileaf Collimator (MLC) add-on.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.MLC.LeafBoundaries_CreateOnAccess">
+            <summary>
+            Delegate called on first access to the <see cref="P:VMS.CA.Scripting.MLC.LeafBoundaries"/> property, must return property value.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.MLC.ManufacturerName">
+            <summary>
+            The name of the manufacturer of the Multileaf Collimator (MLC).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.MLC.SerialNumber">
+            <summary>
+            The serial number given to the Multileaf Collimator (MLC) by the factory.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.MLC.Model">
+            <summary>
+            The number or name of the Multileaf Collimator (MLC) model.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.MLC.MinDoseDynamicLeafGap">
+            <summary>
+            For dose-dynamic treatments, the minimum gap (mm) between moving, open leaf pairs that the Multileaf Collimator (MLC) hardware can handle.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.MLC.MLCType">
+            <summary>
+            The MLC type (orientation).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.MLC.SourceToMLCDistance">
+            <summary>
+            The source to MLC distance (mm)
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.MLC.NrOfLeafPairs">
+            <summary>
+            The number of leaf pairs (e.g. for a 120 MLC, this number if 60).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.MLC.LeafBoundaries">
+            <summary>
+            The MLC leaf boundaries in IEC coordinates (mm).
+            The indexing of the array is:
+            0 denotes the boundary of the leaf number 1 to the lower end.
+            1 denotes the boundary of leaf number 1 on the upper end and at
+            the same time the boundary of leaf number 2 on the lower end.
+            For N leaf pairs, this array contains N+1 values.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.NonRigidRegistration">
+            <summary>
+            Represents a non rigid spatial registration between two frames of reference.
+            </summary>
+            <remarks>To transform a point p from the registered coordinate system to the source coordinate system
+            the following transformation needs to be applied:<br/>
+            p(source) = PostTransformationMatrix * ( PreTransformationMatrix * p(reg) + vector )<br/>
+            The voxel coordinate of the vector in the vector field can be calculated from p(reg) by using the method
+            <see cref="M:VMS.CA.Scripting.VectorField.DicomToGrid(VMS.CA.Scripting.VVector)"/>.<br/>
+            For more information refer to the DICOM standard.</remarks>
+        </member>
+        <member name="T:VMS.CA.Scripting.Registration">
+            <summary>
+            Represents the spatial registration matrix between two frames of reference.
+            </summary>
+            <remarks>
+            Base class to represent a rigid or non-rigid spatial registration between two frames of reference.
+            </remarks>
+        </member>
+        <member name="M:VMS.CA.Scripting.Registration.TransformPoint(VMS.CA.Scripting.VVector)">
+            <summary>
+            Transforms a point from the SourceFOR coordinate system to the RegisteredFOR coordinate system.<br/>
+            Caution: For non-rigid registrations implemented in MIRS only. Throws NotImplementedException when used in other applications.
+            </summary>
+            <param name="pt">Point in the SourceFOR coordinate system.</param>
+            <returns>Given point transformed to the RegisteredFOR.</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.Registration.InverseTransformPoint(VMS.CA.Scripting.VVector)">
+            <summary>
+            Transforms a point in the inverse direction, that is, from the coordinate system of the RegisteredFOR to the coordinate system of the SourceFOR.<br/>
+            Caution: For non-rigid registrations implemented in MIRS only. Throws NotImplementedException when used in other applications.
+            </summary>
+            <param name="pt">Point in the RegisteredFOR coordinate system.</param>
+            <returns>Given point transformed to the SourceFOR.</returns>
+        </member>
+        <member name="P:VMS.CA.Scripting.Registration.RegistrationMethodImpl">
+            <summary>
+            Injected class method implementation.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Registration.SubType">
+            <summary>
+            The registration sub-type.
+            </summary>
+            <remarks>The following sub-types are defined by Varian for rigid matching types:<br/>
+            Offline2D, Online2D<br/>
+            Offline2DPaired, Online2DPaired<br/>
+            Offline3D, Online3D<br/>
+            OfflineMarker, OnlineMarker<br/>
+            Offline2D3D, Online2D3D<br/>
+            Offline2D3DPaired, Online2D3DPaired</remarks>
+        </member>
+        <member name="P:VMS.CA.Scripting.Registration.MatchAlgorithm">
+            <summary>
+            The match algorithm used for the registration, free text.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Registration.UID">
+            <summary>
+            The UID of the registration
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Registration.CreationDateTime">
+            <summary>
+            The date when this registration was created.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Registration.RegisteredFOR">
+            <summary>
+            The frame of reference UID of the registered coordinate system.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Registration.SourceFOR">
+            <summary>
+            The frame of reference UID of the source coordinate system.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Registration.Series">
+            <summary>
+            Navigation to the series.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Registration.Images">
+            <summary>
+            Navigation to the images that have been involved when creating this spatial registration. Can be empty.
+            </summary>
+            <remarks>If volumetric images are involved, the images in this enumeration are the original slices the volumetric image was created from - not the volumetric image itself.</remarks>
+        </member>
+        <member name="T:VMS.CA.Scripting.Registration.IRegistrationImpl">
+            <summary>
+            Interface used to inject the implementation of the public class methods.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.NonRigidRegistration.PreTransformationMatrix">
+            <summary>
+            The transformation matrix applied before the deformation field is applied.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.NonRigidRegistration.PostTransformationMatrix">
+            <summary>
+            The transformation matrix applied after the deformation field is applied.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.NonRigidRegistration.DeformationField">
+            <summary>
+            The deformation field. The vectors are pointing from the registered to the source FOR.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.PatientNote">
+            <summary>
+            User defined patient note text.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PatientNote.Note">
+            <summary>
+            The patient note text.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PatientNote.DisplayDate">
+            <summary>
+            The date when the note should be displayed.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PatientNote.WrittenByUser">
+            <summary>
+            The name of the user who has created the note.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PatientNote.ReadByUser">
+            <summary>
+            The name of the user who has read (approved) the note.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PatientNote.ReadDateTime">
+            <summary>
+            The date when the note has been read (approved), null when not yet read.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PatientNote.Status">
+            <summary>
+            The patient note status.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.PatientSummary">
+            <summary>
+            Basic information about the patient.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PatientSummary.Id">
+            <summary>
+            The patient ID.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PatientSummary.Id2">
+            <summary>
+            The patient ID2.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PatientSummary.FirstName">
+            <summary>
+            The first name of the patient.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PatientSummary.MiddleName">
+            <summary>
+            The middle name of the patient. String.Empty if unknown.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PatientSummary.LastName">
+            <summary>
+            The last name of the patient.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PatientSummary.Sex">
+            <summary>
+            The gender of the patient.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PatientSummary.SSN">
+            <summary>
+            The Social Security Account Number (SSN) of the patient. 
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PatientSummary.DateOfBirth">
+            <summary>
+            The date of birth of the patient.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.Patient_">
+            <summary>
+            Represents a patient.
+            </summary>
+            <remarks>
+            Scripting API infrastructure class, not intended for direct use by user scripts.
+            Use the non-abstract Patient class instead.
+            </remarks>
+        </member>
+        <member name="P:VMS.CA.Scripting.Patient_.DateOfBirth">
+            <summary>
+            The date of birth of the patient.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Patient_.FirstName">
+            <summary>
+            The first name of the patient.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Patient_.LastName">
+            <summary>
+            The last name of the patient.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Patient_.MiddleName">
+            <summary>
+            The middlename of the patient.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Patient_.Id2">
+            <summary>
+            The patient ID2.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Patient_.Sex">
+            <summary>
+            The gender of the patient.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Patient_.Hospital">
+            <summary>
+            The hospital.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Patient_.Doctors">
+            <summary>
+            A collection of doctors assigned to the patient (including the primary oncologist).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Patient_.PrimaryOncologist">
+            <summary>
+            The primary oncologist of the patient.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Patient_.PatientNotes">
+            <summary>
+            A collection of the patient notes
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Patient_.Courses">
+            <summary>
+            A collection of the patient's courses.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Patient_.Studies">
+            <summary>
+            A collection of studies.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.PlanSetup">
+            <summary>
+            Represents a treatment plan.  
+            See the definition of a DICOM RT Plan for more information.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.PlanSetup.IsTreated_CreateOnAccess">
+            <summary>
+            Delegate called on first access to the <see cref="P:VMS.CA.Scripting.PlanSetup.IsTreated"/> property, must return property value.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PlanSetup.ApprovalStatus">
+            <summary>
+            The approval status.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PlanSetup.CreationDateTime">
+            <summary>
+            The date when this object was created.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PlanSetup.CreationUserName">
+            <summary>
+            The name of the user who saved the plan for the first time.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PlanSetup.IsTreated">
+            <summary>
+            Checks if the treatment plan has been delivered.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PlanSetup.PrescribedPercentage">
+            <summary>
+            The prescribed dose percentage as a decimal number.
+            For example, if the prescribed dose percentage shown in the user interface is 80 %, returns 0.8.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PlanSetup.TreatmentType">
+            <summary>
+            The treatment type (Linac, Proton, Brachy etc).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PlanSetup.Intent">
+            <summary>
+            The intent of this plan setup.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PlanSetup.TreatmentOrientation">
+            <summary>
+            The orientation of the treatment.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PlanSetup.UID">
+            <summary>
+            The DICOM UID of the plan.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PlanSetup.Course">
+            <summary>
+            Used for navigating to parent course.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PlanSetup.UniqueFractionation">
+            <summary>
+            Gets the unique fractionation. If it does not exist, an exception is thrown.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PlanSetup.FormerPlanSetup">
+            <summary>
+            Former plan setup, null if none exists or not unique.
+            Allows to follow back the plan revision chain.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PlanSetup.Beams">
+            <summary>
+            A collection of all the beams in the plan (including setup beams).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PlanSetup.StructureSet">
+            <summary>
+            The structure set of the planning volume image, null if no planning image available.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.PointCollection">
+            <summary>
+            Represents a collection of 3d-points.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.PointCollection.GetEnumerator">
+            <summary>
+            Retrieves enumerator for points in the collection.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.PointCollection.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Retrieves enumerator for points in the collection.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PointCollection.Count">
+            <summary>
+            The number of points in the collection.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PointCollection.Item(System.Int32)">
+            <summary>
+            Gets the specified point from the collection.
+            </summary>
+            <param name="index">Zero based index of the point to retrieve.</param>
+            <returns>Point at the given index.</returns>
+        </member>
+        <member name="T:VMS.CA.Scripting.PointsStructure">
+            <summary>
+            Represents a point set (collection of 3d-points).
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.Structure">
+            <summary>
+            A structure is a geometrical representation of an anatomical organ, a treatment volume, a marker, or a support structure. 
+            See the definition of a DICOM Structure for more information.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Structure.Color">
+            <summary>
+            The color of the structure.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Structure.StructureType">
+            <summary>
+            The type of the structure.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Structure.Status">
+            <summary>
+            The approval status of the structure.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Structure.StructureSet">
+            <summary>
+            Navigation to parent structure set.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Structure.Labels">
+            <summary>
+            Labels assigned to this structure
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.PointsStructure.Points">
+            <summary>
+            The collection of 3d-points. The points are in Dicom coordinates.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.ProjectionImage">
+            <summary>
+            A 2d projection image.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ProjectionImage.Beam">
+            <summary>
+            The beam this projection image is assigned to. Null if not assigned to a beam.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.ImageRT">
+            <summary>
+            Represents an RT Image.  
+            See the definition of DICOM RT Image for more details.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ImageRT.ImageRTType">
+            <summary>
+            The type of the RT image, null if undefined.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ImageRT.ImageRTSubType">
+            <summary>
+            The sub-type of the RT image, null if no sub-type given.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ImageRT.Description">
+            <summary>
+            The user-defined description of the RT image.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ImageRT.SAD">
+            <summary>
+            The source to axis distance (mm).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ImageRT.SID">
+            <summary>
+            The source to imager distance (mm).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ImageRT.IDULat">
+            <summary>
+            Lateral offset of the image detection unit from the radiation beam axis (mm).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ImageRT.IDULng">
+            <summary>
+            Longitudinal offset of the image detection unit from the radiation beam axis (mm).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ImageRT.IDURtn">
+            <summary>
+            Rotation of image detection unit (deg).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ImageRT.ImagePositionX">
+            <summary>
+            The X coordinate of the upper left hand corner (center of first pixel transmitted)
+            of the image, in the IEC X-RAY IMAGE RECEPTOR coordinate system (mm).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ImageRT.ImagePositionY">
+            <summary>
+            The Y coordinate of the upper left hand corner (center of first pixel transmitted)
+            of the image, in the IEC X-RAY IMAGE RECEPTOR coordinate system (mm).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ImageRT.IsocenterPosition">
+            <summary>
+            Isocenter position in DICOM patient coordinates (mm).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ImageRT.FramesRT">
+            <summary>
+            The RT frames of the image. The frame index is zero based.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.RigidRegistration">
+            <summary>
+            Represents a rigid spatial registration between two frames of reference.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.RigidRegistration.TransformationMatrix">
+            <summary>
+            The elements of the 4x4 transformation matrix.
+            </summary>
+            <remarks>The transformation matrix can be used to transform points from the source coordinate system
+            to the registered coordinate system by using the following matrix multiplication:<br/>
+            p(reg) = T * p(source)<br/>
+            where the points are in homogenous coordinates p = [p(x), p(y), p(z), 1]</remarks>
+        </member>
+        <member name="T:VMS.CA.Scripting.ScriptContext_">
+            <summary>
+            Contains the runtime context information of the active application for the script. 
+            </summary>
+            <remarks>
+            Scripting API infrastructure class, not intended for direct use by user scripts.
+            Use the non-abstract ScriptContext class instead.
+            </remarks>
+        </member>
+        <member name="M:VMS.CA.Scripting.ScriptContext_.#ctor(VMS.CA.Scripting.User)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.ScriptContext_.CurrentUser">
+            <summary>
+            The currently logged in user of the application.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.SegmentProfilePoint">
+            <summary>
+            Represents a point of a segment profile.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.SegmentProfilePoint.#ctor(VMS.CA.Scripting.VVector,System.Boolean)">
+            <summary>
+            Constructs a SegmentProfilePoint.
+            </summary>
+            <param name="position">Position of the point.</param>
+            <param name="value">Value of the point.</param>
+        </member>
+        <member name="P:VMS.CA.Scripting.SegmentProfilePoint.Position">
+            <summary>
+            The position of the point.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.SegmentProfilePoint.Value">
+            <summary>
+            The value of the point: true if the point is inside the segment, false otherwise.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.SegmentProfile">
+            <summary>
+            Represents the segment values along a line segment.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.SegmentProfile.#ctor(VMS.CA.Scripting.VVector,VMS.CA.Scripting.VVector,System.Collections.BitArray)">
+            <summary>
+            Constructs a SegmentProfile.
+            </summary>
+            <param name="origin">Origin, i.e. position of first point of the profile.</param>
+            <param name="step">Step length and direction between points on the profile.</param>
+            <param name="data">Array of values of the profile.</param>
+        </member>
+        <member name="M:VMS.CA.Scripting.SegmentProfile.GetEnumerator">
+            <summary>
+            An enumerator for the points in the profile. 
+            </summary>
+            <returns>Enumerator for points in the profile.</returns>
+        </member>
+        <member name="P:VMS.CA.Scripting.SegmentProfile.Count">
+            <summary>
+            The number of points in the profile.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.SegmentProfile.Item(System.Int32)">
+            <summary>
+            Gets the specified point from the profile.
+            </summary>
+            <param name="index">Zero based index of the point to retrieve.</param>
+            <returns>Point at the given index.</returns>
+        </member>
+        <member name="T:VMS.CA.Scripting.Series">
+            <summary>
+            A series is a collection of radiation therapy objects of a patient. 
+            The series is part of a study.
+            See the definition of a DICOM Series for more information.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Series.FOR">
+            <summary>
+            The UID of the frame of reference.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Series.ImagingDeviceId">
+            <summary>
+            The identifier of the device that is used to scan the images into the system.<br/>
+            Returns an empty string if the imaging device is not unique, the device identifier is not defined or the series is not
+            an image series.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Series.ImagingDeviceManufacturer">
+            <summary>
+            The manufacturer of the device that is used to scan the images into the system.<br/>
+            Returns an empty string if the imaging device is not unique, the device manufacturer is not defined or the series is not
+            an image series.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Series.ImagingDeviceModel">
+            <summary>
+            The model of the device that is used to scan the images into the system.<br/>
+            Returns an empty string if the imaging device is not unique, the device model is not defined or the series is not
+            an image series.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Series.ImagingDeviceSerialNo">
+            <summary>
+            The serial number of the device that is used to scan the images into the system.<br/>
+            Returns an empty string if the imaging device is not unique, the device serial number is not defined or the series is not
+            an image series.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Series.Modality">
+            <summary>
+            The modality of the series.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Series.UID">
+            <summary>
+            The DICOM UID.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Series.Images">
+            <summary>
+            A collection of images that belong to the series. Empty if the series is not an image series.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Series.RigidRegistrations">
+            <summary>
+            A collection of rigid registrations that belong to the series. Empty if the series is not an registration series.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Series.NonRigidRegistrations">
+            <summary>
+            A collection of non-rigid registrations that belong to the series. Empty if the series is not an registration series.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Series.Study">
+            <summary>
+            Used for navigating to parent study.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.StructureSetCollection">
+            <summary>
+            Represents a collection of structure sets.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.StructureSetCollection.GetEnumerator">
+            <summary>
+            Retrieves enumerator for structure sets in the collection.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.StructureSetCollection.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Retrieves enumerator for structure sets in the collection.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.StructureSetCollection.Count">
+            <summary>
+            The number of structure sets in the collection.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.StructureSetCollection.Item(System.Int32)">
+            <summary>
+            Gets the specified structure set from the collection.
+            </summary>
+            <param name="index">Zero based index of the structure set to retrieve.</param>
+            <returns>Structure set at the given index.</returns>
+        </member>
+        <member name="T:VMS.CA.Scripting.Study">
+            <summary>
+            A study is a collection of series.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Study.UID">
+            <summary>
+            The DICOM UID.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Study.CreationDateTime">
+            <summary>
+            The date when this study was created.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.Study.Series">
+            <summary>
+            A collection of series.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.TreatmentRecord">
+            <summary>
+            Represents a treatment record.  
+            See the definition of DICOM RT Beams Treatment Record for more details.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.TreatmentRecord.CurrentFractionNumber">
+            <summary>
+            The fraction number of the treatment record.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.TreatmentRecord.TreatmentDeliveryType">
+            <summary>
+            The delivery type of the treatment record.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.TreatmentRecord.StartDate">
+            <summary>
+            The start date (and time) of the treatment record.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.TreatmentRecord.EndDate">
+            <summary>
+            The end date (and time) of the treatment record.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.TreatmentRecord.CollimatorAngle">
+            <summary>
+            The orientation of the IEC BEAM LIMITING DEVICE coordinate system with respect to the IEC GANTRY coordinate system (in degrees).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.TreatmentRecord.GantryAngle">
+            <summary>
+            The gantry angle of the radiation source. In other words, the orientation of the IEC GANTRY coordinate
+            system with respect to the IEC FIXED REFERENCE coordinate system (in degrees).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.TreatmentRecord.GantryRtnDirection">
+            <summary>
+            The gantry rotation direction: clockwise (CW), counterclockwise (CCW), or none.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.TreatmentRecord.PatientSupportAngle">
+            <summary>
+            The patient support rotation angle. In other words, the orientation of the IEC PATIENT SUPPORT (turntable)
+            coordinate system with respect to the IEC FIXED REFERENCE coordinate system (in degrees).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.TreatmentRecord.PatientSupportPitchAngle">
+            <summary>
+            The patient support pitch angle (around the isocenter, in degrees).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.TreatmentRecord.PatientSupportRollAngle">
+            <summary>
+            The patient support roll angle (around the isocenter, in degrees).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.TreatmentRecord.PatientSupportLateralPosition">
+            <summary>
+            The patient support lateral position (isocentric couch representation).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.TreatmentRecord.PatientSupportLongitudinalPosition">
+            <summary>
+            The patient support longitudinal position (isocentric couch representation).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.TreatmentRecord.PatientSupportVerticalPosition">
+            <summary>
+            The patient support vertical position (isocentric couch representation).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.TreatmentRecord.Beam">
+            <summary>
+            Navigation to beam
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.TriangleMesh">
+            <summary>
+            Represents a triangle mesh. The format is kept very close to DirectX structures.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.TriangleMesh.Vertices">
+            <summary>
+            Array of the positions and normals of the vertices used in the triangle mesh.<br/>
+            One vertex uses 6 floats (position, normal) : (x, y, z, xn, yn, zn)
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.TriangleMesh.Indices">
+            <summary>
+            Indices of the triangle mesh vertices in the <see cref="P:VMS.CA.Scripting.TriangleMesh.Vertices"/> array.<br/>
+            Each triangle uses 3 indices, therefore the length of this array is 3 * NumberOfTriangles.<br/>
+            Note that for indexing the Vertices array, the returned index must be multiplied by 6 because each vertex uses 6 floats.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.TriangleMesh.NumberOfTriangles">
+            <summary>
+            The number of triangles represented by this mesh.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.User">
+            <summary>
+            Represents a user.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.User.Language">
+            <summary>
+            The language of the user.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.VectorField">
+            <summary>
+            Represents a vector field, containing float vectors (x, y, z) on a regular 3d-grid.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.VectorField.DicomToGrid(VMS.CA.Scripting.VVector)">
+            <summary>
+            Converts DICOM coordinates to the grid coordinate system.
+            </summary>
+            <param name="dicom">Coordinate value in DICOM coordinate system.</param>
+            <returns>The coordinate value in the grid coordinate system.</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.VectorField.GridToDicom(VMS.CA.Scripting.VVector)">
+            <summary>
+            Converts grid coordinates to DICOM coordinates.
+            </summary>
+            <param name="grid">Coordinate value in grid coordinate system.</param>
+            <returns>The coordinate value in the DICOM coordinate system.</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.VectorField.GetVectors(VMS.CA.Scripting.VectorFloat[0:,0:,0:])">
+            <summary>
+            Gets the vectors of the vector field. These vectors are in Dicom coordinates.
+            </summary>
+            <param name="preallocatedBuffer">Preallocated buffer where the vectors are stored. The size of the buffer must conform with the X-, Y- and Z-size of this grid.</param>
+        </member>
+        <member name="P:VMS.CA.Scripting.VectorField.VectorFieldMethodImpl">
+            <summary>
+            Injected class method implementation.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VectorField.XSize">
+            <summary>
+            The size of the grid in X-direction.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VectorField.YSize">
+            <summary>
+            The size of the grid in Y-direction.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VectorField.ZSize">
+            <summary>
+            The size of the grid in Z-direction.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VectorField.XRes">
+            <summary>
+            The distance between two grid points in X-direction in millimeters.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VectorField.YRes">
+            <summary>
+            The distance between two grid points in Y-direction in millimeters.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VectorField.ZRes">
+            <summary>
+            The distance between two grid points in Z-direction in millimeters.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VectorField.Origin">
+            <summary>
+            The origin of the grid. In other words, the DICOM patient coordinates of the grid point with index (0, 0, 0).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VectorField.XDirection">
+            <summary>
+            The direction of the x-axis in the grid (in DICOM patient coordinate system).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VectorField.YDirection">
+            <summary>
+            The direction of the y-axis in the grid (in DICOM patient coordinate system).
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VectorField.ZDirection">
+            <summary>
+            The direction of the z-axis in the grid (in DICOM patient coordinate system).
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.VectorField.IVectorFieldImpl">
+            <summary>
+            Interface used to inject the implementation of the public class methods.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.VectorFloat">
+            <summary>
+            3d vector using float numbers. Used in vector fields.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.VectorFloat.X">
+            <summary>X component</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.VectorFloat.Y">
+            <summary>Y component</summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.VectorFloat.Z">
+            <summary>Z component</summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.VectorFloat.#ctor(System.Single,System.Single,System.Single)">
+            <summary>
+            Constructs a VectorFloat.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.VolumeImage">
+            <summary>
+            Represents a volumetric image (3d image or slice of 3d image).
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.VolumeImage.DicomToUser(VMS.CA.Scripting.VVector,VMS.CA.Scripting.PlanSetup)">
+            <summary>
+            Converts DICOM coordinates to the planning coordinate system used in the Eclipse and Contouring user interface.
+            </summary>
+            <param name="dicom">Coordinate value in DICOM coordinate system.</param>
+            <param name="planSetup">Plan that defines the planning orientation or null.</param>
+            <returns>The coordinate value in the planning coordinate system.</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.VolumeImage.UserToDicom(VMS.CA.Scripting.VVector,VMS.CA.Scripting.PlanSetup)">
+            <summary>
+            Converts a coordinate value from the planning coordinate system used in the Eclipse and Contouring user interface to DICOM coordinates.
+            </summary>
+            <param name="user">Coordinate value in the planning coordinate system.</param>
+            <param name="planSetup">Plan that defines the planning orientation or null.</param>
+            <returns>The coordinate value in DICOM coordinate system.</returns>
+        </member>
+        <member name="P:VMS.CA.Scripting.VolumeImage.VolumeImageMethodImpl">
+            <summary>
+            Injected class method implementation.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VolumeImage.UserOrigin">
+            <summary>
+            The user origin in DICOM coordinates.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VolumeImage.StructureSets">
+            <summary>
+            The structure sets of the volume image.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.VolumeImage.IVolumeImageImpl">
+            <summary>
+            Interface used to inject the implementation of the public class methods.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.VolumetricStructure">
+            <summary>
+            Represents a volumetric structure, e.g. an organ.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.VolumetricStructure.IsEmpty_CreateOnAccess">
+            <summary>
+            Delegate called on first access to the <see cref="P:VMS.CA.Scripting.VolumetricStructure.IsEmpty"/> property, must return property value.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.VolumetricStructure.Volume_CreateOnAccess">
+            <summary>
+            Delegate called on first access to the <see cref="P:VMS.CA.Scripting.VolumetricStructure.Volume"/> property, must return property value.
+            </summary>
+        </member>
+        <member name="F:VMS.CA.Scripting.VolumetricStructure.CenterPoint_CreateOnAccess">
+            <summary>
+            Delegate called on first access to the <see cref="P:VMS.CA.Scripting.VolumetricStructure.CenterPoint"/> property, must return property value.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.VolumetricStructure.GetAssignedHU(System.Double@)">
+            <summary>
+            Returns the HU value of the material.
+            </summary>
+            <param name="huValue">Double value that will contain the HU value upon return from this method.</param>
+            <returns>Returns true if a HU value has been assigned for this structure.</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.VolumetricStructure.GetContoursOnImagePlane(System.Int32)">
+            <summary>
+            If the structure is not empty and is assigned to an image, gets the contours of the structure on the given image plane.
+            </summary>
+            <param name="z">Zero based image plane index.</param>
+            <returns>A jagged array [contour index][contour point index] that holds the points for all contours of the structure on the given image plane. The points are in Dicom coordinates.</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.VolumetricStructure.GetSegmentProfile(VMS.CA.Scripting.VVector,VMS.CA.Scripting.VVector,System.Collections.BitArray)">
+            <summary>
+            Gets the segment profile.
+            </summary>
+            <param name="start">Location of the first point of the profile in Dicom coordinates.</param>
+            <param name="stop">Location of the last point of the profile in Dicom coordinates.</param>
+            <param name="preallocatedBuffer">Preallocated buffer where the values are stored. The size of the buffer determines the number of values to return.</param>
+            <returns>The SegmentProfile object holding segment values (true if inside, false otherwise) along the line segment defined by start and stop parameters.</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.VolumetricStructure.IsPointInsideSegment(VMS.CA.Scripting.VVector)">
+            <summary>
+            Checks if the given point lies within the structure.
+            </summary>
+            <param name="point">Location of the point in Dicom coordinates.</param>
+            <returns>True if the point lies within the structure, false otherwise.</returns>
+        </member>
+        <member name="P:VMS.CA.Scripting.VolumetricStructure.VolumetricStructureMethodImpl">
+            <summary>
+            Injected class method implementation.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VolumetricStructure.IsEmpty">
+            <summary>
+            Checks if the structure is empty.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VolumetricStructure.Volume">
+            <summary>
+            The calculated volume of the structure in square millimeters.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VolumetricStructure.CenterPoint">
+            <summary>
+            The center point of the structure in Dicom coordinates.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VolumetricStructure.TriangleMesh">
+            <summary>
+            The triangle mesh representing the surface of the volumetric structure. The mesh vertices are in Dicom coordinates.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.VolumetricStructure.IVolumetricStructureImpl">
+            <summary>
+            Interface used to inject the implementation of the public class methods.
+            </summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.VRect`1">
+            <summary>
+            Represents a rectangle.
+            </summary>
+            <typeparam name="T">Type of the values in the rectangle.</typeparam>
+            <remarks>Currently limited to value types.</remarks>
+        </member>
+        <member name="M:VMS.CA.Scripting.VRect`1.#ctor(`0,`0,`0,`0)">
+            <summary>
+            Constructs a VRect.
+            </summary>
+            <param name="x1">The X1-coordinate of the rectangle</param>
+            <param name="y1">The Y1-coordinate of the rectangle</param>
+            <param name="x2">The X2-coordinate of the rectangle</param>
+            <param name="y2">The Y2-coordinate of the rectangle</param>
+        </member>
+        <member name="M:VMS.CA.Scripting.VRect`1.ToString">
+            <summary>
+            A string that represents the current object. 
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VRect`1.X1">
+            <summary>The X1-coordinate of the rectangle.</summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VRect`1.X2">
+            <summary>The X2-coordinate of the rectangle.</summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VRect`1.Y1">
+            <summary>The Y1-coordinate of the rectangle.</summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VRect`1.Y2">
+            <summary>The Y2-coordinate of the rectangle.</summary>
+        </member>
+        <member name="T:VMS.CA.Scripting.VVector">
+            <summary>
+            Represents a displacement in 3D space.
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.VVector.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            Constructs a VVector.
+            </summary>
+            <param name="xi">X component</param>
+            <param name="yi">Y component</param>
+            <param name="zi">Z component</param>
+        </member>
+        <member name="M:VMS.CA.Scripting.VVector.ToString">
+            <summary>
+            A string that represents the current object. 
+            </summary>
+        </member>
+        <member name="M:VMS.CA.Scripting.VVector.Distance(VMS.CA.Scripting.VVector,VMS.CA.Scripting.VVector)">
+            <summary>
+            The distance between the locations represented by the given VVectors.
+            </summary>
+            <param name="left">First operand.</param>
+            <param name="right">Second operand</param>
+            <returns>Returns the distance between the locations represented by the given VVectors.</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.VVector.ScalarProduct(VMS.CA.Scripting.VVector)">
+            <summary>
+            The scalar product of this VVector and the given VVector.
+            </summary>
+            <param name="left">VVector that is second operand of the scalar product.</param>
+            <returns>Returns the scalar product of this VVector with the given VVector.</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.VVector.ScaleToUnitLength">
+            <summary>
+            Scales this VVector so that its length becomes equal to unity.
+            </summary>
+            <exception cref="T:System.DivideByZeroException">Thrown if the length of the vector is zero</exception>
+        </member>
+        <member name="M:VMS.CA.Scripting.VVector.op_Addition(VMS.CA.Scripting.VVector,VMS.CA.Scripting.VVector)">
+            <summary>
+            The addition of VVectors.
+            </summary>
+            <param name="left">First operand</param>
+            <param name="right">Second operand</param>
+            <returns>Result of addition.</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.VVector.op_Subtraction(VMS.CA.Scripting.VVector,VMS.CA.Scripting.VVector)">
+            <summary>
+            The subtraction of VVectors.
+            </summary>
+            <param name="left">First operand</param>
+            <param name="right">Second operand</param>
+            <returns>Result of subtraction.</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.VVector.op_Division(VMS.CA.Scripting.VVector,System.Double)">
+            <summary>
+            The division of a VVector by a double.
+            </summary>
+            <param name="val">VVector to divide.</param>
+            <param name="div">Divisor</param>
+            <returns>Result of division.</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.VVector.op_Multiply(VMS.CA.Scripting.VVector,System.Double)">
+            <summary>
+            The multiplication of a VVector and a double.
+            </summary>
+            <param name="val">VVector to multiply.</param>
+            <param name="mul">Multiplier</param>
+            <returns>Result of multiplication.</returns>
+        </member>
+        <member name="M:VMS.CA.Scripting.VVector.op_Multiply(System.Double,VMS.CA.Scripting.VVector)">
+            <summary>
+            The multiplication of a VVector and a double.
+            </summary>
+            <param name="val">VVector to multiply.</param>
+            <param name="mul">Multiplier</param>
+            <returns>Result of multiplication.</returns>
+        </member>
+        <member name="P:VMS.CA.Scripting.VVector.x">
+            <summary>The X component of the VVector</summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VVector.y">
+            <summary>The Y component of the VVector</summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VVector.z">
+            <summary>The Z component of the VVector</summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VVector.Length">
+            <summary>
+            The length of the VVector.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VVector.LengthSquared">
+            <summary>
+            The square of the length of the VVector.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.VVector.Item(System.Int32)">
+            <summary>
+            Indexing for the x, y and z components. 
+            </summary>
+            <param name="i">Value of 0,1 or 2 that correspond to x,y and z components.</param>
+            <returns>Returns the given component of this VVector.</returns>
+            <exception cref="T:System.IndexOutOfRangeException">Thrown when index out of range (not in 0, 1, 2)</exception>
+        </member>
+        <member name="T:VMS.CA.Scripting.StructureSet">
+            <summary>
+            A structure set is a container for structures of a patient, including anatomical organs, treatment volumes and markers, and support structures.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.StructureSet.UID">
+            <summary>
+            DICOM UID.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.StructureSet.Image">
+            <summary>
+            Used for navigating to the image. Null for structure sets not assigned to an image.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.StructureSet.Series">
+            <summary>
+            Navigatation to parent series.
+            </summary>
+        </member>
+        <member name="P:VMS.CA.Scripting.StructureSet.Structures">
+            <summary>
+            Used for navigating to the child structures.
+            </summary>
+        </member>
+    </members>
+</doc>

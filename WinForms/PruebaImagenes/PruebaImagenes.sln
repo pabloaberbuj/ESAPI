@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruebaImagenes", "PruebaImagenes\PruebaImagenes.csproj", "{7042B565-11B6-444F-9DA2-8F0B4271C153}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{86296D8A-21A7-40FB-856C-DF2EAF68932F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AriaEntities", "AriaEntities\AriaEntities.csproj", "{47D8271C-0FBF-4AE1-924A-9F8F41FA5A6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,10 @@ Global
 		{7042B565-11B6-444F-9DA2-8F0B4271C153}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7042B565-11B6-444F-9DA2-8F0B4271C153}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7042B565-11B6-444F-9DA2-8F0B4271C153}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47D8271C-0FBF-4AE1-924A-9F8F41FA5A6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47D8271C-0FBF-4AE1-924A-9F8F41FA5A6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47D8271C-0FBF-4AE1-924A-9F8F41FA5A6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47D8271C-0FBF-4AE1-924A-9F8F41FA5A6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,6 +8,7 @@ using System.Text;
 using VMS.TPS.Common.Model.API;
 
 
+
 namespace VMS.TPS
 {
     class Script
@@ -17,7 +18,19 @@ namespace VMS.TPS
         }
         public void Execute(ScriptContext context)
         {
-            VMS.TPS.Common.Model.API.Image imagen = context.PlanSetup.Beams.First().ReferenceImage;
+            VMS.TPS.Common.Model.API.Image imagen = context.Image;
+            PlanSetup plan = context.PlanSetup;
+            foreach (Isodose isodosis in plan.Dose.Isodoses)
+            {
+                var mesh = isodosis.MeshGeometry;
+                var posiciones = mesh.Positions;
+                
+
+            }
+            
+            //imagen.
+
+            /*VMS.TPS.Common.Model.API.Image imagen = context.PlanSetup.Beams.First().ReferenceImage;
             int x = imagen.XSize;
             int y = imagen.YSize;
             int z = imagen.ZSize;
@@ -71,7 +84,7 @@ namespace VMS.TPS
                     bitmapXY.SetPixel(i, j, Color.FromArgb(matrizXY[i, j], matrizXY[i, j], matrizXY[i, j]));
                 }
             }
-            bitmapXY.Save("test.jpg", ImageFormat.Jpeg);
+            bitmapXY.Save("test.jpg", ImageFormat.Jpeg);*/
         }
     }
 }

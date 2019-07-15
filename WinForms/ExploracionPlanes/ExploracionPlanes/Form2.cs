@@ -31,7 +31,7 @@ namespace ExploracionPlanes
         VMS.TPS.Common.Model.API.Application app;
 
 
-        public Form2(Plantilla _plantilla, bool _hayContext = false, Patient _pacienteContext = null, PlanSetup _planContext = null, User _usuarioContext = null)
+        public Form2(Plantilla _plantilla, bool _hayContext = false, Patient _pacienteContext = null, PlanningItem _planContext = null, User _usuarioContext = null)
         {
             InitializeComponent();
             plantilla = _plantilla;
@@ -46,6 +46,7 @@ namespace ExploracionPlanes
                 llenarDGVEstructuras();
                 llenarDGVPrescripciones();
                 BT_Analizar.Enabled = true;
+
                 L_NombrePaciente.Text = paciente.LastName + ", " + paciente.FirstName;
                 L_NombrePaciente.Visible = true;
                 this.Text += " - " + paciente.LastName + ", " + paciente.FirstName;
@@ -128,6 +129,21 @@ namespace ExploracionPlanes
             }
         }
 
+        public string equipo()
+        {
+            string equipoID = "";
+
+            if (planSeleccionado() is PlanSetup)
+            {
+                equipoID = ((PlanSetup)planSeleccionado()).Beams.First().TreatmentUnit.Id;
+            }
+            else if (planSeleccionado() is PlanSum)
+            {
+                equipoID = ((PlanSum)planSeleccionado()).PlanSetups.First().Beams.First().TreatmentUnit.Id;
+            }
+            return Equipos.diccionario()[equipoID];
+        }
+
         public List<Course> listaCursos(Patient paciente)
         {
             return paciente.Courses.ToList<Course>();
@@ -190,6 +206,7 @@ namespace ExploracionPlanes
 
             DataGridViewComboBoxColumn dgvCBCol = (DataGridViewComboBoxColumn)DGV_Estructuras.Columns[1];
             dgvCBCol.DataSource = Estructura.listaEstructurasID(Estructura.listaEstructuras(planSeleccionado()));
+            
             asociarEstructuras();
             DGV_Estructuras.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             DGV_Estructuras.Columns[0].ReadOnly = true;
@@ -281,8 +298,8 @@ namespace ExploracionPlanes
             DGV_Análisis.ReadOnly = true;
             DGV_Análisis.Rows.Clear();
 
-            DGV_Análisis.Columns[3].Width = 10;
-            DGV_Análisis.Columns[4].DefaultCellStyle.Padding = new Padding(11);
+            DGV_Análisis.Columns[4].Width = 10;
+            DGV_Análisis.Columns[5].DefaultCellStyle.Padding = new Padding(11);
             //DGV_Análisis.ColumnCount = 4;
             //int j = 0;
             for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
@@ -291,7 +308,9 @@ namespace ExploracionPlanes
 
                 Structure estructura = estructuraCorrespondiente(restriccion.estructura.nombre);
                 DGV_Análisis.Rows.Add();
-                DGV_Análisis.Rows[i].Cells[0].Value = restriccion.etiquetaInicio;
+                DGV_Análisis.Rows[i].Cells[0].Value = Estructura.nombreEnDiccionario(restriccion.estructura);
+                //DGV_Análisis.Rows[i].Cells[0].Value = restriccion.estructura.nombre;
+                DGV_Análisis.Rows[i].Cells[1].Value = restriccion.metrica();
                 string menorOmayor;
                 if (restriccion.esMenorQue)
                 {
@@ -306,11 +325,12 @@ namespace ExploracionPlanes
                 {
                     valorEsperadoString += " (" + restriccion.valorTolerado + restriccion.unidadValor + ")";
                 }
-                
-            DGV_Análisis.Rows[i].Cells[3].Value = valorEsperadoString;
+
+                DGV_Análisis.Rows[i].Cells[4].Value = valorEsperadoString;
+                DGV_Análisis.Rows[i].Cells[5].Value = restriccion.nota;
                 if (estructura != null)
                 {
-                    DGV_Análisis.Rows[i].Cells[1].Value = Math.Round(estructura.Volume, 2).ToString();
+                    DGV_Análisis.Rows[i].Cells[2].Value = Math.Round(estructura.Volume, 2).ToString();
                     restriccion.analizarPlanEstructura(planSeleccionado(), estructura);
                     if (restriccion.chequearSamplingCoverage(planSeleccionado(), estructura))
                     {
@@ -318,19 +338,19 @@ namespace ExploracionPlanes
                     }
                     else
                     {
-                        DGV_Análisis.Rows[i].Cells[2].Value = restriccion.valorMedido + restriccion.unidadValor;
-                        colorCelda(DGV_Análisis.Rows[i].Cells[2], restriccion.cumple());
+                        DGV_Análisis.Rows[i].Cells[3].Value = restriccion.valorMedido + restriccion.unidadValor;
+                        colorCelda(DGV_Análisis.Rows[i].Cells[3], restriccion.cumple());
                     }
                     if (restriccion.GetType() == typeof(RestriccionDosisMax))
                     {
-                        DataGridViewButtonCell bt = (DataGridViewButtonCell)DGV_Análisis.Rows[i].Cells[4];
+                        DataGridViewButtonCell bt = (DataGridViewButtonCell)DGV_Análisis.Rows[i].Cells[6];
                         bt.FlatStyle = FlatStyle.System;
                         bt.Style.BackColor = System.Drawing.Color.LightGray;
                         bt.Style.ForeColor = System.Drawing.Color.Black;
                         bt.Style.SelectionBackColor = System.Drawing.Color.LightGray;
                         bt.Style.SelectionForeColor = System.Drawing.Color.Black;
                         bt.Value = RestriccionDosisMax.volumenDosisMaxima.ToString();
-                        DGV_Análisis.Rows[i].Cells[4].Style.Padding = new Padding(0, 0, 0, 1);
+                        DGV_Análisis.Rows[i].Cells[6].Style.Padding = new Padding(0, 0, 0, 1);
 
                     }
                 }
@@ -486,6 +506,7 @@ namespace ExploracionPlanes
         private Document reporte()
         {
             string usuarioNombre;
+            double prescripcion = 0;
             if (hayContext)
             {
                 usuarioNombre = usuario.Name;
@@ -494,7 +515,19 @@ namespace ExploracionPlanes
             {
                 usuarioNombre = app.CurrentUser.Name;
             }
-            return Reporte.crearReporte(paciente.LastName, paciente.FirstName, paciente.Id, plantilla.nombre, plantilla.nota, usuarioNombre, DGV_Análisis);
+            if (planSeleccionado() is PlanSetup)
+            {
+                prescripcion = ((PlanSetup)planSeleccionado()).TotalPrescribedDose.Dose / 100;
+            }
+            else if (planSeleccionado() is PlanSum)
+            {
+                foreach (PlanSetup plan in ((PlanSum)planSeleccionado()).PlanSetups)
+                {
+                    prescripcion += plan.TotalPrescribedDose.Dose / 100;
+                }
+            }
+
+            return Reporte.crearReporte(paciente.LastName, paciente.FirstName, paciente.Id, equipo(), plantilla.nombre, plantilla.nota, usuarioNombre, Convert.ToString(infoPlan()), Convert.ToString(prescripcion), DGV_Análisis);
         }
         private void BT_GuardarReporte_Click(object sender, EventArgs e)
         {
@@ -516,8 +549,12 @@ namespace ExploracionPlanes
         }
 
 
+
         #endregion
 
+        private void DGV_Prescripciones_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Media.Media3D;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,25 +8,28 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using VMS.CA.Scripting;
+//using VMS.CA.Scripting;
 using VMS.TPS.Common.Model.API;
 using VMS.TPS.Common.Model.Types;
+//using AriaEntities;
 
 namespace PruebaImagenes
 {
     public partial class Form1 : Form
     {
+        //AriaEntityContext AriaEntityContext = new AriaEntityContext();
         Patient paciente;
-        Course curso;
+        //AriaEntities.Course curso;
         PlanSetup plan;
         VMS.TPS.Common.Model.API.Application app;
+        //Application_ app2;
 
         public Form1()
         {
             InitializeComponent();
             try
             {
-                app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
+                app = VMS.TPS.Common.Model.API.Application.CreateApplication("paberbuj", "123qwe");
             }
             catch (Exception)
             {
@@ -40,6 +44,7 @@ namespace PruebaImagenes
             }
             if (app.PatientSummaries.Any(p => p.Id == ID))
             {
+                //paciente = AriaEntityContext.Patients.Where(p => p.PatientId == ID).FirstOrDefault();
                 paciente = app.OpenPatientById(ID);
                 return true;
             }
@@ -55,42 +60,43 @@ namespace PruebaImagenes
             app.ClosePatient();
         }
 
-        public VMS.CA.Scripting.Course abrirCurso(VMS.CA.Scripting.Patient_ paciente, string nombreCurso)
+        /*public Course abrirCurso(AriaEntities.Patient paciente, string nombreCurso)
         {
-            return paciente.Courses.Where(c => c.Id == nombreCurso).FirstOrDefault();
+            //return paciente.Courses.Where(c => c.Id == nombreCurso).FirstOrDefault();
         }
 
-        public VMS.CA.Scripting.PlanSetup abrirPlan(VMS.CA.Scripting.Course curso, string nombrePlan)
+        //public AriaEntities.PlanSetup abrirPlan(Course curso, string nombrePlan)
         {
-            return curso.PlanSetups.Where(p => p.Id == nombrePlan).FirstOrDefault();
-        }
+          //  return curso.PlanSetups.Where(p => p.Id == nombrePlan).FirstOrDefault();
+        }*/
 
-        public void Imagen(Patient paciente, VMS.CA.Scripting.PlanSetup plan)
+        public void Imagen(Patient paciente, PlanSetup plan)
         {
-            foreach (VMS.CA.Scripting.Beam campo in plan.Beams)
+            foreach (Beam campo in plan.Beams)
             {
                 MessageBox.Show("Se inicia campo " + campo.Id);
                 try
                 {
-                    VMS.CA.Scripting.Image imagen = campo.ReferenceImage;
-                    Frame frame = imagen.Frames[0];
+                    VMS.TPS.Common.Model.API.Image imagen = campo.ReferenceImage;
+                    //Series serie = imagen.Series;
+                    /*Frame frame = imagen.Frames[0];
                     foreach (GraphicAnnotation ga in frame.GraphicAnnotations)
                     {
                         if (ga.GraphicAnnotationType == GraphicAnnotationType.Graticule)
                         {
-                            ga.Contours.Fir
+                            
                         }
-                    }
-                    
-                    int x = imagen.XSize;
-                    int y = imagen.YSize;
-                    int[,] matrizXY = new int[x, y];
-                    double[,] matrizXY2 = new double[x, y];
-                    imagen.GetVoxels(0, matrizXY);
+                    }*/
 
-                    MessageBox.Show("Se obtuvo la matriz");
-                    Bitmap bitmapXY = new Bitmap(x, y);
-                    Bitmap bitmapXY2 = new Bitmap(x, y);
+                    //int x = imagen.XSize;
+                    //int y = imagen.YSize;
+                    //int[,] matrizXY = new int[x, y];
+                    //double[,] matrizXY2 = new double[x, y];
+                    //imagen.GetVoxels(0, matrizXY);
+
+                    //MessageBox.Show("Se obtuvo la matriz");
+                    //Bitmap bitmapXY = new Bitmap(x, y);
+                    /*Bitmap bitmapXY2 = new Bitmap(x, y);
 
                     for (int i = 0; i < x; i++)
                     {
@@ -134,13 +140,14 @@ namespace PruebaImagenes
                         streamWriter2.WriteLine(output2);
                         output2 = "";
                     }
-                    streamWriter2.Close();
+                    streamWriter2.Close();*/
                 }
                 catch (Exception e)
             {
                 MessageBox.Show("No se pudo abrir la imagen");
                 throw;
-            }
+                }
+
 
 
         }
@@ -149,7 +156,36 @@ namespace PruebaImagenes
     private void button1_Click(object sender, EventArgs e)
     {
         abrirPaciente(textBox1.Text);
-        plan = paciente.Courses.First().PlanSetups.First();
+            
+            plan = paciente.Courses.First().PlanSetups.First();
+            VMS.TPS.Common.Model.API.Image imagen = plan.StructureSet.Image;
+            var isoc = imagen.DicomToUser(imagen.Origin, plan);
+            
+            Beam campo = plan.Beams.First();
+            
+            //VVector iso = campo.IsocenterPosition.;
+            
+            foreach (Structure estructura in plan.StructureSet.Structures)
+            {
+                
+                for (int z=0;z<120;z++)
+                {
+                    var contorno = estructura.GetContoursOnImagePlane(35);
+                    /*if (contorno.Count()>0)
+                    {
+                        MessageBox.Show(z.ToString() + estructura.Id);
+                    }*/
+                }
+
+            }
+            Dose dose = plan.Dose;
+            IEnumerable<Isodose> isodosis = dose.Isodoses;
+            foreach (Isodose iso in isodosis)
+            {
+                var mesh = iso.MeshGeometry;
+            }
+
+            //plan = paciente.Courses.First().PlanSetups.Where(p => p.Id == "Plan2 #").FirstOrDefault();
         Imagen(paciente, plan);
 
     }
