@@ -1,6 +1,6 @@
 ﻿namespace ExploracionPlanes
 {
-    partial class Form1
+    partial class Form1_ext
     {
         /// <summary>
         /// Required designer variable.
@@ -34,17 +34,14 @@
             this.CB_CorrespAUnidades = new System.Windows.Forms.ComboBox();
             this.TB_CorrespA = new System.Windows.Forms.TextBox();
             this.CB_MenorOMayor = new System.Windows.Forms.ComboBox();
-            this.CB_ValorEsperadoUnidades = new System.Windows.Forms.ComboBox();
-            this.TB_ValorEsperado = new System.Windows.Forms.TextBox();
             this.BT_AgregarALista = new System.Windows.Forms.Button();
             this.LB_listaRestricciones = new System.Windows.Forms.ListBox();
             this.GB_NuevaRestriccion = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
             this.TB_NotaRestriccion = new System.Windows.Forms.TextBox();
             this.Panel_esMenorque = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.CB_ValorToleradoUnidades = new System.Windows.Forms.ComboBox();
-            this.TB_ValorTolerado = new System.Windows.Forms.TextBox();
+            this.DGV_restricciones = new System.Windows.Forms.DataGridView();
+            this.CB_ValorEsperadoUnidades = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.TB_EstructuraNombresAlt = new System.Windows.Forms.TextBox();
             this.CB_Estructura = new System.Windows.Forms.ComboBox();
@@ -56,11 +53,25 @@
             this.BT_EditarRestriccion = new System.Windows.Forms.Button();
             this.TB_NotaPlantilla = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.BT_CargarDesdePaciente = new System.Windows.Forms.Button();
+            this.GB_Condiciones = new System.Windows.Forms.GroupBox();
+            this.L_VolPTVcc = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.LB_ListaCondiciones = new System.Windows.Forms.ListBox();
+            this.TB_Cond2 = new System.Windows.Forms.TextBox();
+            this.TB_Cond1 = new System.Windows.Forms.TextBox();
+            this.CB_cond1 = new System.Windows.Forms.ComboBox();
+            this.BT_EliminarCondicion = new System.Windows.Forms.Button();
+            this.LB_Condiciones = new System.Windows.Forms.ListBox();
+            this.BT_AgregarCondicion = new System.Windows.Forms.Button();
+            this.BT_IniciarCargaRestricciones = new System.Windows.Forms.Button();
+            this.BT_FinalizarCargaRestricciones = new System.Windows.Forms.Button();
             this.BT_RestriccionAbajo = new System.Windows.Forms.Button();
             this.BT_RestriccionArriba = new System.Windows.Forms.Button();
+            this.BT_CargarDesdePaciente = new System.Windows.Forms.Button();
             this.GB_NuevaRestriccion.SuspendLayout();
             this.Panel_esMenorque.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DGV_restricciones)).BeginInit();
+            this.GB_Condiciones.SuspendLayout();
             this.SuspendLayout();
             // 
             // CB_TipoRestriccion
@@ -103,7 +114,7 @@
             this.CB_CorrespAUnidades.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_CorrespAUnidades.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CB_CorrespAUnidades.FormattingEnabled = true;
-            this.CB_CorrespAUnidades.Location = new System.Drawing.Point(375, 43);
+            this.CB_CorrespAUnidades.Location = new System.Drawing.Point(376, 43);
             this.CB_CorrespAUnidades.Name = "CB_CorrespAUnidades";
             this.CB_CorrespAUnidades.Size = new System.Drawing.Size(50, 21);
             this.CB_CorrespAUnidades.TabIndex = 5;
@@ -124,33 +135,15 @@
             this.CB_MenorOMayor.Items.AddRange(new object[] {
             "≤",
             "≥"});
-            this.CB_MenorOMayor.Location = new System.Drawing.Point(17, 13);
+            this.CB_MenorOMayor.Location = new System.Drawing.Point(9, 17);
             this.CB_MenorOMayor.Name = "CB_MenorOMayor";
-            this.CB_MenorOMayor.Size = new System.Drawing.Size(41, 23);
+            this.CB_MenorOMayor.Size = new System.Drawing.Size(50, 23);
             this.CB_MenorOMayor.TabIndex = 6;
-            // 
-            // CB_ValorEsperadoUnidades
-            // 
-            this.CB_ValorEsperadoUnidades.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_ValorEsperadoUnidades.FormattingEnabled = true;
-            this.CB_ValorEsperadoUnidades.Location = new System.Drawing.Point(139, 14);
-            this.CB_ValorEsperadoUnidades.Name = "CB_ValorEsperadoUnidades";
-            this.CB_ValorEsperadoUnidades.Size = new System.Drawing.Size(50, 21);
-            this.CB_ValorEsperadoUnidades.TabIndex = 9;
-            this.CB_ValorEsperadoUnidades.SelectedIndexChanged += new System.EventHandler(this.CB_ValorEsperadoUnidades_SelectedIndexChanged);
-            // 
-            // TB_ValorEsperado
-            // 
-            this.TB_ValorEsperado.Location = new System.Drawing.Point(64, 14);
-            this.TB_ValorEsperado.Name = "TB_ValorEsperado";
-            this.TB_ValorEsperado.Size = new System.Drawing.Size(69, 20);
-            this.TB_ValorEsperado.TabIndex = 7;
-            this.TB_ValorEsperado.TextChanged += new System.EventHandler(this.actualizarBotones);
             // 
             // BT_AgregarALista
             // 
             this.BT_AgregarALista.Enabled = false;
-            this.BT_AgregarALista.Location = new System.Drawing.Point(508, 175);
+            this.BT_AgregarALista.Location = new System.Drawing.Point(694, 166);
             this.BT_AgregarALista.Name = "BT_AgregarALista";
             this.BT_AgregarALista.Size = new System.Drawing.Size(116, 23);
             this.BT_AgregarALista.TabIndex = 11;
@@ -161,7 +154,7 @@
             // LB_listaRestricciones
             // 
             this.LB_listaRestricciones.FormattingEnabled = true;
-            this.LB_listaRestricciones.Location = new System.Drawing.Point(30, 289);
+            this.LB_listaRestricciones.Location = new System.Drawing.Point(30, 398);
             this.LB_listaRestricciones.Name = "LB_listaRestricciones";
             this.LB_listaRestricciones.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.LB_listaRestricciones.Size = new System.Drawing.Size(309, 186);
@@ -183,17 +176,18 @@
             this.GB_NuevaRestriccion.Controls.Add(this.L_CorrespA);
             this.GB_NuevaRestriccion.Controls.Add(this.TB_CorrespA);
             this.GB_NuevaRestriccion.Controls.Add(this.CB_CorrespAUnidades);
-            this.GB_NuevaRestriccion.Location = new System.Drawing.Point(30, 53);
+            this.GB_NuevaRestriccion.Enabled = false;
+            this.GB_NuevaRestriccion.Location = new System.Drawing.Point(30, 162);
             this.GB_NuevaRestriccion.Name = "GB_NuevaRestriccion";
-            this.GB_NuevaRestriccion.Size = new System.Drawing.Size(636, 204);
+            this.GB_NuevaRestriccion.Size = new System.Drawing.Size(819, 204);
             this.GB_NuevaRestriccion.TabIndex = 13;
             this.GB_NuevaRestriccion.TabStop = false;
-            this.GB_NuevaRestriccion.Text = "2. Nueva Restricción";
+            this.GB_NuevaRestriccion.Text = "3. Nueva Restricción";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(450, 113);
+            this.label6.Location = new System.Drawing.Point(259, 158);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(87, 13);
             this.label6.TabIndex = 25;
@@ -201,7 +195,7 @@
             // 
             // TB_NotaRestriccion
             // 
-            this.TB_NotaRestriccion.Location = new System.Drawing.Point(453, 129);
+            this.TB_NotaRestriccion.Location = new System.Drawing.Point(262, 174);
             this.TB_NotaRestriccion.Multiline = true;
             this.TB_NotaRestriccion.Name = "TB_NotaRestriccion";
             this.TB_NotaRestriccion.Size = new System.Drawing.Size(171, 30);
@@ -209,43 +203,34 @@
             // 
             // Panel_esMenorque
             // 
-            this.Panel_esMenorque.Controls.Add(this.label4);
-            this.Panel_esMenorque.Controls.Add(this.CB_ValorToleradoUnidades);
+            this.Panel_esMenorque.Controls.Add(this.DGV_restricciones);
             this.Panel_esMenorque.Controls.Add(this.CB_MenorOMayor);
-            this.Panel_esMenorque.Controls.Add(this.TB_ValorEsperado);
-            this.Panel_esMenorque.Controls.Add(this.TB_ValorTolerado);
             this.Panel_esMenorque.Controls.Add(this.CB_ValorEsperadoUnidades);
-            this.Panel_esMenorque.Location = new System.Drawing.Point(429, 30);
+            this.Panel_esMenorque.Location = new System.Drawing.Point(432, 26);
             this.Panel_esMenorque.Name = "Panel_esMenorque";
-            this.Panel_esMenorque.Size = new System.Drawing.Size(201, 68);
+            this.Panel_esMenorque.Size = new System.Drawing.Size(381, 126);
             this.Panel_esMenorque.TabIndex = 23;
             // 
-            // label4
+            // DGV_restricciones
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(1, 44);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(60, 13);
-            this.label4.TabIndex = 21;
-            this.label4.Text = "Tolerancia:";
+            this.DGV_restricciones.AllowUserToAddRows = false;
+            this.DGV_restricciones.AllowUserToDeleteRows = false;
+            this.DGV_restricciones.AllowUserToResizeColumns = false;
+            this.DGV_restricciones.AllowUserToResizeRows = false;
+            this.DGV_restricciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DGV_restricciones.Location = new System.Drawing.Point(66, 5);
+            this.DGV_restricciones.Name = "DGV_restricciones";
+            this.DGV_restricciones.Size = new System.Drawing.Size(308, 111);
+            this.DGV_restricciones.TabIndex = 23;
             // 
-            // CB_ValorToleradoUnidades
+            // CB_ValorEsperadoUnidades
             // 
-            this.CB_ValorToleradoUnidades.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_ValorToleradoUnidades.FormattingEnabled = true;
-            this.CB_ValorToleradoUnidades.Location = new System.Drawing.Point(139, 41);
-            this.CB_ValorToleradoUnidades.Name = "CB_ValorToleradoUnidades";
-            this.CB_ValorToleradoUnidades.Size = new System.Drawing.Size(50, 21);
-            this.CB_ValorToleradoUnidades.TabIndex = 22;
-            this.CB_ValorToleradoUnidades.SelectedIndexChanged += new System.EventHandler(this.CB_ValorToleradoUnidades_SelectedIndexChanged);
-            // 
-            // TB_ValorTolerado
-            // 
-            this.TB_ValorTolerado.Location = new System.Drawing.Point(64, 41);
-            this.TB_ValorTolerado.Name = "TB_ValorTolerado";
-            this.TB_ValorTolerado.Size = new System.Drawing.Size(69, 20);
-            this.TB_ValorTolerado.TabIndex = 8;
-            this.TB_ValorTolerado.TextChanged += new System.EventHandler(this.actualizarBotones);
+            this.CB_ValorEsperadoUnidades.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_ValorEsperadoUnidades.FormattingEnabled = true;
+            this.CB_ValorEsperadoUnidades.Location = new System.Drawing.Point(9, 66);
+            this.CB_ValorEsperadoUnidades.Name = "CB_ValorEsperadoUnidades";
+            this.CB_ValorEsperadoUnidades.Size = new System.Drawing.Size(50, 21);
+            this.CB_ValorEsperadoUnidades.TabIndex = 9;
             // 
             // label3
             // 
@@ -294,7 +279,7 @@
             // BT_GuardarPlantilla
             // 
             this.BT_GuardarPlantilla.Enabled = false;
-            this.BT_GuardarPlantilla.Location = new System.Drawing.Point(538, 439);
+            this.BT_GuardarPlantilla.Location = new System.Drawing.Point(538, 548);
             this.BT_GuardarPlantilla.Name = "BT_GuardarPlantilla";
             this.BT_GuardarPlantilla.Size = new System.Drawing.Size(128, 36);
             this.BT_GuardarPlantilla.TabIndex = 12;
@@ -305,7 +290,7 @@
             // BT_EliminarRestriccion
             // 
             this.BT_EliminarRestriccion.Enabled = false;
-            this.BT_EliminarRestriccion.Location = new System.Drawing.Point(345, 289);
+            this.BT_EliminarRestriccion.Location = new System.Drawing.Point(345, 398);
             this.BT_EliminarRestriccion.Name = "BT_EliminarRestriccion";
             this.BT_EliminarRestriccion.Size = new System.Drawing.Size(79, 37);
             this.BT_EliminarRestriccion.TabIndex = 14;
@@ -327,7 +312,7 @@
             // BT_EditarRestriccion
             // 
             this.BT_EditarRestriccion.Enabled = false;
-            this.BT_EditarRestriccion.Location = new System.Drawing.Point(345, 332);
+            this.BT_EditarRestriccion.Location = new System.Drawing.Point(345, 441);
             this.BT_EditarRestriccion.Name = "BT_EditarRestriccion";
             this.BT_EditarRestriccion.Size = new System.Drawing.Size(79, 39);
             this.BT_EditarRestriccion.TabIndex = 16;
@@ -337,7 +322,7 @@
             // 
             // TB_NotaPlantilla
             // 
-            this.TB_NotaPlantilla.Location = new System.Drawing.Point(450, 289);
+            this.TB_NotaPlantilla.Location = new System.Drawing.Point(450, 398);
             this.TB_NotaPlantilla.Multiline = true;
             this.TB_NotaPlantilla.Name = "TB_NotaPlantilla";
             this.TB_NotaPlantilla.Size = new System.Drawing.Size(216, 112);
@@ -346,28 +331,141 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(447, 273);
+            this.label5.Location = new System.Drawing.Point(447, 382);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(94, 13);
             this.label5.TabIndex = 24;
             this.label5.Text = "3. Nota (opcional):";
             // 
-            // BT_CargarDesdePaciente
+            // GB_Condiciones
             // 
-            this.BT_CargarDesdePaciente.Location = new System.Drawing.Point(112, 120);
-            this.BT_CargarDesdePaciente.Name = "BT_CargarDesdePaciente";
-            this.BT_CargarDesdePaciente.Size = new System.Drawing.Size(86, 39);
-            this.BT_CargarDesdePaciente.TabIndex = 26;
-            this.BT_CargarDesdePaciente.Text = "Cargar desde un paciente";
-            this.BT_CargarDesdePaciente.UseVisualStyleBackColor = true;
-            this.BT_CargarDesdePaciente.Click += new System.EventHandler(this.BT_CargarDesdePaciente_Click);
+            this.GB_Condiciones.Controls.Add(this.L_VolPTVcc);
+            this.GB_Condiciones.Controls.Add(this.label4);
+            this.GB_Condiciones.Controls.Add(this.LB_ListaCondiciones);
+            this.GB_Condiciones.Controls.Add(this.TB_Cond2);
+            this.GB_Condiciones.Controls.Add(this.TB_Cond1);
+            this.GB_Condiciones.Controls.Add(this.CB_cond1);
+            this.GB_Condiciones.Controls.Add(this.BT_EliminarCondicion);
+            this.GB_Condiciones.Controls.Add(this.LB_Condiciones);
+            this.GB_Condiciones.Controls.Add(this.BT_AgregarCondicion);
+            this.GB_Condiciones.Location = new System.Drawing.Point(30, 44);
+            this.GB_Condiciones.Name = "GB_Condiciones";
+            this.GB_Condiciones.Size = new System.Drawing.Size(553, 112);
+            this.GB_Condiciones.TabIndex = 25;
+            this.GB_Condiciones.TabStop = false;
+            this.GB_Condiciones.Text = "2. Condiciones";
+            // 
+            // L_VolPTVcc
+            // 
+            this.L_VolPTVcc.AutoSize = true;
+            this.L_VolPTVcc.Location = new System.Drawing.Point(16, 83);
+            this.L_VolPTVcc.Name = "L_VolPTVcc";
+            this.L_VolPTVcc.Size = new System.Drawing.Size(79, 13);
+            this.L_VolPTVcc.TabIndex = 21;
+            this.L_VolPTVcc.Text = "(VolPTV en cc)";
+            this.L_VolPTVcc.Visible = false;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(186, 57);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(12, 13);
+            this.label4.TabIndex = 20;
+            this.label4.Text = "y";
+            this.label4.Visible = false;
+            // 
+            // LB_ListaCondiciones
+            // 
+            this.LB_ListaCondiciones.FormattingEnabled = true;
+            this.LB_ListaCondiciones.Location = new System.Drawing.Point(262, 21);
+            this.LB_ListaCondiciones.Name = "LB_ListaCondiciones";
+            this.LB_ListaCondiciones.Size = new System.Drawing.Size(145, 82);
+            this.LB_ListaCondiciones.TabIndex = 19;
+            this.LB_ListaCondiciones.SelectedIndexChanged += new System.EventHandler(this.LB_ListaCondiciones_SelectedIndexChanged);
+            // 
+            // TB_Cond2
+            // 
+            this.TB_Cond2.Enabled = false;
+            this.TB_Cond2.Location = new System.Drawing.Point(205, 50);
+            this.TB_Cond2.Name = "TB_Cond2";
+            this.TB_Cond2.Size = new System.Drawing.Size(51, 20);
+            this.TB_Cond2.TabIndex = 18;
+            // 
+            // TB_Cond1
+            // 
+            this.TB_Cond1.Location = new System.Drawing.Point(205, 21);
+            this.TB_Cond1.Name = "TB_Cond1";
+            this.TB_Cond1.Size = new System.Drawing.Size(52, 20);
+            this.TB_Cond1.TabIndex = 16;
+            // 
+            // CB_cond1
+            // 
+            this.CB_cond1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_cond1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CB_cond1.FormattingEnabled = true;
+            this.CB_cond1.Location = new System.Drawing.Point(122, 19);
+            this.CB_cond1.Name = "CB_cond1";
+            this.CB_cond1.Size = new System.Drawing.Size(76, 21);
+            this.CB_cond1.TabIndex = 15;
+            this.CB_cond1.SelectedIndexChanged += new System.EventHandler(this.CB_cond1_SelectedIndexChanged);
+            // 
+            // BT_EliminarCondicion
+            // 
+            this.BT_EliminarCondicion.Location = new System.Drawing.Point(420, 21);
+            this.BT_EliminarCondicion.Name = "BT_EliminarCondicion";
+            this.BT_EliminarCondicion.Size = new System.Drawing.Size(113, 21);
+            this.BT_EliminarCondicion.TabIndex = 14;
+            this.BT_EliminarCondicion.Text = "Eliminar condición";
+            this.BT_EliminarCondicion.UseVisualStyleBackColor = true;
+            this.BT_EliminarCondicion.Click += new System.EventHandler(this.BT_EliminarCondicion_Click);
+            // 
+            // LB_Condiciones
+            // 
+            this.LB_Condiciones.FormattingEnabled = true;
+            this.LB_Condiciones.Location = new System.Drawing.Point(9, 19);
+            this.LB_Condiciones.Name = "LB_Condiciones";
+            this.LB_Condiciones.Size = new System.Drawing.Size(107, 56);
+            this.LB_Condiciones.TabIndex = 13;
+            this.LB_Condiciones.SelectedIndexChanged += new System.EventHandler(this.LB_Condiciones_SelectedIndexChanged);
+            // 
+            // BT_AgregarCondicion
+            // 
+            this.BT_AgregarCondicion.Location = new System.Drawing.Point(140, 83);
+            this.BT_AgregarCondicion.Name = "BT_AgregarCondicion";
+            this.BT_AgregarCondicion.Size = new System.Drawing.Size(116, 23);
+            this.BT_AgregarCondicion.TabIndex = 12;
+            this.BT_AgregarCondicion.Text = "Agregar condición";
+            this.BT_AgregarCondicion.UseVisualStyleBackColor = true;
+            this.BT_AgregarCondicion.Click += new System.EventHandler(this.BT_AgregarCondicion_Click);
+            // 
+            // BT_IniciarCargaRestricciones
+            // 
+            this.BT_IniciarCargaRestricciones.Location = new System.Drawing.Point(589, 54);
+            this.BT_IniciarCargaRestricciones.Name = "BT_IniciarCargaRestricciones";
+            this.BT_IniciarCargaRestricciones.Size = new System.Drawing.Size(113, 41);
+            this.BT_IniciarCargaRestricciones.TabIndex = 20;
+            this.BT_IniciarCargaRestricciones.Text = "Iniciar carga de restricciones";
+            this.BT_IniciarCargaRestricciones.UseVisualStyleBackColor = true;
+            this.BT_IniciarCargaRestricciones.Click += new System.EventHandler(this.BT_IniciarCargaRestricciones_Click);
+            // 
+            // BT_FinalizarCargaRestricciones
+            // 
+            this.BT_FinalizarCargaRestricciones.Enabled = false;
+            this.BT_FinalizarCargaRestricciones.Location = new System.Drawing.Point(589, 115);
+            this.BT_FinalizarCargaRestricciones.Name = "BT_FinalizarCargaRestricciones";
+            this.BT_FinalizarCargaRestricciones.Size = new System.Drawing.Size(113, 41);
+            this.BT_FinalizarCargaRestricciones.TabIndex = 26;
+            this.BT_FinalizarCargaRestricciones.Text = "Finalizar carga de restricciones";
+            this.BT_FinalizarCargaRestricciones.UseVisualStyleBackColor = true;
+            this.BT_FinalizarCargaRestricciones.Click += new System.EventHandler(this.BT_FinalizarCargaRestricciones_Click);
             // 
             // BT_RestriccionAbajo
             // 
             this.BT_RestriccionAbajo.BackgroundImage = global::ExploracionPlanes.Properties.Resources.icons8_abajo_en_círculo_2_50;
             this.BT_RestriccionAbajo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BT_RestriccionAbajo.Enabled = false;
-            this.BT_RestriccionAbajo.Location = new System.Drawing.Point(345, 417);
+            this.BT_RestriccionAbajo.Location = new System.Drawing.Point(345, 526);
             this.BT_RestriccionAbajo.Name = "BT_RestriccionAbajo";
             this.BT_RestriccionAbajo.Size = new System.Drawing.Size(35, 34);
             this.BT_RestriccionAbajo.TabIndex = 18;
@@ -379,18 +477,31 @@
             this.BT_RestriccionArriba.BackgroundImage = global::ExploracionPlanes.Properties.Resources.icons8_arriba_en_círculo_2_50;
             this.BT_RestriccionArriba.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.BT_RestriccionArriba.Enabled = false;
-            this.BT_RestriccionArriba.Location = new System.Drawing.Point(345, 377);
+            this.BT_RestriccionArriba.Location = new System.Drawing.Point(345, 486);
             this.BT_RestriccionArriba.Name = "BT_RestriccionArriba";
             this.BT_RestriccionArriba.Size = new System.Drawing.Size(35, 34);
             this.BT_RestriccionArriba.TabIndex = 17;
             this.BT_RestriccionArriba.UseVisualStyleBackColor = true;
             this.BT_RestriccionArriba.Click += new System.EventHandler(this.BT_RestriccionArriba_Click);
             // 
-            // Form1
+            // BT_CargarDesdePaciente
+            // 
+            this.BT_CargarDesdePaciente.Location = new System.Drawing.Point(112, 120);
+            this.BT_CargarDesdePaciente.Name = "BT_CargarDesdePaciente";
+            this.BT_CargarDesdePaciente.Size = new System.Drawing.Size(86, 39);
+            this.BT_CargarDesdePaciente.TabIndex = 27;
+            this.BT_CargarDesdePaciente.Text = "Cargar desde un paciente";
+            this.BT_CargarDesdePaciente.UseVisualStyleBackColor = true;
+            this.BT_CargarDesdePaciente.Click += new System.EventHandler(this.BT_CargarDesdePaciente_Click);
+            // 
+            // Form1_ext
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(678, 487);
+            this.ClientSize = new System.Drawing.Size(879, 600);
+            this.Controls.Add(this.BT_FinalizarCargaRestricciones);
+            this.Controls.Add(this.BT_IniciarCargaRestricciones);
+            this.Controls.Add(this.GB_Condiciones);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.TB_NotaPlantilla);
             this.Controls.Add(this.BT_RestriccionAbajo);
@@ -403,13 +514,15 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.GB_NuevaRestriccion);
             this.Controls.Add(this.LB_listaRestricciones);
-            this.Name = "Form1";
+            this.Name = "Form1_ext";
             this.Text = "Creación de plantillas";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_ext_FormClosing);
             this.GB_NuevaRestriccion.ResumeLayout(false);
             this.GB_NuevaRestriccion.PerformLayout();
             this.Panel_esMenorque.ResumeLayout(false);
-            this.Panel_esMenorque.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DGV_restricciones)).EndInit();
+            this.GB_Condiciones.ResumeLayout(false);
+            this.GB_Condiciones.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -423,8 +536,6 @@
         private System.Windows.Forms.ComboBox CB_CorrespAUnidades;
         private System.Windows.Forms.TextBox TB_CorrespA;
         private System.Windows.Forms.ComboBox CB_MenorOMayor;
-        private System.Windows.Forms.ComboBox CB_ValorEsperadoUnidades;
-        private System.Windows.Forms.TextBox TB_ValorEsperado;
         private System.Windows.Forms.Button BT_AgregarALista;
         private System.Windows.Forms.ListBox LB_listaRestricciones;
         private System.Windows.Forms.GroupBox GB_NuevaRestriccion;
@@ -435,9 +546,6 @@
         private System.Windows.Forms.Button BT_EliminarRestriccion;
         private System.Windows.Forms.TextBox TB_EstructuraNombresAlt;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox CB_ValorToleradoUnidades;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox TB_ValorTolerado;
         private System.Windows.Forms.CheckBox CHB_esParaExtraccion;
         private System.Windows.Forms.Panel Panel_esMenorque;
         private System.Windows.Forms.Button BT_EditarRestriccion;
@@ -447,6 +555,20 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox TB_NotaRestriccion;
+        private System.Windows.Forms.ComboBox CB_ValorEsperadoUnidades;
+        private System.Windows.Forms.GroupBox GB_Condiciones;
+        private System.Windows.Forms.Button BT_EliminarCondicion;
+        private System.Windows.Forms.ListBox LB_Condiciones;
+        private System.Windows.Forms.Button BT_AgregarCondicion;
+        private System.Windows.Forms.ListBox LB_ListaCondiciones;
+        private System.Windows.Forms.TextBox TB_Cond2;
+        private System.Windows.Forms.TextBox TB_Cond1;
+        private System.Windows.Forms.ComboBox CB_cond1;
+        private System.Windows.Forms.DataGridView DGV_restricciones;
+        private System.Windows.Forms.Button BT_IniciarCargaRestricciones;
+        private System.Windows.Forms.Button BT_FinalizarCargaRestricciones;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label L_VolPTVcc;
         private System.Windows.Forms.Button BT_CargarDesdePaciente;
     }
 }

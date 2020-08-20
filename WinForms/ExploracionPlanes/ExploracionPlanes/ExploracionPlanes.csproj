@@ -70,8 +70,25 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
   <PropertyGroup />
   <PropertyGroup />
   <PropertyGroup />
@@ -151,17 +168,36 @@
   <ItemGroup>
     <Compile Include="Analisis.cs" />
     <Compile Include="Chequeos.cs" />
+    <Compile Include="Condicion.cs" />
     <Compile Include="Configuracion.cs" />
     <Compile Include="Diccionario.cs" />
     <Compile Include="DVHDataExtensions_ESAPIX.cs" />
     <Compile Include="Equipos.cs" />
     <Compile Include="Estilos.cs" />
     <Compile Include="Estructura.cs" />
+    <Compile Include="Form1_ext.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1_ext.Designer.cs">
+      <DependentUpon>Form1_ext.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form2_DosPlanes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2_DosPlanes.Designer.cs">
+      <DependentUpon>Form2_DosPlanes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form3copia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form3copia.Designer.cs">
+      <DependentUpon>Form3copia.cs</DependentUpon>
     </Compile>
     <Compile Include="Form4.cs">
       <SubType>Form</SubType>
@@ -181,7 +217,26 @@
     <Compile Include="FormTB.Designer.cs">
       <DependentUpon>FormTB.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImportarNombresEstructuras.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportarNombresEstructuras.Designer.cs">
+      <DependentUpon>ImportarNombresEstructuras.cs</DependentUpon>
+    </Compile>
     <Compile Include="Metodos.cs" />
+    <Compile Include="Mineria.cs" />
+    <Compile Include="SeleccionarPTV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SeleccionarPTV.Designer.cs">
+      <DependentUpon>SeleccionarPTV.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PlanesParaComparar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlanesParaComparar.Designer.cs">
+      <DependentUpon>PlanesParaComparar.cs</DependentUpon>
+    </Compile>
     <Compile Include="PlanesSumaContext.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -231,15 +286,40 @@
     <Compile Include="RestriccionIndiceConformidad.cs" />
     <Compile Include="RestriccionVolumen.cs" />
     <Compile Include="Script.cs" />
+    <Compile Include="TBI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TBI.Designer.cs">
+      <DependentUpon>TBI.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Form1_ext.resx">
+      <DependentUpon>Form1_ext.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form2_DosPlanes.resx">
+      <DependentUpon>Form2_DosPlanes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form3copia.resx">
+      <DependentUpon>Form3copia.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormConfiguracion.resx">
       <DependentUpon>FormConfiguracion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTB.resx">
       <DependentUpon>FormTB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportarNombresEstructuras.resx">
+      <DependentUpon>ImportarNombresEstructuras.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SeleccionarPTV.resx">
+      <DependentUpon>SeleccionarPTV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlanesParaComparar.resx">
+      <DependentUpon>PlanesParaComparar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PlanesSumaContext.resx">
       <DependentUpon>PlanesSumaContext.cs</DependentUpon>
@@ -269,6 +349,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TBI.resx">
+      <DependentUpon>TBI.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="ExploracionPlanes_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

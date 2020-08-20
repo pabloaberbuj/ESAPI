@@ -1,6 +1,6 @@
 ﻿namespace ExploracionPlanes
 {
-    partial class Form2
+    partial class Form2_DosPlanes
     {
         /// <summary>
         /// Required designer variable.
@@ -55,6 +55,7 @@
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Volumen = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EnPlan2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Ref = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.VolumenDmax = new System.Windows.Forms.DataGridViewButtonColumn();
@@ -178,13 +179,14 @@
             this.Column3,
             this.Volumen,
             this.Column4,
+            this.EnPlan2,
             this.Column5,
             this.Ref,
             this.VolumenDmax});
             this.DGV_Análisis.Location = new System.Drawing.Point(688, 28);
             this.DGV_Análisis.Name = "DGV_Análisis";
             this.DGV_Análisis.RowHeadersVisible = false;
-            this.DGV_Análisis.Size = new System.Drawing.Size(485, 531);
+            this.DGV_Análisis.Size = new System.Drawing.Size(557, 531);
             this.DGV_Análisis.TabIndex = 16;
             this.DGV_Análisis.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGV_Análisis_CellContentClick);
             this.DGV_Análisis.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.DGV_Análisis_RowsAdded);
@@ -318,8 +320,13 @@
             // 
             // Column4
             // 
-            this.Column4.HeaderText = "En Plan";
+            this.Column4.HeaderText = "En Plan1";
             this.Column4.Name = "Column4";
+            // 
+            // EnPlan2
+            // 
+            this.EnPlan2.HeaderText = "EnPlan2";
+            this.EnPlan2.Name = "EnPlan2";
             // 
             // Column5
             // 
@@ -330,7 +337,7 @@
             // 
             this.Ref.HeaderText = "Ref.";
             this.Ref.Name = "Ref";
-            this.Ref.Width = 60;
+            this.Ref.Width = 40;
             // 
             // VolumenDmax
             // 
@@ -340,11 +347,11 @@
             this.VolumenDmax.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.VolumenDmax.Width = 30;
             // 
-            // Form2
+            // Form2_DosPlanes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1215, 610);
+            this.ClientSize = new System.Drawing.Size(1271, 610);
             this.Controls.Add(this.L_NombrePaciente);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.BT_GuardarReporte);
@@ -364,7 +371,7 @@
             this.Controls.Add(this.TB_ID);
             this.Controls.Add(this.LB_Cursos);
             this.Controls.Add(this.label1);
-            this.Name = "Form2";
+            this.Name = "Form2_DosPlanes";
             this.Text = "Form2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).EndInit();
@@ -404,6 +411,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Volumen;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EnPlan2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Ref;
         private System.Windows.Forms.DataGridViewButtonColumn VolumenDmax;

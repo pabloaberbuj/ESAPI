@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -77,13 +78,20 @@ namespace ExploracionPlanes
             {
                 foreach (Beam campo1 in plan.Beams)
                 {
-                    foreach (Beam campo2 in plan.Beams)
+                    if (campo1.MLCPlanType != MLCPlanType.VMAT && campo1.MLCPlanType != MLCPlanType.ArcDynamic && !campo1.IsSetupField && campo1.Wedges.Count()==0 && campo1.Applicator == null)
                     {
-                        if (campo1.Id != campo2.Id && camposFusionables(campo1, campo2))
+                        foreach (Beam campo2 in plan.Beams)
                         {
-                            fusionables = true;
+                            if (campo2.MLCPlanType != MLCPlanType.VMAT && campo2.MLCPlanType != MLCPlanType.ArcDynamic && !campo2.IsSetupField && campo2.Wedges.Count() == 0 && campo2.Applicator == null)
+                            {
+                                if (campo1.Id != campo2.Id && camposFusionables(campo1, campo2))
+                                {
+                                    fusionables = true;
+                                }
+                            }
                         }
                     }
+
                 }
             }
             if (fusionables)
@@ -100,7 +108,7 @@ namespace ExploracionPlanes
             {
                 foreach (PlanSetup etapaB in planSuma.PlanSetups)
                 {
-                    if (isosDiferentes(etapaA,etapaB))
+                    if (isosDiferentes(etapaA, etapaB))
                     {
                         texto += "\nLos planes " + etapaA.Id + " y " + etapaB.Id + " tienen isos similares.\nEvaluar la utilización de un mismo iso";
                     }
@@ -112,17 +120,65 @@ namespace ExploracionPlanes
         public static string comparaIsosEnUnPlan(PlanSetup plan)
         {
             string texto = "";
-            foreach(Beam campo in plan.Beams)
+            foreach (Beam campo in plan.Beams)
             {
-                if (distanciaMaxima(plan.Beams.First().IsocenterPosition, campo.IsocenterPosition) > 0.001)
+                if (distanciaMaxima(plan.Beams.First().IsocenterPosition, campo.IsocenterPosition) > 0.01)
                 {
                     texto += "\nEl plan tiene más de un isocentro";
+                    if (campo.TreatmentUnit.Id == "D-2300CD" || campo.TreatmentUnit.Id == "Equipo1")
+                    {
+                        texto += ". No será posible realizar el 2D/2D match en el equipo. Se sugiere separar en dos planes";
+                    }
                     break;
                 }
             }
             return texto;
         }
 
+        public static string hayTratamientoAprobado(PlanSetup planActual)
+        {
+            string texto = "";
+            Patient paciente = planActual.Course.Patient;
+            foreach (Course curso in paciente.Courses)
+            {
+                foreach (PlanSetup plan in curso.PlanSetups)
+                {
+                    if (plan.ApprovalStatus == PlanSetupApprovalStatus.TreatmentApproved)
+                    {
+                        texto += "\n" + curso.Id + " - " + plan.Id + ": el plan tiene el tratamiento aprobado";
+                    }
+                }
+            }
+            return texto;
+        }
+
+        public static string tomografiaVieja(PlanSetup plan)
+        {
+            string texto = "";
+            if (plan.Series.Study.CreationDateTime != null)
+            {
+                DateTime fechaTomo = (DateTime)plan.Series.Study.CreationDateTime;
+                if ((DateTime.Today - fechaTomo).Days - 30 > 0)
+                {
+                    texto += "\nEl estudio tomográfico tiene más de 1 mes. Revisar  si es el correcto";
+                }
+            }
+            return texto;
+        }
+
+
+        public static string estructuraNombreCursoCorrecta(PlanSetup plan)
+        {
+            string texto = "";
+            Regex estructura = new Regex(@"^C[0-9]_[a-zA-Z]{3}[0-9]{2}$");
+            {
+                if (!estructura.IsMatch(plan.Course.Id))
+                {
+                    texto += "\nRevisar el formato de nombre del curso (por ejemplo C0_Sep19)";
+                }
+            }
+            return texto;
+        }
 
         public static string UMporGrado(Beam campo)
         {
@@ -131,11 +187,11 @@ namespace ExploracionPlanes
             {
                 if (campo.Meterset.Value / campo.ArcLength >= 20)
                 {
-                    texto += campo.Id + ": UM/longitud de arco es mayor a 20";
+                    texto += "\n" + campo.Id + ": UM/longitud de arco es mayor a 20 (" + (campo.Meterset.Value / campo.ArcLength).ToString() + ")";
                 }
                 else if ((campo.ArcLength * campo.DoseRate) / (campo.Meterset.Value * 60) >= 4.2)
                 {
-                    texto += campo.Id + ": pocas UMs para esa longitud de arco y Dose Rate";
+                    texto += "\n" + campo.Id + ": pocas UMs para esa longitud de arco y Dose Rate";
                 }
             }
             return texto;
@@ -168,12 +224,43 @@ namespace ExploracionPlanes
             return texto;
         }
 
+        public static string UMporSubField(Beam campo)
+        {
+            string texto = "";
+            if (campo.ControlPoints.Count < 10)
+            {
+                for (int i = 1; i < campo.ControlPoints.Count; i++)
+                {
+                    if (Math.Round(campo.ControlPoints[i].MetersetWeight - campo.ControlPoints[i - 1].MetersetWeight, 5) != 0 &&
+                        Math.Round(campo.Meterset.Value * (campo.ControlPoints[i].MetersetWeight - campo.ControlPoints[i - 1].MetersetWeight), 0) < 10)
+
+                    {
+                        texto += "\n" + campo.Id + ": el campo o uno de sus subcampos tiene menos de 10UM";
+                        break;
+                    }
+                }
+            }
+            return texto;
+
+        }
+
+        public static string UMminimaParaCuna(Beam campo)
+        {
+            string texto = "";
+            if (campo.Wedges.Count() > 0 && Math.Round(campo.Meterset.Value, 0) < 20)
+            {
+                texto += "\n" + campo.Id + ": las UM son insuficientes para tener cuña dinámica";
+            }
+            return texto;
+
+        }
+
         public static string tamanoXenVMAT(Beam campo)
         {
             string texto = "";
-            if (campo.MLCPlanType == MLCPlanType.VMAT && (-campo.ControlPoints.First().JawPositions.X1+ campo.ControlPoints.First().JawPositions.X2)>180)
+            if (campo.MLCPlanType == MLCPlanType.VMAT && (-campo.ControlPoints.First().JawPositions.X1 + campo.ControlPoints.First().JawPositions.X2) > 180)
             {
-                texto+= "\n" + campo.Id + ": X es mayor a 18cm";
+                texto += "\n" + campo.Id + ": X es mayor a 18cm";
             }
             return texto;
         }
@@ -181,12 +268,80 @@ namespace ExploracionPlanes
         public static string isoEnVMAT(Beam campo, PlanSetup planCorrespondiente)
         {
             string texto = "";
-            if (campo.MLCPlanType == MLCPlanType.VMAT && (campo.IsocenterPosition.x-planCorrespondiente.StructureSet.Image.UserOrigin.x>30))
+            if (campo.MLCPlanType == MLCPlanType.VMAT && (Math.Abs(campo.IsocenterPosition.x - planCorrespondiente.StructureSet.Image.UserOrigin.x) > 30))
             {
                 texto += "\n" + campo.Id + ": el iso está desplazado más de 3cm lateralmente respecto de la referencia";
             }
             return texto;
         }
+
+        public static string tamanoCampoMinimo(Beam campo)
+        {
+            string texto = "";
+            if ((-campo.ControlPoints.First().JawPositions.X1 + campo.ControlPoints.First().JawPositions.X2) < 30 || (-campo.ControlPoints.First().JawPositions.Y1 + campo.ControlPoints.First().JawPositions.Y2) < 30)
+            {
+                texto += "\n" + campo.Id + ": el campo es menor a 3cm";
+            }
+            return texto;
+        }
+
+        #region chequeos nuevos
+
+
+        public static string planAprobado(PlanSetup plan)
+        {
+            string texto = "";
+            if (plan.ApprovalStatus != PlanSetupApprovalStatus.PlanningApproved)
+            {
+                texto += "\n" + plan.Id + ": el plan no está aprobado";
+            }
+            return texto;
+        }
+
+
+        public static string planesEnDiferenteEquipo(PlanSum planSum)
+        {
+            string texto = "";
+            string IdEquipo = planSum.PlanSetups.First().Beams.First().TreatmentUnit.Id;
+            foreach (PlanSetup plan in planSum.PlanSetups)
+            {
+                foreach (Beam campo in plan.Beams)
+                {
+                    if (!campo.TreatmentUnit.Id.Equals(IdEquipo))
+                    {
+                        texto += "\nEl plan suma contiene campos en diferentes equipos de tratamiento";
+                        return texto;
+                    }
+                }
+            }
+            return texto;
+        }
+
+        public static string campoConCunaFisica(Beam campo)
+        {
+            string texto = "";
+            if (campo.Wedges.Count()>0)
+            {
+                foreach (Wedge cuna in campo.Wedges)
+                {
+                    if (!cuna.Id.Contains("EDW"))
+                    {
+                        texto += "\n" + campo.Id + " contiene una cuña física";
+                    }
+                }
+            }
+            return texto;
+        }
+
+        /*public static string dosisPlanVsdosisPuntoRef(PlanSetup plan)
+        {
+            string texto = "";
+            plan.PrimaryReferencePoint.
+        }*/
+        #endregion
+
+
+
 
         public static string chequeosPorCampo(PlanSetup plan)
         {
@@ -197,8 +352,12 @@ namespace ExploracionPlanes
                 {
                     texto += UMporGrado(campo);
                     texto += doseRate(campo);
+                    texto += UMporSubField(campo);
+                    texto += UMminimaParaCuna(campo);
                     texto += tamanoXenVMAT(campo);
                     texto += isoEnVMAT(campo, plan);
+                    texto += tamanoCampoMinimo(campo);
+                    texto += campoConCunaFisica(campo);
                 }
             }
             return texto;
@@ -216,11 +375,13 @@ namespace ExploracionPlanes
                 texto += merge((PlanSetup)plan);
                 texto += chequeosPorCampo((PlanSetup)plan);
                 texto += comparaIsosEnUnPlan((PlanSetup)plan);
+                texto += estructuraNombreCursoCorrecta((PlanSetup)plan);
+                texto += tomografiaVieja((PlanSetup)plan);
+                texto += hayTratamientoAprobado((PlanSetup)plan);
             }
             else
             {
-                texto += camilla(((PlanSum)plan).PlanSetups.First());
-                texto += origen(((PlanSum)plan).PlanSetups.First());
+                //chequeos que hay que hacer para todos los planes
                 foreach (PlanSetup etapa in ((PlanSum)plan).PlanSetups)
                 {
                     string aux = "";
@@ -229,12 +390,21 @@ namespace ExploracionPlanes
                     aux += merge(etapa);
                     aux += chequeosPorCampo(etapa);
                     aux += comparaIsosEnUnPlan(etapa);
-                    if (aux!="")
+                    if (aux != "")
                     {
                         texto += "\n" + etapa.Id + ": " + aux + "\n";
                     }
                 }
+                //chequeos que hay que hacer una vez sola
+                PlanSetup primerPlan = ((PlanSum)plan).PlanSetups.First();
+                texto += estructuraNombreCursoCorrecta(primerPlan);
+                texto += tomografiaVieja(primerPlan);
+                texto += hayTratamientoAprobado(primerPlan);
+                texto += camilla(primerPlan);
+                texto += origen(primerPlan);
+                //chequeos en el plan Suma
                 texto += comparaIsosPlanSuma((PlanSum)plan);
+                texto += planesEnDiferenteEquipo((PlanSum)plan);
             }
 
             return texto;
@@ -317,8 +487,8 @@ namespace ExploracionPlanes
 
         public static bool isosDiferentes(PlanSetup plan1, PlanSetup plan2)
         {
-            if (distanciaMaxima(plan1.Beams.First().IsocenterPosition,plan2.Beams.First().IsocenterPosition)>0.001 &&
-                distanciaMaxima(plan1.Beams.First().IsocenterPosition, plan2.Beams.First().IsocenterPosition)<20)
+            if (distanciaMaxima(plan1.Beams.First().IsocenterPosition, plan2.Beams.First().IsocenterPosition) > 0.01 &&
+                distanciaMaxima(plan1.Beams.First().IsocenterPosition, plan2.Beams.First().IsocenterPosition) < 20)
             {
                 return true;
             }
@@ -353,30 +523,9 @@ namespace ExploracionPlanes
 - El iso está muy cerca de la ref? LISTO
 - ¿Falta hacer merge de campos? LISTO
 
-    public static string llevaCuna(PlanSetup plan)
-        {
-            string texto = "";
-            foreach (Beam campo in plan.Beams)
-            {
-                if (campo.Wedges.Count()>0)
-                {
-                    texto += "\n" + campo.Id + ": " + campo.Wedges.First().Id;
-                }
-                else
-                {
-                    texto += "\n" + campo.Id + ": no lleva cuña";
-                }
-            }
-            return texto;
-        }
+    FALTA (06-09-19)
+    - orden de campo (Rafa)
+    - El plan está aprobado (para chequeo de armado)
+    - Prescripción y restricción del reference point
 
-        public static string longitudArco(PlanSetup plan)
-        {
-            string texto = "";
-            foreach (Beam campo in plan.Beams)
-            {
-                texto += "\n" + campo.Id + ": " + campo.ArcLength.ToString();
-            }
-            return texto;
-        }
- */
+    */

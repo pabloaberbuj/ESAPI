@@ -43,7 +43,7 @@
             this.BT_AgregarALista.TabIndex = 2;
             this.BT_AgregarALista.Text = "Agregar";
             this.BT_AgregarALista.UseVisualStyleBackColor = true;
-            this.BT_AgregarALista.Click += new System.EventHandler(this.BT_AgregarALista_Click);
+            
             // 
             // TB_Agregar
             // 
@@ -77,7 +77,7 @@
             this.BT_Analizar.TabIndex = 4;
             this.BT_Analizar.Text = "Analizar";
             this.BT_Analizar.UseVisualStyleBackColor = true;
-            this.BT_Analizar.Click += new System.EventHandler(this.BT_Analizar_Click);
+            
             // 
             // Form1
             // 

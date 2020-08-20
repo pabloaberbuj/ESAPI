@@ -40,6 +40,8 @@
             this.BT_HabilitarEdicion = new System.Windows.Forms.Button();
             this.L_Editando = new System.Windows.Forms.Label();
             this.BT_Configuracion = new System.Windows.Forms.Button();
+            this.BT_CompararPlanes = new System.Windows.Forms.Button();
+            this.BT_NuevaConCondiciones = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // LB_Plantillas
@@ -48,7 +50,7 @@
             this.LB_Plantillas.Location = new System.Drawing.Point(12, 29);
             this.LB_Plantillas.Name = "LB_Plantillas";
             this.LB_Plantillas.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.LB_Plantillas.Size = new System.Drawing.Size(198, 316);
+            this.LB_Plantillas.Size = new System.Drawing.Size(198, 394);
             this.LB_Plantillas.TabIndex = 7;
             this.LB_Plantillas.SelectedIndexChanged += new System.EventHandler(this.LB_Plantillas_SelectedIndexChanged);
             // 
@@ -63,7 +65,7 @@
             // 
             // BT_Nueva
             // 
-            this.BT_Nueva.Location = new System.Drawing.Point(232, 198);
+            this.BT_Nueva.Location = new System.Drawing.Point(232, 221);
             this.BT_Nueva.Name = "BT_Nueva";
             this.BT_Nueva.Size = new System.Drawing.Size(134, 34);
             this.BT_Nueva.TabIndex = 1;
@@ -74,7 +76,7 @@
             // BT_Editar
             // 
             this.BT_Editar.Enabled = false;
-            this.BT_Editar.Location = new System.Drawing.Point(232, 238);
+            this.BT_Editar.Location = new System.Drawing.Point(232, 302);
             this.BT_Editar.Name = "BT_Editar";
             this.BT_Editar.Size = new System.Drawing.Size(134, 37);
             this.BT_Editar.TabIndex = 2;
@@ -85,7 +87,7 @@
             // BT_Eliminar
             // 
             this.BT_Eliminar.Enabled = false;
-            this.BT_Eliminar.Location = new System.Drawing.Point(232, 325);
+            this.BT_Eliminar.Location = new System.Drawing.Point(232, 389);
             this.BT_Eliminar.Name = "BT_Eliminar";
             this.BT_Eliminar.Size = new System.Drawing.Size(134, 34);
             this.BT_Eliminar.TabIndex = 4;
@@ -107,7 +109,7 @@
             // BT_AplicarPorLote
             // 
             this.BT_AplicarPorLote.Enabled = false;
-            this.BT_AplicarPorLote.Location = new System.Drawing.Point(232, 123);
+            this.BT_AplicarPorLote.Location = new System.Drawing.Point(232, 164);
             this.BT_AplicarPorLote.Name = "BT_AplicarPorLote";
             this.BT_AplicarPorLote.Size = new System.Drawing.Size(134, 40);
             this.BT_AplicarPorLote.TabIndex = 6;
@@ -118,7 +120,7 @@
             // BT_Duplicar
             // 
             this.BT_Duplicar.Enabled = false;
-            this.BT_Duplicar.Location = new System.Drawing.Point(232, 281);
+            this.BT_Duplicar.Location = new System.Drawing.Point(232, 345);
             this.BT_Duplicar.Name = "BT_Duplicar";
             this.BT_Duplicar.Size = new System.Drawing.Size(134, 37);
             this.BT_Duplicar.TabIndex = 3;
@@ -129,7 +131,7 @@
             // BT_Ver
             // 
             this.BT_Ver.Enabled = false;
-            this.BT_Ver.Location = new System.Drawing.Point(232, 77);
+            this.BT_Ver.Location = new System.Drawing.Point(232, 120);
             this.BT_Ver.Name = "BT_Ver";
             this.BT_Ver.Size = new System.Drawing.Size(134, 38);
             this.BT_Ver.TabIndex = 12;
@@ -139,7 +141,7 @@
             // 
             // BT_HabilitarEdicion
             // 
-            this.BT_HabilitarEdicion.Location = new System.Drawing.Point(232, 370);
+            this.BT_HabilitarEdicion.Location = new System.Drawing.Point(232, 447);
             this.BT_HabilitarEdicion.Name = "BT_HabilitarEdicion";
             this.BT_HabilitarEdicion.Size = new System.Drawing.Size(132, 23);
             this.BT_HabilitarEdicion.TabIndex = 13;
@@ -151,7 +153,7 @@
             // 
             this.L_Editando.AutoSize = true;
             this.L_Editando.ForeColor = System.Drawing.Color.ForestGreen;
-            this.L_Editando.Location = new System.Drawing.Point(161, 375);
+            this.L_Editando.Location = new System.Drawing.Point(161, 452);
             this.L_Editando.Name = "L_Editando";
             this.L_Editando.Size = new System.Drawing.Size(49, 13);
             this.L_Editando.TabIndex = 14;
@@ -160,7 +162,7 @@
             // 
             // BT_Configuracion
             // 
-            this.BT_Configuracion.Location = new System.Drawing.Point(12, 370);
+            this.BT_Configuracion.Location = new System.Drawing.Point(12, 447);
             this.BT_Configuracion.Name = "BT_Configuracion";
             this.BT_Configuracion.Size = new System.Drawing.Size(94, 23);
             this.BT_Configuracion.TabIndex = 15;
@@ -168,11 +170,34 @@
             this.BT_Configuracion.UseVisualStyleBackColor = true;
             this.BT_Configuracion.Click += new System.EventHandler(this.BT_Configuracion_Click);
             // 
+            // BT_CompararPlanes
+            // 
+            this.BT_CompararPlanes.Enabled = false;
+            this.BT_CompararPlanes.Location = new System.Drawing.Point(232, 75);
+            this.BT_CompararPlanes.Name = "BT_CompararPlanes";
+            this.BT_CompararPlanes.Size = new System.Drawing.Size(134, 40);
+            this.BT_CompararPlanes.TabIndex = 16;
+            this.BT_CompararPlanes.Text = "Comparar dos planes";
+            this.BT_CompararPlanes.UseVisualStyleBackColor = true;
+            this.BT_CompararPlanes.Click += new System.EventHandler(this.BT_CompararPlanes_Click);
+            // 
+            // BT_NuevaConCondiciones
+            // 
+            this.BT_NuevaConCondiciones.Location = new System.Drawing.Point(232, 262);
+            this.BT_NuevaConCondiciones.Name = "BT_NuevaConCondiciones";
+            this.BT_NuevaConCondiciones.Size = new System.Drawing.Size(134, 34);
+            this.BT_NuevaConCondiciones.TabIndex = 17;
+            this.BT_NuevaConCondiciones.Text = "Nueva Plantilla con condiciones";
+            this.BT_NuevaConCondiciones.UseVisualStyleBackColor = true;
+            this.BT_NuevaConCondiciones.Click += new System.EventHandler(this.BT_NuevaConCondiciones_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(378, 399);
+            this.ClientSize = new System.Drawing.Size(378, 482);
+            this.Controls.Add(this.BT_NuevaConCondiciones);
+            this.Controls.Add(this.BT_CompararPlanes);
             this.Controls.Add(this.BT_Configuracion);
             this.Controls.Add(this.L_Editando);
             this.Controls.Add(this.BT_HabilitarEdicion);
@@ -206,5 +231,7 @@
         private System.Windows.Forms.Button BT_HabilitarEdicion;
         private System.Windows.Forms.Label L_Editando;
         private System.Windows.Forms.Button BT_Configuracion;
+        private System.Windows.Forms.Button BT_CompararPlanes;
+        private System.Windows.Forms.Button BT_NuevaConCondiciones;
     }
 }

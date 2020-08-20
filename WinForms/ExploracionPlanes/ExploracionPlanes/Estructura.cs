@@ -97,5 +97,26 @@ namespace ExploracionPlanes
                 return estructura.nombre;
             }
         }
+
+        public static List<Structure> ptvs(PlanningItem plan)
+        {
+            List<Structure> PTVs = new List<Structure>();
+            foreach (Structure estructura in listaEstructuras(plan))
+            {
+                if (estructura.DicomType == "PTV")
+                {
+                    PTVs.Add(estructura);
+                }
+            }
+            return PTVs;
+        }
     }
+
+    public struct parEstructura
+    {
+        public string estructuraNombre { get; set; }
+        public string structureID { get; set; }
+    }
+
+    
 }

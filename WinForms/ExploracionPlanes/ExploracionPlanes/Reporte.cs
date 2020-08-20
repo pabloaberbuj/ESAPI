@@ -42,6 +42,8 @@ namespace ExploracionPlanes
             MessageBox.Show("Se ha guardado el reporte con el nombre: " + Path.GetFileName(path));
         }
 
+        
+
         public static void imprimir(Document report)
         {
             DocumentRenderer documentRenderer = new DocumentRenderer(report);

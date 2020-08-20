@@ -14,19 +14,25 @@ namespace ExploracionPlanes
     public partial class Main : Form
     {
         public Form1 crearPlantilla;
+        public Form1_ext crearPlantilla_ext;
         //public PruebaImprimir aplicarPlantilla;
         public Form2 aplicarPlantilla;
         public Form3 aplicarPorLote;
+        public Form3copia aplicarPorLoteAutomatizado;
         public PlantillaBlanco plantillaBlanco;
+        public PlanesParaComparar planesParaCompararForm;
+        public Form2_DosPlanes Form2_DosPlanes;
         bool hayContext = false;
         bool editaPlantilla = false;
         Patient pacienteContext = null;
         PlanningItem planContext = null;
+        PlanSetup planParaComparar = null;
         User usuarioContext = null;
+        IEnumerable<PlanSetup> planesParaComparar = null;
         IEnumerable<PlanSum> planSumsContext = null;
         string texto = "";
 
-        public Main(bool _hayContext = false, Patient _pacienteContext = null, PlanningItem _planContext = null, User _usuarioContext = null, IEnumerable<PlanSum> _planSumsContext = null)
+        public Main(bool _hayContext = false, Patient _pacienteContext = null, PlanningItem _planContext = null, User _usuarioContext = null, IEnumerable<PlanSum> _planSumsContext = null, IEnumerable<PlanSetup> _plansContext = null)
         {
             InitializeComponent();
             leerPlantillas();
@@ -35,7 +41,9 @@ namespace ExploracionPlanes
             planContext = _planContext;
             usuarioContext = _usuarioContext;
             planSumsContext = _planSumsContext;
+            planesParaComparar = _plansContext;
             habilitarBotones();
+            eliminarArchivosParesEstructura(1);
             if (hayContext && planContext != null)
             {
                 texto += Chequeos.chequeos(planContext, false);
@@ -113,8 +121,17 @@ namespace ExploracionPlanes
 
         private void BT_Editar_Click(object sender, EventArgs e)
         {
-            crearPlantilla = new Form1(this, true);
-            crearPlantilla.ShowDialog();
+            if (plantillaSeleccionada().tieneCondiciones())
+            {
+                crearPlantilla_ext = new Form1_ext(this, true);
+                crearPlantilla_ext.ShowDialog();
+            }
+            else
+            {
+                crearPlantilla = new Form1(this, true);
+                crearPlantilla.ShowDialog();
+            }
+            
 
         }
 
@@ -129,6 +146,18 @@ namespace ExploracionPlanes
             }
         }
 
+        private void BT_CompararPlanes_Click(object sender, EventArgs e)
+        {
+            planesParaCompararForm = new PlanesParaComparar(planesParaComparar);
+            planesParaCompararForm.ShowDialog();
+            Form2_DosPlanes = new Form2_DosPlanes(plantillaSeleccionada(), hayContext, pacienteContext, planContext, usuarioContext, planesParaCompararForm.planParaComparar);
+            Form2_DosPlanes.ShowDialog();
+            if (hayContext)
+            {
+                Form2_DosPlanes.Dispose();
+            }
+        }
+
         public Plantilla plantillaSeleccionada()
         {
             return (Plantilla)LB_Plantillas.SelectedItem;
@@ -138,6 +167,8 @@ namespace ExploracionPlanes
         {
             aplicarPorLote = new Form3(plantillaSeleccionada());
             aplicarPorLote.ShowDialog();
+            //aplicarPorLoteAutomatizado = new Form3copia(plantillaSeleccionada());
+            //aplicarPorLoteAutomatizado.ShowDialog();
         }
 
 
@@ -184,16 +215,20 @@ namespace ExploracionPlanes
             if (hayContext)
             {
                 BT_Nueva.Enabled = false;
+                BT_NuevaConCondiciones.Enabled = false;
                 BT_Editar.Enabled = false;
                 BT_Ver.Enabled = false;
                 BT_Duplicar.Enabled = false;
                 BT_Eliminar.Enabled = false;
                 BT_AplicarAUnPlan.Enabled = true;
+                BT_CompararPlanes.Enabled = true;
                 BT_AplicarPorLote.Enabled = false;
             }
             else
             {
+                BT_CompararPlanes.Enabled = false;
                 Metodos.habilitarBoton(editaPlantilla, BT_Nueva);
+                Metodos.habilitarBoton(editaPlantilla, BT_NuevaConCondiciones);
                 Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1 && editaPlantilla, BT_Editar);
                 Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1 && editaPlantilla, BT_Duplicar);
                 Metodos.habilitarBoton(LB_Plantillas.SelectedItems.Count == 1, BT_Ver);
@@ -234,6 +269,25 @@ namespace ExploracionPlanes
             formConfiguracion.ShowDialog();
             //LB_Plantillas.Items.Clear();
             leerPlantillas();
+        }
+
+        private void BT_NuevaConCondiciones_Click(object sender, EventArgs e)
+        {
+            crearPlantilla_ext = new Form1_ext(this, false);
+            crearPlantilla_ext.ShowDialog();
+        }
+        public void eliminarArchivosParesEstructura(int meses)
+        {
+            string pathParEstructuras = Properties.Settings.Default.Path + @"\paresEstructuras\";
+            string[] archivos = Directory.GetFiles(pathParEstructuras);
+            foreach (string archivo in archivos)
+            {
+                FileInfo fi = new FileInfo(archivo);
+                if (fi.CreationTime < DateTime.Now.AddMonths(-meses))
+                {
+                    File.Delete(archivo);
+                }
+            }
         }
     }
 }

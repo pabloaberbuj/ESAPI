@@ -15,7 +15,7 @@ namespace VyRenPTV
 {
     public partial class Form1 : Form
     {
-        VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication("pa", "123qwe");
+        VMS.TPS.Common.Model.API.Application app = VMS.TPS.Common.Model.API.Application.CreateApplication("paberbuj", "123qwe");
         Course curso;
         Patient paciente;
         PlanSetup plan;
@@ -23,114 +23,83 @@ namespace VyRenPTV
         string volumenDeDosis;
         string volumenEstructura;
         string dosisPrescripta;
-        static string[] HCaux = File.ReadAllLines("lista.txt");
-        string[] datosAExportar = new string[HCaux.Count()];
+        //static string[] HCaux = File.ReadAllLines("lista.txt");
+        //string[] datosAExportar = new string[HCaux.Count()];
 
 
         public Form1()
         {
             InitializeComponent();
-        }
 
-        public Patient abrirPaciente(string ID)
-        {
-            return app.OpenPatientById(ID);
-        }
-
-        public void cerrarPaciente()
-        {
-            app.ClosePatient();
-        }
-
-        public Course abrirCurso(Patient paciente, string nombreCurso)
-        {
-            return paciente.Courses.Where(c => c.Id == nombreCurso).FirstOrDefault();
-        }
-        public PlanSetup abrirPlanAprobado(Course curso) //plan con tratamiento aprobado y más de 3 fracciones (para evitar planes de QA y verificaciones)
-        {
-            return curso.PlanSetups.Where(p => p.ApprovalStatus == PlanSetupApprovalStatus.TreatmentApproved && p.UniqueFractionation.NumberOfFractions > 3).FirstOrDefault();
-        }
-
-        public Structure elegirEstructura(PlanSetup plan, string nombreEstructura)
-        {
-            return plan.StructureSet.Structures.Where(s => s.Id.Contains(nombreEstructura)).FirstOrDefault();
-        }
-
-        public string obtenerDosisPrescripta(PlanSetup plan)
-        {
-            return plan.TotalPrescribedDose.Dose.ToString();
-        }
-
-        public string obtenerVolumenEstructura(Structure estructura)
-        {
-            return Math.Round(estructura.Volume, 1).ToString();
-        }
-
-        public string obtenerVolumenDeDosis(PlanSetup plan, Structure estructura, double dosis)
-        {
-            DoseValue Dosis = new DoseValue(dosis, DoseValue.DoseUnit.cGy);
-
-            return Convert.ToString(Math.Round(plan.GetVolumeAtDose(estructura, Dosis, VolumePresentation.Relative), 1)) + "%";
-        }
-
-        public string obtenerDosisMaxima(PlanSetup plan, Structure estructura)
-        {
-            return obtenerDosisDeVolumen(plan, estructura, 0.000001);
-        }
-
-        public string obtenerDosisDeVolumen(PlanSetup plan, Structure estructura, double volumen)
-        {
-            DoseValue Dosis;
-            Dosis = plan.GetDoseAtVolume(estructura, volumen, VolumePresentation.Relative, DoseValuePresentation.Absolute);
-            return Math.Round(Dosis.Dose, 1).ToString() + Dosis.UnitAsString;
-        }
-
-        private void BT_AgregarALista_Click(object sender, EventArgs e)
-        {
-            LB_HCs.Items.Add(TB_Agregar.Text);
-            TB_Agregar.Clear();
-            TB_Agregar.Focus();
-        }
-
-        private void BT_Analizar_Click(object sender, EventArgs e)
-        {
-            datosAExportar[0] = "HC \t Prescripción \t Recto Vol \t Recto V_40 \t RenPTV Vol \t Vejiga Vol \t Vejiga V_45 \t VenPTV Vol";
-            int i = 1;
-            //foreach (string hc in LB_HCs.Items)
-            foreach (string hc in HCaux)
+            Patient paciente = app.OpenPatientById("1-89080-0");
+            //Patient paciente = app.OpenPatientById("1-83694-0");
+            string texto = "";
+            Course curso = paciente.Courses.Where(C => C.Id.Contains("C0")).First();
+            //Course curso = paciente.Courses.Where(C => C.Id.Contains("C2")).First();
+            foreach (PlanSetup plan in curso.PlanSetups)
             {
-                try
+                //PlanSetup plan = curso.PlanSetups.Where(p => p.Id.Contains("falla")).First();
+                texto += "\n" + plan.Id;
+                foreach (Beam campo in plan.Beams)
                 {
-                    paciente = abrirPaciente(hc);
-                    curso = abrirCurso(paciente, "C1");
-                    plan = abrirPlanAprobado(curso);
-                    dosisPrescripta = obtenerDosisPrescripta(plan);
-                    estructura = elegirEstructura(plan, "Recto");
-                    volumenEstructura = obtenerVolumenEstructura(estructura);
-                    volumenDeDosis = obtenerVolumenDeDosis(plan, estructura, 4000);
-                    datosAExportar[i] += hc + "\t" + dosisPrescripta + "\t" + volumenEstructura + "\t" + volumenDeDosis + "\t";
-                    estructura = elegirEstructura(plan, "RenPTV");
-                    volumenEstructura = obtenerVolumenEstructura(estructura);
-                    datosAExportar[i] += volumenEstructura + "\t";
-                    estructura = elegirEstructura(plan, "Vejiga");
-                    volumenEstructura = obtenerVolumenEstructura(estructura);
-                    volumenDeDosis = obtenerVolumenDeDosis(plan, estructura, 4500);
-                    datosAExportar[i] += volumenEstructura + "\t" + volumenDeDosis + "\t";
-                    estructura = elegirEstructura(plan, "VenPTV");
-                    volumenEstructura = obtenerVolumenEstructura(estructura);
-                    datosAExportar[i] += volumenEstructura;
-                    L_Reporte.Text += hc + " OK \n";
-                    cerrarPaciente();
-                    i++;
-                    L_Reporte.Update();
+                    bool hayDiferencia = false;
+                    if (campo.ControlPoints.Count > 2)
+                    {
+                        float[] valores = new float[campo.ControlPoints.Count()];
+                        double[] valoresDif = new double[campo.ControlPoints.Count()-1];
+                        
+                        for (int i = 0; i < 60; i++)
+                        {
+                            for (int j = 0; j < 2; j++)
+                            {
+                                for (int cp = 0; cp < campo.ControlPoints.Count(); cp++)
+                                {
+                                    valores[cp] = Math.Abs(campo.ControlPoints[cp].LeafPositions[j, i]);
+                                    if (cp!=0)
+                                    {
+                                        valoresDif[cp - 1] = Math.Abs(Math.Round(valores[cp] - valores[cp - 1],2));
+                                    }
+                                }
+                                var max = valores.Max();
+                                var min = valores.Min();
+                                if (valores.Max()>0)
+                                {
+                                    //if (valoresDif.Max() > 1)
+                                    if (Math.Round(max - min, 5) >= 1)
+                                    {
+                                        hayDiferencia = true;
+                                        texto += "\n" + campo.Id + "hay movimiento de más de 1mm en lámina (" + j.ToString() + "," + i.ToString() + ") " + Math.Round(max - min, 5).ToString();
+                                        break;
+                                    }
+                                }
+                                if (Math.Round(max - min,1) > 1)
+                                {
+
+                                }
+                                
+                            }
+                            if (hayDiferencia)
+                            {
+                                break;
+                            }
+                        }
+                        if (!hayDiferencia)
+                            
+                        {
+                            texto += "\n" + campo.Id + " no hay movimiento de láminas";
+                        }
+                        
+                        
+                    }
+                    else
+                    {
+                        texto += "\n" + campo.Id + "tiene menos de dos controlPoints";
+                    }
                 }
-                catch (Exception ef)
-                {
-                    L_Reporte.Text += hc + " Error \n";
-                    L_Reporte.Update();
-                }
+
             }
-            File.WriteAllLines("reporte.txt", datosAExportar);
+            MessageBox.Show(texto);
+
         }
     }
 }

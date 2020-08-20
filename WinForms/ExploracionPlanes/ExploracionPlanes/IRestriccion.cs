@@ -11,6 +11,7 @@ namespace ExploracionPlanes
 {
     public interface IRestriccion
     {
+        Condicion condicion { get; set; }
         Estructura estructura { get; set; }
         string etiqueta { get; set; }
         string etiquetaInicio { get; set; }
@@ -30,12 +31,18 @@ namespace ExploracionPlanes
         int cumple();
         void analizarPlanEstructura(PlanningItem plan, Structure estructura);
         IRestriccion crear(Estructura _estructura, string _unidadValor, string _unidadCorrespondiente, bool _esMenorQue,
-            double _valorEsperado, double _valorTolerado, double _valorCorrespondiente, string _nota);
+            double _valorEsperado, double _valorTolerado, double _valorCorrespondiente, string _nota, Condicion _condicion);
         bool chequearSamplingCoverage(PlanningItem plan, Structure estructura);
 
         void editar(ComboBox CB_Estructura, TextBox TB_nombresAlt, ComboBox CB_TipoRestr, TextBox TB_valorCorrespondiente,
             ComboBox CB_UnidadesCorresp, ComboBox CB_EsMenorQue, TextBox TB_ValorEsperado, TextBox TB_ValorTolerado, ComboBox CB_UnidadesValor, TextBox TB_nota);
 
+        void editarGrupo(List<IRestriccion> lista, DataGridView tabla, ComboBox CB_Estructura, TextBox TB_nombresAlt, ComboBox CB_TipoRestr, TextBox TB_valorCorrespondiente,
+            ComboBox CB_UnidadesCorresp, ComboBox CB_EsMenorQue, ComboBox CB_UnidadesValor, TextBox TB_nota,ListBox LB_TipoCondicion, ListBox LB_ListaCondiciones);
+
         string metrica();
+
+        bool cumpleCondicion(PlanningItem plan);
+        
     }
 }

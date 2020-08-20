@@ -253,7 +253,7 @@ namespace ExploracionPlanes
         {
             if (esRestriccionDosis())
             {
-                return new RestriccionDosis().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente(),notaRestriccion());
+                return new RestriccionDosis().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente(), notaRestriccion());
             }
             else if (esRestriccionDmedia())
             {
@@ -346,7 +346,7 @@ namespace ExploracionPlanes
             {
                 Panel_esMenorque.Visible = true;
             }
-            actualizarBotones(sender,e);
+            actualizarBotones(sender, e);
         }
 
         private void fijarEsParaExtraccion()
@@ -372,7 +372,7 @@ namespace ExploracionPlanes
 
 
 
-        
+
         private void actualizarBotones(object sender, EventArgs e)
         {
             Metodos.habilitarBoton(LB_listaRestricciones.SelectedItems.Count > 0, BT_EliminarRestriccion);
@@ -380,13 +380,13 @@ namespace ExploracionPlanes
             Metodos.habilitarBoton(estaParaGrabarRestriccion(), BT_AgregarALista);
             Metodos.habilitarBoton(!string.IsNullOrEmpty(TB_NombrePlantilla.Text) && LB_listaRestricciones.Items.Count > 0, BT_GuardarPlantilla);
             Metodos.habilitarBoton(LB_listaRestricciones.SelectedItems.Count == 1 && LB_listaRestricciones.SelectedIndex != 0, BT_RestriccionArriba);
-            Metodos.habilitarBoton(LB_listaRestricciones.SelectedItems.Count == 1 && LB_listaRestricciones.SelectedIndex != LB_listaRestricciones.Items.Count-1, BT_RestriccionAbajo);
+            Metodos.habilitarBoton(LB_listaRestricciones.SelectedItems.Count == 1 && LB_listaRestricciones.SelectedIndex != LB_listaRestricciones.Items.Count - 1, BT_RestriccionAbajo);
         }
 
         private bool estaParaGrabarRestriccion()
         {
-                return !string.IsNullOrEmpty(CB_Estructura.Text) && CB_TipoRestriccion.SelectedIndex != -1 &&
-                  (esParaExtraccion() || (CB_MenorOMayor.SelectedIndex != -1 && !string.IsNullOrEmpty(TB_ValorEsperado.Text)));
+            return !string.IsNullOrEmpty(CB_Estructura.Text) && CB_TipoRestriccion.SelectedIndex != -1 &&
+              (esParaExtraccion() || (CB_MenorOMayor.SelectedIndex != -1 && !string.IsNullOrEmpty(TB_ValorEsperado.Text)));
         }
 
 
@@ -413,9 +413,19 @@ namespace ExploracionPlanes
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (listaRestricciones.Count>0 && MessageBox.Show("Hay restricciones que no han sido guardadas \n ¿Desea salir sin guardar?","Salir",MessageBoxButtons.YesNo) == DialogResult.No)
+            if (listaRestricciones.Count > 0 && MessageBox.Show("Hay restricciones que no han sido guardadas \n ¿Desea salir sin guardar?", "Salir", MessageBoxButtons.YesNo) == DialogResult.No)
             {
-                e.Cancel=true;
+                e.Cancel = true;
+            }
+        }
+
+        private void BT_CargarDesdePaciente_Click(object sender, EventArgs e)
+        {
+            ImportarNombresEstructuras importarNombresEstructuras = new ImportarNombresEstructuras();
+            importarNombresEstructuras.ShowDialog();
+            foreach (string nombre in importarNombresEstructuras.nombresEstructurasSeleccionadas)
+            {
+                CB_Estructura.Items.Add(nombre);
             }
         }
     }

@@ -17,28 +17,27 @@ using MigraDoc.Rendering.Forms;
 
 namespace ExploracionPlanes
 {
-    public partial class Form2 : Form
+    public partial class Form2_DosPlanes : Form
     {
 
         Patient paciente;
         Course curso;
         PlanningItem plan;
+        PlanningItem plan2;
         User usuario;
         Plantilla plantilla;
-        Structure ptvCondicion;
         bool hayContext = false;
         PrintDialog printDialog1 = new PrintDialog();
         PrintPreviewDialog printPreviewDialog1 = new PrintPreviewDialog();
         VMS.TPS.Common.Model.API.Application app;
-        string pathParEstructuras = Properties.Settings.Default.Path + @"\paresEstructuras\";
-        string pathReportesJson = Properties.Settings.Default.Path + @"\Reportes\Json\";
 
 
-        public Form2(Plantilla _plantilla, bool _hayContext = false, Patient _pacienteContext = null, PlanningItem _planContext = null, User _usuarioContext = null)
+        public Form2_DosPlanes(Plantilla _plantilla, bool _hayContext = false, Patient _pacienteContext = null, PlanningItem _planContext = null, User _usuarioContext = null, PlanningItem _segundoPlan= null)
         {
             InitializeComponent();
             plantilla = _plantilla;
             this.Text = plantilla.nombre;
+            plan2 = _segundoPlan;
             hayContext = _hayContext;
             if (_hayContext)
             {
@@ -58,7 +57,7 @@ namespace ExploracionPlanes
             {
                 try
                 {
-                    app = VMS.TPS.Common.Model.API.Application.CreateApplication("paberbuj", "123qwe");
+                    app = VMS.TPS.Common.Model.API.Application.CreateApplication(null, null);
                 }
                 catch (Exception)
                 {
@@ -269,12 +268,6 @@ namespace ExploracionPlanes
 
         private void asociarEstructuras()
         {
-            bool existeArchivoPar = File.Exists(nombreArchivoParEstructura(paciente, planSeleccionado()));
-            List<parEstructura> lista = new List<parEstructura>();
-            if (existeArchivoPar)
-            {
-                lista = leerArchivoParEstructura(nombreArchivoParEstructura(paciente, planSeleccionado()));
-            }
             for (int i = 0; i < DGV_Estructuras.Rows.Count; i++)
             {
                 Structure estructura = Estructura.asociarConLista(plantilla.estructuras()[i].nombresPosibles, Estructura.listaEstructuras(planSeleccionado()));
@@ -284,14 +277,7 @@ namespace ExploracionPlanes
                 }
                 else
                 {
-                    if (existeArchivoPar)
-                    {
-                        DGV_Estructuras.Rows[i].Cells[1].Value = structureDeEstructura(DGV_Estructuras.Rows[i].Cells[0].Value.ToString(), lista);
-                    }
-                    else
-                    {
-                        (DGV_Estructuras.Rows[i].Cells[1]).Value = "";
-                    }
+                    (DGV_Estructuras.Rows[i].Cells[1]).Value = "";
                 }
             }
         }
@@ -314,82 +300,78 @@ namespace ExploracionPlanes
             DGV_Análisis.ReadOnly = true;
             DGV_Análisis.Rows.Clear();
 
-            DGV_Análisis.Columns[4].Width = 10;
+            DGV_Análisis.Columns[5].Width = 10;
             DGV_Análisis.Columns[6].DefaultCellStyle.Padding = new Padding(11);
+            DGV_Análisis.Columns[3].HeaderText = planSeleccionado().Id;
+            DGV_Análisis.Columns[4].HeaderText = plan2.Id;
             //DGV_Análisis.ColumnCount = 4;
-            int j = 0;
-            if (plantilla.tieneCondiciones())
-            {
-                SeleccionarPTV seleccionarPTV = new SeleccionarPTV(Estructura.ptvs(planSeleccionado()));
-                seleccionarPTV.ShowDialog();
-                ptvCondicion = seleccionarPTV.ptv;
-                MessageBox.Show("PTV volumen: " + Math.Round(ptvCondicion.Volume, 1).ToString() + " [cm3]\nNumero de fracciones " + ((PlanSetup)planSeleccionado()).UniqueFractionation.NumberOfFractions.ToString());
-                this.Text += " volPTV: " + Math.Round(ptvCondicion.Volume, 1).ToString() + "cm3 " + ((PlanSetup)planSeleccionado()).UniqueFractionation.NumberOfFractions.ToString() + " fx";
-            }
+            //int j = 0;
             for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
             {
                 IRestriccion restriccion = plantilla.listaRestricciones[i];
 
-                if (restriccion.condicion ==null || restriccion.condicion.CumpleCondicion(planSeleccionado(),ptvCondicion))
+                Structure estructura = estructuraCorrespondiente(restriccion.estructura.nombre);
+                DGV_Análisis.Rows.Add();
+                DGV_Análisis.Rows[i].Cells[0].Value = Estructura.nombreEnDiccionario(restriccion.estructura);
+                //DGV_Análisis.Rows[i].Cells[0].Value = restriccion.estructura.nombre;
+                DGV_Análisis.Rows[i].Cells[1].Value = restriccion.metrica();
+                string menorOmayor;
+                if (restriccion.esMenorQue)
                 {
-                    Structure estructura = estructuraCorrespondiente(restriccion.estructura.nombre);
-                    DGV_Análisis.Rows.Add();
-                    DGV_Análisis.Rows[j].Cells[0].Value = Estructura.nombreEnDiccionario(restriccion.estructura);
-                    //DGV_Análisis.Rows[i].Cells[0].Value = restriccion.estructura.nombre;
-                    DGV_Análisis.Rows[j].Cells[1].Value = restriccion.metrica();
-                    string menorOmayor;
-                    if (restriccion.esMenorQue)
-                    {
-                        menorOmayor = "<";
-                    }
-                    else
-                    {
-                        menorOmayor = ">";
-                    }
-                    string valorEsperadoString = menorOmayor + restriccion.valorEsperado + restriccion.unidadValor;
-                    if (!Double.IsNaN(restriccion.valorTolerado))
-                    {
-                        valorEsperadoString += " (" + restriccion.valorTolerado + restriccion.unidadValor + ")";
-                    }
-
-                    DGV_Análisis.Rows[j].Cells[4].Value = valorEsperadoString;
-                    DGV_Análisis.Rows[j].Cells[5].Value = restriccion.nota;
-                    if (estructura != null)
-                    {
-                        DGV_Análisis.Rows[j].Cells[2].Value = Math.Round(estructura.Volume, 2).ToString();
-                        restriccion.analizarPlanEstructura(planSeleccionado(), estructura);
-                        if (restriccion.chequearSamplingCoverage(planSeleccionado(), estructura))
-                        {
-                            MessageBox.Show("La estructura " + estructura.Id + " no tiene el suficiente Sampling Coverage.\nNo se puede realizar el análisis");
-                        }
-                        else
-                        {
-                            DGV_Análisis.Rows[j].Cells[3].Value = restriccion.valorMedido + restriccion.unidadValor;
-                            colorCelda(DGV_Análisis.Rows[j].Cells[3], restriccion.cumple());
-                        }
-                        if (restriccion.GetType() == typeof(RestriccionDosisMax))
-                        {
-                            DataGridViewButtonCell bt = (DataGridViewButtonCell)DGV_Análisis.Rows[j].Cells[6];
-                            bt.FlatStyle = FlatStyle.System;
-                            bt.Style.BackColor = System.Drawing.Color.LightGray;
-                            bt.Style.ForeColor = System.Drawing.Color.Black;
-                            bt.Style.SelectionBackColor = System.Drawing.Color.LightGray;
-                            bt.Style.SelectionForeColor = System.Drawing.Color.Black;
-                            bt.Value = RestriccionDosisMax.volumenDosisMaxima.ToString();
-                            DGV_Análisis.Rows[j].Cells[6].Style.Padding = new Padding(0, 0, 0, 1);
-                        }
-                    }
-                    //MessageBox.Show(DGV_Análisis.Rows[j].Cells[5].Value.ToString());
-                    j++;
+                    menorOmayor = "<";
                 }
                 else
                 {
-                    
+                    menorOmayor = ">";
+                }
+                string valorEsperadoString = menorOmayor + restriccion.valorEsperado + restriccion.unidadValor;
+                if (!Double.IsNaN(restriccion.valorTolerado))
+                {
+                    valorEsperadoString += " (" + restriccion.valorTolerado + restriccion.unidadValor + ")";
+                }
+
+                DGV_Análisis.Rows[i].Cells[5].Value = valorEsperadoString;
+                DGV_Análisis.Rows[i].Cells[6].Value = restriccion.nota;
+                if (estructura != null)
+                {
+                    DGV_Análisis.Rows[i].Cells[2].Value = Math.Round(estructura.Volume, 2).ToString();
+                    restriccion.analizarPlanEstructura(planSeleccionado(), estructura);
+                    if (restriccion.chequearSamplingCoverage(planSeleccionado(), estructura))
+                    {
+                        MessageBox.Show("La estructura " + estructura.Id + " no tiene el suficiente Sampling Coverage.\nNo se puede realizar el análisis");
+                    }
+                    else
+                    {
+                        DGV_Análisis.Rows[i].Cells[3].Value = restriccion.valorMedido + restriccion.unidadValor;
+                        colorCelda(DGV_Análisis.Rows[i].Cells[3], restriccion.cumple());
+                    }
+
+                    //para el segundo Plan
+                    restriccion.analizarPlanEstructura(plan2, estructura);
+                    if (restriccion.chequearSamplingCoverage(plan2, estructura))
+                    {
+                        MessageBox.Show("La estructura " + estructura.Id + " no tiene el suficiente Sampling Coverage.\nNo se puede realizar el análisis");
+                    }
+                    else
+                    {
+                        DGV_Análisis.Rows[i].Cells[4].Value = restriccion.valorMedido + restriccion.unidadValor;
+                        colorCelda(DGV_Análisis.Rows[i].Cells[4], restriccion.cumple());
+                    }
+
+                    if (restriccion.GetType() == typeof(RestriccionDosisMax))
+                    {
+                        DataGridViewButtonCell bt = (DataGridViewButtonCell)DGV_Análisis.Rows[i].Cells[7];
+                        bt.FlatStyle = FlatStyle.System;
+                        bt.Style.BackColor = System.Drawing.Color.LightGray;
+                        bt.Style.ForeColor = System.Drawing.Color.Black;
+                        bt.Style.SelectionBackColor = System.Drawing.Color.LightGray;
+                        bt.Style.SelectionForeColor = System.Drawing.Color.Black;
+                        bt.Value = RestriccionDosisMax.volumenDosisMaxima.ToString();
+                        DGV_Análisis.Rows[i].Cells[6].Style.Padding = new Padding(0, 0, 0, 1);
+                    }
                 }
             }
             DGV_Análisis.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-
-
         }
 
         private Structure estructuraCorrespondiente(string nombreEstructura)
@@ -417,7 +399,6 @@ namespace ExploracionPlanes
 
         private void BT_Analizar_Click(object sender, EventArgs e)
         {
-
             if (estructurasSinAsociar() && MessageBox.Show("¿Hay estructuras sin asociar, desea continuar?", "Estructuras sin asociar", MessageBoxButtons.YesNo) == DialogResult.No)
             {
 
@@ -426,7 +407,6 @@ namespace ExploracionPlanes
             {
                 aplicarPrescripciones();
                 llenarDGVAnalisis();
-                escribirArchivoParEstructuras(listaParesEstructuras(), nombreArchivoParEstructura(paciente, planSeleccionado()));
             }
         }
 
@@ -448,25 +428,6 @@ namespace ExploracionPlanes
 
         private void BT_SeleccionarPlan_Click(object sender, EventArgs e)
         {
-
-          /*  string texto = "";
-                texto += Chequeos.chequeos(planSeleccionado(), false);
-            if (texto != "")
-            {
-                if (MessageBox.Show(texto, "Chequeos en plan actual") == DialogResult.OK)
-                {
-
-                }
-            }
-            else
-            {
-                if (MessageBox.Show("Todo bien", "Chequeos en plan actual") == DialogResult.OK)
-                {
-
-                }
-            }*/
-
-
             try
             {
                 llenarDGVEstructuras();
@@ -555,85 +516,7 @@ namespace ExploracionPlanes
             }
         }
 
-        private List<parEstructura> listaParesEstructuras()
-        {
-            List<parEstructura> lista = new List<parEstructura>();
-            foreach (DataGridViewRow fila in DGV_Estructuras.Rows)
-            {
-                parEstructura par = new parEstructura()
-                {
-                    estructuraNombre = fila.Cells[0].Value.ToString(),
-                };
-                if (fila.Cells[1].Value!=null)
-                {
-                    par.structureID = fila.Cells[1].Value.ToString();
-                }
-                                        
-                lista.Add(par);
-            }
-            return lista;
-        }
 
-        private void escribirArchivoParEstructuras(List<parEstructura> lista, string archivo)
-        {
-            /*if (!File.Exists(archivo))
-            {
-                File.Create(archivo);
-            }*/
-            using (StreamWriter file = new StreamWriter(archivo))
-            {
-                int i = 0;
-                foreach (parEstructura par in lista)
-                {
-                    file.WriteLine(par.estructuraNombre + "," + par.structureID);
-                }
-            }
-        }
-
-        private List<parEstructura> leerArchivoParEstructura(string archivo)
-        {
-            List<parEstructura> lista = new List<parEstructura>();
-            using (StreamReader file = new StreamReader(archivo))
-            {
-                
-                while (!file.EndOfStream)
-                {
-                    string[] aux = file.ReadLine().Split(',');
-                    parEstructura par = new parEstructura()
-                    {
-                        estructuraNombre = aux[0],
-                        structureID = aux[1],
-                    };
-                    lista.Add(par);
-                }
-            }
-            return lista;
-        }
-
-        private string structureDeEstructura(string estructuraNombreBusca, List<parEstructura> lista)
-        {
-            return lista.Find(p => p.estructuraNombre == estructuraNombreBusca).structureID;
-        }
-
-        private string nombreArchivoParEstructura(Patient paciente, PlanningItem plan)
-        {
-
-            if (!Directory.Exists(pathParEstructuras))
-            {
-                Directory.CreateDirectory(pathParEstructuras);
-            }
-            string nombre;
-            
-            if (plan is PlanSetup)
-            {
-                nombre = pathParEstructuras + paciente.Id + ((PlanSetup)plan).StructureSet.Id + ".txt";
-            }
-            else
-            {
-                nombre = pathParEstructuras + paciente.Id + ((PlanSum)plan).StructureSet.Id + ".txt";
-            }
-            return nombre;
-        }
 
         #region Imprimir
         private Document reporte()
@@ -665,32 +548,6 @@ namespace ExploracionPlanes
         private void BT_GuardarReporte_Click(object sender, EventArgs e)
         {
             Reporte.exportarAPdf(paciente.LastName, paciente.FirstName, paciente.Id, planSeleccionado().Id, plantilla.nombre, reporte());
-            guardarPlantillaComoJson();
-        }
-
-        private void guardarPlantillaComoJson()
-        {
-            plantilla.IDpaciente = paciente.Id;
-            plantilla.plan = planSeleccionado().Id;
-            string pacienteS = "";
-            string planS = "";
-            if (paciente.LastName != "" || paciente.FirstName != "")
-            {
-                pacienteS = paciente.Id + "_" + paciente.LastName + ", " + paciente.FirstName + "_";
-            }
-            if (planSeleccionado().Id != "")
-            {
-                planS = planSeleccionado().Id + "_";
-            }
-
-            string nombre = pacienteS + planS + plantilla.nombre;
-            if (!Directory.Exists(pathReportesJson))
-            {
-                Directory.CreateDirectory(pathReportesJson);
-            }
-            string path = IO.GetUniqueFilename(pathReportesJson, nombre, "txt");
-
-            IO.writeObjectAsJson(path, plantilla);
         }
 
         private void BT_Imprimir_Click(object sender, EventArgs e)

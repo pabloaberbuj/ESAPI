@@ -15,7 +15,7 @@ namespace VMS.TPS
         }
         public void Execute(ScriptContext context)
         {
-            ExploracionPlanes.Main main = new ExploracionPlanes.Main(true, context.Patient, context.PlanSetup, context.CurrentUser,context.PlanSumsInScope);
+            ExploracionPlanes.Main main = new ExploracionPlanes.Main(true, context.Patient, context.PlanSetup, context.CurrentUser,context.PlanSumsInScope,context.PlansInScope);
             main.ShowDialog();
             main.Dispose();
             

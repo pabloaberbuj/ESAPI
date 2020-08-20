@@ -14,8 +14,10 @@ namespace ExploracionPlanes
 {
     public class Plantilla
     {
+        
         public static string pathDestino = Properties.Settings.Default.Path + @"\Plantillas\";
-        //ExploracionPlanes.
+        public string IDpaciente { get; set; }
+        public string plan { get; set; }
         public string nombre { get; set; }
         public string etiqueta { get; set; }
         public bool esParaExtraccion { get; set; }
@@ -67,6 +69,18 @@ namespace ExploracionPlanes
             Plantilla duplicada = crear(nombreNuevo, this.esParaExtraccion, this.listaRestricciones, this.nota);
             duplicada.guardar(false);
 
+        }
+
+        public bool tieneCondiciones()
+        {
+            foreach (IRestriccion restriccion in listaRestricciones)
+            {
+                if (restriccion.condicion!=null && restriccion.condicion.tipo!=Tipo.SinCondicion)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
 
@@ -141,6 +155,28 @@ namespace ExploracionPlanes
             }
             TB_notaPlantilla.Text = nota;
             
+        }
+
+        public void editar(TextBox TB_nombre, CheckBox CHB_esParaExtraer, BindingList<IRestriccion> ListaRestricciones, TextBox TB_notaPlantilla, BindingList<Condicion> listaCondicionesNumFracc, BindingList<Condicion> listaCondicionesVolPTV)
+        {
+            TB_nombre.Text = nombre;
+            if (esParaExtraccion)
+            {
+                CHB_esParaExtraer.Checked = true;
+            }
+            foreach (IRestriccion restriccion in listaRestricciones)
+            {
+                ListaRestricciones.Add(restriccion);
+                if (restriccion.condicion!=null && restriccion.condicion.tipo == Tipo.NumFx)
+                {
+                    listaCondicionesNumFracc.Add(restriccion.condicion);
+                }
+                else if (restriccion.condicion != null && restriccion.condicion.tipo == Tipo.VolPTV)
+                {
+                    listaCondicionesVolPTV.Add(restriccion.condicion);
+                }
+            }
+            TB_notaPlantilla.Text = nota;
         }
     }
 }
