@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace ExploracionPlanes
                 if (estructura.DicomType == "SUPPORT")
                 {
                     noHayCamilla = false;
-                    if (!coincidenciaCamillas(estructura.Name, plan.Beams.First().TreatmentUnit.Id))
+                    if (!coincidenciaCamillas(estructura.Name, plan.Beams.First().TreatmentUnit.Id, plan))
                     {
                         texto += "\nLa camilla no es la adecuada para el equipo elegido";
                         break;
@@ -78,7 +79,7 @@ namespace ExploracionPlanes
             {
                 foreach (Beam campo1 in plan.Beams)
                 {
-                    if (campo1.MLCPlanType != MLCPlanType.VMAT && campo1.MLCPlanType != MLCPlanType.ArcDynamic && !campo1.IsSetupField && campo1.Wedges.Count()==0 && campo1.Applicator == null)
+                    if (campo1.MLCPlanType != MLCPlanType.VMAT && campo1.MLCPlanType != MLCPlanType.ArcDynamic && !campo1.IsSetupField && campo1.Wedges.Count() == 0 && campo1.Applicator == null)
                     {
                         foreach (Beam campo2 in plan.Beams)
                         {
@@ -160,7 +161,7 @@ namespace ExploracionPlanes
                 DateTime fechaTomo = (DateTime)plan.Series.Study.CreationDateTime;
                 if ((DateTime.Today - fechaTomo).Days - 30 > 0)
                 {
-                    texto += "\nEl estudio tomográfico tiene más de 1 mes. Revisar  si es el correcto";
+                    texto += "\nEl estudio tomográfico tiene más de 1 mes. Revisar si es el correcto";
                 }
             }
             return texto;
@@ -200,19 +201,17 @@ namespace ExploracionPlanes
         public static string doseRate(Beam campo)
         {
             string texto = "";
-            if (campo.TreatmentUnit.Id == "2100CMLC")
+            if (campo.TreatmentUnit.Id == "2100CMLC" && campo.DoseRate != 240)
             {
-                if (campo.DoseRate != 240)
-                {
-                    texto += "\n" + campo.Id + ": el DoseRate no es el indicado";
-                }
+                texto += "\n" + campo.Id + ": el DoseRate no es el indicado";
             }
-            else if (campo.MLCPlanType.Equals(MLCPlanType.VMAT))
+            else if (campo.EnergyModeDisplayName == "6X-SRS" && campo.DoseRate != 1000)
             {
-                if (campo.DoseRate != 600)
-                {
+                texto += "\n" + campo.Id + ": el DoseRate no es el indicado";
+            }
+            else if (campo.MLCPlanType.Equals(MLCPlanType.VMAT) && campo.DoseRate != 600)
+            {
                     texto += "\n" + campo.Id + ": el DoseRate no es el indicado";
-                }
             }
             else
             {
@@ -268,7 +267,7 @@ namespace ExploracionPlanes
         public static string isoEnVMAT(Beam campo, PlanSetup planCorrespondiente)
         {
             string texto = "";
-            if (campo.MLCPlanType == MLCPlanType.VMAT && (Math.Abs(campo.IsocenterPosition.x - planCorrespondiente.StructureSet.Image.UserOrigin.x) > 30))
+            if (campo.MLCPlanType == MLCPlanType.VMAT && (Math.Abs(campo.IsocenterPosition.x - planCorrespondiente.StructureSet.Image.UserOrigin.x) >= 30.5))
             {
                 texto += "\n" + campo.Id + ": el iso está desplazado más de 3cm lateralmente respecto de la referencia";
             }
@@ -278,20 +277,35 @@ namespace ExploracionPlanes
         public static string tamanoCampoMinimo(Beam campo)
         {
             string texto = "";
-            if ((-campo.ControlPoints.First().JawPositions.X1 + campo.ControlPoints.First().JawPositions.X2) < 30 || (-campo.ControlPoints.First().JawPositions.Y1 + campo.ControlPoints.First().JawPositions.Y2) < 30)
+            if (campo.EnergyModeDisplayName != "6X-SRS")
             {
-                texto += "\n" + campo.Id + ": el campo es menor a 3cm";
+                if ((-campo.ControlPoints.First().JawPositions.X1 + campo.ControlPoints.First().JawPositions.X2) < 30 || (-campo.ControlPoints.First().JawPositions.Y1 + campo.ControlPoints.First().JawPositions.Y2) < 30)
+                {
+                    texto += "\n" + campo.Id + ": el campo es menor a 3cm";
+                }
             }
             return texto;
         }
 
         #region chequeos nuevos
 
-
-        public static string planAprobado(PlanSetup plan)
+        public static string planNoAprobado(PlanSetup plan)
         {
             string texto = "";
-            if (plan.ApprovalStatus != PlanSetupApprovalStatus.PlanningApproved)
+            if (plan.Id.Contains("CI"))
+            {
+                foreach (PlanSetup planAp in plan.Course.PlanSetups)
+                {
+                    if (planAp.ApprovalStatus == PlanSetupApprovalStatus.PlanningApproved)
+                    {
+                        return texto;
+                    }
+                }
+                texto += "\nEn el curso no hay ningún plan aprobado";
+                return texto;
+
+            }
+            else if (plan.ApprovalStatus != PlanSetupApprovalStatus.PlanningApproved && plan.ApprovalStatus != PlanSetupApprovalStatus.TreatmentApproved)
             {
                 texto += "\n" + plan.Id + ": el plan no está aprobado";
             }
@@ -320,7 +334,7 @@ namespace ExploracionPlanes
         public static string campoConCunaFisica(Beam campo)
         {
             string texto = "";
-            if (campo.Wedges.Count()>0)
+            if (campo.Wedges.Count() > 0)
             {
                 foreach (Wedge cuna in campo.Wedges)
                 {
@@ -333,11 +347,31 @@ namespace ExploracionPlanes
             return texto;
         }
 
-        /*public static string dosisPlanVsdosisPuntoRef(PlanSetup plan)
+        public static string dynamicMLC(Beam campo)
         {
-            string texto = "";
-            plan.PrimaryReferencePoint.
-        }*/
+            if (campo.ControlPoints.Count > 2)
+            {
+                float[] valores = new float[campo.ControlPoints.Count()];
+                for (int i = 0; i < 60; i++)
+                {
+                    for (int j = 0; j < 2; j++)
+                    {
+                        for (int cp = 0; cp < campo.ControlPoints.Count(); cp++)
+                        {
+                            valores[cp] = Math.Abs(campo.ControlPoints[cp].LeafPositions[j, i]);
+                        }
+                        var max = valores.Max();
+                        var min = valores.Min();
+                        if (max - min >= 1)
+                        {
+                            return "";
+                        }
+                    }
+                }
+            }
+            return "\n" + campo.Id + " el movimiento es menor a 1mm";
+
+        }
         #endregion
 
 
@@ -358,6 +392,7 @@ namespace ExploracionPlanes
                     texto += isoEnVMAT(campo, plan);
                     texto += tamanoCampoMinimo(campo);
                     texto += campoConCunaFisica(campo);
+                    texto += dynamicMLC(campo);
                 }
             }
             return texto;
@@ -397,12 +432,13 @@ namespace ExploracionPlanes
                 }
                 //chequeos que hay que hacer una vez sola
                 PlanSetup primerPlan = ((PlanSum)plan).PlanSetups.First();
+                texto += camilla(primerPlan);
+                texto += origen(primerPlan);
                 texto += estructuraNombreCursoCorrecta(primerPlan);
                 texto += tomografiaVieja(primerPlan);
                 texto += hayTratamientoAprobado(primerPlan);
-                texto += camilla(primerPlan);
-                texto += origen(primerPlan);
-                //chequeos en el plan Suma
+                
+				//chequeos en el plan Suma
                 texto += comparaIsosPlanSuma((PlanSum)plan);
                 texto += planesEnDiferenteEquipo((PlanSum)plan);
             }
@@ -412,7 +448,7 @@ namespace ExploracionPlanes
         }
 
         #region metodos auxiliares
-        public static bool coincidenciaCamillas(string camilla, string equipo)
+        public static bool coincidenciaCamillas(string camilla, string equipo, PlanSetup plan)
         {
             if (camilla.Contains("Unipanel") && equipo == "PBA_6EX_730")
             {
@@ -432,7 +468,22 @@ namespace ExploracionPlanes
             }
             else if (camilla.Contains("BrainLAB") && equipo == "D-2300CD")
             {
-                return true;
+                if (esRadioCirugia(plan))
+                {
+                    if (camilla.Contains("H&N Extension"))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+
             }
             else
             {
@@ -497,7 +548,27 @@ namespace ExploracionPlanes
                 return false;
             }
         }
-        # endregion
+
+		public static bool esRadioCirugia(PlanSetup plan)
+        {
+            if (plan.Beams.First().TreatmentUnit.Id == "D-2300CD" && plan.StructureSet.Image.UserOrigin.Equals(new VVector(0, 0, 0))) //es en el equipo4
+            {
+                if (plan.Beams.First().EnergyModeDisplayName == "6X-SRS") //haz SRS
+                {
+                    return true;
+                }
+                else if (plan.Beams.First().MLCPlanType == MLCPlanType.VMAT && plan.UniqueFractionation.PrescribedDosePerFraction.Dose > 390) //es VMAt y el origen es dicom y la dosis prescripta es >390cGy
+                {
+                    if (plan.StructureSet.Structures.Any(s => s.Id.Contains("Brain")) || plan.StructureSet.Structures.Any(s => s.Id.Contains("Cerebro"))) //hay alguna estructura que contiene Brain o cerebro
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        #endregion
     }
 
 
