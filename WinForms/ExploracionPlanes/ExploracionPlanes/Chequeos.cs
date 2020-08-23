@@ -201,17 +201,31 @@ namespace ExploracionPlanes
         public static string doseRate(Beam campo)
         {
             string texto = "";
-            if (campo.TreatmentUnit.Id == "2100CMLC" && campo.DoseRate != 240)
+            if (campo.TreatmentUnit.Id == "2100CMLC")
             {
-                texto += "\n" + campo.Id + ": el DoseRate no es el indicado";
+
+                if (campo.DoseRate != 240)
+                {
+
+                    {
+                        texto += "\n" + campo.Id + ": el DoseRate no es el indicado";
+                    }
+                }
             }
-            else if (campo.EnergyModeDisplayName == "6X-SRS" && campo.DoseRate != 1000)
+
+            else if (campo.EnergyModeDisplayName == "6X-SRS")
             {
-                texto += "\n" + campo.Id + ": el DoseRate no es el indicado";
-            }
-            else if (campo.MLCPlanType.Equals(MLCPlanType.VMAT) && campo.DoseRate != 600)
-            {
+                if (campo.DoseRate != 1000)
+                {
                     texto += "\n" + campo.Id + ": el DoseRate no es el indicado";
+                }
+            }
+            else if (campo.MLCPlanType.Equals(MLCPlanType.VMAT))
+            {
+                if (campo.DoseRate != 600)
+                {
+                    texto += "\n" + campo.Id + ": el DoseRate no es el indicado";
+                }
             }
             else
             {
@@ -368,9 +382,9 @@ namespace ExploracionPlanes
                         }
                     }
                 }
+                return "\n" + campo.Id + " el movimiento en todas las láminas es menor a 1mm";
             }
-            return "\n" + campo.Id + " el movimiento es menor a 1mm";
-
+            return "";
         }
         #endregion
 
