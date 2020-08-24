@@ -280,8 +280,9 @@ namespace ExploracionPlanes
 
         public static string isoEnVMAT(Beam campo, PlanSetup planCorrespondiente)
         {
+            bool origen = planCorrespondiente.StructureSet.Image.UserOrigin.Equals(new VVector(0, 0, 0));
             string texto = "";
-            if (campo.MLCPlanType == MLCPlanType.VMAT && (Math.Abs(campo.IsocenterPosition.x - planCorrespondiente.StructureSet.Image.UserOrigin.x) >= 30.5))
+            if (!origen && campo.MLCPlanType == MLCPlanType.VMAT && (Math.Abs(campo.IsocenterPosition.x - planCorrespondiente.StructureSet.Image.UserOrigin.x) >= 30.5))
             {
                 texto += "\n" + campo.Id + ": el iso está desplazado más de 3cm lateralmente respecto de la referencia";
             }
@@ -490,12 +491,19 @@ namespace ExploracionPlanes
                     }
                     else
                     {
-                        return true;
+                        return false;
                     }
                 }
                 else
                 {
-                    return true;
+                    if (camilla.Contains("H&N Extension"))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
                 }
 
             }
