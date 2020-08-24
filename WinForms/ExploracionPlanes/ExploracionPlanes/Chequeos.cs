@@ -571,7 +571,7 @@ namespace ExploracionPlanes
             }
         }
 
-		public static bool esRadioCirugia(PlanSetup plan)
+        public static bool esRadioCirugia(PlanSetup plan)
         {
             if (plan.Beams.First().TreatmentUnit.Id == "D-2300CD" && plan.StructureSet.Image.UserOrigin.Equals(new VVector(0, 0, 0))) //es en el equipo4
             {
