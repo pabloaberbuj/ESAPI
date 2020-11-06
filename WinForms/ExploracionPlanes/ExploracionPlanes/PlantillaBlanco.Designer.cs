@@ -33,6 +33,7 @@
             this.DGV_Análisis = new System.Windows.Forms.DataGridView();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.EstructuraCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Prioridad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Volumen = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,6 +70,7 @@
             this.DGV_Análisis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_Análisis.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.EstructuraCol,
+            this.Prioridad,
             this.Column3,
             this.Volumen,
             this.Column4,
@@ -77,7 +79,7 @@
             this.DGV_Análisis.Location = new System.Drawing.Point(12, 27);
             this.DGV_Análisis.Name = "DGV_Análisis";
             this.DGV_Análisis.RowHeadersVisible = false;
-            this.DGV_Análisis.Size = new System.Drawing.Size(468, 348);
+            this.DGV_Análisis.Size = new System.Drawing.Size(512, 348);
             this.DGV_Análisis.TabIndex = 25;
             // 
             // printDialog1
@@ -89,6 +91,13 @@
             this.EstructuraCol.HeaderText = "Estructura";
             this.EstructuraCol.Name = "EstructuraCol";
             this.EstructuraCol.Width = 60;
+            // 
+            // Prioridad
+            // 
+            this.Prioridad.HeaderText = "Prioridad";
+            this.Prioridad.Name = "Prioridad";
+            this.Prioridad.Visible = false;
+            this.Prioridad.Width = 50;
             // 
             // Column3
             // 
@@ -122,7 +131,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(516, 450);
+            this.ClientSize = new System.Drawing.Size(574, 450);
             this.Controls.Add(this.BT_GuardarReporte);
             this.Controls.Add(this.BT_Imprimir);
             this.Controls.Add(this.DGV_Análisis);
@@ -140,6 +149,7 @@
         private System.Windows.Forms.DataGridView DGV_Análisis;
         private System.Windows.Forms.PrintDialog printDialog1;
         private System.Windows.Forms.DataGridViewTextBoxColumn EstructuraCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Prioridad;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Volumen;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;

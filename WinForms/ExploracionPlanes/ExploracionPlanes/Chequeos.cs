@@ -181,6 +181,21 @@ namespace ExploracionPlanes
             return texto;
         }
 
+        public static string orientacionArcos(PlanSetup planSetup)
+        {
+            string texto = "";
+            List<double> longitudes = new List<double>();
+            if (planSetup.Beams.Any(c => c.Technique.Id == "ARC"))
+            {
+                longitudes = planSetup.Beams.Where(c => c.Technique.Id == "ARC").Select(c => IECaVarian(c.ControlPoints.Last().GantryAngle) - IECaVarian(c.ControlPoints.First().GantryAngle)).ToList();
+                if (Math.Abs(longitudes.Sum()) > longitudes.Select(l => Math.Abs(l)).Max())
+                {
+                    texto += "\nRevisar la orientación de los arcos. Es posible que no sea la ópitma";
+                }
+            }
+            return texto;
+        }
+
         public static string UMporGrado(Beam campo)
         {
             string texto = "";
@@ -428,6 +443,7 @@ namespace ExploracionPlanes
                 texto += estructuraNombreCursoCorrecta((PlanSetup)plan);
                 texto += tomografiaVieja((PlanSetup)plan);
                 texto += hayTratamientoAprobado((PlanSetup)plan);
+				texto += orientacionArcos((PlanSetup)plan);
             }
             else
             {
@@ -440,6 +456,7 @@ namespace ExploracionPlanes
                     aux += merge(etapa);
                     aux += chequeosPorCampo(etapa);
                     aux += comparaIsosEnUnPlan(etapa);
+					aux += orientacionArcos((PlanSetup)etapa);
                     if (aux != "")
                     {
                         texto += "\n" + etapa.Id + ": " + aux + "\n";
@@ -452,6 +469,7 @@ namespace ExploracionPlanes
                 texto += estructuraNombreCursoCorrecta(primerPlan);
                 texto += tomografiaVieja(primerPlan);
                 texto += hayTratamientoAprobado(primerPlan);
+				
                 
 				//chequeos en el plan Suma
                 texto += comparaIsosPlanSuma((PlanSum)plan);
@@ -588,6 +606,18 @@ namespace ExploracionPlanes
                 }
             }
             return false;
+        }
+
+        public static double IECaVarian(double valorIEC)
+        {
+            if (valorIEC <= 180)
+            {
+                return 180 - valorIEC;
+            }
+            else
+            {
+                return 540 - valorIEC;
+            }
         }
 
         #endregion

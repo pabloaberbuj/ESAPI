@@ -211,6 +211,7 @@
             this.Controls.Add(this.LB_Plantillas);
             this.Controls.Add(this.label4);
             this.Name = "Main";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Exploración de planes";
             this.ResumeLayout(false);
             this.PerformLayout();

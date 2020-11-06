@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 
 namespace ExploracionPlanes
 {
-    public partial class Form1 : Form
+    public partial class Form1_prioridades : Form
     {
 
         BindingList<IRestriccion> listaRestricciones = new BindingList<IRestriccion>();
@@ -23,7 +23,7 @@ namespace ExploracionPlanes
 
 
 
-        public Form1(Main _main, bool _editaPlantilla)
+        public Form1_prioridades(Main _main, bool _editaPlantilla)
         {
             InitializeComponent();
             CB_MenorOMayor.SelectedIndex = 0;
@@ -157,6 +157,18 @@ namespace ExploracionPlanes
             return CB_MenorOMayor.SelectedIndex == 0;
         }
 
+        private string prioridad()
+        {
+            if (CB_prioridad.Text == "1" || CB_prioridad.Text == "2" || CB_prioridad.Text == "3" || CB_prioridad.Text == "4")
+            {
+                return CB_prioridad.Text;
+            }
+            else
+            {
+                return "";
+            }
+            
+        }
         private void cargarUnidadesDosis(ComboBox cb)
         {
             cb.Items.Clear();
@@ -253,23 +265,23 @@ namespace ExploracionPlanes
         {
             if (esRestriccionDosis())
             {
-                return new RestriccionDosis().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente(), notaRestriccion());
+                return new RestriccionDosis().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente(), notaRestriccion(),null, prioridad());
             }
             else if (esRestriccionDmedia())
             {
-                return new RestriccionDosisMedia().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente(), notaRestriccion());
+                return new RestriccionDosisMedia().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente(), notaRestriccion(), null, prioridad());
             }
             else if (esRestriccionDmax())
             {
-                return new RestriccionDosisMax().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente(), notaRestriccion());
+                return new RestriccionDosisMax().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente(), notaRestriccion(), null, prioridad());
             }
             else if (esRestriccionVolumen())
             {
-                return new RestriccionVolumen().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente(), notaRestriccion());
+                return new RestriccionVolumen().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente(), notaRestriccion(), null, prioridad());
             }
             else //esRestriccionIndiceConformidad
             {
-                return new RestriccionIndiceConformidad().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente(), notaRestriccion());
+                return new RestriccionIndiceConformidad().crear(estructura(), unidadValor(), unidadCorrespondiente(), esMenorQue(), valorEsperado(), valorTolerado(), valorCorrespondiente(), notaRestriccion(), null, prioridad());
             }
         }
 
@@ -289,6 +301,7 @@ namespace ExploracionPlanes
             CB_CorrespAUnidades.SelectedIndex = 0;
             CB_ValorEsperadoUnidades.SelectedIndex = 0;
             TB_NotaRestriccion.Clear();
+            CB_prioridad.Text = "";
         }
 
         private void limpiarPlantilla()
@@ -363,11 +376,11 @@ namespace ExploracionPlanes
 
         private void BT_EditarRestriccion_Click(object sender, EventArgs e)
         {
-        /*    LB_listaRestricciones.Enabled = false;
+            LB_listaRestricciones.Enabled = false;
             ((IRestriccion)(LB_listaRestricciones.SelectedItem)).editar(CB_Estructura, TB_EstructuraNombresAlt, CB_TipoRestriccion, TB_CorrespA,
-                CB_CorrespAUnidades, CB_MenorOMayor, TB_ValorEsperado, TB_ValorTolerado, CB_ValorEsperadoUnidades, TB_NotaRestriccion);
+                CB_CorrespAUnidades, CB_MenorOMayor, TB_ValorEsperado, TB_ValorTolerado, CB_ValorEsperadoUnidades, TB_NotaRestriccion,CB_prioridad);
             BT_AgregarALista.Text = "Guardar";
-            editaRestriccion = true;*/
+            editaRestriccion = true;
         }
 
 
@@ -411,7 +424,7 @@ namespace ExploracionPlanes
             LB_listaRestricciones.SelectedIndex = indice + 1;
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private void Form1_prioridades_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (listaRestricciones.Count > 0 && MessageBox.Show("Hay restricciones que no han sido guardadas \n ¿Desea salir sin guardar?", "Salir", MessageBoxButtons.YesNo) == DialogResult.No)
             {
@@ -426,6 +439,32 @@ namespace ExploracionPlanes
             foreach (string nombre in importarNombresEstructuras.nombresEstructurasSeleccionadas)
             {
                 CB_Estructura.Items.Add(nombre);
+            }
+        }
+
+        private void BT_CondicionadaAOtraRestricción_Click(object sender, EventArgs e)
+        {
+            Form_ListaRestricciones form_ListaRestricciones = new Form_ListaRestricciones(listaRestricciones);
+            if (form_ListaRestricciones.ShowDialog()==DialogResult.OK)
+            {
+                IRestriccion restriccionActualConCondicion = restriccionActual();
+                restriccionActualConCondicion.condicion = new Condicion();
+                restriccionActualConCondicion.condicion.tipo = Tipo.CondicionadaPor;
+                restriccionActualConCondicion.condicion.EtiquetaRestriccionAnidada = form_ListaRestricciones.restriccionElegida.etiqueta;
+                IRestriccion restriccionCondicionante = listaRestricciones.Where(r => r.etiqueta == form_ListaRestricciones.restriccionElegida.etiqueta).First();
+                restriccionCondicionante.condicion = new Condicion();
+                restriccionCondicionante.condicion.tipo = Tipo.CondicionaA;
+                restriccionCondicionante.condicion.EtiquetaRestriccionAnidada = restriccionActualConCondicion.etiqueta;
+                //restriccionActualConCondicion.agregarALista(listaRestricciones);
+                listaRestricciones.Insert(listaRestricciones.IndexOf(restriccionCondicionante) + 1, restriccionActualConCondicion);
+
+                limpiarPrescripcion();
+                if (!CB_Estructura.Items.Contains(estructura().nombre))
+                {
+                    CB_Estructura.Items.Add(estructura().nombre);
+                }
+                fijarEsParaExtraccion();
+                MessageBox.Show("Se agregó la restricción a la lista");
             }
         }
     }

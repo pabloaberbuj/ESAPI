@@ -13,7 +13,7 @@ namespace ExploracionPlanes
 {
     public partial class Main : Form
     {
-        public Form1 crearPlantilla;
+        public Form1_prioridades crearPlantilla;
         public Form1_ext crearPlantilla_ext;
         //public PruebaImprimir aplicarPlantilla;
         public Form2 aplicarPlantilla;
@@ -115,20 +115,21 @@ namespace ExploracionPlanes
 
         private void BT_Nueva_Click(object sender, EventArgs e)
         {
-            crearPlantilla = new Form1(this, false);
+            //crearPlantilla = new Form1(this, false);
+            crearPlantilla = new Form1_prioridades(this, false);
             crearPlantilla.ShowDialog();
         }
 
         private void BT_Editar_Click(object sender, EventArgs e)
         {
-            if (plantillaSeleccionada().tieneCondiciones())
+            if (plantillaSeleccionada().tieneCondicionesTipo1())
             {
                 crearPlantilla_ext = new Form1_ext(this, true);
                 crearPlantilla_ext.ShowDialog();
             }
             else
             {
-                crearPlantilla = new Form1(this, true);
+                crearPlantilla = new Form1_prioridades(this, true);
                 crearPlantilla.ShowDialog();
             }
             

@@ -12,6 +12,8 @@ namespace ExploracionPlanes
     {
         VolPTV,
         NumFx,
+        CondicionadaPor,
+        CondicionaA,
         SinCondicion,
     };
     public enum Operador
@@ -27,9 +29,10 @@ namespace ExploracionPlanes
         public Operador operador { get; set; }
         public double ValorEsperado { get; set; }
         public double ValorEsperado2 { get; set; }
+        public string EtiquetaRestriccionAnidada { get; set; }
         public string id { get; set; }
 
-        public double ValorObtenido(PlanningItem planActual, Structure ptv=null)
+        public double ValorObtenido(PlanningItem planActual, Structure ptv = null)
         {
             if (tipo == Tipo.VolPTV)
             {
@@ -45,13 +48,13 @@ namespace ExploracionPlanes
             }
         }
 
-        public bool CumpleCondicion(PlanningItem planActual, Structure ptv=null)
+        public bool CumpleCondicion(PlanningItem planActual, Structure ptv = null)
         {
             if (this == null)
             {
                 return true;
             }
-            else if (tipo == Tipo.SinCondicion)
+            else if (tipo == Tipo.SinCondicion ||  tipo == Tipo.CondicionaA || tipo == Tipo.CondicionadaPor)
             {
                 return true;
             }
@@ -79,6 +82,10 @@ namespace ExploracionPlanes
             {
                 id = "";
             }
+            else if (tipo == Tipo.CondicionaA || tipo == Tipo.CondicionadaPor)
+            {
+                id = tipo.ToString() + "=" + EtiquetaRestriccionAnidada;
+            }
             else if (operador == Operador.entre)
             {
                 id = (Math.Min(ValorEsperado, ValorEsperado2)).ToString() + "<" + tipo.ToString() + "<" + (Math.Max(ValorEsperado, ValorEsperado2)).ToString();
@@ -97,7 +104,7 @@ namespace ExploracionPlanes
             }
         }
 
-        public static Condicion crear(Tipo _tipo, Operador _operador, double _valorEsperado, double _valorEsperado2= double.NaN)
+        public static Condicion crear(Tipo _tipo, Operador _operador, double _valorEsperado, double _valorEsperado2= double.NaN, string _idRestriccionAnidada="")
         {
             Condicion condicion = new Condicion
             {
@@ -105,6 +112,7 @@ namespace ExploracionPlanes
                 operador = _operador,
                 ValorEsperado = _valorEsperado,
                 ValorEsperado2 = _valorEsperado2,
+                EtiquetaRestriccionAnidada = _idRestriccionAnidada,
             };
             condicion.escribirId();
             return condicion;

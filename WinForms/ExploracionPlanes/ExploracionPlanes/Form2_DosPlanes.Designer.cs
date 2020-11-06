@@ -40,6 +40,14 @@
             this.delPlan = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.label5 = new System.Windows.Forms.Label();
             this.DGV_Análisis = new System.Windows.Forms.DataGridView();
+            this.EstructuraCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Volumen = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EnPlan2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Ref = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.VolumenDmax = new System.Windows.Forms.DataGridViewButtonColumn();
             this.label6 = new System.Windows.Forms.Label();
             this.BT_Analizar = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
@@ -51,14 +59,6 @@
             this.BT_GuardarReporte = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.L_NombrePaciente = new System.Windows.Forms.Label();
-            this.EstructuraCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Volumen = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EnPlan2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Ref = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.VolumenDmax = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Análisis)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Prescripciones)).BeginInit();
@@ -191,6 +191,53 @@
             this.DGV_Análisis.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGV_Análisis_CellContentClick);
             this.DGV_Análisis.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.DGV_Análisis_RowsAdded);
             // 
+            // EstructuraCol
+            // 
+            this.EstructuraCol.HeaderText = "Estructura";
+            this.EstructuraCol.Name = "EstructuraCol";
+            this.EstructuraCol.Width = 60;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Métrica";
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 60;
+            // 
+            // Volumen
+            // 
+            this.Volumen.HeaderText = "Vol [cm3]";
+            this.Volumen.Name = "Volumen";
+            this.Volumen.Width = 60;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "En Plan1";
+            this.Column4.Name = "Column4";
+            // 
+            // EnPlan2
+            // 
+            this.EnPlan2.HeaderText = "EnPlan2";
+            this.EnPlan2.Name = "EnPlan2";
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Esperado";
+            this.Column5.Name = "Column5";
+            // 
+            // Ref
+            // 
+            this.Ref.HeaderText = "Ref.";
+            this.Ref.Name = "Ref";
+            this.Ref.Width = 40;
+            // 
+            // VolumenDmax
+            // 
+            this.VolumenDmax.HeaderText = "";
+            this.VolumenDmax.Name = "VolumenDmax";
+            this.VolumenDmax.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.VolumenDmax.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.VolumenDmax.Width = 30;
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -300,53 +347,6 @@
             this.L_NombrePaciente.Text = "Nombre Paciente";
             this.L_NombrePaciente.Visible = false;
             // 
-            // EstructuraCol
-            // 
-            this.EstructuraCol.HeaderText = "Estructura";
-            this.EstructuraCol.Name = "EstructuraCol";
-            this.EstructuraCol.Width = 60;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Métrica";
-            this.Column3.Name = "Column3";
-            this.Column3.Width = 60;
-            // 
-            // Volumen
-            // 
-            this.Volumen.HeaderText = "Vol [cm3]";
-            this.Volumen.Name = "Volumen";
-            this.Volumen.Width = 60;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "En Plan1";
-            this.Column4.Name = "Column4";
-            // 
-            // EnPlan2
-            // 
-            this.EnPlan2.HeaderText = "EnPlan2";
-            this.EnPlan2.Name = "EnPlan2";
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Esperado";
-            this.Column5.Name = "Column5";
-            // 
-            // Ref
-            // 
-            this.Ref.HeaderText = "Ref.";
-            this.Ref.Name = "Ref";
-            this.Ref.Width = 40;
-            // 
-            // VolumenDmax
-            // 
-            this.VolumenDmax.HeaderText = "";
-            this.VolumenDmax.Name = "VolumenDmax";
-            this.VolumenDmax.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.VolumenDmax.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.VolumenDmax.Width = 30;
-            // 
             // Form2_DosPlanes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -372,6 +372,7 @@
             this.Controls.Add(this.LB_Cursos);
             this.Controls.Add(this.label1);
             this.Name = "Form2_DosPlanes";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).EndInit();

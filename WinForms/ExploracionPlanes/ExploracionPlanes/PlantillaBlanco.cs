@@ -29,15 +29,24 @@ namespace ExploracionPlanes
             DGV_Análisis.ReadOnly = true;
             DGV_Análisis.Rows.Clear();
 
-            DGV_Análisis.Columns[4].Width = 10;
+            DGV_Análisis.Columns[5].Width = 10;
+            if (plantilla.tienePrioridades())
+            {
+                DGV_Análisis.Columns[1].Visible = true;
+            }
             for (int i = 0; i < plantilla.listaRestricciones.Count; i++)
             {
                 IRestriccion restriccion = plantilla.listaRestricciones[i];
 
                 DGV_Análisis.Rows.Add();
                 DGV_Análisis.Rows[i].Cells[0].Value = restriccion.estructura.nombre;
-                DGV_Análisis.Rows[i].Cells[1].Value = restriccion.metrica();
-                DGV_Análisis.Rows[i].Cells[5].Value = restriccion.nota;
+                DGV_Análisis.Rows[i].Cells[2].Value = restriccion.metrica();
+                DGV_Análisis.Rows[i].Cells[6].Value = restriccion.nota;
+                if (restriccion.condicion != null && restriccion.condicion.tipo == Tipo.CondicionadaPor)
+                {
+                    DGV_Análisis.Rows[i].Cells[0].Value = "(" + Estructura.nombreEnDiccionario(restriccion.estructura) + ")";
+                    DGV_Análisis.Rows[i].Cells[2].Value = "(" + restriccion.metrica() + ")";
+                }
                 string menorOmayor;
                 if (restriccion.esMenorQue)
                 {
@@ -52,8 +61,11 @@ namespace ExploracionPlanes
                 {
                     valorEsperadoString += " (" + restriccion.valorTolerado + restriccion.unidadValor + ")";
                 }
-
-                DGV_Análisis.Rows[i].Cells[4].Value = valorEsperadoString;
+                if (restriccion.prioridad != null && restriccion.prioridad != "")
+                {
+                    DGV_Análisis.Rows[i].Cells[1].Value = restriccion.prioridad;
+                }
+                DGV_Análisis.Rows[i].Cells[5].Value = valorEsperadoString;
                 DGV_Análisis.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             }
         }

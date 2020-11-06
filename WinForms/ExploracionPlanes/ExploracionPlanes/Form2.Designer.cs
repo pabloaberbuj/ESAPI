@@ -52,6 +52,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.L_NombrePaciente = new System.Windows.Forms.Label();
             this.EstructuraCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Prioridad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Volumen = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -175,6 +176,7 @@
             this.DGV_Análisis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_Análisis.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.EstructuraCol,
+            this.Prioridad,
             this.Column3,
             this.Volumen,
             this.Column4,
@@ -184,7 +186,7 @@
             this.DGV_Análisis.Location = new System.Drawing.Point(688, 28);
             this.DGV_Análisis.Name = "DGV_Análisis";
             this.DGV_Análisis.RowHeadersVisible = false;
-            this.DGV_Análisis.Size = new System.Drawing.Size(485, 531);
+            this.DGV_Análisis.Size = new System.Drawing.Size(547, 531);
             this.DGV_Análisis.TabIndex = 16;
             this.DGV_Análisis.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGV_Análisis_CellContentClick);
             this.DGV_Análisis.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.DGV_Análisis_RowsAdded);
@@ -304,6 +306,13 @@
             this.EstructuraCol.Name = "EstructuraCol";
             this.EstructuraCol.Width = 60;
             // 
+            // Prioridad
+            // 
+            this.Prioridad.HeaderText = "Prioridad";
+            this.Prioridad.Name = "Prioridad";
+            this.Prioridad.Visible = false;
+            this.Prioridad.Width = 50;
+            // 
             // Column3
             // 
             this.Column3.HeaderText = "Métrica";
@@ -344,7 +353,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1215, 610);
+            this.ClientSize = new System.Drawing.Size(1264, 610);
             this.Controls.Add(this.L_NombrePaciente);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.BT_GuardarReporte);
@@ -365,6 +374,7 @@
             this.Controls.Add(this.LB_Cursos);
             this.Controls.Add(this.label1);
             this.Name = "Form2";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.DGV_Estructuras)).EndInit();
@@ -401,6 +411,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn EstructuraCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Prioridad;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Volumen;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;

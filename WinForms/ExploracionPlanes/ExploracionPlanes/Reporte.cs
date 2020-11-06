@@ -132,7 +132,7 @@ namespace ExploracionPlanes
             foreach (DataGridViewRow filaDGV in DGV.Rows)
             {
                 var tableFila = tabla.AddRow();
-                for (int i = 0; i < 6; i++) 
+                for (int i = 0; i < DGV.Columns.Count-1; i++) 
                 {
                     
                         string valor = "";
@@ -144,7 +144,7 @@ namespace ExploracionPlanes
                         tableFila.Cells[i].Shading.Color = colorDGVaTable(filaDGV.Cells[i].Style.BackColor);
                 }
             }
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < DGV.Columns.Count-1; i++)
             {
                 tabla.Rows[0].Cells[i].AddParagraph(DGV.Columns[i].HeaderText);
             }

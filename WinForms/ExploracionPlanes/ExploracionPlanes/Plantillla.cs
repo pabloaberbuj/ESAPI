@@ -71,11 +71,11 @@ namespace ExploracionPlanes
 
         }
 
-        public bool tieneCondiciones()
+        public bool tieneCondicionesTipo1()
         {
             foreach (IRestriccion restriccion in listaRestricciones)
             {
-                if (restriccion.condicion!=null && restriccion.condicion.tipo!=Tipo.SinCondicion)
+                if (restriccion.condicion!=null && (restriccion.condicion.tipo==Tipo.NumFx || restriccion.condicion.tipo == Tipo.VolPTV))
                 {
                     return true;
                 }
@@ -83,6 +83,29 @@ namespace ExploracionPlanes
             return false;
         }
 
+        public bool tieneCondicionesTipo2()
+        {
+            foreach (IRestriccion restriccion in listaRestricciones)
+            {
+                if (restriccion.condicion != null && (restriccion.condicion.tipo == Tipo.CondicionadaPor))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool tienePrioridades()
+        {
+            foreach (IRestriccion restriccion in listaRestricciones)
+            {
+                if (restriccion.prioridad!= null && restriccion.prioridad != "")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         public static List<Plantilla> leerPlantillas()
         {

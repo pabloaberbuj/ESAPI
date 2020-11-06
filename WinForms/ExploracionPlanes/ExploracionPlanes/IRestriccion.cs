@@ -24,6 +24,7 @@ namespace ExploracionPlanes
         string unidadValor { get; set; }
         string unidadCorrespondiente { get; set; }
         string nota { get; set; }
+        string prioridad { get; set; }
         bool dosisEstaEnPorcentaje();
         void agregarALista(BindingList<IRestriccion> lista);
         void crearEtiquetaInicio();
@@ -31,11 +32,11 @@ namespace ExploracionPlanes
         int cumple();
         void analizarPlanEstructura(PlanningItem plan, Structure estructura);
         IRestriccion crear(Estructura _estructura, string _unidadValor, string _unidadCorrespondiente, bool _esMenorQue,
-            double _valorEsperado, double _valorTolerado, double _valorCorrespondiente, string _nota, Condicion _condicion);
+            double _valorEsperado, double _valorTolerado, double _valorCorrespondiente, string _nota, Condicion _condicion, string _prioridad);
         bool chequearSamplingCoverage(PlanningItem plan, Structure estructura);
 
         void editar(ComboBox CB_Estructura, TextBox TB_nombresAlt, ComboBox CB_TipoRestr, TextBox TB_valorCorrespondiente,
-            ComboBox CB_UnidadesCorresp, ComboBox CB_EsMenorQue, TextBox TB_ValorEsperado, TextBox TB_ValorTolerado, ComboBox CB_UnidadesValor, TextBox TB_nota);
+            ComboBox CB_UnidadesCorresp, ComboBox CB_EsMenorQue, TextBox TB_ValorEsperado, TextBox TB_ValorTolerado, ComboBox CB_UnidadesValor, TextBox TB_nota, ComboBox CB_Prioridad);
 
         void editarGrupo(List<IRestriccion> lista, DataGridView tabla, ComboBox CB_Estructura, TextBox TB_nombresAlt, ComboBox CB_TipoRestr, TextBox TB_valorCorrespondiente,
             ComboBox CB_UnidadesCorresp, ComboBox CB_EsMenorQue, ComboBox CB_UnidadesValor, TextBox TB_nota,ListBox LB_TipoCondicion, ListBox LB_ListaCondiciones);

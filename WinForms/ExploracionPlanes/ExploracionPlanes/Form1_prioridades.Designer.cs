@@ -1,6 +1,6 @@
 ﻿namespace ExploracionPlanes
 {
-    partial class Form1
+    partial class Form1_prioridades
     {
         /// <summary>
         /// Required designer variable.
@@ -57,6 +57,9 @@
             this.BT_EditarRestriccion = new System.Windows.Forms.Button();
             this.TB_NotaPlantilla = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.CB_prioridad = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.BT_CondicionadaAOtraRestricción = new System.Windows.Forms.Button();
             this.BT_RestriccionAbajo = new System.Windows.Forms.Button();
             this.BT_RestriccionArriba = new System.Windows.Forms.Button();
             this.GB_NuevaRestriccion.SuspendLayout();
@@ -170,6 +173,9 @@
             // 
             // GB_NuevaRestriccion
             // 
+            this.GB_NuevaRestriccion.Controls.Add(this.BT_CondicionadaAOtraRestricción);
+            this.GB_NuevaRestriccion.Controls.Add(this.label7);
+            this.GB_NuevaRestriccion.Controls.Add(this.CB_prioridad);
             this.GB_NuevaRestriccion.Controls.Add(this.BT_CargarDesdePaciente);
             this.GB_NuevaRestriccion.Controls.Add(this.label6);
             this.GB_NuevaRestriccion.Controls.Add(this.TB_NotaRestriccion);
@@ -362,6 +368,40 @@
             this.label5.TabIndex = 24;
             this.label5.Text = "3. Nota (opcional):";
             // 
+            // CB_prioridad
+            // 
+            this.CB_prioridad.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CB_prioridad.FormattingEnabled = true;
+            this.CB_prioridad.Items.AddRange(new object[] {
+            "",
+            "1",
+            "2",
+            "3",
+            "4"});
+            this.CB_prioridad.Location = new System.Drawing.Point(375, 77);
+            this.CB_prioridad.Name = "CB_prioridad";
+            this.CB_prioridad.Size = new System.Drawing.Size(50, 21);
+            this.CB_prioridad.TabIndex = 27;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(297, 80);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(48, 13);
+            this.label7.TabIndex = 28;
+            this.label7.Text = "Prioridad";
+            // 
+            // BT_CondicionadaAOtraRestricción
+            // 
+            this.BT_CondicionadaAOtraRestricción.Location = new System.Drawing.Point(300, 113);
+            this.BT_CondicionadaAOtraRestricción.Name = "BT_CondicionadaAOtraRestricción";
+            this.BT_CondicionadaAOtraRestricción.Size = new System.Drawing.Size(125, 39);
+            this.BT_CondicionadaAOtraRestricción.TabIndex = 29;
+            this.BT_CondicionadaAOtraRestricción.Text = "Condicionada a otra restricción";
+            this.BT_CondicionadaAOtraRestricción.UseVisualStyleBackColor = true;
+            this.BT_CondicionadaAOtraRestricción.Click += new System.EventHandler(this.BT_CondicionadaAOtraRestricción_Click);
+            // 
             // BT_RestriccionAbajo
             // 
             this.BT_RestriccionAbajo.BackgroundImage = global::ExploracionPlanes.Properties.Resources.icons8_abajo_en_círculo_2_50;
@@ -386,7 +426,7 @@
             this.BT_RestriccionArriba.UseVisualStyleBackColor = true;
             this.BT_RestriccionArriba.Click += new System.EventHandler(this.BT_RestriccionArriba_Click);
             // 
-            // Form1
+            // Form1_prioridades
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -403,9 +443,10 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.GB_NuevaRestriccion);
             this.Controls.Add(this.LB_listaRestricciones);
-            this.Name = "Form1";
+            this.Name = "Form1_prioridades";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Creación de plantillas";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_prioridades_FormClosing);
             this.GB_NuevaRestriccion.ResumeLayout(false);
             this.GB_NuevaRestriccion.PerformLayout();
             this.Panel_esMenorque.ResumeLayout(false);
@@ -448,6 +489,9 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox TB_NotaRestriccion;
         private System.Windows.Forms.Button BT_CargarDesdePaciente;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox CB_prioridad;
+        private System.Windows.Forms.Button BT_CondicionadaAOtraRestricción;
     }
 }
 

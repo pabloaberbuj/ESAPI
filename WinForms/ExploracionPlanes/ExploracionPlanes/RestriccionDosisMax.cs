@@ -25,6 +25,7 @@ namespace ExploracionPlanes
         public string etiquetaInicio { get; set; }
         public string etiqueta { get; set; }
         public string nota { get; set; }
+        public string prioridad { get; set; }
 
         public int cumple()
         {
@@ -63,7 +64,7 @@ namespace ExploracionPlanes
         
 
         public IRestriccion crear(Estructura _estructura, string _unidadValor, string _unidadCorrespondiente, bool _esMenorQue,
-    double _valorEsperado, double _valorTolerable, double _valorCorrespondiente, string _nota, Condicion _condicion = null)
+    double _valorEsperado, double _valorTolerable, double _valorCorrespondiente, string _nota, Condicion _condicion = null, string _prioridad = "")
         {
             RestriccionDosisMax restriccion = new RestriccionDosisMax()
             {
@@ -74,6 +75,7 @@ namespace ExploracionPlanes
                 valorTolerado = _valorTolerable,
                 nota = _nota,
                 condicion = _condicion,
+                prioridad = _prioridad,
             };
             restriccion.crearEtiquetaInicio();
             restriccion.crearEtiqueta();
@@ -87,6 +89,10 @@ namespace ExploracionPlanes
         public void crearEtiqueta()
         {
             etiqueta = etiquetaInicio;
+            if (!string.IsNullOrEmpty(prioridad))
+            {
+                etiqueta += " (p=" + prioridad + ") ";
+            }
             if (!Double.IsNaN(valorEsperado))
             {
                 if (esMenorQue)
@@ -188,7 +194,7 @@ namespace ExploracionPlanes
         }
 
         public void editar(ComboBox CB_Estructura, TextBox TB_nombresAlt, ComboBox CB_TipoRestr, TextBox TB_valorCorrespondiente,
-        ComboBox CB_UnidadesCorresp, ComboBox CB_EsMenorQue, TextBox TB_ValorEsperado, TextBox TB_ValorTolerado, ComboBox CB_UnidadesValor, TextBox TB_nota)
+        ComboBox CB_UnidadesCorresp, ComboBox CB_EsMenorQue, TextBox TB_ValorEsperado, TextBox TB_ValorTolerado, ComboBox CB_UnidadesValor, TextBox TB_nota, ComboBox CB_Prioridad)
         {
             CB_Estructura.Text = estructura.nombre;
             for (int i = 1; i < estructura.nombresPosibles.Count; i++)
@@ -196,6 +202,7 @@ namespace ExploracionPlanes
                 TB_nombresAlt.Text += "\r\n" + estructura.nombresPosibles[i];
             }
             CB_TipoRestr.SelectedIndex = 2; //cambiar en cada restriccion
+            CB_Prioridad.Text = this.prioridad;
             //TB_valorCorrespondiente.Text = Metodos.validarYConvertirAString(valorCorrespondiente);
             if (esMenorQue)
             {

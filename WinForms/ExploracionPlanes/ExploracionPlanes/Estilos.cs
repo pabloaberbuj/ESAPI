@@ -67,7 +67,9 @@ namespace ExploracionPlanes
             tabla.Format.Alignment = ParagraphAlignment.Right;
             tabla.Columns[0].Format.Alignment = ParagraphAlignment.Left;
             tabla.Columns[0].Shading.Color = new Color(238, 236, 225);
-            tabla.Columns[1].Format.Alignment = ParagraphAlignment.Left;
+            tabla.Columns[1].Format.Alignment = ParagraphAlignment.Center;
+            tabla.Columns[1].Width = 45;
+            tabla.Columns[2].Format.Alignment = ParagraphAlignment.Left;
             tabla.Rows[0].Format.Alignment = ParagraphAlignment.Center;
             tabla.Rows[0].Borders.Bottom.Width = 1;
             tabla.Rows[0].Borders.Bottom.Color = Colors.Black;
@@ -83,7 +85,7 @@ namespace ExploracionPlanes
         public static void formatearTablaEncabezados(Table tabla)
         {
             tabla.Columns[0].Style = "Texto";
-            tabla.Columns[1].Style = "Texto Negrita";
+            tabla.Columns[2].Style = "Texto Negrita";
             tabla.Borders.Visible = false;
         }
 
